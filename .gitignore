@@ -1,0 +1,15 @@
+.git/
+.idea/
+.DS_Store
+*~
+*.bak
+*.cache
+*.lock
+*.log
+*.sublime-project
+*.sublime-workspace
+*.swap
+*.swp
+adminer.php
+application/logs/*.php
+vendor/*

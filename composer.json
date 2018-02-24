@@ -1,0 +1,31 @@
+{
+    "name": "azahi/hack-igniter",
+    "description": "A example project extends of CodeIgniter v3.x",
+    "keywords": ["framework", "cms", "hack-igniter"],
+    "license": "MIT",
+    "type": "framework",
+    "config": {
+        "preferred-install": "dist"
+    },
+    "repositories": {
+        "packagist": {
+            "type": "composer",
+            "url": "https://packagist.phpcomposer.com"
+        }
+    },
+    "require": {
+        "php": ">=5.4.6",
+        "codeigniter/framework": "3.*",
+        "psr/log": "1.*",
+        "twig/twig": "2.*",
+        "mashape/unirest-php": "3.*",
+        "duccio/apns-php": "*",
+        "gregwar/captcha": "1.*",
+        "gregwar/image": "2.*",
+        "phpoffice/phpspreadsheet": "1.*"
+    },
+    "require-dev": {
+        "nikic/php-parser": "3.*",
+        "azhai/code-refactor": "1.*"
+    }
+}
