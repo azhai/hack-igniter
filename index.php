@@ -16,6 +16,7 @@
  * 判断环境，设置错误日志
  * --------------------------------------------------------------------
  */
+date_default_timezone_set('Asia/Shanghai');
 define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'development');
 switch (ENVIRONMENT) {
     case 'development':
@@ -78,7 +79,7 @@ define('SYSDIR', basename(BASEPATH));
  * 启动CodeIgniter，或它的简化版HackIgniter（用于Yar的Server端）
  * --------------------------------------------------------------------
  */
-//require_once APPPATH . 'helpers/my_helper.php';
+require_once APPPATH . 'helpers/my_helper.php';
 $req_uri = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '';
 if (PHP_SAPI !== 'cli' && strpos($req_uri, '/api/') !== false) {
     require_once APPPATH . 'core/HackIgniter.php';

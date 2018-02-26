@@ -58,7 +58,7 @@ $config['subclass_prefix'] = 'MY_';
 |   4 = All Messages
 |
 */
-$config['log_threshold'] = (ENVIRONMENT !== 'production') ? 3 : 1;
+$config['log_threshold'] = (ENVIRONMENT !== 'production') ? 2 : 1;
 $config['log_path'] = '';
 
 /*
