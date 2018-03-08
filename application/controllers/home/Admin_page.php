@@ -1,6 +1,9 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
+/**
+ * 管理后台基础控制器
+ */
 class Admin_page extends MY_Controller
 {
     protected $login_url = '';
@@ -25,7 +28,7 @@ class Admin_page extends MY_Controller
         parent::initialize();
         $this->load->library('session');
         $this->login_url = defined('SITE_LOGIN_URL') ? SITE_LOGIN_URL : '';
-        $login_action = $this->get_page_url('login');
+        $login_action = $this->get_page_url('login', [], true);
         $username = $this->is_authed();
         if (empty($username) && $login_action !== $this->login_url) {
             return redirect($this->base_url . $this->login_url);

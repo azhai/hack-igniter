@@ -1,5 +1,5 @@
 {
-    "name": "azahi/hack-igniter",
+    "name": "azhai/hack-igniter",
     "description": "A example project extends of CodeIgniter v3.x",
     "keywords": ["framework", "cms", "hack-igniter"],
     "license": "MIT",
@@ -26,6 +26,7 @@
     },
     "require-dev": {
         "nikic/php-parser": "3.*",
-        "azhai/code-refactor": "1.*"
+        "azhai/code-refactor": "1.*",
+        "fzaninotto/faker": "*"
     }
 }

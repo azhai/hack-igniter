@@ -239,6 +239,13 @@ class MY_Model extends CI_Model implements ArrayAccess
         }
     }
 
+    public function insert_batch(array $set = null, $escape = null, $batch_size = 100)
+    {
+        $table = $this->table_name();
+        $db = $this->reconnect();
+        return $db->insert_batch($table, $set, $escape, $batch_size);
+    }
+
     public function delete($where = '', $limit = null, $escape = null)
     {
         $table = $this->table_name();

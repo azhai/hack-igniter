@@ -34,7 +34,7 @@ class MY_Loader extends CI_Loader
     public function initialize()
     {
         parent::initialize();
-        spl_autoload_register(array($this, 'auto_load'));
+        spl_autoload_register([$this, 'auto_load']);
     }
 
     public function database($params = '', $return = false, $query_builder = null)

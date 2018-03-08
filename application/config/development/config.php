@@ -11,7 +11,15 @@ defined('BASEPATH') or exit('No direct script access allowed');
 |
 */
 if (defined('SITE_BASE_URL')) {
-    $config['base_url'] = constant('SITE_BASE_URL');
+    $base_url = constant('SITE_BASE_URL');
+    //子域名适配
+    if (isset($_SERVER['CI_DIR']) && strpos($base_url, '.')) {
+        $sub = '://' . strtolower($_SERVER['CI_DIR']) . '.';
+        if ('://www.' !== $sub) {
+            $base_url = str_ireplace('://www.', $sub, $base_url);
+        }
+    }
+    $config['base_url'] = $base_url;
 } else {
     $config['base_url'] = '';
 }
@@ -36,7 +44,7 @@ $config['uri_protocol']	= 'REQUEST_URI';
 | Default Language
 |--------------------------------------------------------------------------
 */
-$config['language']	= 'chinese';
+$config['language']	= 'english';
 
 /*
 |--------------------------------------------------------------------------

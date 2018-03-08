@@ -6,7 +6,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 | 网站地址、静态文件网址和模版主题
 |--------------------------------------------------------------------------
 */
-defined('SITE_BASE_URL') or define('SITE_BASE_URL', 'http://hack.d.tongtong.me:8080/');
+defined('SITE_BASE_URL') or define('SITE_BASE_URL', 'http://localhost:8080/');
 defined('SITE_STATIC_URL') or define('SITE_STATIC_URL', '/static/');
 defined('SITE_LOGIN_URL') or define('SITE_LOGIN_URL', '/home/index/login/');
 defined('SITE_THEME_NAME') or define('SITE_THEME_NAME', 'default');
@@ -17,5 +17,5 @@ defined('SITE_THEME_NAME') or define('SITE_THEME_NAME', 'default');
 |--------------------------------------------------------------------------
 */
 defined('DB_DEFAULT_GROUP') or define('DB_DEFAULT_GROUP', 'default');
-defined('DB_TABLE_PREFIX') or define('DB_TABLE_PREFIX', 'bolt_');
+defined('DB_TABLE_PREFIX') or define('DB_TABLE_PREFIX', 't_');
 defined('DB_RECONNECT_TIMEOUT') or define('DB_RECONNECT_TIMEOUT', 900);

@@ -16,20 +16,25 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class MY_Controller extends CI_Controller
 {
     protected $context = [];
-    protected $module = '';
     protected $request_method = 'get';
     protected $response_type = 'html';
+    public $base_url = '';
+    public $page_url = '';
+    public $curr_page = '';
+    public $curr_action = '';
     public $db_conns = [];
 
     public function _remap($action, $params = [])
     {
-        if (!is_cli() && starts_with($action, '_')) {
-            return show_404(); //私有方法
-        }
-        $this->context = (array) $this->initialize();
         if (!method_exists($this, $action)) {
             $action = 'index';
+        } else {
+            $ref = new \ReflectionMethod($this, $action);
+            if (!$ref->isPublic()) {
+                return show_404(); //私有方法
+            }
         }
+        $this->context = (array) $this->initialize();
         $data = exec_method_array($this, $action, $params);
         if (is_array($data)) {
             $this->context = array_replace($this->context, $data);
@@ -42,26 +47,38 @@ class MY_Controller extends CI_Controller
         return APPPATH . rtrim('themes/' . $theme_name, '/') . '/';
     }
 
+    /**
+     * Get the directory of current
+     */
+    public function get_current_path()
+    {
+        $dir = trim($this->router->directory, '/');
+        return APPPATH . rtrim('controllers/' . $dir, '/') . '/';
+    }
+
     protected function get_template($action = '')
     {
-        if (empty($action)) {
-            $rsegments = $this->router->uri->rsegments;
-            $action = $rsegments ? $rsegments[2] : 'index';
-        }
-        $view_dir = $this->router->get_module_dir() . '/views/';
-        $tpl_file = $view_dir . sprintf('%s/%s.php', $this->module, $action);
-        if (file_exists($tpl_file)) {
-            return $tpl_file;
+        $page_action = trim($this->get_page_url($action), '/');
+        if ('twig' === $this->response_type) {
+            return $page_action . '.twig';
+        } else {
+            $view_path = $this->get_current_path() . 'views/';
+            $tpl_file = $view_path . $page_action . '.php';
+            if (file_exists($tpl_file)) {
+                return $tpl_file;
+            }
         }
     }
 
-    public function get_page_url($action = '', array $args = [])
+    public function get_page_url($action = '', array $args = [], $with_dir = false)
     {
-        $segments = $this->router->uri->segments;
-        $pieces = array_slice($segments, 0, 2);
-        $result = '/' . implode('/', $pieces) . '/';
-        if ($action) {
-            $result .= $action . '/';
+        if (empty($action)) {
+            $action = $this->curr_action;
+        }
+        $result = sprintf('/%s/%s/', $this->curr_page, $action);
+        if ($with_dir) {
+            $dir = $this->router->directory;
+            $result = '/' . strtolower(trim($dir, '/')) . $result;
         }
         if ($args = array_filter($args, 'strlen')) {
             $result .= '?' . http_build_query($args);
@@ -75,12 +92,11 @@ class MY_Controller extends CI_Controller
         $static_url = defined('SITE_STATIC_URL') ? SITE_STATIC_URL : '/static/';
         $result = [
             'static_url' => rtrim($static_url, '/'),
+            'base_url' => $this->base_url,
             'page_url' => $this->page_url,
             'theme_dir' => self::get_theme_path($theme_name),
-            'curr_module' => $this->module,
-            'store_layout' => 'store_base', //前台layout
-            'curr_controller' => $this->uri->rsegments[1],
-            'curr_action' => $this->uri->rsegments[2],
+            'curr_page' => $this->curr_page,
+            'curr_action' => $this->curr_action,
         ];
         return $result;
     }
@@ -88,9 +104,8 @@ class MY_Controller extends CI_Controller
     protected function initialize()
     {
         $this->load->helper('url');
-        if (empty($this->module)) {
-            $this->module = $this->router->get_class();
-        }
+        $this->curr_page = $this->uri->rsegments[1];
+        $this->curr_action = $this->uri->rsegments[2];
         $this->base_url = rtrim(base_url(), '/');
         $this->page_url = $this->get_page_url();
         $this->request_method = $this->input->method(false);
@@ -128,33 +143,11 @@ class MY_Controller extends CI_Controller
 
     protected function render_twig($template, array $context = [], array $globals = [])
     {
-        require_once VDRPATH . 'Twig/lib/Twig/Autoloader.php';
-        Twig_Autoloader::register();
-        $loader = new Twig_Loader_Filesystem(APPPATH . 'templates');
-        $twig = new Twig_Environment($loader, [
-            'cache' => APPPATH . 'templates/compiled',
-        ]);
+        $this->load->library('MY_Twig', [], 'twig');
         foreach ($globals as $name => $value) {
-            $twig->addGlobal($name, $value);
+            $this->twig->addGlobal($name, $value);
         }
-        $tpl = $twig->load($template);
-        return $tpl->render($context);
-    }
-
-    /**
-     * 格式化输出json格式数据
-     */
-    protected function lb_output($status, $message, $data = array())
-    {
-        $result = array(
-            'status_code' => $status,
-            'status_msg' => $message,
-        );
-        if (!empty($data)) {
-            $result['data'] = $data;
-        }
-        echo json_encode($result);
-        exit;
+        return $this->twig->render($template, $context);
     }
 
     public function index()

@@ -12,6 +12,7 @@
  */
 
 namespace Mylib\Behavior;
+get_instance()->load->helper('inflector');
 
 defined('FOREIGN_BELONGS_TO') or define('FOREIGN_BELONGS_TO', 0);
 defined('FOREIGN_HAS_ONE') or define('FOREIGN_HAS_ONE', 1);
@@ -43,12 +44,12 @@ trait MY_Foreign
     /**
      * 根据外键猜测名称
      */
-    public static function get_foreign_name($fkey, $is_singular = false)
+    public static function get_foreign_name($fkey, $many_to_many = false)
     {
         if (ends_with($fkey, '_id')) {
             $rev_name = substr($fkey, 0, -3);
-            if (!$is_singular) {
-                $rev_name .= 's';
+            if ($many_to_many) {
+                $rev_name = plural($rev_name);
             }
             return $rev_name;
         }
@@ -194,11 +195,11 @@ trait MY_Foreign
     {
         $relations = $model->parse_relations();
         $fkey = $relations[$name]['fkey'];
-        $has_one = (FOREIGN_HAS_ONE === $relations[$name]['type']);
         if (isset($relations[$name]['rev_name'])) {
             $rev_name = $relations[$name]['rev_name'];
         } else {
-            $rev_name = self::get_foreign_name($fkey, $has_one);
+            $many_to_many = (FOREIGN_MANY_TO_MANY === $relations[$name]['type']);
+            $rev_name = self::get_foreign_name($fkey, $many_to_many);
         }
         if (method_exists($another, 'set_foreign_third_param')) {
             $another->set_foreign_third_param($rev_name, $model->result_data);
@@ -213,6 +214,7 @@ trait MY_Foreign
             }
             $another->foreign_data[$rev_name] = [];
         }
+        $has_one = (FOREIGN_HAS_ONE === $relations[$name]['type']);
         foreach ($frows as $row) {
             if (isset($row[$fkey])) {
                 $fval = $row[$fkey];

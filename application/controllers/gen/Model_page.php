@@ -34,6 +34,7 @@ class Model_page extends MY_Controller
         if (!is_cli()) {
             exit('Only run in CLI mode');
         }
+        $this->load->helper('inflector');
         $this->load->helper('format');
         $this->tables = [];
         $this->mixins = [];
@@ -58,9 +59,6 @@ class Model_page extends MY_Controller
 
     public function create_models()
     {
-        if ($this->singular) {
-            $this->load->library('MY_Inflect', [], 'inflect');
-        }
         foreach ($GLOBALS['db'] as $db_key => $conf) {
             if (ends_with($db_key, '_ro')) {
                 continue;
@@ -98,7 +96,7 @@ class Model_page extends MY_Controller
             }
             $name = ucfirst(substr($table, $prelen));
             if ($this->singular) {
-                $name = $this->inflect->singularize($name);
+                $name = singular($name);
             }
             $model_name = $name . '_model';
             $filename = $full_path . $model_name . '.php';

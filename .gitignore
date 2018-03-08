@@ -12,4 +12,5 @@
 *.swp
 adminer.php
 application/logs/*.php
+data/*
 vendor/*

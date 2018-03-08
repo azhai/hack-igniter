@@ -130,7 +130,7 @@ if (! function_exists('array_export')) {
             } elseif ($max === $i) {
                 $line = str_repeat(' ', $indent) . ']';
             } else {
-                $line = str_repeat(' ', $indent + 4) . $line;
+                $line = str_repeat(' ', $indent + 4) . ltrim($line);
             }
         }
         return implode("\n", $lines);

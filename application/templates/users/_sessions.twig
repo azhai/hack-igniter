@@ -1,0 +1,42 @@
+{% from '@bolt/_buic/_moment.twig' import buic_moment %}
+
+<div class="table-responsive">
+    <table class="table table-striped dashboardlisting">
+        <thead>
+            <tr>
+                <th>{{ __('general.phrase.user-name') }}</th>
+                <th>{{ __('general.phrase.last-seen') }}</th>
+                <th>{{ __('general.phrase.session-expires') }}</th>
+                <th>{{ __('general.phrase.ip.address') }}</th>
+                <th>{{ __('general.phrase.browswer-platform') }}</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for session in context.sessions %}
+            {% if users[session.user_id] is defined %}
+                {% set user = users[session.user_id] %}
+            {% else %}
+                {% set user = { 'displayname': '<em>unknown</em> '} %}
+            {% endif %}
+                <tr>
+                    <td>
+                        <strong>{{ user.displayname|raw }}</strong>
+                    </td>
+                    <td>
+                        {{ buic_moment(session.lastseen) }}
+                    </td>
+                    <td>
+                        {{ buic_moment(session.validity) }}
+                    </td>
+                    <td>
+                        {{ session.ip }}
+                    </td>
+                    <td>
+                        <span class="useragent buic-moment info-pop" data-html="true" data-content="{{ session.useragent }}">{{ session.browser }}</span>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>

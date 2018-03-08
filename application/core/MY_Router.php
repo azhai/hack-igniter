@@ -67,22 +67,14 @@ class MY_Router extends CI_Router
     }
 
     /**
-     * Get the directory of current module
+     * Get the controller class of current
      */
     public function get_class()
     {
         $class = lcfirst($this->class);
         if (ends_with($class, '_page')) {
-            $class = substr($class, 0, -strlen('_page'));
+            $class = substr($class, 0, 0 - strlen('_page'));
         }
         return $class;
-    }
-
-    /**
-     * Get the directory of current module
-     */
-    public function get_module_dir()
-    {
-        return APPPATH . 'controllers/' . rtrim($this->directory, '/');
     }
 }

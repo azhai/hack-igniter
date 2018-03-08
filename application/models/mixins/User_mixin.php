@@ -8,11 +8,24 @@ defined('BASEPATH') or exit('No direct script access allowed');
 trait User_mixin
 {
     use \Mylib\Behavior\MY_Cacheable;
+    use \Mylib\Behavior\MY_Foreign;
 
     public function __construct()
     {
         parent::__construct();
         $this->add_cache('redis', 'admin');
+    }
+
+    public function get_relations()
+    {
+        return [
+            'entries' => [
+                'type' => FOREIGN_HAS_MANY,
+                'model' => 'default/entry_model',
+                'rev_name' => 'owner',
+                'fkey' => 'ownerid',
+            ],
+        ];
     }
 
     public function cache_type()

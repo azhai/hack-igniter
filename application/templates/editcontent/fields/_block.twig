@@ -1,0 +1,61 @@
+{% set labelkey = field.label ?: key|ucfirst %}
+{% set data_bolt_widget = {
+    fieldBlock: {
+        name:    name,
+    }
+} %}
+
+<fieldset class="bolt-field-block" data-bolt-widget="{{ data_bolt_widget|json_encode }}">
+    <legend class="sr-only">{{ labelkey }}</legend>
+    <label class="main col-xs-12">{{ labelkey }}</label>
+    {% if 'html' not in context.fieldtypes %}
+        {{ include('@bolt/editcontent/fielddata/_html.twig') }}
+    {% endif %}
+
+    {# Prefix #}
+    {% if field.prefix is defined and field.prefix is not empty %}
+        <div class="prefix">
+            {{ field.prefix|markdown }}
+        </div>
+    {% endif %}
+
+    {# This ensures that an empty value is always submitted even if there are no subsequent repeater sets #}
+    <input type="hidden" name="{{ name }}[]">
+
+    <div class="block-slot">
+        {% set blockfieldvals = context.content.get(contentkey) %}
+        {% for blockname,block in field.fields %}
+            <script type="text/template" data-block-type="{{ blockname }}">
+                {% set index = '#' %}
+                {{ include('@bolt/editcontent/fields/_block-group.twig', {'content': blockfieldvals.getEmptySet, 'index': index, 'block': blockname}) }}
+            </script>
+        {% endfor %}
+
+        {% for index, repeatfieldset in blockfieldvals %}
+            {{ include('@bolt/editcontent/fields/_block-group.twig', {'content': repeatfieldset, 'index': index, 'block': repeatfieldset.first.block }) }}
+        {% endfor %}
+    </div>
+
+    <div class="btn-group block-add">
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+            {{ __('field.block.label.add-new') }}
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" role="menu">
+            {% for blockname, block in field.fields %}
+                {% if block.group is defined %}
+                    {% if not loop.first %}
+                        <li class="divider"></li>
+                    {% endif %}
+                    <li class="dropdown-header">{{ block.group }}</li>
+                {% endif %}
+                <li>
+                    <a class="add-button" data-block-type="{{ blockname }}">
+                        <i class="fa fa-plus"></i> {{  __('field.block.label.add-set', {'%label%': block.label}) }}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+</fieldset>
