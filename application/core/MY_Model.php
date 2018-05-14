@@ -13,8 +13,42 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
+/**
+ * 基础Model，设置了数据库和表名
+ * 例如用户Model：
+ *
+ *  class User_model extends MY_Model
+ *  {
+ *      protected $_db_key = 'default';
+ *      protected $_db_key_ro = 'default';
+ *      protected $_table_name = 't_cron';
+ *
+ *      // 获取主键
+ *      public function table_indexes()
+ *      {
+ *          return ['id', ];
+ *      }
+ *
+ *      // 字段字典
+ *      public function table_fields()
+ *      {
+ *          return [
+ *              'id' => 'int',
+ *              'username' => 'varchar',
+ *              'nickname' => 'varchar',
+ *              'gender' => 'char',
+ *              'mobile' => 'varchar',
+ *              'created_at' => 'datetime',
+ *              'changed_at' => 'datetime',
+ *              'is_removed' => 'tinyint',
+ *          ];
+ *      }
+ *  }
+ */
 class MY_Model extends CI_Model implements ArrayAccess
 {
+    //use \Mylib\ORM\MY_Senior;
+
     public $result = null;
 
     //通用连接
@@ -25,20 +59,17 @@ class MY_Model extends CI_Model implements ArrayAccess
     protected $_table_name = '';
     protected $_table_indexes = false; //未初始化
     protected $_table_fields = [];
+    //开启的功能
+    protected $_mixin_switches = [];
 
     public function __construct()
     {
         $this->load->helper('env');
     }
 
-    public function __clone()
-    {
-        $fields = $this->table_fields();
-        foreach ($fields as $field) {
-            unset($this[$field]);
-        }
-    }
-
+    /**
+     * 在Model对象上调用db（CI_Query_builder对象）的方法
+     */
     public function __call($name, $args)
     {
         $lower_name = strtolower($name);
@@ -59,6 +90,11 @@ class MY_Model extends CI_Model implements ArrayAccess
         }
     }
 
+    /**
+     * 加载其他的Model类
+     * @param string $name Model类名
+     * @return object/null
+     */
     public function another_model($name, $alias = '')
     {
         if (empty($alias)) {
@@ -73,6 +109,28 @@ class MY_Model extends CI_Model implements ArrayAccess
         return $this->$alias;
     }
 
+    /**
+     * 当前Model是否开启了某个高级功能Mixin
+     * 例如：
+     *   在拥有MY_Foreign的Model上调用with_foreign()后，
+     *   就开启了外键关联查询功能。
+     * @param string $name Mixin名，小写不带后缀，如cache
+     * @return bool
+     */
+    public function is_open_mixin($name)
+    {
+        if (isset($this->_mixin_switches[$name])) {
+            return $this->_mixin_switches[$name];
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * [reconnect description]
+     * @param  bool $force
+     * @return object/null
+     */
     public function reconnect($force = false)
     {
         if ($force) {
@@ -94,10 +152,16 @@ class MY_Model extends CI_Model implements ArrayAccess
         return $this->_db_conn;
     }
 
+    public function last_conn()
+    {
+        return $this->_db_conn;
+    }
+
     public function last_query()
     {
-        $db = $this->reconnect();
-        return $db->last_query();
+        if ($db = $this->last_conn()) {
+            return $db->last_query();
+        }
     }
 
     public function db_name($another = false)
@@ -111,7 +175,7 @@ class MY_Model extends CI_Model implements ArrayAccess
         }
     }
 
-    public function table_name($another = false)
+    public function base_table_name($another = false)
     {
         if (false !== $another) {
             $this->_table_name = $another;
@@ -119,6 +183,21 @@ class MY_Model extends CI_Model implements ArrayAccess
         return $this->_table_name;
     }
 
+    /**
+     * 获取当前完整表名，用于分表情况
+     * 在MY_Monthly中覆盖了此方法
+     * @return string 完整表名
+     */
+    public function table_name($another = false)
+    {
+        return $this->base_table_name($another);
+    }
+
+    /**
+     * 获取主键，返回数组（可能是多个字段）
+     * 推荐用Django标准，每张表（多对多关联的中间表除外）都有一个主键，名称为id
+     * @return array
+     */
     public function table_indexes($another = false)
     {
         if (is_array($another)) {
@@ -127,6 +206,16 @@ class MY_Model extends CI_Model implements ArrayAccess
             $this->table_fields();
         }
         return $this->_table_indexes;
+    }
+
+    /**
+     * 找出表的第一个主键字段
+     * @return string
+     */
+    public function primary_key()
+    {
+        $indexes = $this->table_indexes();
+        return $indexes ? reset($indexes) : '';
     }
 
     public function table_fields()
@@ -149,6 +238,12 @@ class MY_Model extends CI_Model implements ArrayAccess
         return $this->_table_fields;
     }
 
+    /**
+     *
+     * @param  string  $column [description]
+     * @param  bool $reset  [description]
+     * @return int          [description]
+     */
     public function count($column = '*', $reset = true)
     {
         $table = $this->table_name();
@@ -169,6 +264,7 @@ class MY_Model extends CI_Model implements ArrayAccess
         return $count;
     }
 
+
     public function fetch_result()
     {
         if (!$this->result) {
@@ -177,23 +273,24 @@ class MY_Model extends CI_Model implements ArrayAccess
         return $this->result->result_array();
     }
 
-    public function all($limit = null, $offset = 0, array $orders = [])
+    public function all($limit = null, $offset = 0, $columns = '*')
     {
         $table = $this->table_name();
         $db = $this->reconnect();
-        if (count($orders) > 0) {
-            foreach ($orders as $key => $direct) {
-                $db->order_by($key, $direct);
-            }
+        if ($columns && '*' !== $columns) {
+            $db->select($columns);
         }
         $this->result = $db->get($table, $limit, $offset);
         return $this->fetch_result();
     }
 
-    public function some($where, $limit = null)
+    public function some($where, $limit = null, $columns = '*')
     {
         $table = $this->table_name();
         $db = $this->reconnect();
+        if ($columns && '*' !== $columns) {
+            $db->select($columns);
+        }
         if (is_array($where)) {
             foreach ($where as $key => $value) {
                 if (!is_array($value)) {
@@ -211,10 +308,13 @@ class MY_Model extends CI_Model implements ArrayAccess
         return $this->fetch_result();
     }
 
-    public function one($where = null, $type = 'array')
+    public function one($where = null, $type = 'array', $columns = '*')
     {
         $table = $this->table_name();
         $db = $this->reconnect();
+        if ($columns && '*' !== $columns) {
+            $db->select($columns);
+        }
         $this->result = $db->get_where($table, $where, 1);
         $rows = $this->fetch_result();
         if (is_string($type) && $type) {
@@ -227,25 +327,44 @@ class MY_Model extends CI_Model implements ArrayAccess
         return $this->result->row(0, $type);
     }
 
-    public function insert($row, $replace = false, $escape = null)
+    /**
+     * 插入一条记录
+     * @param array $row 二维数组 key:字段名  value: 值
+     * @param bool $is_replace 是否换用REPLACE INTO
+     * @return mixed
+     */
+    public function insert_unsafe($row, $is_replace = false, $escape = null)
     {
         $row = to_array($row);
         $table = $this->table_name();
         $db = $this->reconnect();
-        $method = $replace ? 'replace' : 'insert';
+        $method = $is_replace ? 'replace' : 'insert';
         if ($db->$method($table, $row, $escape)) {
             $result = $db->insert_id();
             return $result;
         }
     }
 
-    public function insert_batch(array $set = null, $escape = null, $batch_size = 100)
+    public function insert($row, $is_replace = false, $escape = null)
+    {
+        return $this->insert_unsafe($row, $is_replace, $escape);
+    }
+
+    /**
+     * 插入一条记录
+     */
+    public function insert_batch(array $rows = null, $escape = null, $batch_size = 100)
     {
         $table = $this->table_name();
         $db = $this->reconnect();
-        return $db->insert_batch($table, $set, $escape, $batch_size);
+        return $db->insert_batch($table, $rows, $escape, $batch_size);
     }
 
+    /**
+     * 删除记录
+     * @param array/string/null $where
+     * @return bool
+     */
     public function delete($where = '', $limit = null, $escape = null)
     {
         $table = $this->table_name();
@@ -254,13 +373,19 @@ class MY_Model extends CI_Model implements ArrayAccess
             $db->where($where, '', $escape);
         }
         $result = $db->delete($table, '', $limit);
-        if (method_exists($this, 'cache_subject')) {
+        if ($this->is_open_mixin('cacheable')) {
             $this->cache_subject()->delete_cache($where);
         }
         return $result;
     }
 
-    public function update(array $set, $where = null, $limit = null, $escape = null)
+    /**
+     * 更新记录
+     * @param array $set
+     * @param array/string/null $where
+     * @return bool
+     */
+    public function update_unsafe(array $set, $where = null, $limit = null, $escape = null)
     {
         $table = $this->table_name();
         $db = $this->reconnect();
@@ -269,10 +394,15 @@ class MY_Model extends CI_Model implements ArrayAccess
             $db->where($where, '', $escape);
         }
         $db->update($table, null, null, $limit);
-        if (method_exists($this, 'cache_subject')) {
+        if ($this->is_open_mixin('cacheable')) {
             $this->cache_subject()->delete_cache($where);
         }
         return $db->affected_rows();
+    }
+
+    public function update(array $set, $where = null, $limit = null, $escape = null)
+    {
+        return $this->update_unsafe($set, $where, $limit, $escape);
     }
 
     /**

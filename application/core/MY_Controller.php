@@ -150,6 +150,10 @@ class MY_Controller extends CI_Controller
         return $this->twig->render($template, $context);
     }
 
+    /**
+     * 默认首页
+     * @return array/null 变量数组
+     */
     public function index()
     {
     }

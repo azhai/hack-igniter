@@ -29,17 +29,27 @@ class Model_page extends MY_Controller
         return !file_exists($filename) || 0 === filesize($filename);
     }
 
+    public function __construct()
+    {
+        parent::__construct();
+        $this->load->helper('inflector');
+        $this->load->helper('format');
+    }
+
     public function index()
     {
         if (!is_cli()) {
             exit('Only run in CLI mode');
         }
-        $this->load->helper('inflector');
-        $this->load->helper('format');
         $this->tables = [];
         $this->mixins = [];
         $this->init_mixins();
-        $this->create_models();
+        foreach ($GLOBALS['db'] as $db_key => $conf) {
+            if (ends_with($db_key, '_ro')) {
+                continue;
+            }
+            $this->create_models($db_key, $conf['dbprefix'] ?? '');
+        }
         $this->finish();
         return $this->tables;
     }
@@ -57,25 +67,19 @@ class Model_page extends MY_Controller
         return $this->mixins;
     }
 
-    public function create_models()
+    public function create_models($db_key, $prefix = '')
     {
-        foreach ($GLOBALS['db'] as $db_key => $conf) {
-            if (ends_with($db_key, '_ro')) {
-                continue;
+        $sub_dir = $db_key;
+        if (defined('DB_TABLE_PREFIX') && DB_TABLE_PREFIX) {
+            if (starts_with($sub_dir, DB_TABLE_PREFIX)) {
+                $sub_dir = substr($sub_dir, strlen(DB_TABLE_PREFIX));
             }
-            $sub_dir = $db_key;
-            if (defined('DB_TABLE_PREFIX') && DB_TABLE_PREFIX) {
-                if (starts_with($sub_dir, DB_TABLE_PREFIX)) {
-                    $sub_dir = substr($sub_dir, strlen(DB_TABLE_PREFIX));
-                }
-            }
-            $full_path = APPPATH . 'models/' . $sub_dir . '/';
-            @mkdir($full_path);
-            $prefix = $conf['dbprefix'];
-            $tables = $this->write_db_models($full_path, $db_key, $prefix);
-            $this->tables[$sub_dir] = $tables;
-            echo $sub_dir . "\n";
         }
+        $full_path = APPPATH . 'models/' . $sub_dir . '/';
+        @mkdir($full_path);
+        $tables = $this->write_db_models($full_path, $db_key, $prefix);
+        $this->tables[$sub_dir] = $tables;
+        echo $sub_dir . "\n";
     }
 
     public function write_db_models($full_path, $db_key, $prefix = '')

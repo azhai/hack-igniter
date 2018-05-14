@@ -5,7 +5,6 @@ require_once __DIR__ . '/Admin_page.php';
 
 class Index_page extends Admin_page
 {
-
     public function index()
     {
         $main_url = $this->base_url . '/home/entry/';

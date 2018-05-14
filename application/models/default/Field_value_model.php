@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 
 /**
@@ -19,23 +19,23 @@ class Field_value_model extends MY_Model
     public function table_fields()
     {
         return [
-              'id' => 'int',
-              'contenttype' => 'varchar',
-              'content_id' => 'int',
-              'name' => 'varchar',
-              'grouping' => 'int',
-              'block' => 'varchar',
-              'fieldname' => 'varchar',
-              'fieldtype' => 'varchar',
-              'value_string' => 'varchar',
-              'value_text' => 'longtext',
-              'value_integer' => 'int',
-              'value_float' => 'double',
-              'value_decimal' => 'decimal',
-              'value_date' => 'date',
-              'value_datetime' => 'datetime',
-              'value_json_array' => 'longtext',
-              'value_boolean' => 'tinyint',
+            'id' => 'int',
+            'contenttype' => 'varchar',
+            'content_id' => 'int',
+            'name' => 'varchar',
+            'grouping' => 'int',
+            'block' => 'varchar',
+            'fieldname' => 'varchar',
+            'fieldtype' => 'varchar',
+            'value_string' => 'varchar',
+            'value_text' => 'longtext',
+            'value_integer' => 'int',
+            'value_float' => 'double',
+            'value_decimal' => 'decimal',
+            'value_date' => 'date',
+            'value_datetime' => 'datetime',
+            'value_json_array' => 'longtext',
+            'value_boolean' => 'tinyint',
         ];
     }
 }

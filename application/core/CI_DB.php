@@ -63,6 +63,18 @@ class CI_DB extends CI_DB_query_builder
         return $result;
     }
 
+    public function get_conn_hash($tail = 0)
+    {
+        if (!$this->conn_id) {
+            return '';
+        }
+        $result = spl_object_hash($this->conn_id);
+        if ($tail > 0) {
+            $result = substr($result, 0 - $tail);
+        }
+        return $result;
+    }
+
     public function simple_query($sql)
     {
         if ($this->conn_reader) { //读写分离
@@ -72,8 +84,8 @@ class CI_DB extends CI_DB_query_builder
                 $this->conn_id = $this->conn_reader;
             }
         }
-        $obj = substr(spl_object_hash($this->conn_id), -8);
-        log_message('DEBUG', sprintf('conn[%s] SQL: %s;', $obj, $sql));
+        $hash = $this->get_conn_hash(8);
+        log_message('DEBUG', sprintf('conn[%s] SQL: %s;', $hash, $sql));
         return parent::simple_query($sql);
     }
 

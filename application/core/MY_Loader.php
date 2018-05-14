@@ -24,6 +24,8 @@ class MY_Loader extends CI_Loader
     //根据namespace前缀，自动加载类文件
     protected $third_parties = [];
     protected $multi_prefixes = [];
+    //加载的Yar Client
+    protected $yar_clients = [];
 
     public function __construct()
     {
@@ -104,6 +106,22 @@ class MY_Loader extends CI_Loader
     }
 
     /**
+     * 加载Yar Client
+     */
+    public function api($name, $group = 'default')
+    {
+        $name = trim($name, '/');
+        if (!isset($this->yar_clients[$name])) {
+            $config = get_instance()->config;
+            $config->load('api', true, true);
+            $api_url = rtrim($config->item($group, 'api'), '/');
+            $server_url = sprintf('%s/%s/', $api_url, $name);
+            $this->yar_clients[$name] = new Yar_Client($server_url);
+        }
+        return $this->yar_clients[$name];
+    }
+
+    /**
      * 加载缓存，例如使用配置中名为user的redis缓存
      *
      * Example:
@@ -127,8 +145,8 @@ class MY_Loader extends CI_Loader
      */
     public function get_driver_library(
         $lib_name,
-        $params,
-                                       $driver_params = null,
+            $params,
+        $driver_params = null,
         $object_name = null
     ) {
         if (is_array($params)) {

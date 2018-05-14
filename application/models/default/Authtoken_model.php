@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 
 /**
@@ -19,15 +19,15 @@ class Authtoken_model extends MY_Model
     public function table_fields()
     {
         return [
-              'id' => 'int',
-              'user_id' => 'int',
-              'username' => 'varchar',
-              'token' => 'varchar',
-              'salt' => 'varchar',
-              'lastseen' => 'datetime',
-              'ip' => 'varchar',
-              'useragent' => 'varchar',
-              'validity' => 'datetime',
+            'id' => 'int',
+            'user_id' => 'int',
+            'username' => 'varchar',
+            'token' => 'varchar',
+            'salt' => 'varchar',
+            'lastseen' => 'datetime',
+            'ip' => 'varchar',
+            'useragent' => 'varchar',
+            'validity' => 'datetime',
         ];
     }
 }

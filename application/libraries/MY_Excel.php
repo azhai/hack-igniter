@@ -13,14 +13,13 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 defined('VNDPATH') or define('VNDPATH', APPPATH . '/third_party/');
-$loader = load_class('Loader','core');
+$loader = load_class('Loader', 'core');
 $loader->name_space('Psr\\SimpleCache', VNDPATH . 'psr/simple-cache/src');
 $loader->name_space('PhpOffice', VNDPATH . 'phpoffice/phpspreadsheet/src');
 
 use \PhpOffice\PhpSpreadsheet\Spreadsheet;
 use \PhpOffice\PhpSpreadsheet\Writer;
 use \PhpOffice\PhpSpreadsheet\Style;
-
 
 /**
  * MS Excel or csv

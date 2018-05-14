@@ -19,10 +19,40 @@ $db['default'] = [
     'subdriver' => 'mysql',
     'hostname' => '127.0.0.1',
     'port' => 3306,
-    'username' => 'root',
-    'password' => 'toor',
+    'username' => 'dba',
+    'password' => 'pass',
     'database' => 'db_bolt',
-    'dbprefix' => 't_',
+    'dbprefix' => '',
+    'db_debug' => (ENVIRONMENT !== 'production'),
+    'char_set' => 'utf8mb4',
+    'dbcollat' => 'utf8mb4_general_ci',
+];
+
+
+$db['test'] = [
+    'dbdriver' => 'pdo',
+    'subdriver' => 'mysql',
+    'hostname' => '127.0.0.1',
+    'port' => 3306,
+    'username' => 'dba',
+    'password' => 'pass',
+    'database' => 'db_test',
+    'dbprefix' => '',
+    'db_debug' => (ENVIRONMENT !== 'production'),
+    'char_set' => 'utf8mb4',
+    'dbcollat' => 'utf8mb4_general_ci',
+];
+
+
+$db['test_ro'] = [
+    'dbdriver' => 'pdo',
+    'subdriver' => 'mysql',
+    'hostname' => '127.0.0.1',
+    'port' => 3306,
+    'username' => 'dba',
+    'password' => 'pass',
+    'database' => 'db_test',
+    'dbprefix' => '',
     'db_debug' => (ENVIRONMENT !== 'production'),
     'char_set' => 'utf8mb4',
     'dbcollat' => 'utf8mb4_general_ci',

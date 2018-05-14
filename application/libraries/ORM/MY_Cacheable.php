@@ -11,12 +11,23 @@
  * @license http://opensource.org/licenses/MIT  MIT License
  */
 
-namespace Mylib\Behavior;
+namespace Mylib\ORM;
 
 use Mylib\Observer\MY_Subject_cache;
 
 /**
  * 扩展Model，优先从缓存中读取
+ *
+ * 临时使用，在加载model后
+ *  $this->load->model('default/user_model');
+ *  $this->user_model->add_cache('redis', 'admin');
+ *
+ * 或者永久使用，在model构造函数中
+ *  public function __construct()
+ *  {
+ *      parent::__construct();
+ *      $this->add_cache('redis', 'admin');
+ *  }
  */
 trait MY_Cacheable
 {
@@ -33,6 +44,7 @@ trait MY_Cacheable
             $cache = $this->load->cache($cache, $params);
         }
         if ($cache) {
+            $this->_mixin_switches['cacheable'] = true;
             return $this->cache_subject()->attach($cache);
         }
     }
@@ -45,6 +57,13 @@ trait MY_Cacheable
         return $this->_cache_subject;
     }
 
+    public function cache_fields()
+    {
+        if (method_exists($this, 'table_fields')) {
+            return $this->table_fields();
+        }
+    }
+
     /**
      * @return array
      */
@@ -55,8 +74,10 @@ trait MY_Cacheable
         } elseif (!is_array($data)) {
             $data = to_array($data);
         }
-        $fields = $this->table_fields();
-        return array_intersect_key($data, $fields);
+        if ($fields = $this->cache_fields()) {
+            $data = array_intersect_key($data, $fields);
+        }
+        return $data;
     }
 
     /**
@@ -85,8 +106,9 @@ trait MY_Cacheable
         }
         $row = $this->cache_subject()->read_cache($where);
         if (empty($row)) {
-            $fields = $this->table_fields();
-            $this->select(array_keys($fields));
+            if ($fields = $this->cache_fields()) {
+                $this->select(array_keys($fields));
+            }
             $result = $this->one($where, $type);
             $data = $this->states($result);
             $this->cache_subject()->write_cache($where, $data);
@@ -131,8 +153,9 @@ trait MY_Cacheable
             if (empty($key)) {
                 $key = key($where);
             }
-            $fields = $this->table_fields();
-            $this->select(array_keys($fields));
+            if ($fields = $this->cache_fields()) {
+                $this->select(array_keys($fields));
+            }
             $rows = $this->some([$key => $remains]);
             foreach ($rows as $row) {
                 $value = $row[$key];

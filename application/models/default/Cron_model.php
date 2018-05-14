@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 
 /**
@@ -19,9 +19,9 @@ class Cron_model extends MY_Model
     public function table_fields()
     {
         return [
-              'id' => 'int',
-              'interim' => 'varchar',
-              'lastrun' => 'datetime',
+            'id' => 'int',
+            'interim' => 'varchar',
+            'lastrun' => 'datetime',
         ];
     }
 }

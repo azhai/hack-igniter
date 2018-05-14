@@ -150,7 +150,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
  */
 trait User_mixin
 {
-    use \Mylib\Behavior\MY_Foreign;
+    use \Mylib\ORM\MY_Foreign;
 
     public function get_relations()
     {
@@ -175,7 +175,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
  */
 trait Role_mixin
 {
-    use \Mylib\Behavior\MY_Foreign;
+    use \Mylib\ORM\MY_Foreign;
 
     public function get_relations()
     {
@@ -210,7 +210,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
  */
 trait Menu_mixin
 {
-    use \Mylib\Behavior\MY_Foreign;
+    use \Mylib\ORM\MY_Foreign;
 
     public function get_relations()
     {
@@ -242,8 +242,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
  */
 trait User_mixin
 {
-    use \Mylib\Behavior\MY_Cacheable;
-    use \Mylib\Behavior\MY_Foreign;
+    use \Mylib\ORM\MY_Cacheable;
+    use \Mylib\ORM\MY_Foreign;
 
     public function __construct()
     {

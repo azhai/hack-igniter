@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 
 /**
@@ -19,11 +19,11 @@ class Relation_model extends MY_Model
     public function table_fields()
     {
         return [
-              'id' => 'int',
-              'from_contenttype' => 'varchar',
-              'from_id' => 'int',
-              'to_contenttype' => 'varchar',
-              'to_id' => 'int',
+            'id' => 'int',
+            'from_contenttype' => 'varchar',
+            'from_id' => 'int',
+            'to_contenttype' => 'varchar',
+            'to_id' => 'int',
         ];
     }
 }

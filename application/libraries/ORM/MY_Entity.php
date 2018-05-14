@@ -11,7 +11,7 @@
  * @license http://opensource.org/licenses/MIT  MIT License
  */
 
-namespace Mylib\Behavior;
+namespace Mylib\ORM;
 
 defined('BASEPATH') or exit('No direct script access allowed');
 require_once VNDPATH . 'php-handlersocket/src/HandlerSocket.php';

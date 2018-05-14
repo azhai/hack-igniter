@@ -22,18 +22,12 @@ class Entry_page extends Admin_page
     {
         $conds = [];
         $keyword = $this->input->post_get('keyword');
-        if ($keyword = trim($keyword)) {
-            $model->like('title', $keyword);
-            $conds['keyword'] = $keyword;
-        } else {
-            $conds['keyword'] = '';
+        if ($conds['keyword'] = trim($keyword)) {
+            $model->like('title', $conds['keyword']);
         }
         $status = $this->input->post_get('status');
-        if ($status = trim($status)) {
-            $model->where('status', $status);
-            $conds['status'] = $status;
-        } else {
-            $conds['status'] = '';
+        if ($conds['status'] = trim($status)) {
+            $model->where('status', $conds['status']);
         }
         return $conds;
     }

@@ -11,8 +11,7 @@
  * @license http://opensource.org/licenses/MIT  MIT License
  */
 
-namespace Mylib\Behavior;
-
+namespace Mylib\ORM;
 
 /**
  * 扩展Model，单表存储嵌套集合（树状结构）

@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 
 /**
@@ -19,13 +19,13 @@ class Taxonomy_model extends MY_Model
     public function table_fields()
     {
         return [
-              'id' => 'int',
-              'content_id' => 'int',
-              'contenttype' => 'varchar',
-              'taxonomytype' => 'varchar',
-              'slug' => 'varchar',
-              'name' => 'varchar',
-              'sortorder' => 'int',
+            'id' => 'int',
+            'content_id' => 'int',
+            'contenttype' => 'varchar',
+            'taxonomytype' => 'varchar',
+            'slug' => 'varchar',
+            'name' => 'varchar',
+            'sortorder' => 'int',
         ];
     }
 }

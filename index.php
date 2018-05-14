@@ -81,7 +81,12 @@ define('SYSDIR', basename(BASEPATH));
  */
 require_once APPPATH . 'helpers/my_helper.php';
 $req_uri = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '';
-if (PHP_SAPI !== 'cli' && strpos($req_uri, '/api/') !== false) {
+if (PHP_SAPI === 'cli' && isset($_SERVER['CI_APP']) && 'tests' === $_SERVER['CI_APP']) {
+    //phpt测试
+    require_once APPPATH . 'core/HackIgniter.php';
+    $CI = get_instance();
+} elseif (PHP_SAPI !== 'cli' && strpos($req_uri, '/api/') !== false) {
+    //yar过程调用
     require_once APPPATH . 'core/HackIgniter.php';
     $CI = get_instance();
     $service = new Yar_Server($CI);

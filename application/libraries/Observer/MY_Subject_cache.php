@@ -18,24 +18,26 @@ namespace Mylib\Observer;
  */
 class MY_Subject_cache extends MY_Subject
 {
-    protected $_consigner = null;       //真实的数据生产者，通常是Model对象
+    protected $_producer = null;       //真实的数据生产者，通常是Model对象
     protected $_cache_type = 'json';    //数据类型
     protected $_cache_timeout = 3600;   //缓存时间
 
-    public function __construct($consigner)
+    public function __construct($producer)
     {
-        $this->consigner($consigner);
-        $this->add_signal('read_cache', 1);
-        $this->add_signal('write_cache', 0);
-        $this->add_signal('delete_cache', 0);
+        $this->producer($producer);
+        $this->add_signal('read_cache', self::TYPE_NOTIFY_ONCE);
+        $this->add_signal('write_cache', self::TYPE_NOTIFY_ALL);
+        $this->add_signal('delete_cache', self::TYPE_NOTIFY_ALL);
+        $this->add_signal('incr_cache', self::TYPE_NOTIFY_ALL);
+        $this->add_signal('decr_cache', self::TYPE_NOTIFY_ALL);
     }
 
-    public function consigner($another = false)
+    public function producer($another = false)
     {
         if (false !== $another) {
-            $this->_consigner = $another;
+            $this->_producer = $another;
         }
-        return $this->_consigner;
+        return $this->_producer;
     }
 
     /**
@@ -45,8 +47,8 @@ class MY_Subject_cache extends MY_Subject
     {
         if (is_numeric($another)) {
             $this->_cache_timeout = intval($another);
-        } elseif (method_exists($this->_consigner, 'cache_timeout')) {
-            $this->_cache_timeout = $this->_consigner->cache_timeout();
+        } elseif (method_exists($this->_producer, 'cache_timeout')) {
+            $this->_cache_timeout = $this->_producer->cache_timeout();
         }
         return $this->_cache_timeout;
     }
@@ -58,8 +60,8 @@ class MY_Subject_cache extends MY_Subject
     {
         if (is_string($another)) {
             $this->_cache_type = $another;
-        } elseif (method_exists($this->_consigner, 'cache_type')) {
-            $this->_cache_type = $this->_consigner->cache_type();
+        } elseif (method_exists($this->_producer, 'cache_type')) {
+            $this->_cache_type = $this->_producer->cache_type();
         }
         return $this->_cache_type;
     }
@@ -69,10 +71,10 @@ class MY_Subject_cache extends MY_Subject
      */
     public function cache_key($condition)
     {
-        if (method_exists($this->_consigner, 'cache_key')) {
-            return $this->_consigner->cache_key($condition);
+        if (method_exists($this->_producer, 'cache_key')) {
+            return $this->_producer->cache_key($condition);
         } else {
-            $class = get_class($this->_consigner);
+            $class = get_class($this->_producer);
             $class = strtolower($class);
             if (ends_with($class, '_model')) {
                 $class = substr($class, 0, -6); //去除_model
@@ -92,7 +94,7 @@ class MY_Subject_cache extends MY_Subject
      */
     public function states()
     {
-        return $this->_consigner->states();
+        return $this->_producer->states();
     }
 
     /**
@@ -101,6 +103,6 @@ class MY_Subject_cache extends MY_Subject
      */
     public function condition($value = null)
     {
-        return $this->_consigner->condition($value);
+        return $this->_producer->condition($value);
     }
 }

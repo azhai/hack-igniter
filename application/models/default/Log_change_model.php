@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 
 /**
@@ -19,15 +19,15 @@ class Log_change_model extends MY_Model
     public function table_fields()
     {
         return [
-              'id' => 'int',
-              'date' => 'datetime',
-              'ownerid' => 'int',
-              'title' => 'varchar',
-              'contenttype' => 'varchar',
-              'contentid' => 'int',
-              'mutation_type' => 'varchar',
-              'diff' => 'longtext',
-              'comment' => 'varchar',
+            'id' => 'int',
+            'date' => 'datetime',
+            'ownerid' => 'int',
+            'title' => 'varchar',
+            'contenttype' => 'varchar',
+            'contentid' => 'int',
+            'mutation_type' => 'varchar',
+            'diff' => 'longtext',
+            'comment' => 'varchar',
         ];
     }
 }
