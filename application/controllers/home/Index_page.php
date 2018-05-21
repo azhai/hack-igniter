@@ -7,7 +7,7 @@ class Index_page extends Admin_page
 {
     public function index()
     {
-        $main_url = $this->base_url . '/home/entry/';
+        $main_url = $this->base_url . '/home/admin/';
         return redirect($main_url);
     }
 
@@ -22,7 +22,7 @@ class Index_page extends Admin_page
                 return $this->index();
             }
         }
-        return ['layout_class' => 'login'];
+        return ['layout_class' => 'signin'];
     }
 
 
@@ -30,5 +30,20 @@ class Index_page extends Admin_page
     {
         $this->session->sess_destroy();
         return redirect($this->base_url . $this->login_url);
+    }
+
+    public function unlock()
+    {
+        $username = $this->session->userdata('username');
+        if ('post' === $this->request_method) {
+            $this->load->model('default/user_model');
+            $data = $this->input->post();
+            $user = $this->user_model->check_password($username, $data['password']);
+            if ($user) {
+                $this->session->set_userdata($user);
+                return $this->index();
+            }
+        }
+        return ['layout_class' => 'gray-bg', 'username' => $username];
     }
 }

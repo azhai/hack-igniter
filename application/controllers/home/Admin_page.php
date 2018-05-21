@@ -12,7 +12,7 @@ class Admin_page extends MY_Controller
     protected function get_globals()
     {
         $globals = parent::get_globals();
-        $globals['layout_class'] = '';
+        $globals['layout_class'] = 'fixed-sidebar full-height-layout gray-bg';
         $globals['logout_url'] = str_replace('login', 'logout', $this->login_url);
         $globals['site_title'] = '测试网站';
         $globals['menus'] = [
