@@ -28,7 +28,7 @@ $this->extendTpl($theme_dir . '/layout.php'); ?>
                         <span class="ng-scope">分类</span>
                     </li>
                     <li>
-                        <a class="J_menuItem" href="index_v1.html">
+                        <a class="J_menuItem" href="/home/dashboard/index/">
                             <i class="fa fa-home"></i>
                             <span class="nav-label">主页</span>
                         </a>
@@ -418,7 +418,7 @@ $this->extendTpl($theme_dir . '/layout.php'); ?>
                 </nav>
             </div>
             <div class="row J_mainContent" id="content-main">
-                <iframe id="J_iframe" width="100%" height="100%" src="/home/entry/" frameborder="0" data-id="index_v1.html" seamless></iframe>
+                <iframe id="J_iframe" width="100%" height="100%" src="/home/entry/index/" frameborder="0" seamless></iframe>
             </div>
         </div>
         <!--右侧部分结束-->
