@@ -9,9 +9,9 @@ class Student_model extends MY_Model
 {
     use \Mylib\ORM\MY_Foreign;
 
-    protected $_db_key = 'test';
-    protected $_db_key_ro = 'test_ro';
-    protected $_table_name = 'students';
+    protected $_db_key = 'default';
+    protected $_db_key_ro = 'default_ro';
+    protected $_table_name = 't_students';
 
     public function table_indexes($another = false)
     {

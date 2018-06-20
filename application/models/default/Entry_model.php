@@ -42,8 +42,10 @@ class Entry_model extends MY_Model
     {
         return [
             'owner' => [
-              'model' => 'default/user_model',
-              'fkey' => 'ownerid',
+                'model' => 'default/admin_model',
+                'fkey' => 'ownerid',
+                'columns' => ['id', 'role_id', 'username', 'nickname',
+                        'gender', 'email', 'phone','is_removed'],
             ],
         ];
     }

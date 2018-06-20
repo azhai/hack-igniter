@@ -3,16 +3,16 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 
 /**
- * User_model
+ * 管理员
  */
-class User_model extends MY_Model
+class Admin_model extends MY_Model
 {
     use \Mylib\ORM\MY_Cacheable;
     use \Mylib\ORM\MY_Foreign;
 
     protected $_db_key = 'default';
-    protected $_db_key_ro = 'default';
-    protected $_table_name = 't_users';
+    protected $_db_key_ro = 'default_ro';
+    protected $_table_name = 't_admins';
 
     public function __construct()
     {
@@ -29,32 +29,18 @@ class User_model extends MY_Model
     {
         return [
             'id' => 'int',
+            'role_id' => 'int',
             'username' => 'varchar',
             'password' => 'varchar',
+            'nickname' => 'varchar',
+            'gender' => 'enum',
             'email' => 'varchar',
-            'lastseen' => 'datetime',
-            'lastip' => 'varchar',
-            'displayname' => 'varchar',
-            'stack' => 'longtext',
-            'enabled' => 'tinyint',
-            'shadowpassword' => 'varchar',
-            'shadowtoken' => 'varchar',
-            'shadowvalidity' => 'datetime',
-            'failedlogins' => 'int',
-            'throttleduntil' => 'datetime',
-            'roles' => 'longtext',
-        ];
-    }
-
-    public function get_relations()
-    {
-        return [
-            'entries' => [
-              'type' => FOREIGN_HAS_MANY,
-              'model' => 'default/entry_model',
-              'rev_name' => 'owner',
-              'fkey' => 'ownerid',
-            ],
+            'phone' => 'varchar',
+            'last_seen' => 'datetime',
+            'last_ipaddr' => 'varchar',
+            'created_at' => 'timestamp',
+            'changed_at' => 'timestamp',
+            'is_removed' => 'tinyint',
         ];
     }
 
@@ -62,11 +48,13 @@ class User_model extends MY_Model
     {
         return [
             'id' => 'int',
+            'role_id' => 'int',
             'username' => 'varchar',
+            'nickname' => 'varchar',
+            'gender' => 'enum',
             'email' => 'varchar',
-            'displayname' => 'varchar',
-            'enabled' => 'tinyint',
-            'roles' => 'longtext',
+            'phone' => 'varchar',
+            'is_removed' => 'tinyint',
         ];
     }
 
@@ -83,14 +71,14 @@ class User_model extends MY_Model
     public function check_password($username, $password)
     {
         $row = $this->one(['username' => $username]);
-        if (empty($row) || empty($row['enabled'])) {
+        if (empty($row) || $row['is_removed']) {
             return; //账号不存在或已禁用
         }
         if ($row['password']) {
             $this->load->library('MY_Portable_hash', null, 'hasher');
             $ok = $this->hasher->check_password($password, $row['password']);
             if ($ok) {
-                $fields = ['id', 'username', 'displayname', 'email', 'roles'];
+                $fields = ['id', 'role_id', 'username', 'nickname', 'gender'];
                 return array_intersect_key($row, array_fill_keys($fields, null));
             }
         }

@@ -10,9 +10,9 @@ class School_model extends MY_Model
     use \Mylib\ORM\MY_Cacheable;
     use \Mylib\ORM\MY_Foreign;
 
-    protected $_db_key = 'test';
-    protected $_db_key_ro = 'test';
-    protected $_table_name = 'schools';
+    protected $_db_key = 'default';
+    protected $_db_key_ro = 'default_ro';
+    protected $_table_name = 't_schools';
 
     public function __construct()
     {

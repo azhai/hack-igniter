@@ -14,9 +14,9 @@ class Index_page extends Admin_page
     public function login()
     {
         if ('post' === $this->request_method) {
-            $this->load->model('default/user_model');
+            $this->load->model('default/admin_model');
             $data = $this->input->post();
-            $user = $this->user_model->check_password($data['username'], $data['password']);
+            $user = $this->admin_model->check_password($data['username'], $data['password']);
             if ($user) {
                 $this->session->set_userdata($user);
                 return $this->index();
@@ -36,9 +36,9 @@ class Index_page extends Admin_page
     {
         $username = $this->session->userdata('username');
         if ('post' === $this->request_method) {
-            $this->load->model('default/user_model');
+            $this->load->model('default/admin_model');
             $data = $this->input->post();
-            $user = $this->user_model->check_password($username, $data['password']);
+            $user = $this->admin_model->check_password($username, $data['password']);
             if ($user) {
                 $this->session->set_userdata($user);
                 return $this->index();
