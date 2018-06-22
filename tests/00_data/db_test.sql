@@ -7,6 +7,41 @@ SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO';
 
 SET NAMES utf8mb4;
 
+DROP TABLE IF EXISTS `t_accounts`;
+CREATE TABLE `t_accounts` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '用户ID',
+  `balance` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '余额',
+  `currency` varchar(20) NOT NULL DEFAULT '' COMMENT '币种',
+  `created_at` timestamp NULL DEFAULT NULL COMMENT '新建',
+  `changed_at` timestamp NULL DEFAULT NULL COMMENT '更改',
+  `is_removed` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '删除',
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  KEY `balance` (`balance`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='账户';
+
+INSERT INTO `t_accounts` (`id`, `user_id`, `balance`, `currency`, `created_at`, `changed_at`, `is_removed`) VALUES
+(1, 1,  0,  'COIN', '2018-05-31 16:00:00',  '2018-05-31 16:00:00',  0);
+
+DROP TABLE IF EXISTS `t_account_history`;
+CREATE TABLE `t_account_history` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `account_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '账户ID',
+  `amount` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '金额',
+  `balance` int(10) NOT NULL COMMENT '余额',
+  `currency` varchar(20) NOT NULL DEFAULT '' COMMENT '币种',
+  `cashier` varchar(30) DEFAULT NULL COMMENT '出纳员',
+  `remark` text COMMENT '备注',
+  `created_at` timestamp NULL DEFAULT NULL COMMENT '新建',
+  `changed_at` timestamp NULL DEFAULT NULL COMMENT '更改',
+  `is_removed` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '删除',
+  PRIMARY KEY (`id`),
+  KEY `account_id` (`account_id`),
+  KEY `amount` (`amount`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='账户流水';
+
+
 DROP TABLE IF EXISTS `t_admins`;
 CREATE TABLE `t_admins` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -27,7 +62,22 @@ CREATE TABLE `t_admins` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='管理员';
 
 INSERT INTO `t_admins` (`id`, `role_id`, `username`, `password`, `nickname`, `gender`, `email`, `phone`, `last_seen`, `last_ipaddr`, `created_at`, `changed_at`, `is_removed`) VALUES
-(1, 0,  'admin',  '$2y$08$/1MF1YuhbyzKBH3SQONBj.wqwK0JxqEPCdWBrE0i6qyYKA4FD7Qf2', '管理员',  'M',  'admin@where.com',  NULL, NULL, NULL, NULL, NULL, 0);
+(1, 1,  'admin',  '$2y$08$/1MF1YuhbyzKBH3SQONBj.wqwK0JxqEPCdWBrE0i6qyYKA4FD7Qf2', '管理员',  'M',  'admin@where.com',  NULL, NULL, NULL, '2018-05-31 16:00:00',  '2018-05-31 16:00:00',  0);
+
+DROP TABLE IF EXISTS `t_checkins`;
+CREATE TABLE `t_checkins` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '用户ID',
+  `amount` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '金额',
+  `expired_on` date DEFAULT NULL COMMENT '过期日期',
+  `created_at` timestamp NULL DEFAULT NULL COMMENT '新建',
+  `changed_at` timestamp NULL DEFAULT NULL COMMENT '更改',
+  `is_removed` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '删除',
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  KEY `amount` (`amount`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='签到';
+
 
 DROP TABLE IF EXISTS `t_entries`;
 CREATE TABLE `t_entries` (
@@ -90,6 +140,71 @@ INSERT INTO `t_entries` (`id`, `slug`, `datecreated`, `datechanged`, `datepublis
 (33,  'sin-aliud-quid-voles-postea',  '2017-08-04 13:22:03',  '2018-02-25 10:49:08',  '2017-11-06 10:07:05',  NULL, 1,  'published',  '[]', 'Sin aliud quid voles, postea.',  '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Si enim ad populum me vocas, eum. Illud quaero, quid ei, qui in voluptate summum bonum ponat, consentaneum sit dicere. Sed tempus est, si videtur, et recta quidem ad me. Dulce amarum, leve asperum, prope longe, stare movere, quadratum rotundum. Duo Reges: constructio interrete. Nos quidem Virtutes sic natae sumus, ut tibi serviremus, aliud negotii nihil habemus. Bona autem corporis huic sunt, quod posterius posui, similiora. Summus dolor plures dies manere non potest? Esse enim, nisi eris, non potes. Et harum quidem rerum facilis est et expedita distinctio. Ab his oratores, ab his imperatores ac rerum publicarum principes extiterunt. Et harum quidem rerum facilis est et expedita distinctio. </p>', '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Itaque contra est, ac dicitis; Quamquam te quidem video minime esse deterritum. Summus dolor plures dies manere non potest? Quam ob rem tandem, inquit, non satisfacit? <b>Duo Reges: constructio interrete.</b> Quorum sine causa fieri nihil putandum est. </p>\n\n<ul>\n  <li>Modo etiam paulum ad dexteram de via declinavi, ut ad Pericli sepulcrum accederem.</li>\n <li>Haec mihi videtur delicatior, ut ita dicam, molliorque ratio, quam virtutis vis gravitasque postulat.</li>\n  <li>Sed emolumenta communia esse dicuntur, recte autem facta et peccata non habentur communia.</li>\n <li>Tum Quintus: Est plane, Piso, ut dicis, inquit.</li>\n</ul>\n\n\n<p>Atque haec ita iustitiae propria sunt, ut sint virtutum reliquarum communia. Quae fere omnia appellantur uno ingenii nomine, easque virtutes qui habent, ingeniosi vocantur. Aliter homines, aliter philosophos loqui putas oportere? An vero displicuit ea, quae tributa est animi virtutibus tanta praestantia? Venit ad extremum; </p>\n\n<ol>\n <li>Quis istud, quaeso, nesciebat?</li>\n <li>Sequitur disserendi ratio cognitioque naturae;</li>\n <li>Sin kakan malitiam dixisses, ad aliud nos unum certum vitium consuetudo Latina traduceret.</li>\n <li>Hoc non est positum in nostra actione.</li>\n</ol>\n\n\n<p><b>Hoc tu nunc in illo probas.</b> <a href=\"http://loripsum.net/\" target=\"_blank\">Id Sextilius factum negabat.</a> In qua si nihil est praeter rationem, sit in una virtute finis bonorum; </p>',  '{\"file\":\"alarm-clock-gold-hands-of-a-clock-1778.jpg\",\"title\":\"Alarm Clock Gold Hands Of A Clock 1778.\",\"alt\":\"Alarm Clock Gold Hands Of A Clock 1778.\"}',  NULL),
 (34,  'nescio-quo-modo-praetervolavit-oratio',  '2018-02-19 12:16:39',  '2018-02-25 10:49:10',  '2018-01-03 12:06:18',  NULL, 1,  'published',  '[]', 'Nescio quo modo praetervolavit oratio.', '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. <i>Sed ea mala virtuti magnitudine obruebantur.</i> Atque ab his initiis profecti omnium virtutum et originem et progressionem persecuti sunt. Sed haec in pueris; Quae qui non vident, nihil umquam magnum ac cognitione dignum amaverunt. Quid ergo aliud intellegetur nisi uti ne quae pars naturae neglegatur? <i>Duo Reges: constructio interrete.</i> <i>Non laboro, inquit, de nomine.</i> Scio enim esse quosdam, qui quavis lingua philosophari possint; Quae in controversiam veniunt, de iis, si placet, disseramus. </p>', '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quis animo aequo videt eum, quem inpure ac flagitiose putet vivere? Quid, quod res alia tota est? <a href=\"http://loripsum.net/\" target=\"_blank\">Equidem e Cn.</a> Eam tum adesse, cum dolor omnis absit; Duo Reges: constructio interrete. Nonne igitur tibi videntur, inquit, mala? Dempta enim aeternitate nihilo beatior Iuppiter quam Epicurus; Hic, qui utrumque probat, ambobus debuit uti, sicut facit re, neque tamen dividit verbis. Qui igitur convenit ab alia voluptate dicere naturam proficisci, in alia summum bonum ponere? </p>\n\n<p>Sed quanta sit alias, nunc tantum possitne esse tanta. Sed quanta sit alias, nunc tantum possitne esse tanta. Modo etiam paulum ad dexteram de via declinavi, ut ad Pericli sepulcrum accederem. Hoc ipsum elegantius poni meliusque potuit. Bona autem corporis huic sunt, quod posterius posui, similiora. Sed id ne cogitari quidem potest quale sit, ut non repugnet ipsum sibi. Hoc non est positum in nostra actione. <mark>Efficiens dici potest.</mark> </p>\n\n<ol>\n <li>Quam vellem, inquit, te ad Stoicos inclinavisses! erat enim, si cuiusquam, certe tuum nihil praeter virtutem in bonis ducere.</li>\n  <li>Nam bonum ex quo appellatum sit, nescio, praepositum ex eo credo, quod praeponatur aliis.</li>\n  <li>Cupit enim dícere nihil posse ad beatam vitam deesse sapienti.</li>\n</ol>\n\n\n<p>Animi enim quoque dolores percipiet omnibus partibus maiores quam corporis. Quippe: habes enim a rhetoribus; Quamvis enim depravatae non sint, pravae tamen esse possunt. Primum divisit ineleganter; Est enim tanti philosophi tamque nobilis audacter sua decreta defendere. Etsi qui potest intellegi aut cogitari esse aliquod animal, quod se oderit? </p>\n\n<ul>\n  <li>Atque ab isto capite fluere necesse est omnem rationem bonorum et malorum.</li>\n <li>Dat enim intervalla et relaxat.</li>\n</ul>', '{\"file\":\"bell-bills-cash-register-2738.jpg\",\"title\":\"Bell Bills Cash Register 2738.\",\"alt\":\"Bell Bills Cash Register 2738.\"}', NULL),
 (35,  'alio-modo',  '2018-02-02 20:31:22',  '2018-02-25 10:49:13',  '2017-11-29 05:26:58',  NULL, 1,  'published',  '[]', 'ALIO MODO.', '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Facile est hoc cernere in primis puerorum aetatulis. Certe non potest. Tu enim ista lenius, hic Stoicorum more nos vexat. Iam in altera philosophiae parte. Duo Reges: constructio interrete. </p>', '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quod autem principium officii quaerunt, melius quam Pyrrho; Quamquam haec quidem praeposita recte et reiecta dicere licebit. Rem unam praeclarissimam omnium maximeque laudandam, penitus viderent, quonam gaudio complerentur, cum tantopere eius adumbrata opinione laetentur? Duo Reges: constructio interrete. </p>\n\n<ol>\n  <li>Deinde prima illa, quae in congressu solemus: Quid tu, inquit, huc?</li>\n  <li>Quod est, ut dixi, habere ea, quae secundum naturam sint, vel omnia vel plurima et maxima.</li>\n <li>Utrum igitur tibi litteram videor an totas paginas commovere?</li>\n</ol>\n\n\n<ul>\n <li>Quid, si non sensus modo ei sit datus, verum etiam animus hominis?</li>\n <li>Quid, si etiam iucunda memoria est praeteritorum malorum?</li>\n  <li>Huic mori optimum esse propter desperationem sapientiae, illi propter spem vivere.</li>\n <li>Illa argumenta propria videamus, cur omnia sint paria peccata.</li>\n <li>Quae cum essent dicta, discessimus.</li>\n  <li>Non potes, nisi retexueris illa.</li>\n</ul>\n\n\n<p>Idemque diviserunt naturam hominis in animum et corpus. <mark>Quae contraria sunt his, malane?</mark> Varietates autem iniurasque fortunae facile veteres philosophorum praeceptis instituta vita superabat. <i>Dici enim nihil potest verius.</i> Quamvis enim depravatae non sint, pravae tamen esse possunt. Hoc est dicere: Non reprehenderem asotos, si non essent asoti. </p>\n\n<p>Praeteritis, inquit, gaudeo. Quae hic rei publicae vulnera inponebat, eadem ille sanabat. Quas enim kakaw Graeci appellant, vitia malo quam malitias nominare. <a href=\"http://loripsum.net/\" target=\"_blank\">Sed quod proximum fuit non vidit.</a> Illa sunt similia: hebes acies est cuipiam oculorum, corpore alius senescit; Et quae per vim oblatum stuprum volontaria morte lueret inventa est et qui interficeret filiam, ne stupraretur. Restant Stoici, qui cum a Peripateticis et Academicis omnia transtulissent, nominibus aliis easdem res secuti sunt. Sin tantum modo ad indicia veteris memoriae cognoscenda, curiosorum. </p>', '{\"file\":\"apple-desk-iphone-2750.jpg\",\"title\":\"Apple Desk Iphone 2750.\",\"alt\":\"Apple Desk Iphone 2750.\"}',  NULL);
+
+DROP TABLE IF EXISTS `t_menus`;
+CREATE TABLE `t_menus` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `parent_id` int(10) unsigned DEFAULT '0' COMMENT '上级菜单',
+  `title` varchar(50) NOT NULL DEFAULT '' COMMENT '中文名称',
+  `url` varchar(30) NOT NULL DEFAULT '' COMMENT '网址',
+  `icon` varchar(30) DEFAULT NULL COMMENT '图标',
+  `seqno` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '次序',
+  `created_at` timestamp NULL DEFAULT NULL COMMENT '创建时间',
+  `changed_at` timestamp NULL DEFAULT NULL COMMENT '修改时间',
+  `is_removed` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否被删除',
+  PRIMARY KEY (`id`),
+  KEY `title` (`title`),
+  KEY `url` (`url`),
+  KEY `created_at` (`created_at`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='菜单';
+
+
+DROP TABLE IF EXISTS `t_privileges`;
+CREATE TABLE `t_privileges` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `menu_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '菜单',
+  `operation` varchar(255) NOT NULL DEFAULT '' COMMENT '操作列表',
+  `remark` varchar(255) DEFAULT NULL COMMENT '描述',
+  `created_at` timestamp NULL DEFAULT NULL COMMENT '创建时间',
+  `changed_at` timestamp NULL DEFAULT NULL COMMENT '修改时间',
+  `is_removed` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否被删除',
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `menu_id` (`menu_id`) USING BTREE,
+  KEY `created_at` (`created_at`) USING BTREE,
+  KEY `operation` (`operation`(50)) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='实体';
+
+INSERT INTO `t_privileges` (`id`, `menu_id`, `operation`, `remark`, `created_at`, `changed_at`, `is_removed`) VALUES
+(1, 0,  '*',  '所有权限', '2018-05-31 16:00:00',  '2018-05-31 16:00:00',  0);
+
+DROP TABLE IF EXISTS `t_roles`;
+CREATE TABLE `t_roles` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `title` varchar(30) NOT NULL DEFAULT '' COMMENT '中文名称',
+  `remark` varchar(255) DEFAULT NULL COMMENT '描述',
+  `is_super` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '超级角色，（几乎）拥有全部权限',
+  `created_at` timestamp NULL DEFAULT NULL COMMENT '创建时间',
+  `changed_at` timestamp NULL DEFAULT NULL COMMENT '修改时间',
+  `is_removed` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否被删除',
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `title` (`title`) USING BTREE,
+  KEY `created_at` (`created_at`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='角色';
+
+INSERT INTO `t_roles` (`id`, `title`, `remark`, `is_super`, `created_at`, `changed_at`, `is_removed`) VALUES
+(1, '最高权限', '拥有所有菜单和权限',  1,  '2018-05-31 16:00:00',  '2018-05-31 16:00:00',  0);
+
+DROP TABLE IF EXISTS `t_role_privileges`;
+CREATE TABLE `t_role_privileges` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `role_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '角色',
+  `menu_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '菜单',
+  `privilege_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '权限',
+  `is_revoked` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否被收回',
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `role_id` (`role_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='角色权限';
+
 
 DROP TABLE IF EXISTS `t_schools`;
 CREATE TABLE `t_schools` (
@@ -224,4 +339,22 @@ INSERT INTO `t_subjects` (`id`, `parent_id`, `name`, `max_score`, `pass_score`, 
 (7, 3,  '科目三（手动）',  100,  90, '2018-04-30 08:00:00',  NULL, 0),
 (8, 3,  '科目三（自动）',  100,  90, '2018-04-30 08:00:00',  NULL, 0);
 
--- 2018-06-20 11:17:30
+DROP TABLE IF EXISTS `t_users`;
+CREATE TABLE `t_users` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `password` varchar(80) NOT NULL DEFAULT '' COMMENT '密码',
+  `nickname` varchar(50) NOT NULL DEFAULT '' COMMENT '昵称',
+  `email` varchar(50) DEFAULT NULL COMMENT '电子邮箱',
+  `phone` varchar(50) DEFAULT NULL COMMENT '手机号码',
+  `last_seen` datetime DEFAULT NULL COMMENT '最后登录时间',
+  `last_ipaddr` varchar(15) DEFAULT NULL COMMENT '最后登录IP',
+  `created_at` timestamp NULL DEFAULT NULL COMMENT '新建',
+  `changed_at` timestamp NULL DEFAULT NULL COMMENT '更改',
+  `is_removed` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '删除',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户';
+
+INSERT INTO `t_users` (`id`, `password`, `nickname`, `email`, `phone`, `last_seen`, `last_ipaddr`, `created_at`, `changed_at`, `is_removed`) VALUES
+(1, '$2y$08$/1MF1YuhbyzKBH3SQONBj.wqwK0JxqEPCdWBrE0i6qyYKA4FD7Qf2', '管理员',  'admin@where.com',  NULL, NULL, NULL, '2018-05-31 16:00:00',  '2018-05-31 16:00:00',  0);
+
+-- 2018-06-22 04:01:36

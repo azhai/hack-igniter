@@ -76,15 +76,14 @@ class MY_Model extends CI_Model implements ArrayAccess
         if (method_exists($this, $name)) {
             throw new Exception('Method in a trait');
         }
+        $db = $this->reconnect();
         if (in_array($lower_name, ['sum', 'min', 'max', 'avg'], true)) {
-            $db = $this->reconnect();
             $table = $this->table_name();
             $name = 'select_' . $lower_name;
             exec_method_array($db, $name, $args);
             $row = $db->get($table)->row_array();
             return reset($row);
         } else {
-            $db = $this->reconnect();
             $result = exec_method_array($db, $name, $args);
             return ($result === $db) ? $this : $result;
         }
@@ -127,11 +126,12 @@ class MY_Model extends CI_Model implements ArrayAccess
     }
 
     /**
-     * [reconnect description]
-     * @param  bool $force
+     * 确保数据库连接
+     * @param  bool $force 强制重连
+     * @param  bool $use_writer 强制使用主库
      * @return object/null
      */
-    public function reconnect($force = false)
+    public function reconnect($force = false, $use_writer = false)
     {
         if ($force) {
             $this->_db_conn->close();
@@ -145,6 +145,9 @@ class MY_Model extends CI_Model implements ArrayAccess
                     $this->_db_conn->conn_reader = $db->conn_id;
                 }
             }
+        }
+        if ($use_writer && $this->_db_conn->conn_reader) { //读写分离下使用主库
+            $this->_db_conn->conn_id = $this->_db_conn->conn_writer;
         }
         //确保连接正常
         $this->_db_conn->reconnect();
@@ -423,6 +426,30 @@ class MY_Model extends CI_Model implements ArrayAccess
             //没有改变任何行
             $set = array_merge($set, $where);
             $result = $db->insert($table, $set, $escape);
+        }
+        return $result;
+    }
+
+    /**
+     * 开启事务
+     */
+    public function trans_start($test_mode = false)
+    {
+        $db = $this->reconnect(false, true); //强制使用主库
+        $result = $db->trans_start($test_mode);
+        return $result;
+    }
+
+    /**
+     * 执行事务，失败时回滚并抛出异常
+     */
+    public function trans_complete($errmsg = 'Transaction is failure.')
+    {
+        $db = $this->reconnect(false, true); //强制使用主库
+        $result = $db->trans_complete();
+        if (false !== $errmsg && false === $db->trans_status()) {
+            $error = $db->error() ?: ['code' => 1, 'message' => $errmsg];
+            throw new Exception($error['message'], $error['code']);
         }
         return $result;
     }

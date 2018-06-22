@@ -31,6 +31,11 @@ class CI_DB extends CI_DB_query_builder
         }
     }
 
+    public function is_in_trans()
+    {
+        return $this->_trans_depth > 0;
+    }
+
     public function set_timeout($seconds)
     {
         return $this->expired_timestamp = time() + $seconds;
@@ -63,12 +68,12 @@ class CI_DB extends CI_DB_query_builder
         return $result;
     }
 
-    public function get_conn_hash($tail = 0)
+    public function get_conn_hash($prop = 'conn_id', $tail = 0)
     {
-        if (!$this->conn_id) {
+        if (!$this->$prop) {
             return '';
         }
-        $result = spl_object_hash($this->conn_id);
+        $result = spl_object_hash($this->$prop);
         if ($tail > 0) {
             $result = substr($result, 0 - $tail);
         }
@@ -78,13 +83,13 @@ class CI_DB extends CI_DB_query_builder
     public function simple_query($sql)
     {
         if ($this->conn_reader) { //读写分离
-            if ($this->is_write_type($sql)) {
+            if ($this->is_write_type($sql) || $this->is_in_trans()) {
                 $this->conn_id = $this->conn_writer;
             } else {
                 $this->conn_id = $this->conn_reader;
             }
         }
-        $hash = $this->get_conn_hash(8);
+        $hash = $this->get_conn_hash('conn_id', 8);
         log_message('DEBUG', sprintf('conn[%s] SQL: %s;', $hash, $sql));
         return parent::simple_query($sql);
     }

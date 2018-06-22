@@ -10,7 +10,7 @@ class Entry_model extends MY_Model
     use \Mylib\ORM\MY_Foreign;
 
     protected $_db_key = 'default';
-    protected $_db_key_ro = 'default';
+    protected $_db_key_ro = 'default_ro';
     protected $_table_name = 't_entries';
 
     public function table_indexes($another = false)

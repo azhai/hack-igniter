@@ -15,7 +15,7 @@ $query_builder = true;
 
 
 $db['default'] = [
-    'dbdriver' => 'pdo',
+    'dbdriver' => 'mysqli',
     'subdriver' => 'mysql',
     'hostname' => '127.0.0.1',
     'port' => 3306,
@@ -30,7 +30,7 @@ $db['default'] = [
 
 
 $db['default_ro'] = [
-    'dbdriver' => 'pdo',
+    'dbdriver' => 'mysqli',
     'subdriver' => 'mysql',
     'hostname' => '127.0.0.1',
     'port' => 3306,
