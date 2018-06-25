@@ -16,6 +16,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
 if (! class_exists('CI_Loader')) {
     require_once BASEPATH . 'core/Loader.php';
 }
+if (! function_exists('DB')) {
+    require_once BASEPATH . 'database/DB.php';
+}
 require_once APPPATH . 'core/CI_DB.php';
 
 
@@ -41,13 +44,16 @@ class MY_Loader extends CI_Loader
 
     public function database($params = '', $return = false, $query_builder = null)
     {
-        //保留当前的配置名，用于实现单例连接
-        if (is_string($params) && strpos($params, '://') === false) {
-            CI_DB::$active_group = $params;
+        CI_DB::$last_active_group = false;
+        if (true === $return) { //实现单例连接
+            //保留当前的配置名，用于实现单例连接
+            if (is_string($params) && strpos($params, '://') === false) {
+                CI_DB::$last_active_group = $params;
+            }
+            return DB($params, $query_builder);
         } else {
-            CI_DB::$active_group = false;
+            return parent::database($params, $return, $query_builder);
         }
-        return parent::database($params, $return, $query_builder);
     }
 
     public function name_space($prefix, $path)

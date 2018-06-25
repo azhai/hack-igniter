@@ -18,7 +18,7 @@ require_once BASEPATH . 'database/DB_query_builder.php';
 
 class CI_DB extends CI_DB_query_builder
 {
-    public static $active_group = false;    //当前连接名
+    public static $last_active_group = false;    //当前连接名
     public static $conn_registry = [];      //数据库连接注册表
     public $expired_timestamp = -1;         //连接失效重连时间
     public $conn_writer = null;
@@ -43,52 +43,66 @@ class CI_DB extends CI_DB_query_builder
 
     public function initialize()
     {
-        if ($is_pdo = $this->is_pdo_driver()) {
+        if ($this->is_pdo_driver()) {
             $this->options[PDO::ATTR_ERRMODE] = PDO::ERRMODE_EXCEPTION;
         }
         if ($this->expired_timestamp > 0 && $this->expired_timestamp < time()) {
             $this->close(); //连接过期
         }
-        $name = self::$active_group;
+        $name = self::$last_active_group;
         if ($name && $is_exists = isset(self::$conn_registry[$name])) {
             $this->conn_id = self::$conn_registry[$name];
+            self::$last_active_group = false; //用完及时清理
         }
         $result = parent::initialize();
-        if ($result) {
-            if ($is_pdo && $this->database) {
-                $this->db_select($this->database);
-            }
-            if ($name && ! $is_exists) {
-                self::$conn_registry[$name] = $this->conn_id;
-                if (defined('DB_RECONNECT_TIMEOUT')) {
-                    $this->set_timeout(constant('DB_RECONNECT_TIMEOUT'));
-                }
+        if ($result && $name && ! $is_exists) {
+            self::$conn_registry[$name] = $this->conn_id;
+            if (defined('DB_RECONNECT_TIMEOUT')) {
+                $this->set_timeout(constant('DB_RECONNECT_TIMEOUT'));
             }
         }
         return $result;
     }
 
-    public function get_conn_hash($prop = 'conn_id', $tail = 0)
+    public function get_conn_hash($prop = 'conn_id', $offset = 0, $tail = -16)
     {
         if (!$this->$prop) {
             return '';
         }
         $result = spl_object_hash($this->$prop);
-        if ($tail > 0) {
-            $result = substr($result, 0 - $tail);
+        if ($offset || $tail) {
+            $result = substr($result, $offset, $tail);
         }
         return $result;
     }
 
-    public function simple_query($sql)
+    public function add_reader($conn_id, $save_to_writer = false)
+    {
+        if ($save_to_writer) {
+            $this->conn_writer = $this->conn_id;
+            $hash = $this->get_conn_hash('conn_writer', 8);
+            log_message('DEBUG', sprintf('conn_writer[%s]', $hash));
+        }
+        $this->conn_reader = $conn_id;
+        $hash = $this->get_conn_hash('conn_reader', 8);
+        log_message('DEBUG', sprintf('conn_reader[%s]', $hash));
+    }
+
+    public function switch_conn($use_writer = true)
     {
         if ($this->conn_reader) { //读写分离
-            if ($this->is_write_type($sql) || $this->is_in_trans()) {
+            if ($use_writer) {
                 $this->conn_id = $this->conn_writer;
             } else {
                 $this->conn_id = $this->conn_reader;
             }
         }
+        return $this->conn_id;
+    }
+
+    public function simple_query($sql)
+    {
+        $this->switch_conn($this->is_in_trans() || $this->is_write_type($sql));
         $hash = $this->get_conn_hash('conn_id', 8);
         log_message('DEBUG', sprintf('conn[%s] SQL: %s;', $hash, $sql));
         return parent::simple_query($sql);

@@ -141,13 +141,12 @@ class MY_Model extends CI_Model implements ArrayAccess
             if (!empty($this->_db_key_ro) && $this->_db_key_ro != $this->_db_key) {
                 //连接只读数据库，在simple_query()中实现连接的切换
                 if ($db = $this->load->database($this->_db_key_ro, true)) {
-                    $this->_db_conn->conn_writer = $this->_db_conn->conn_id;
-                    $this->_db_conn->conn_reader = $db->conn_id;
+                    $this->_db_conn->add_reader($db->conn_id, true);
                 }
             }
         }
-        if ($use_writer && $this->_db_conn->conn_reader) { //读写分离下使用主库
-            $this->_db_conn->conn_id = $this->_db_conn->conn_writer;
+        if ($use_writer) { //读写分离下使用主库
+            $this->_db_conn->switch_conn(true);
         }
         //确保连接正常
         $this->_db_conn->reconnect();
@@ -436,6 +435,8 @@ class MY_Model extends CI_Model implements ArrayAccess
     public function trans_start($test_mode = false)
     {
         $db = $this->reconnect(false, true); //强制使用主库
+        $hash = $db->get_conn_hash('conn_id', 8);
+        log_message('DEBUG', sprintf('conn[%s] trans_start', $hash));
         $result = $db->trans_start($test_mode);
         return $result;
     }
@@ -446,6 +447,8 @@ class MY_Model extends CI_Model implements ArrayAccess
     public function trans_complete($errmsg = 'Transaction is failure.')
     {
         $db = $this->reconnect(false, true); //强制使用主库
+        $hash = $db->get_conn_hash('conn_id', 8);
+        log_message('DEBUG', sprintf('conn[%s] trans_complete', $hash));
         $result = $db->trans_complete();
         if (false !== $errmsg && false === $db->trans_status()) {
             $error = $db->error() ?: ['code' => 1, 'message' => $errmsg];
