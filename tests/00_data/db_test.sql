@@ -29,7 +29,7 @@ CREATE TABLE `t_account_history` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `account_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '账户ID',
   `amount` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '金额',
-  `balance` int(10) NOT NULL COMMENT '余额',
+  `after_balance` int(10) NOT NULL COMMENT '更新后余额',
   `currency` varchar(20) NOT NULL DEFAULT '' COMMENT '币种',
   `cashier` varchar(30) DEFAULT NULL COMMENT '出纳员',
   `remark` text COMMENT '备注',
