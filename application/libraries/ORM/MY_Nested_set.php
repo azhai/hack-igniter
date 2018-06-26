@@ -20,63 +20,76 @@ trait MY_Nested_set
 {
     protected $nested_root = null;
 
-    public function create_item(array $data = [])
+    public function create_node(array $data = [])
     {
-        return new MY_Nested_item($data);
+        return new MY_Nested_node($data);
     }
 
     public function get_nested_root()
     {
         if (! $this->nested_root) {
-            $this->nested_root = $this->create_item();
+            $this->nested_root = $this->create_node();
         }
         return $this->nested_root;
     }
 
-    public function get_nested_item($id = 0, $field = 'id')
+    public function get_nested_node($id = 0, $where = null)
     {
-        if (empty($id)) {
-            $item = $this->get_nested_root();
-            if (1 === $item->right_no()) {
+        if (empty($id) && empty($where)) {
+            $node = $this->get_nested_root();
+            if ($node->right_no() <= 1) {
                 $right_max = $this->max('right_no');
-                $item->right_no($right_max ? $right_max + 1 : 1);
+                $node->right_no($right_max ? $right_max + 1 : 1);
             }
         } else {
-            $row = $this->one([$field => $id]);
-            $item = $this->create_item($row);
+            if (is_numeric($id) && $id > 0) {
+                $where = ['id' => $id];
+            }
+            $data = $this->one($where);
+            $node = $this->create_node($data);
         }
-        return $item;
+        return $node;
     }
 
-    public function get_flatten_rows($id = 0, $depth = -1, $limit = null)
+    public function get_nested($where = null, $depth = -1)
     {
-        $orders = ['left_no' => 'ASC'];
-        if (! empty($id)) {
-            $root = $this->get_nested_item($id);
+        $rows = $this->get_flatten_rows($where, $depth);
+        $data = $rows ? array_shift($rows) : [];
+        $node = $this->create_node($data);
+        if ($rows) {
+            $node->progeny_rows = array_column($rows, null, 'id');
+        }
+        return $node;
+    }
+
+    public function get_flatten_rows($where = null, $depth = -1, $limit = null)
+    {
+        if (! empty($where)) {
+            $root = $this->get_nested_node(0, $where);
             $this->where('left_no >=', $root->left_no());
             $this->where('right_no <=', $root->right_no());
         }
         if ($depth >= 0) { //限制层级
             $this->where('depth <=', $root->depth() + $depth);
         }
-        return $this->all($limit, 0, $orders);
+        return $this->order_by('left_no', 'ASC')->all($limit);
     }
 
-    public function move_top_rows(MY_Nested_item $item, $offset = 2)
+    public function move_top_rows(MY_Nested_node $node, $offset = 2)
     {
         $changes = [
             'left_no' => 'left_no + ' . $offset,
             'right_no' => 'right_no + ' . $offset,
         ];
-        $where = ['left_no >' => $item->right_no()];
+        $where = ['left_no >' => $node->right_no()];
         return $this->update($changes, $where, null, false);
     }
 
     public function save_nested_one(array $row, $parent_id = 0)
     {
         $parent = $this->move_top_rows($parent_id);
-        $item = $parent->append_child($row);
-        return $this->insert($item->to_array());
+        $node = $parent->append_child($row);
+        return $this->insert($node->to_array());
     }
 
     public function save_nested_set(array $rows, $parent_id = 0, $truncate = false)
@@ -100,7 +113,7 @@ trait MY_Nested_set
 
     public function set_nested_rows(array $rows, $id = 0)
     {
-        $root = $this->get_nested_item($id);
+        $root = $this->get_nested_node($id);
         foreach ($rows as $row) {
             $root->append_child($row);
         }
@@ -109,7 +122,7 @@ trait MY_Nested_set
 
     public function migrate_nested_rows(array $rows, $id = 0)
     {
-        $root = $this->get_nested_item($id);
+        $root = $this->get_nested_node($id);
         foreach ($rows as $row) {
             $row_id = $row['id'];
             $pid = $row['parent']['id'];
@@ -127,14 +140,18 @@ trait MY_Nested_set
 }
 
 
-class MY_Nested_item
+/**
+ * 树状节点
+ */
+class MY_Nested_node
 {
     public $parent = null;
     public $children = [];
+    public $progeny_rows = [];
     protected $data = [
         'depth' => 0,
         'left_no' => 0,
-        'right_no' => 1,
+        'right_no' => 0,
     ];
 
     public function __construct(array $data = [])
@@ -155,7 +172,7 @@ class MY_Nested_item
         }
     }
 
-    public static function to_item(array $data = [])
+    public static function to_node(array $data = [])
     {
         if ($data instanceof self) {
             return $data;
@@ -184,53 +201,94 @@ class MY_Nested_item
         return ($this->right_no() - $this->left_no() - 1) / 2;
     }
 
-    public function get_children_rows()
+    public function create_child(array $data)
+    {
+        $node = new self($data);
+        $left_no = $node->left_no();
+        $right_no = $node->right_no();
+        foreach ($this->progeny_rows as $key => $row) {
+            if ($row['left_no'] <= $left_no) {
+                continue;
+            }
+            if ($row['right_no'] >= $right_no) {
+                break;
+            }
+            $node->progeny_rows[$key] = & $this->progeny_rows[$key];
+        }
+        return $node;
+    }
+
+    protected function _children_to_progeny_rows()
     {
         $rows = [];
         foreach ($this->children as $child) {
             $rows[] = $child->to_array();
-            if ($ch_rows = $child->get_children_rows()) {
+            if ($ch_rows = $child->get_progeny_rows()) {
                 $rows = array_merge($rows, $ch_rows);
             }
         }
         return $rows;
     }
 
-    protected function _set_parent(MY_Nested_item $item, $id = null, $parent = null)
+    public function get_progeny_rows()
+    {
+        if (empty($this->progeny_rows) && $this->children) {
+            $rows = $this->_children_to_progeny_rows();
+            $this->progeny_rows = array_column($rows, null, 'id');
+        }
+        return $this->progeny_rows;
+    }
+
+    public function get_options($column, $index = null, $include_self = false)
+    {
+        $rows = $this->get_progeny_rows();
+        $result = $rows ? array_column($rows, $column, $index) : [];
+        if ($include_self) {
+            $col_val = $this->data[$column] ?? '';
+            if ($index && $idx_val = $this->data[$index]) {
+                $result = array_merge([$idx_val => $col_val], $result);
+            } else {
+                array_unshift($result, $col_val);
+            }
+        }
+        return $result;
+    }
+
+    protected function _set_parent(MY_Nested_node $node, $id = null, $parent = null)
     {
         if (is_null($parent)) {
             $parent = $this;
         }
-        $item->parent = $parent;
+        $node->parent = $parent;
         if (is_null($id) || false === $id) {
             $id = count($parent->children);
         }
-        $parent->children[$id] = $item;
+        $parent->children[$id] = $node;
         do {
             $parent->right_no($parent->right_no() + 2);
         } while ($parent = $parent->parent);
-        return $item;
+        return $node;
     }
 
     public function attach_sibling(array $data = [], $id = null)
     {
-        $item = self::to_item($data);
-        $item->depth($this->depth());
+        $node = self::to_node($data);
+        $node->depth($this->depth());
         $right_no = $this->right_no();
-        $item->left_no($right_no + 1);
-        $item->right_no($right_no + 2);
-        $this->_set_parent($item, $id, $this->parent);
-        return $item;
+        $node->left_no($right_no + 1);
+        $node->right_no($right_no + 2);
+        $this->_set_parent($node, $id, $this->parent);
+        return $node;
     }
 
     public function append_child(array $data = [], $id = null)
     {
-        $item = self::to_item($data);
-        $item->depth($this->depth() + 1);
+        $node = self::to_node($data);
+        $node->depth($this->depth() + 1);
         $right_no = $this->right_no();
-        $item->left_no($right_no);
-        $item->right_no($right_no + 1);
-        $this->_set_parent($item, $id);
-        return $item;
+        $node->left_no($right_no);
+        $node->right_no($right_no + 1);
+        $this->_set_parent($node, $id);
+        return $node;
     }
 }

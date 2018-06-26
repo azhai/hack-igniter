@@ -7,6 +7,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 class Privilege_model extends MY_Model
 {
+    use \Mylib\ORM\MY_Nested_set;
+
     protected $_db_key = 'default';
     protected $_db_key_ro = 'default_ro';
     protected $_table_name = 't_privileges';

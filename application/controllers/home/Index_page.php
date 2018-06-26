@@ -15,9 +15,14 @@ class Index_page extends Admin_page
     {
         if ('post' === $this->request_method) {
             $this->load->model('default/admin_model');
+            $this->load->model('default/role_model');
             $data = $this->input->post();
             $user = $this->admin_model->check_password($data['username'], $data['password']);
             if ($user) {
+                $role = $this->role_model->get_array($user['role_id']);
+                $has_role = $role && empty($role['is_removed']);
+                $user['role_title'] = $has_role ? $role['title'] : '';
+                $user['is_super'] = $has_role ? $role['is_super'] : 0;
                 $this->session->set_userdata($user);
                 return $this->index();
             }
