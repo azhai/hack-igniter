@@ -58,8 +58,8 @@ class Entry_page extends Admin_page
         $result['layout'] = $this->input->is_ajax_request() ? 'bare' : 'base';
         $result['edit_url'] = $this->get_page_url('edit');
 
-        $this->load->model('default/account_model');
-        $this->account_model->increase_by_id(1, 3);
+        // $this->load->model('default/account_model');
+        // $this->account_model->increase_by_id(1, 3);
         return $result;
     }
 

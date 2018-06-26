@@ -15,17 +15,17 @@ class Admin_page extends MY_Controller
         $globals['layout_class'] = 'fixed-sidebar full-height-layout gray-bg';
         $globals['logout_url'] = str_replace('login', 'logout', $this->login_url);
         $globals['site_title'] = '测试网站';
-        $globals['menus'] = [
-            'menu_1' => '菜单1',
-            'menu_2' => '菜单2',
-            'menu_3' => '菜单3',
-        ];
+        $globals['menus'] = $globals['leaves'] = [];
+        if ($role_id = $this->session->userdata('role_id')) {
+            @list($globals['menus'], $globals['leaves']) = $this->get_menus($role_id);
+        }
         return $globals;
     }
 
     protected function initialize()
     {
         parent::initialize();
+        $this->load->helper('admin_ui');
         $this->load->library('session');
         $this->login_url = defined('SITE_LOGIN_URL') ? SITE_LOGIN_URL : '';
         $login_action = $this->get_page_url('login', [], true);
@@ -40,6 +40,32 @@ class Admin_page extends MY_Controller
         if ($this->session->has_userdata('username')) {
             return $this->session->userdata('username');
         }
+    }
+
+    protected function get_menus($role_id)
+    {
+        $this->load->model('default/menu_model');
+        $where = ['parent_id' => 0, 'is_removed' => 0];
+        $menus = $this->menu_model->get_menu_rows($where);
+        $pids = [];
+        $tops = $this->menu_model->foreign_data['children'];
+        foreach ($tops as $children) {
+            foreach ($children as $child) {
+                if ('#' === $child['url']) {
+                    $pids[] = $child['id'];
+                }
+            }
+        }
+
+        $where = ['parent_id' => $pids, 'is_removed' => 0];
+        $rows = $this->menu_model->get_menu_rows($where);
+        $leaves = array_fill_keys($pids, []);
+        foreach ($rows as $row) {
+            if ($pid = $row['parent_id']) {
+                $leaves[$pid][] = to_menu_link($row);
+            }
+        }
+        return [$menus, $leaves];
     }
 
     protected function filter_where(& $model)

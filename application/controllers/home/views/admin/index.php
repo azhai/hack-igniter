@@ -24,309 +24,54 @@ $this->extendTpl($theme_dir . '/layout.php'); ?>
                         <div class="logo-element">hAdmin
                         </div>
                     </li>
-                    <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
-                        <span class="ng-scope">分类</span>
-                    </li>
                     <li>
                         <a class="J_menuItem" href="/home/dashboard/index/">
                             <i class="fa fa-home"></i>
-                            <span class="nav-label">主页</span>
+                            <span class="nav-label">管理面板</span>
                         </a>
                     </li>
+                    <li class="line dk"></li>
+                    <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
+                        <span class="ng-scope">其他界面</span>
+                    </li>
+                    <?php foreach ($menus as $menu): ?>
                     <li>
+                        <?php if ($menu['children']): ?>
                         <a href="#">
-                            <i class="fa fa fa-bar-chart-o"></i>
-                            <span class="nav-label">统计图表</span>
+                            <i class="<?=$menu['icon']?>"></i>
+                            <span class="nav-label"><?=$menu['title']?></span>
                             <span class="fa arrow"></span>
                         </a>
                         <ul class="nav nav-second-level">
+                            <?php foreach ($menu['children'] as $submenu): ?>
                             <li>
-                                <a class="J_menuItem" href="/home/graph/echarts/">百度ECharts</a>
-                            </li>
-                            <li>
-                                <a class="J_menuItem" href="/home/graph/flot/">Flot</a>
-                            </li>
-                            <li>
-                                <a class="J_menuItem" href="/home/graph/morris/">Morris.js</a>
-                            </li>
-                            <li>
-                                <a class="J_menuItem" href="/home/graph/rickshaw/">Rickshaw</a>
-                            </li>
-                            <li>
-                                <a class="J_menuItem" href="/home/graph/peity/">Peity</a>
-                            </li>
-                            <li>
-                                <a class="J_menuItem" href="/home/graph/sparkline/">Sparkline</a>
-                            </li>
-                            <li>
-                                <a class="J_menuItem" href="/home/graph/metrics/">图表组合</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="line dk"></li>
-                    <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
-                        <span class="ng-scope">分类</span>
-                    </li>
-                    <li>
-                        <a href="/home/mailbox/index/"><i class="fa fa-envelope"></i> <span class="nav-label">信箱 </span><span class="label label-warning pull-right">16</span></a>
-                        <ul class="nav nav-second-level">
-                            <li><a class="J_menuItem" href="/home/mailbox/index/">收件箱</a>
-                            </li>
-                            <li><a class="J_menuItem" href="/home/mail/detail/">查看邮件</a>
-                            </li>
-                            <li><a class="J_menuItem" href="/home/mail/compose/">写信</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa fa-edit"></i> <span class="nav-label">表单</span><span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li><a class="J_menuItem" href="/home/form/basic/">基本表单</a>
-                            </li>
-                            <li><a class="J_menuItem" href="/home/form/validate/">表单验证</a>
-                            </li>
-                            <li><a class="J_menuItem" href="/home/form/advanced/">高级插件</a>
-                            </li>
-                            <li><a class="J_menuItem" href="/home/form/wizard/">表单向导</a>
-                            </li>
-                            <li>
-                                <a href="#">文件上传 <span class="fa arrow"></span></a>
-                                <ul class="nav nav-third-level">
-                                    <li><a class="J_menuItem" href="/home/form/webuploader/">百度WebUploader</a>
-                                    </li>
-                                    <li><a class="J_menuItem" href="/home/form/file_upload/">DropzoneJS</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li>
-                                <a href="#">编辑器 <span class="fa arrow"></span></a>
-                                <ul class="nav nav-third-level">
-                                    <li><a class="J_menuItem" href="/home/form/editors/">富文本编辑器</a>
-                                    </li>
-                                    <li><a class="J_menuItem" href="/home/form/simditor/">simditor</a>
-                                    </li>
-                                    <li><a class="J_menuItem" href="/home/form/markdown/">MarkDown编辑器</a>
-                                    </li>
-                                    <li><a class="J_menuItem" href="/home/code/editor/">代码编辑器</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li><a class="J_menuItem" href="/home/layerdate/index/">日期选择器layerDate</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa fa-desktop"></i> <span class="nav-label">页面</span><span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li><a class="J_menuItem" href="/home/contacts/index/">联系人</a>
-                            </li>
-                            <li><a class="J_menuItem" href="/home/profile/index/">个人资料</a>
-                            </li>
-                            <li>
-                                <a href="#">项目管理 <span class="fa arrow"></span></a>
-                                <ul class="nav nav-third-level">
-                                    <li><a class="J_menuItem" href="/home/projects/index/">项目</a>
-                                    </li>
-                                    <li><a class="J_menuItem" href="/home/project/detail/">项目详情</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li><a class="J_menuItem" href="/home/teams/board/">团队管理</a>
-                            </li>
-                            <li><a class="J_menuItem" href="/home/social/feed/">信息流</a>
-                            </li>
-                            <li><a class="J_menuItem" href="/home/clients/index/">客户管理</a>
-                            </li>
-                            <li><a class="J_menuItem" href="/home/file/manager/">文件管理器</a>
-                            </li>
-                            <li><a class="J_menuItem" href="/home/calendar/index/">日历</a>
-                            </li>
-                            <li>
-                                <a href="#">博客 <span class="fa arrow"></span></a>
-                                <ul class="nav nav-third-level">
-                                    <li><a class="J_menuItem" href="/home/blog/index/">文章列表</a>
-                                    </li>
-                                    <li><a class="J_menuItem" href="/home/article/index/">文章详情</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li><a class="J_menuItem" href="/home/faq/index/">FAQ</a>
-                            </li>
-                            <li>
-                                <a href="#">时间轴 <span class="fa arrow"></span></a>
-                                <ul class="nav nav-third-level">
-                                    <li><a class="J_menuItem" href="/home/timeline/index/">时间轴</a>
-                                    </li>
-                                    <li><a class="J_menuItem" href="/home/timeline/v2/">时间轴v2</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li><a class="J_menuItem" href="/home/pin/board/">标签墙</a>
-                            </li>
-                            <li>
-                                <a href="#">单据 <span class="fa arrow"></span></a>
-                                <ul class="nav nav-third-level">
-                                    <li><a class="J_menuItem" href="/home/invoice/index/">单据</a>
-                                    </li>
-                                    <li><a class="J_menuItem" href="/home/invoice/print/">单据打印</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li><a class="J_menuItem" href="/home/search/results/">搜索结果</a>
-                            </li>
-                            <li><a class="J_menuItem" href="/home/forum/main/">论坛</a>
-                            </li>
-                            <li>
-                                <a href="#">即时通讯 <span class="fa arrow"></span></a>
-                                <ul class="nav nav-third-level">
-                                    <li><a class="J_menuItem" href="/home/chat/view/">聊天窗口</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li>
-                                <a href="#">登录注册相关 <span class="fa arrow"></span></a>
-                                <ul class="nav nav-third-level">
-                                    <li><a href="/home/login/index/" target="_blank">登录页面</a>
-                                    </li>
-                                    <li><a href="/home/login/v2/" target="_blank">登录页面v2</a>
-                                    </li>
-                                    <li><a href="/home/register/index/" target="_blank">注册页面</a>
-                                    </li>
-                                    <li><a href="/home/lockscreen/index/" target="_blank">登录超时</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li><a class="J_menuItem" href="/home/errors/404/">404页面</a>
-                            </li>
-                            <li><a class="J_menuItem" href="/home/errors/500/">500页面</a>
-                            </li>
-                            <li><a class="J_menuItem" href="/home/empty/page/">空白页</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="line dk"></li>
-                    <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
-                        <span class="ng-scope">分类</span>
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa fa-flask"></i> <span class="nav-label">UI元素</span><span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li><a class="J_menuItem" href="/home/typography/index/">排版</a>
-                            </li>
-                            <li>
-                                <a href="#">字体图标 <span class="fa arrow"></span></a>
+                                <?php if ('#' === $submenu['url']): ?>
+                                <a href="#"><?=$submenu['title']?> <span class="fa arrow"></span></a>
                                 <ul class="nav nav-third-level">
                                     <li>
-                                        <a class="J_menuItem" href="/home/fontawesome/index/">Font Awesome</a>
-                                    </li>
-                                    <li>
-                                        <a class="J_menuItem" href="/home/glyphicons/index/">Glyphicon</a>
-                                    </li>
-                                    <li>
-                                        <a class="J_menuItem" href="/home/iconfont/index/">阿里巴巴矢量图标库</a>
+                                    <?=implode("\n</li>\n<li>\n", $leaves[$submenu['id']])?>
                                     </li>
                                 </ul>
+                                <?php else:
+                                    echo to_menu_link($submenu);
+                                endif; ?>
                             </li>
-                            <li>
-                                <a href="#">拖动排序 <span class="fa arrow"></span></a>
-                                <ul class="nav nav-third-level">
-                                    <li><a class="J_menuItem" href="/home/draggable/panels/">拖动面板</a>
-                                    </li>
-                                    <li><a class="J_menuItem" href="/home/agile/board/">任务清单</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li><a class="J_menuItem" href="/home/buttons/index/">按钮</a>
-                            </li>
-                            <li><a class="J_menuItem" href="/home/tabs/panels/">选项卡 &amp; 面板</a>
-                            </li>
-                            <li><a class="J_menuItem" href="/home/notifications/index/">通知 &amp; 提示</a>
-                            </li>
-                            <li><a class="J_menuItem" href="/home/badges/labels/">徽章，标签，进度条</a>
-                            </li>
-                            <li>
-                                <a class="J_menuItem" href="/home/grid/options/">栅格</a>
-                            </li>
-                            <li><a class="J_menuItem" href="/home/plyr/index/">视频、音频</a>
-                            </li>
-                            <li>
-                                <a href="#">弹框插件 <span class="fa arrow"></span></a>
-                                <ul class="nav nav-third-level">
-                                    <li><a class="J_menuItem" href="/home/layer/index/">Web弹层组件layer</a>
-                                    </li>
-                                    <li><a class="J_menuItem" href="/home/modal/window/">模态窗口</a>
-                                    </li>
-                                    <li><a class="J_menuItem" href="/home/sweetalert/index/">SweetAlert</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li>
-                                <a href="#">树形视图 <span class="fa arrow"></span></a>
-                                <ul class="nav nav-third-level">
-                                    <li><a class="J_menuItem" href="/home/jstree/index/">jsTree</a>
-                                    </li>
-                                    <li><a class="J_menuItem" href="/home/tree/view/">Bootstrap Tree View</a>
-                                    </li>
-                                    <li><a class="J_menuItem" href="/home/nestable/list/">nestable</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li><a class="J_menuItem" href="/home/toastr/notifications/">Toastr通知</a>
-                            </li>
-                            <li><a class="J_menuItem" href="/home/diff/index/">文本对比</a>
-                            </li>
-                            <li><a class="J_menuItem" href="/home/spinners/index/">加载动画</a>
-                            </li>
-                            <li><a class="J_menuItem" href="/home/widgets/index/">小部件</a>
-                            </li>
+                            <?php endforeach; ?>
                         </ul>
+                        <?php else: ?>
+                        <a class="J_menuItem" href="<?=$menu['url']?>">
+                            <i class="<?=$menu['icon']?>"></i>
+                            <span class="nav-label"><?=$menu['title']?></span>
+                            <?php if ($menu['corner']): echo to_corner_span($menu['corner']); endif; ?>
+                        </a>
+                        <?php endif; ?>
                     </li>
-                    <li>
-                        <a href="#"><i class="fa fa-table"></i> <span class="nav-label">表格</span><span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li><a class="J_menuItem" href="/home/table/basic/">基本表格</a>
-                            </li>
-                            <li><a class="J_menuItem" href="/home/table/data_tables/">DataTables</a>
-                            </li>
-                            <li><a class="J_menuItem" href="/home/table/jqgrid/">jqGrid</a>
-                            </li>
-                            <li><a class="J_menuItem" href="/home/table/foo_table/">Foo Tables</a>
-                            </li>
-                            <li><a class="J_menuItem" href="/home/table/bootstrap/">Bootstrap Table
-                                <span class="label label-danger pull-right">推荐</span></a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="line dk"></li>
-                    <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
-                        <span class="ng-scope">分类</span>
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa fa-picture-o"></i> <span class="nav-label">相册</span><span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li><a class="J_menuItem" href="/home/basic/gallery/">基本图库</a>
-                            </li>
-                            <li><a class="J_menuItem" href="/home/carousel/index/">图片切换</a>
-                            </li>
-                            <li><a class="J_menuItem" href="/home/blueimp/index/">Blueimp相册</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a class="J_menuItem" href="/home/css/animation/"><i class="fa fa-magic"></i> <span class="nav-label">CSS动画</span></a>
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa fa-cutlery"></i> <span class="nav-label">工具 </span><span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li><a class="J_menuItem" href="/home/form/builder/">表单构建器</a>
-                            </li>
-                        </ul>
-                    </li>
-
+                    <?php endforeach; ?>
                 </ul>
             </div>
         </nav>
         <!--左侧导航结束-->
+
         <!--右侧部分开始-->
         <div id="page-wrapper" class="gray-bg dashbard-1">
             <div class="row border-bottom">
