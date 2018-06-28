@@ -33,20 +33,13 @@ $this->extendTpl($theme_dir . '/layout.php'); ?>
                         </a>
                         <ul class="nav nav-second-level">
                             <li>
-                                <a class="J_menuItem" href="/home/admin/index/">用户</a>
-                            </li>
-                            <li>
-                                <a class="J_menuItem" href="/home/admin/index/">角色</a>
-                            </li>
-                            <li>
-                                <a class="J_menuItem" href="/home/admin/index/">菜单</a>
-                            </li>
-                        </ul>
-                    </li>
+                                <a class="J_menuItem" href="/home/graph/peity/">Peity</a>
+                                <a class="J_menuItem" href="/home/graph/sparkline/">Sparkline</a>
+                                <a class="J_menuItem" href="/home/graph/metrics/">图表组合</a>
                     <?php endif; ?>
                     <li class="line dk"></li>
                     <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
-                        <span class="ng-scope">演示界面</span>
+                        <span class="ng-scope">分类</span>
                     </li>
                     <?php foreach ($menus as $menu): ?>
                     <li>
