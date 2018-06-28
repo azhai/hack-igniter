@@ -15,13 +15,14 @@ $this->extendTpl($theme_dir . '/layout.php'); ?>
                             <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                                 <span class="clear">
                                     <span class="block m-t-xs" style="font-size:20px;">
-                                        <i class="fa fa-area-chart"></i>
-                                        <strong class="font-bold">hAdmin</strong>
+                                        <i class="fa fa-clone"></i>
+                                        <strong class="font-bold">管理后台</strong>
                                     </span>
                                 </span>
                             </a>
                         </div>
-                        <div class="logo-element">hAdmin
+                        <div class="logo-element">
+                            <i class="fa fa-clone"></i>
                         </div>
                     </li>
                     <?php if ($user['is_super']): ?>
@@ -36,6 +37,9 @@ $this->extendTpl($theme_dir . '/layout.php'); ?>
                                 <a class="J_menuItem" href="/home/graph/peity/">Peity</a>
                                 <a class="J_menuItem" href="/home/graph/sparkline/">Sparkline</a>
                                 <a class="J_menuItem" href="/home/graph/metrics/">图表组合</a>
+                            </li>
+                        </ul>
+                    </li>
                     <?php endif; ?>
                     <li class="line dk"></li>
                     <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
