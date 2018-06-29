@@ -118,4 +118,28 @@ class CI_DB extends CI_DB_query_builder
             'qb_no_escape'      => array(),
         ));
     }
+
+    /**
+     * Compile GROUP BY
+     */
+    protected function _compile_group_by()
+    {
+        if ($result = parent::_compile_group_by()) {
+            $this->qb_groupby = array_unique($this->qb_groupby);
+            $result = "\nGROUP BY ".implode(', ', $this->qb_groupby);
+        }
+        return $result;
+    }
+
+    /**
+     * Compile ORDER BY
+     */
+    protected function _compile_order_by()
+    {
+        if ($result = parent::_compile_order_by()) {
+            $this->qb_orderby = array_unique($this->qb_orderby);
+            $result = "\nORDER BY ".implode(', ', $this->qb_orderby);
+        }
+        return $result;
+    }
 }

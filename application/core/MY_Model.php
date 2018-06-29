@@ -275,21 +275,8 @@ class MY_Model extends CI_Model implements ArrayAccess
         return $this->result->result_array();
     }
 
-    public function all($limit = null, $offset = 0, $columns = '*')
+    protected function _exec_where(& $db, $where = null, $columns = null)
     {
-        $table = $this->table_name();
-        $db = $this->reconnect();
-        if ($columns && '*' !== $columns) {
-            $db->select($columns);
-        }
-        $this->result = $db->get($table, $limit, $offset);
-        return $this->fetch_result();
-    }
-
-    public function some($where, $limit = null, $columns = '*')
-    {
-        $table = $this->table_name();
-        $db = $this->reconnect();
         if ($columns && '*' !== $columns) {
             $db->select($columns);
         }
@@ -303,10 +290,44 @@ class MY_Model extends CI_Model implements ArrayAccess
                     $db->where_in($key, $value);
                 }
             }
-        } else {
+        } elseif (!empty($where)) {
             $db->where($where);
         }
-        $this->result = $db->get($table, $limit);
+        return $this;
+    }
+
+    protected function _exec_select(& $db, $table = '', $reset = true)
+    {
+        if ($this->is_open_mixin('senior')) {
+            $sql = $this->get_group_order_sql($db, $table, $reset);
+        } else {
+            $sql = $db->get_compiled_select($table, $reset);
+        }
+        $result = $db->query($sql);
+        return $result;
+    }
+
+    public function all($limit = null, $offset = 0, $columns = '*')
+    {
+        $table = $this->table_name();
+        $db = $this->reconnect();
+        if (!empty($limit)) {
+            $db->limit($limit, $offset);
+        }
+        $this->_exec_where($db, null, $columns);
+        $this->result = $this->_exec_select($db, $table, true);
+        return $this->fetch_result();
+    }
+
+    public function some($where, $limit = null, $columns = '*')
+    {
+        $table = $this->table_name();
+        $db = $this->reconnect();
+        if (!empty($limit)) {
+            $db->limit($limit);
+        }
+        $this->_exec_where($db, $where, $columns);
+        $this->result = $this->_exec_select($db, $table, true);
         return $this->fetch_result();
     }
 
@@ -314,10 +335,9 @@ class MY_Model extends CI_Model implements ArrayAccess
     {
         $table = $this->table_name();
         $db = $this->reconnect();
-        if ($columns && '*' !== $columns) {
-            $db->select($columns);
-        }
-        $this->result = $db->get_where($table, $where, 1);
+        $db->limit(1);
+        $this->_exec_where($db, $where, $columns);
+        $this->result = $this->_exec_select($db, $table, true);
         $rows = $this->fetch_result();
         if (is_string($type) && $type) {
             if ('array' === strtolower($type)) {

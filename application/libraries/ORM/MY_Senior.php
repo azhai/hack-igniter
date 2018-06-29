@@ -43,29 +43,28 @@ trait MY_Senior
      * 必须使用RIGHT JOIN自身的方法，这里自动实现此功能
      * @return $this
      */
-    public function process_group_order_by()
+    public function get_group_order_sql(& $db, $table = '', $reset = true)
     {
         if (empty($this->_group_order)) {
-            return $this;
+            return $db->get_compiled_select($table, $reset);;
         }
         @list($group, $order, $direction) = $this->_group_order;
-        $table = $this->table_name();
-        $select = $this->db->get_select_string(false) ?: '*';
-        $where = $this->db->get_where_string(false, false);
         $min_or_max = ('ASC' === $direction) ? 'MIN' : 'MAX';
-        $sql = 'SELECT `%s` as _grp_idx, %s(`%s`) as _max_val FROM `%s`';
-        $sub_query = sprintf($sql, $group, $min_or_max, $order, $table);
-        if ($where) {
-            $sub_query .= ' WHERE ' . $where;
-        }
-        $sub_query .= ' GROUP BY _grp_idx';
+        $db->order_by($order, $direction);
+        $sql = $db->get_compiled_select($table, $reset);
+        var_dump($sql); exit;
 
-        $miner = new Miner($this->db->mysql_pool);
-        $miner->select($select)->from($table);
-        $criteria = sprintf('`%s`=SELF._max_val', $order);
-        $miner->right_join('(' . $sub_query . ')', $criteria, 'SELF');
-        $miner->order_by($order, $direction);
-        $this->db = $miner;
+
+        $tpl = <<<EOD
+SELECT %s FROM `%s`
+RIGHT JOIN (
+    SELECT `%s` as _grp_idx, %s(`%s`) as _max_val
+    FROM `%s` WHERE `%s` IS NOT NULL %s GROUP BY _grp_idx
+) SELF ON `%s`=SELF._grp_idx AND `%s`=SELF._max_val
+ORDER BY `%s` DESC
+EOD;
+        $sql = sprintf($tpl, $select, $table, $group, $min_or_max, $order,
+                $table, $group, $where, $group, $order, $order);
         return $this;
     }
 }
