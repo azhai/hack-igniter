@@ -17,7 +17,7 @@ $this->extendTpl($theme_dir . '/layout.php'); ?>
         </div>
         <div class="signup-footer">
             <div class="pull-left">
-                &copy; hAdmin
+                &copy; 管理后台
             </div>
         </div>
     </div>

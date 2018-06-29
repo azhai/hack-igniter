@@ -61,11 +61,9 @@ class Entry_page extends Admin_page
         // $this->load->model('default/account_model');
         // $this->account_model->increase_by_id(1, 3);
 
-        // $this->load->model('default/privilege_model');
-        // $node = $this->privilege_model->get_nested(['operation' => 'all']);
-        // $options = $node->get_options('operation');
-        // $list = $node->create_child($node->progeny_rows[9]);
-        // var_dump($options, $list); exit;
+        $this->load->model('default/privilege_model');
+        $node = $this->privilege_model->get_node_by_id(9);
+        var_dump($node); exit;
 
         return $result;
     }

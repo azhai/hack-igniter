@@ -215,6 +215,7 @@ class MY_Nested_node
             }
             $node->progeny_rows[$key] = & $this->progeny_rows[$key];
         }
+        $node->parent = $this;
         return $node;
     }
 
