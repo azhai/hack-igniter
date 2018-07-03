@@ -33,7 +33,11 @@ trait MY_Senior
         if (empty($order)) {
             $order = $this->primary_key();
         }
-        $this->_group_order = [$group, $order, $direction];
+        $this->_group_order = [
+            $this->protect_identifiers($group),
+            $this->protect_identifiers($order),
+            $direction,
+        ];
         $this->_mixin_switches['senior'] = true;
         return $this;
     }
@@ -49,22 +53,19 @@ trait MY_Senior
             return $db->get_compiled_select($table, $reset);;
         }
         @list($group, $order, $direction) = $this->_group_order;
-        $min_or_max = ('ASC' === $direction) ? 'MIN' : 'MAX';
-        $db->order_by($order, $direction);
+        $db->where($group . ' IS NOT NULL', null, false);
+        $db->group_by('_grp_idx', false);
         $sql = $db->get_compiled_select($table, $reset);
-        var_dump($sql); exit;
 
-
-        $tpl = <<<EOD
-SELECT %s FROM `%s`
-RIGHT JOIN (
-    SELECT `%s` as _grp_idx, %s(`%s`) as _max_val
-    FROM `%s` WHERE `%s` IS NOT NULL %s GROUP BY _grp_idx
-) SELF ON `%s`=SELF._grp_idx AND `%s`=SELF._max_val
-ORDER BY `%s` DESC
-EOD;
-        $sql = sprintf($tpl, $select, $table, $group, $min_or_max, $order,
-                $table, $group, $where, $group, $order, $order);
-        return $this;
+        $min_or_max = ('ASC' === $direction) ? 'MIN' : 'MAX';
+        $tpl = 'SELECT %s as _grp_idx, %s(%s) as _max_val';
+        $select = sprintf($tpl, $group, $min_or_max, $order);
+        $from = 'FROM ' . $this->protect_identifiers($table);
+        $join = $from . "\nRIGHT JOIN (\n" . $select . "\n" . $from;
+        $tpl = ') SELF ON %s=SELF._grp_idx AND %s=SELF._max_val';
+        $tail = "\n" . sprintf($tpl, $group, $order) . "\n"
+            . sprintf('ORDER BY %s %s', $order, $direction);
+        $sql = str_replace($from, $join, $sql) . $tail;
+        return $sql;
     }
 }

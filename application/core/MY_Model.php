@@ -47,7 +47,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
  */
 class MY_Model extends CI_Model implements ArrayAccess
 {
-    //use \Mylib\ORM\MY_Senior;
+    use \Mylib\ORM\MY_Senior;
 
     public $result = null;
 
