@@ -15,9 +15,10 @@ class Admin_page extends MY_Controller
         $globals['layout_class'] = 'fixed-sidebar full-height-layout gray-bg';
         $globals['logout_url'] = str_replace('login', 'logout', $this->login_url);
         $globals['site_title'] = '测试网站';
-        $globals['user'] = $this->session->userdata();
-        $globals['menus'] = $globals['leaves'] = [];
-        if ($role_id = $this->session->userdata('role_id')) {
+        $globals['user'] = $globals['menus'] = $globals['leaves'] = [];
+        if ($this->is_authed()) {
+            $globals['user'] = $this->session->userdata();
+            $role_id = $this->session->userdata('role_id');
             $is_super = $this->session->userdata('is_super');
             $menus = $this->get_menus($role_id, $is_super);
             @list($globals['menus'], $globals['leaves']) = $menus;
@@ -38,17 +39,25 @@ class Admin_page extends MY_Controller
         }
     }
 
-    protected function is_authed()
+    public function is_authed()
     {
         if ($this->session->has_userdata('username')) {
             return $this->session->userdata('username');
         }
     }
 
+    public function has_perm($menu_id, $operation = 'all')
+    {
+        if ($this->is_authed()) {
+            $role_id = $this->session->userdata('role_id');
+            $is_super = $this->session->userdata('is_super');
+            return $this->role_has_privilege($role_id, $is_super, $menu_id, $operation);
+        }
+    }
+
     protected function get_menus($role_id, $is_revoked = 0)
     {
         $this->load->model('default/menu_model');
-        $this->load->model('default/privilege_model');
         $this->load->model('default/role_privilege_model');
         $rows = $this->role_privilege_model->get_role_privs($role_id, $is_revoked);
         $menu_ids = array_column($rows, 'menu_id');
@@ -63,6 +72,35 @@ class Admin_page extends MY_Controller
             }
         }
         return [$menus, $leaves];
+    }
+
+    protected function role_has_privilege($role_id, $is_revoked = 0, $menu_id = 0, $operation = 'all')
+    {
+        $this->load->model('default/menu_model');
+        $this->load->model('default/privilege_model');
+        $this->load->model('default/role_privilege_model');
+
+        $rows = $this->menu_model->get_menu_rows([$menu_id, ]);
+        $menu_ids = array_column($rows, 'id');
+        array_unshift($menu_ids, 0);
+        $priv_ids = [];
+        $where = ['menu_id' => $menu_ids, 'operation' => $operation, 'is_removed' => 0];
+        $row = $this->privilege_model->order_by('menu_id', 'DESC')->one($where);
+        if ($row && $row['id']) {
+            $node = $this->privilege_model->get_node_by_id($row['id']);
+            $priv_ids = $node->get_self_parent_ids();
+        }
+
+        $rows = [];
+        if ($menu_ids && $priv_ids) {
+            $where = [
+                'role_id' => $role_id, 'is_revoked' => $is_revoked,
+                'menu_id' => $menu_ids, 'privilege_id' => $priv_ids,
+            ];
+            $rows = $this->role_privilege_model->parse_where($where)->all();
+        }
+        $has_priv = (count($rows) > 0) ? 1 : 0;
+        return $is_revoked ^ $has_priv;
     }
 
     protected function filter_where(& $model)

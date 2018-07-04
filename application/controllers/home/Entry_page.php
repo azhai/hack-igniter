@@ -61,10 +61,6 @@ class Entry_page extends Admin_page
         // $this->load->model('default/account_model');
         // $this->account_model->increase_by_id(1, 3);
 
-        // $this->load->model('default/privilege_model');
-        // $node = $this->privilege_model->get_node_by_id(9);
-        // var_dump($node); exit;
-
         // $this->load->model('default/role_privilege_model');
         // $this->role_privilege_model->group_order_by('role_id', 'menu_id', 'ASC');
         // $rows = $this->role_privilege_model->all();

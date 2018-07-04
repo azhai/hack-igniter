@@ -196,6 +196,16 @@ class MY_Nested_node
         return 0 === $this->count_children();
     }
 
+    public function get_self_parent_ids()
+    {
+        $result = [];
+        $node = $this;
+        do {
+            $result[] = $node->id();
+        } while ($node = $node->parent);
+        return $result;
+    }
+
     public function count_children()
     {
         return ($this->right_no() - $this->left_no() - 1) / 2;
