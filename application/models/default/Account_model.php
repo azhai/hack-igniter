@@ -42,8 +42,6 @@ class Account_model extends MY_Model
                 'amount' => $amount,
                 'after_balance' => $account['balance'],
                 'currency' => $account['currency'],
-                'created_at' => date('Y-m-d H:i:s'),
-                'changed_at' => date('Y-m-d H:i:s'),
             ];
             $this->load->model('default/account_history_model');
             $this->account_history_model->insert($data);

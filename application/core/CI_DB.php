@@ -48,6 +48,7 @@ class CI_DB extends CI_DB_query_builder
         }
         if ($this->expired_timestamp > 0 && $this->expired_timestamp < time()) {
             $this->close(); //连接过期
+            $this->reconnect();
         }
         $name = self::$last_active_group;
         if ($name && $is_exists = isset(self::$conn_registry[$name])) {

@@ -22,7 +22,7 @@ CREATE TABLE `t_accounts` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='账户';
 
 INSERT INTO `t_accounts` (`id`, `user_id`, `balance`, `currency`, `created_at`, `changed_at`, `is_removed`) VALUES
-(1, 1,  0,  'COIN', '2018-05-31 16:00:00',  '2018-05-31 16:00:00',  0);
+(1, 1,  12, 'COIN', '2018-05-31 16:00:00',  '2018-07-04 02:56:38',  0);
 
 DROP TABLE IF EXISTS `t_account_history`;
 CREATE TABLE `t_account_history` (
@@ -41,6 +41,11 @@ CREATE TABLE `t_account_history` (
   KEY `amount` (`amount`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='账户流水';
 
+INSERT INTO `t_account_history` (`id`, `account_id`, `amount`, `after_balance`, `currency`, `cashier`, `remark`, `created_at`, `changed_at`, `is_removed`) VALUES
+(1, 1,  3,  3,  'COIN', NULL, NULL, '0000-00-00 00:00:00',  '0000-00-00 00:00:00',  0),
+(2, 1,  3,  6,  'COIN', NULL, NULL, '0000-00-00 00:00:00',  '0000-00-00 00:00:00',  0),
+(3, 1,  3,  9,  'COIN', NULL, NULL, '2018-07-04 02:56:28',  '2018-07-04 02:56:28',  0),
+(4, 1,  3,  12, 'COIN', NULL, NULL, '2018-07-04 02:56:38',  '2018-07-04 02:56:38',  0);
 
 DROP TABLE IF EXISTS `t_admins`;
 CREATE TABLE `t_admins` (
@@ -62,7 +67,7 @@ CREATE TABLE `t_admins` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='管理员';
 
 INSERT INTO `t_admins` (`id`, `role_id`, `username`, `password`, `nickname`, `gender`, `email`, `phone`, `last_seen`, `last_ipaddr`, `created_at`, `changed_at`, `is_removed`) VALUES
-(1, 1,  'admin',  '$2y$08$/1MF1YuhbyzKBH3SQONBj.wqwK0JxqEPCdWBrE0i6qyYKA4FD7Qf2', '管理员',  'M',  'admin@where.com',  NULL, NULL, NULL, '2018-05-31 16:00:00',  '2018-05-31 16:00:00',  0),
+(1, 2,  'admin',  '$2y$08$/1MF1YuhbyzKBH3SQONBj.wqwK0JxqEPCdWBrE0i6qyYKA4FD7Qf2', '管理员',  'M',  'admin@where.com',  NULL, NULL, NULL, '2018-05-31 16:00:00',  '2018-05-31 16:00:00',  0),
 (2, 2,  'bob',  '$2y$08$/1MF1YuhbyzKBH3SQONBj.wqwK0JxqEPCdWBrE0i6qyYKA4FD7Qf2', 'Bob薄', 'M',  'bob@where.com',  NULL, NULL, NULL, '2018-05-31 16:00:00',  '2018-05-31 16:00:00',  0),
 (3, 3,  'cherry', '$2y$08$/1MF1YuhbyzKBH3SQONBj.wqwK0JxqEPCdWBrE0i6qyYKA4FD7Qf2', 'Cherry陈',  'F',  'cherry@where.com', NULL, NULL, NULL, '2018-05-31 16:00:00',  '2018-05-31 16:00:00',  0),
 (4, 3,  'david',  '$2y$08$/1MF1YuhbyzKBH3SQONBj.wqwK0JxqEPCdWBrE0i6qyYKA4FD7Qf2', 'David戴', 'M',  'david@where.com',  NULL, NULL, NULL, '2018-05-31 16:00:00',  '2018-05-31 16:00:00',  0),
@@ -292,7 +297,7 @@ CREATE TABLE `t_role_privileges` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='角色权限';
 
 INSERT INTO `t_role_privileges` (`id`, `role_id`, `menu_id`, `privilege_id`, `is_revoked`) VALUES
-(1, 2,  102,  10, 1),
+(1, 2,  99, 10, 1),
 (2, 3,  1,  8,  0),
 (3, 3,  2,  8,  0),
 (4, 3,  10, 8,  0),
@@ -304,7 +309,9 @@ INSERT INTO `t_role_privileges` (`id`, `role_id`, `menu_id`, `privilege_id`, `is
 (10,  3,  99, 8,  0),
 (11,  3,  100,  8,  0),
 (12,  4,  28, 8,  0),
-(13,  4,  62, 8,  0);
+(13,  4,  62, 8,  0),
+(14,  4,  9,  8,  0),
+(15,  2,  97, 10, 1);
 
 DROP TABLE IF EXISTS `t_schools`;
 CREATE TABLE `t_schools` (
@@ -457,4 +464,4 @@ CREATE TABLE `t_users` (
 INSERT INTO `t_users` (`id`, `password`, `nickname`, `email`, `phone`, `last_seen`, `last_ipaddr`, `created_at`, `changed_at`, `is_removed`) VALUES
 (1, '$2y$08$/1MF1YuhbyzKBH3SQONBj.wqwK0JxqEPCdWBrE0i6qyYKA4FD7Qf2', '管理员',  'admin@where.com',  NULL, NULL, NULL, '2018-05-31 16:00:00',  '2018-05-31 16:00:00',  0);
 
--- 2018-06-29 09:02:28
+-- 2018-07-04 15:12:44

@@ -135,6 +135,7 @@ class MY_Model extends CI_Model implements ArrayAccess
     {
         if ($force) {
             $this->_db_conn->close();
+            $this->_db_conn->reconnect();
         }
         if (empty($this->_db_conn)) {
             $this->_db_conn = $this->load->database($this->_db_key, true);
@@ -148,9 +149,7 @@ class MY_Model extends CI_Model implements ArrayAccess
         if ($use_writer) { //读写分离下使用主库
             $this->_db_conn->switch_conn(true);
         }
-        //确保连接正常
-        $this->_db_conn->reconnect();
-        $this->_db_conn->initialize();
+        $this->_db_conn->initialize(); //确保连接正常
         return $this->_db_conn;
     }
 
@@ -251,6 +250,14 @@ class MY_Model extends CI_Model implements ArrayAccess
     public function parse_select($columns = null)
     {
         if ($columns && '*' !== $columns) {
+            if (is_array($columns)) {
+                foreach ($columns as $alias => & $column) {
+                    if (!is_numeric($alias)) {
+                        $column .= ' as ' . $alias;
+                    }
+                }
+                $columns = array_values($columns);
+            }
             $db = $this->reconnect();
             $db->select($columns);
         }
@@ -366,7 +373,7 @@ class MY_Model extends CI_Model implements ArrayAccess
     public function insert($row, $is_replace = false, $escape = null)
     {
         if ($this->is_open_mixin('senior')) {
-            $row = $this->before_insert($row);
+            $row = $this->before_insert($row, $escape);
         }
         return $this->insert_unsafe($row, $is_replace, $escape);
     }
@@ -398,8 +405,11 @@ class MY_Model extends CI_Model implements ArrayAccess
 
     public function delete($where = '', $limit = null, $escape = null)
     {
-        $set = $this->is_open_mixin('senior') ? $this->before_delete() : [];
-        if ($set && $set = $this->before_update($set, $where)) {
+        $set = [];
+        if ($this->is_open_mixin('senior')) {
+            $set = $this->before_delete(false, $escape);
+        }
+        if ($set && $set = $this->before_update($set, $escape)) {
             $result = $this->update_unsafe($set, $where, $limit, $escape);
         } else {
             $result = $this->delete_unsafe($where, $limit, $escape);
@@ -434,7 +444,7 @@ class MY_Model extends CI_Model implements ArrayAccess
     public function update(array $set, $where = null, $limit = null, $escape = null)
     {
         if ($this->is_open_mixin('senior')) {
-            $set = $this->before_update($set, $where);
+            $set = $this->before_update($set, $escape);
         }
         return $this->update_unsafe($set, $where, $limit, $escape);
     }

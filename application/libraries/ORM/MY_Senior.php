@@ -57,7 +57,6 @@ trait MY_Senior
             $this->protect_identifiers($order),
             $direction,
         ];
-        //$this->_mixin_switches['senior'] = true;
         return $this;
     }
 
@@ -85,10 +84,13 @@ trait MY_Senior
         return $sql;
     }
 
-    public function before_insert($row)
+    public function before_insert($row, $escape = null)
     {
         if (is_array($row)) {
             $now = date('Y-m-d H:i:s');
+            if (false === $escape) {
+                $now = "'" . $now . "'";
+            }
             if ($this->_created_field) {
                 $row[$this->_created_field] = $now;
             }
@@ -99,16 +101,19 @@ trait MY_Senior
         return $row;
     }
 
-    public function before_update(array $set, $where = null)
+    public function before_update(array $set, $escape = null)
     {
         if ($this->_changed_field) {
             $now = date('Y-m-d H:i:s');
+            if (false === $escape) {
+                $now = "'" . $now . "'";
+            }
             $set[$this->_changed_field] = $now;
         }
         return $set;
     }
 
-    public function before_delete($is_resume = false)
+    public function before_delete($is_resume = false, $escape = null)
     {
         return ['is_removed' => $is_resume ? 0 : 1];
     }

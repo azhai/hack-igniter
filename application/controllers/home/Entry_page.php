@@ -65,10 +65,10 @@ class Entry_page extends Admin_page
         // $node = $this->privilege_model->get_node_by_id(9);
         // var_dump($node); exit;
 
-        $this->load->model('default/role_privilege_model');
-        $this->role_privilege_model->group_order_by('role_id', 'menu_id', 'ASC');
-        $rows = $this->role_privilege_model->all();
-        var_dump($rows); exit;
+        // $this->load->model('default/role_privilege_model');
+        // $this->role_privilege_model->group_order_by('role_id', 'menu_id', 'ASC');
+        // $rows = $this->role_privilege_model->all();
+        // var_dump($rows); exit;
 
         return $result;
     }

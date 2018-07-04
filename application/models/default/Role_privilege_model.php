@@ -27,18 +27,18 @@ class Role_privilege_model extends MY_Model
         ];
     }
 
-    public function before_delete($is_resume = false)
+    public function before_delete($is_resume = false, $escape = null)
     {
         return ['is_revoked' => $is_resume ? 0 : 1];
     }
 
-    public function get_rows_where($role_id, $is_revoked = 0)
+    public function get_role_privs($role_id, $is_revoked = 0)
     {
         $where = ['role_id' => $role_id, 'is_revoked' => $is_revoked];
         return $this->parse_where($where)->all();
     }
 
-    public function save_rows_where(array $rows, $role_id)
+    public function save_role_privs(array $rows, $role_id)
     {
         $uniq = 'menu_id:privilege_id';
         $where = ['role_id' => $role_id];

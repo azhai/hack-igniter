@@ -18,7 +18,9 @@ class Admin_page extends MY_Controller
         $globals['user'] = $this->session->userdata();
         $globals['menus'] = $globals['leaves'] = [];
         if ($role_id = $this->session->userdata('role_id')) {
-            @list($globals['menus'], $globals['leaves']) = $this->get_menus($role_id);
+            $is_super = $this->session->userdata('is_super');
+            $menus = $this->get_menus($role_id, $is_super);
+            @list($globals['menus'], $globals['leaves']) = $menus;
         }
         return $globals;
     }
@@ -43,27 +45,21 @@ class Admin_page extends MY_Controller
         }
     }
 
-    protected function get_menus($role_id)
+    protected function get_menus($role_id, $is_revoked = 0)
     {
         $this->load->model('default/menu_model');
-        $where = ['parent_id' => 0, 'is_removed' => 0];
-        $menus = $this->menu_model->get_menu_rows($where);
-        $pids = [];
-        $tops = $this->menu_model->foreign_data['children'];
-        foreach ($tops as $children) {
-            foreach ($children as $child) {
-                if ('#' === $child['url']) {
-                    $pids[] = $child['id'];
-                }
-            }
-        }
-
-        $where = ['parent_id' => $pids, 'is_removed' => 0];
-        $rows = $this->menu_model->get_menu_rows($where);
-        $leaves = array_fill_keys($pids, []);
+        $this->load->model('default/privilege_model');
+        $this->load->model('default/role_privilege_model');
+        $rows = $this->role_privilege_model->get_role_privs($role_id, $is_revoked);
+        $menu_ids = array_column($rows, 'menu_id');
+        $method = $is_revoked ? 'get_remain_menus' : 'get_grant_menus';
+        list($menus, $branch_ids) = $this->menu_model->$method($menu_ids);
+        $where = ['parent_id' => $branch_ids, 'is_removed' => 0];
+        $rows = $this->menu_model->parse_where($where)->all();
+        $leaves = array_fill_keys($branch_ids, []);
         foreach ($rows as $row) {
-            if ($pid = $row['parent_id']) {
-                $leaves[$pid][] = to_menu_link($row);
+            if ($branch_id = $row['parent_id']) {
+                $leaves[$branch_id][] = to_menu_link($row);
             }
         }
         return [$menus, $leaves];
