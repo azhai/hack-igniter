@@ -23,6 +23,25 @@ namespace Mylib\ORM;
 trait MY_Senior
 {
     protected $_group_order = [];
+    protected $_created_field = 'created_at';
+    protected $_changed_field = 'changed_at';
+
+    public static function column_by_key(array $rows, $col = null, $key = 'id')
+    {
+        $result = [];
+        if ($row = reset($rows)) {
+            if (isset($row[$key])) {
+                return array_column($rows, $col, $key);
+            } else {
+                $is_whole = is_null($col) || !isset($row[$col]);
+                foreach ($rows as $row) {
+                    $id = strtr($key, $row);
+                    $value = $is_whole ? $row[$col] : $row;
+                }
+            }
+        }
+        return $result;
+    }
 
     /**
      * group by然后order by
@@ -38,7 +57,7 @@ trait MY_Senior
             $this->protect_identifiers($order),
             $direction,
         ];
-        $this->_mixin_switches['senior'] = true;
+        //$this->_mixin_switches['senior'] = true;
         return $this;
     }
 
@@ -49,9 +68,6 @@ trait MY_Senior
      */
     public function get_group_order_sql(& $db, $table = '', $reset = true)
     {
-        if (empty($this->_group_order)) {
-            return $db->get_compiled_select($table, $reset);;
-        }
         @list($group, $order, $direction) = $this->_group_order;
         $db->where($group . ' IS NOT NULL', null, false);
         $db->group_by('_grp_idx', false);
@@ -67,5 +83,63 @@ trait MY_Senior
             . sprintf('ORDER BY %s %s', $order, $direction);
         $sql = str_replace($from, $join, $sql) . $tail;
         return $sql;
+    }
+
+    public function before_insert($row)
+    {
+        if (is_array($row)) {
+            $now = date('Y-m-d H:i:s');
+            if ($this->_created_field) {
+                $row[$this->_created_field] = $now;
+            }
+            if ($this->_changed_field) {
+                $row[$this->_changed_field] = $now;
+            }
+        }
+        return $row;
+    }
+
+    public function before_update(array $set, $where = null)
+    {
+        if ($this->_changed_field) {
+            $now = date('Y-m-d H:i:s');
+            $set[$this->_changed_field] = $now;
+        }
+        return $set;
+    }
+
+    public function before_delete($is_resume = false)
+    {
+        return ['is_removed' => $is_resume ? 0 : 1];
+    }
+
+    public function diff_save_data(array $data, $uniq, array $where = null)
+    {
+        $pkey = $this->primary_key();
+        $newbies = self::column_by_key($data, null, $uniq);
+        $rows = $this->parse_where($where)->all();
+        $exists = self::column_by_key($rows, $pkey, $uniq);
+        $this->trans_start();
+        //启用交叉部分
+        if ($shares = array_intersect_key($exists, $newbies)) {
+            $changes = $this->before_delete(true);
+            $this->where_in('id', array_values($shares));
+            $this->update($changes, null, count($shares));
+        }
+        //禁用其他部分
+        if ($remains = array_diff_key($exists, $shares)) {
+            $this->where_in('id', array_values($remains));
+            $this->delete(null, count($remains));
+        }
+        //增加多出部分
+        if ($additions = array_diff_key($newbies, $exists)) {
+            foreach ($additions as & $row) {
+                if ($where) {
+                    $row = array_merge($row, $where);
+                }
+            }
+            $this->insert_batch(array_values($additions));
+        }
+        $this->trans_complete();
     }
 }

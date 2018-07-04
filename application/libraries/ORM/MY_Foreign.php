@@ -246,7 +246,8 @@ trait MY_Foreign
             if ($another->is_open_mixin('cacheable')) {
                 $frows = $another->get_in_array($ids);
             } else {
-                $frows = $another->some([$pkey => $ids], null, $columns);
+                $another->parse_where([$pkey => $ids]);
+                $frows = $another->all(null, 0, $columns);
             }
         }
         $foreigns = &$model->foreign_data[$name];
@@ -285,7 +286,8 @@ trait MY_Foreign
         }
         //查询关联表数据
         $ids = $model->result_ids;
-        $frows = $another->some([$fkey => $ids], null, $columns);
+        $another->parse_where([$fkey => $ids]);
+        $frows = $another->all(null, 0, $columns);
         $foreigns = &$model->foreign_data[$name];
         $an_fkey = isset($rel['another_fkey']) ? $rel['another_fkey'] : null;
         if ($an_fkey) {

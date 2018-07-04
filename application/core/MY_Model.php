@@ -50,6 +50,8 @@ class MY_Model extends CI_Model implements ArrayAccess
     use \Mylib\ORM\MY_Senior;
 
     public $result = null;
+    //开启的功能
+    protected $_mixin_switches = ['senior' => true];
 
     //通用连接
     protected $_db_key = '';
@@ -59,8 +61,6 @@ class MY_Model extends CI_Model implements ArrayAccess
     protected $_table_name = '';
     protected $_table_indexes = false; //未初始化
     protected $_table_fields = [];
-    //开启的功能
-    protected $_mixin_switches = [];
 
     public function __construct()
     {
@@ -240,33 +240,6 @@ class MY_Model extends CI_Model implements ArrayAccess
         return $this->_table_fields;
     }
 
-    /**
-     *
-     * @param  string  $column [description]
-     * @param  bool $reset  [description]
-     * @return int          [description]
-     */
-    public function count($column = '*', $reset = true)
-    {
-        $table = $this->table_name();
-        $db = $this->reconnect();
-        if ($reset && '*' === $column) {
-            return $db->count_all_results($table, true);
-        }
-        $db->select(sprintf('COUNT(%s)', $column));
-        $sql = $db->get_compiled_select($table, $reset);
-        $result = $db->query($sql);
-        $count = 0;
-        if ($result && $row = $result->row_array()) {
-            $count = reset($row);
-        }
-        if (empty($reset)) {
-            $db->reset_count();
-        }
-        return $count;
-    }
-
-
     public function fetch_result()
     {
         if (!$this->result) {
@@ -275,11 +248,18 @@ class MY_Model extends CI_Model implements ArrayAccess
         return $this->result->result_array();
     }
 
-    protected function _exec_where(& $db, $where = null, $columns = null)
+    public function parse_select($columns = null)
     {
         if ($columns && '*' !== $columns) {
+            $db = $this->reconnect();
             $db->select($columns);
         }
+        return $this;
+    }
+
+    public function parse_where($where = null)
+    {
+        $db = $this->reconnect();
         if (is_array($where)) {
             foreach ($where as $key => $value) {
                 if (!is_array($value)) {
@@ -296,15 +276,40 @@ class MY_Model extends CI_Model implements ArrayAccess
         return $this;
     }
 
-    protected function _exec_select(& $db, $table = '', $reset = true)
+    public function get_compiled_select($table = '', $reset = true)
     {
-        if ($this->is_open_mixin('senior')) {
-            $sql = $this->get_group_order_sql($db, $table, $reset);
+        $db = $this->reconnect();
+        if ($this->is_open_mixin('senior') && $this->_group_order) {
+            return $this->get_group_order_sql($db, $table, $reset);
         } else {
-            $sql = $db->get_compiled_select($table, $reset);
+            return $db->get_compiled_select($table, $reset);
         }
+    }
+
+    /**
+     *
+     * @param  string  $column [description]
+     * @param  bool $reset  [description]
+     * @return int          [description]
+     */
+    public function count($column = '*', $reset = true)
+    {
+        $table = $this->table_name();
+        $db = $this->reconnect();
+        if ($reset && '*' === $column) {
+            return $db->count_all_results($table, true);
+        }
+        $db->select(sprintf('COUNT(%s)', $column));
+        $sql = $this->get_compiled_select($table, $reset);
         $result = $db->query($sql);
-        return $result;
+        $count = 0;
+        if ($result && $row = $result->row_array()) {
+            $count = reset($row);
+        }
+        if (empty($reset)) {
+            $db->reset_count();
+        }
+        return $count;
     }
 
     public function all($limit = null, $offset = 0, $columns = '*')
@@ -314,20 +319,9 @@ class MY_Model extends CI_Model implements ArrayAccess
         if (!empty($limit)) {
             $db->limit($limit, $offset);
         }
-        $this->_exec_where($db, null, $columns);
-        $this->result = $this->_exec_select($db, $table, true);
-        return $this->fetch_result();
-    }
-
-    public function some($where, $limit = null, $columns = '*')
-    {
-        $table = $this->table_name();
-        $db = $this->reconnect();
-        if (!empty($limit)) {
-            $db->limit($limit);
-        }
-        $this->_exec_where($db, $where, $columns);
-        $this->result = $this->_exec_select($db, $table, true);
+        $this->parse_select($columns);
+        $sql = $this->get_compiled_select($table, true);
+        $this->result = $db->query($sql);
         return $this->fetch_result();
     }
 
@@ -336,8 +330,10 @@ class MY_Model extends CI_Model implements ArrayAccess
         $table = $this->table_name();
         $db = $this->reconnect();
         $db->limit(1);
-        $this->_exec_where($db, $where, $columns);
-        $this->result = $this->_exec_select($db, $table, true);
+        $this->parse_where($where);
+        $this->parse_select($columns);
+        $sql = $this->get_compiled_select($table, true);
+        $this->result = $db->query($sql);
         $rows = $this->fetch_result();
         if (is_string($type) && $type) {
             if ('array' === strtolower($type)) {
@@ -369,6 +365,9 @@ class MY_Model extends CI_Model implements ArrayAccess
 
     public function insert($row, $is_replace = false, $escape = null)
     {
+        if ($this->is_open_mixin('senior')) {
+            $row = $this->before_insert($row);
+        }
         return $this->insert_unsafe($row, $is_replace, $escape);
     }
 
@@ -387,14 +386,24 @@ class MY_Model extends CI_Model implements ArrayAccess
      * @param array/string/null $where
      * @return bool
      */
-    public function delete($where = '', $limit = null, $escape = null)
+    public function delete_unsafe($where = '', $limit = null, $escape = null)
     {
         $table = $this->table_name();
         $db = $this->reconnect();
         if (!empty($where)) {
             $db->where($where, '', $escape);
         }
-        $result = $db->delete($table, '', $limit);
+        return $db->delete($table, '', $limit);
+    }
+
+    public function delete($where = '', $limit = null, $escape = null)
+    {
+        $set = $this->is_open_mixin('senior') ? $this->before_delete() : [];
+        if ($set && $set = $this->before_update($set, $where)) {
+            $result = $this->update_unsafe($set, $where, $limit, $escape);
+        } else {
+            $result = $this->delete_unsafe($where, $limit, $escape);
+        }
         if ($this->is_open_mixin('cacheable')) {
             $this->cache_subject()->delete_cache($where);
         }
@@ -424,6 +433,9 @@ class MY_Model extends CI_Model implements ArrayAccess
 
     public function update(array $set, $where = null, $limit = null, $escape = null)
     {
+        if ($this->is_open_mixin('senior')) {
+            $set = $this->before_update($set, $where);
+        }
         return $this->update_unsafe($set, $where, $limit, $escape);
     }
 

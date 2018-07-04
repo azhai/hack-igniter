@@ -91,7 +91,7 @@ class Menu_model extends MY_Model
         $this->with_foreign('children');
         $this->order_by('parent_id', 'ASC');
         $this->order_by('seqno', 'ASC');
-        return $this->some($where);
+        return $this->parse_where($where)->all();
     }
 
     /**

@@ -156,7 +156,7 @@ trait MY_Cacheable
             if ($fields = $this->cache_fields()) {
                 $this->select(array_keys($fields));
             }
-            $rows = $this->some([$key => $remains]);
+            $rows = $this->parse_where([$key => $remains])->all();
             foreach ($rows as $row) {
                 $value = $row[$key];
                 $result[$value] = $row;

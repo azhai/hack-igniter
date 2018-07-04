@@ -65,6 +65,14 @@ trait MY_Entity
         return $hs->all($key, $op, null, intval($limit), $offset);
     }
 
+    public function hs_some($where)
+    {
+        assert(is_array($where));
+        list($key, $value) = each($where);
+        $hs = $this->hs_conn(false, false);
+        return $hs->in($key, to_array($value));
+    }
+
     public function hs_one($where = null, $type = '')
     {
         assert(is_array($where));
@@ -72,14 +80,6 @@ trait MY_Entity
         list($key, $value) = each($where);
         $hs = $this->hs_conn(false, false);
         return $hs->get($key, $value);
-    }
-
-    public function hs_some($where)
-    {
-        assert(is_array($where));
-        list($key, $value) = each($where);
-        $hs = $this->hs_conn(false, false);
-        return $hs->in($key, to_array($value));
     }
 
     public function hs_insert($row, $replace = false, $escape = null)
