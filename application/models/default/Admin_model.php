@@ -68,6 +68,16 @@ class Admin_model extends MY_Model
         return 'user:' . $condition['id'];
     }
 
+    public function get_relations()
+    {
+        return [
+            'role' => [
+                'model' => 'default/role_model',
+                'columns' => ['id', 'title', 'is_super', 'is_removed'],
+            ],
+        ];
+    }
+
     public function check_password($username, $password)
     {
         $row = $this->one(['username' => $username]);

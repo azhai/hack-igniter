@@ -1,5 +1,4 @@
-<?php
-$this->extendTpl($theme_dir . '/layout.php'); ?>
+<?php $this->extendTpl($theme_dir . '/layout.php'); ?>
 
 
 <?php $this->blockStart('content'); ?>

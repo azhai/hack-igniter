@@ -34,9 +34,9 @@ $this->extendTpl($theme_dir . '/layout.php'); ?>
                         </a>
                         <ul class="nav nav-second-level">
                             <li>
-                                <a class="J_menuItem" href="/home/graph/peity/">Peity</a>
-                                <a class="J_menuItem" href="/home/graph/sparkline/">Sparkline</a>
-                                <a class="J_menuItem" href="/home/graph/metrics/">图表组合</a>
+                                <a class="J_menuItem" href="/home/user/index/">用户</a>
+                                <a class="J_menuItem" href="/home/user/role/">角色</a>
+                                <a class="J_menuItem" href="/home/user/menu/">菜单</a>
                             </li>
                         </ul>
                     </li>
