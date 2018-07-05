@@ -4,18 +4,18 @@ require_once dirname(__DIR__) . '/Admin_page.php';
 
 class Entry_page extends Admin_page
 {
-    public static $enum_status = [
-        'draft' => ['color' => '#0569e2', 'title' => '草稿'],
-        'published' => ['color' => '#7fa800', 'title' => '发布'],
-        'held' => ['color' => '#ca2300', 'title' => '保留'],
+    public static $gender_options = [
+        'F' => ['color' => '#0569e2', 'title' => '女'],
+        'M' => ['color' => '#7fa800', 'title' => '男'],
+        'X' => ['color' => '#ca2300', 'title' => '未知'],
     ];
 
     protected function initialize()
     {
         parent::initialize();
         $this->load->helper('format');
-        $this->load->model('default/entry_model');
-        $this->entry_model->with_foreign('owner');
+        $this->load->model('default/admin_model');
+        $this->admin_model->with_foreign('role');
     }
 
     protected function filter_where(&$model)
@@ -25,9 +25,9 @@ class Entry_page extends Admin_page
         if ($conds['keyword'] = trim($keyword)) {
             $model->like('title', $conds['keyword']);
         }
-        $status = $this->input->post_get('status');
-        if ($conds['status'] = trim($status)) {
-            $model->where('status', $conds['status']);
+        $gender = $this->input->post_get('gender');
+        if ($conds['gender'] = trim($gender)) {
+            $model->where('gender', $conds['gender']);
         }
         return $conds;
     }
@@ -35,26 +35,19 @@ class Entry_page extends Admin_page
     protected function join_foreigns(array $result)
     {
         foreach ($result as &$row) {
-            if (is_string($row['image'])) {
-                $row['image'] = json_decode($row['image'], true);
-            } else {
-                $row['image'] = [];
-            }
-            if (!isset($row['image']['file'])) {
-                $row['image']['file'] = '';
-            }
-            $enum = self::$enum_status[$row['status']];
-            $row['status_title'] = $enum['title'];
-            $row['status_color'] = $enum['color'];
+            unset($row['password']);
+            $option = self::$gender_options[$row['gender']];
+            $row['gender_title'] = $option['title'];
+            $row['gender_color'] = $option['color'];
         }
         return $result;
     }
 
     public function index()
     {
-        $this->entry_model->order_by('id', 'DESC');
-        $result = $this->list_rows($this->entry_model);
-        $result['enum_status'] = self::$enum_status;
+        $this->admin_model->order_by('id', 'DESC');
+        $result = $this->list_rows($this->admin_model);
+        $result['gender_options'] = self::$gender_options;
         $result['layout'] = $this->input->is_ajax_request() ? 'bare' : 'base';
         $result['edit_url'] = $this->get_page_url('edit');
 
@@ -72,10 +65,10 @@ class Entry_page extends Admin_page
     public function edit()
     {
         $id = $this->input->post_get('id');
-        $this->entry_model->where('id', $id);
-        $result = $this->list_rows($this->entry_model);
+        $this->admin_model->where('id', $id);
+        $result = $this->list_rows($this->admin_model);
         $result['the_row'] = $result['page_rows'] ? $result['page_rows'][0] : [];
-        $result['enum_status'] = self::$enum_status;
+        $result['gender_options'] = self::$gender_options;
         $result['layout'] = $this->input->is_ajax_request() ? 'bare' : 'base';
         $result['next_url'] = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
         return $result;
@@ -88,7 +81,7 @@ class Entry_page extends Admin_page
         $changes = $this->input->post();
         if ($id && $changes) {
             unset($changes['id'], $changes['spm'], $changes['next_url']);
-            $this->entry_model->update($changes, ['id' => $id]);
+            $this->admin_model->update($changes, ['id' => $id]);
             return redirect($next_url);
         } else {
             return $this->edit();

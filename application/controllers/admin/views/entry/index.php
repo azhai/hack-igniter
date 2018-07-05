@@ -23,21 +23,32 @@
 
     <div class="wrapper wrapper-content">
         <div class="row">
-            <div class="col-sm-12">
+            <div class="col-sm-12" style="margin-bottom:30px">
                 <div class="middle-box text-center animated fadeInRightBig">
                     <h3 class="font-bold">这里是页面内容</h3>
 
                     <div class="error-desc">
                         您可以在这里添加栅格，参考首页及其他页面完成不同的布局
-                        <br/><a href="#" class="btn btn-primary m-t">打开主页</a>
+                        <br/><a href="#" id="btn-context" class="btn btn-primary m-t">切换内容</a>
                     </div>
                 </div>
             </div>
+
+            <pre id="pre-context" style="display:none">
+<?php var_dump($conds, $gender_options, $pager, $page_rows); ?>
+            </pre>
         </div>
     </div>
 <?php $this->blockEnd(); ?>
 
 
 <?php $this->blockStart('scripts'); ?>
-    <script src="<?= $static_url ?>/js/content.js"></script>
+    <script>
+        $(function(){
+            $('#btn-context').click(function(){
+                $(this).toggleClass('btn-default');
+                $('#pre-context').toggle();
+            });
+        });
+    </script>
 <?php $this->blockEnd(); ?>

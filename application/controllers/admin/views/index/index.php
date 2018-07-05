@@ -42,6 +42,9 @@ $this->extendTpl($theme_dir . '/layout.php'); ?>
                             <li>
                                 <a class="J_menuItem" href="/admin/user/menu/">菜单</a>
                             </li>
+                            <li>
+                                <a class="J_menuItem" href="/admin/entry/index/">示例</a>
+                            </li>
                         </ul>
                     </li>
                     <?php endif; ?>
