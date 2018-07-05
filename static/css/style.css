@@ -158,9 +158,13 @@ body.body-small .navbar-top-links li:last-child {
 }
 
 .navbar-top-links .dropdown-messages,
-.navbar-top-links .dropdown-tasks,
-.navbar-top-links .dropdown-alerts {
+.navbar-top-links .dropdown-tasks {
     width: 310px;
+    min-width: 0;
+}
+
+.navbar-top-links .dropdown-settings {
+    width: 240px;
     min-width: 0;
 }
 
@@ -172,7 +176,7 @@ body.body-small .navbar-top-links li:last-child {
     margin-left: -59px;
 }
 
-.navbar-top-links .dropdown-alerts {
+.navbar-top-links .dropdown-settings {
     margin-left: -123px;
 }
 
@@ -182,21 +186,21 @@ body.body-small .navbar-top-links li:last-child {
 }
 
 .dropdown-messages,
-.dropdown-alerts {
+.dropdown-settings {
     padding: 10px 10px 10px 10px;
 }
 
 .dropdown-messages li a,
-.dropdown-alerts li a {
+.dropdown-settings li a {
     font-size: 12px;
 }
 
 .dropdown-messages li em,
-.dropdown-alerts li em {
+.dropdown-settings li em {
     font-size: 10px;
 }
 
-.nav.navbar-top-links .dropdown-alerts a {
+.nav.navbar-top-links .dropdown-settings a {
     font-size: 12px;
 }
 
@@ -7532,7 +7536,7 @@ body.skin-3 {
 @media (min-width: 768px) {
     .navbar-top-links .dropdown-messages,
     .navbar-top-links .dropdown-tasks,
-    .navbar-top-links .dropdown-alerts {
+    .navbar-top-links .dropdown-settings {
         margin-left: auto;
     }
 }
@@ -7828,9 +7832,9 @@ body.skin-3 {
 
 .gohome {
     position: fixed;
-    top: 20px;
+    top: 55px;
     right: 20px;
-    z-index: 100;
+    z-index: 999;
 }
 
 .gohome a {

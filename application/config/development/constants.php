@@ -8,7 +8,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 */
 defined('SITE_BASE_URL') or define('SITE_BASE_URL', 'http://hack.pony.car/');
 defined('SITE_STATIC_URL') or define('SITE_STATIC_URL', '/static/');
-defined('SITE_LOGIN_URL') or define('SITE_LOGIN_URL', '/home/index/login/');
+defined('SITE_LOGIN_URL') or define('SITE_LOGIN_URL', '/admin/index/login/');
 defined('SITE_THEME_NAME') or define('SITE_THEME_NAME', 'default');
 
 /*
