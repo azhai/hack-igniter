@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 
 /**
@@ -56,5 +56,4 @@ class Role_model extends MY_Model
     {
         return 'role:' . $condition['id'];
     }
-
 }
