@@ -119,15 +119,13 @@ class Admin_page extends MY_Controller
         return $result;
     }
 
-    protected function list_rows(& $model)
+    protected function list_rows(& $model, $orderby = null)
     {
-        $spm = $this->input->post_get('spm');
         $page_no = $this->input->post_get('page_no');
         $page_no = ($page_no && $page_no > 0) ? intval($page_no) : 1;
         $offset = ($page_no - 1) * $this->per_page;
         $conds = $this->filter_where($model);
         $total_rows = $model->count('*', false);
-        $conds['spm'] = $spm;
         $pager = array(
             'base_url' => $this->get_page_url('list', $conds),
             'total_rows' => $total_rows,
@@ -135,10 +133,12 @@ class Admin_page extends MY_Controller
             'page_max' => ceil($total_rows / $this->per_page),
             'per_page' => $this->per_page,
         );
-        $model->order_by('id', 'DESC');
+        if ($orderby) {
+            $model->order_by($orderby);
+        }
         $page_rows = $model->all($this->per_page, $offset);
         return [
-            'spm' => $spm, 'conds' => $conds, 'pager' => $pager,
+            'conds' => $conds, 'pager' => $pager,
             'page_rows' => $this->join_foreigns($page_rows),
             'export_url' => $this->get_page_url('export'),
         ];

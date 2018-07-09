@@ -12,6 +12,8 @@ class Student_model extends MY_Model
     protected $_db_key = 'default';
     protected $_db_key_ro = 'default_ro';
     protected $_table_name = 't_students';
+    protected $_created_field = 'created_at';
+    protected $_changed_field = 'changed_at';
 
     public function table_indexes($another = false)
     {

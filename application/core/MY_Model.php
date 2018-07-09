@@ -283,6 +283,19 @@ class MY_Model extends CI_Model implements ArrayAccess
         return $this;
     }
 
+    public function order_by($orderby, $direction = '', $escape = null)
+    {
+        $db = $this->reconnect();
+        if (is_array($orderby)) {
+            foreach ($orderby as $field => $direction) {
+                $db->order_by($field, $direction, $escape);
+            }
+        } else {
+            $db->order_by($orderby, $direction, $escape);
+        }
+        return $this;
+    }
+
     public function get_compiled_select($table = '', $reset = true)
     {
         $db = $this->reconnect();

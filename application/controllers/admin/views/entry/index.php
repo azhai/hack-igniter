@@ -10,7 +10,7 @@
                     <a href="index.html">主页</a>
                 </li>
                 <li>
-                    <strong>包屑导航</strong>
+                    <strong>导航</strong>
                 </li>
             </ol>
         </div>

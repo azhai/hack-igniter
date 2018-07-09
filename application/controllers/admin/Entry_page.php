@@ -46,7 +46,7 @@ class Entry_page extends Admin_page
     public function index()
     {
         $this->admin_model->order_by('id', 'DESC');
-        $result = $this->list_rows($this->admin_model);
+        $result = $this->list_rows($this->admin_model, ['id' => 'DESC']);
         $result['gender_options'] = self::$gender_options;
         $result['layout'] = $this->input->is_ajax_request() ? 'bare' : 'base';
         $result['edit_url'] = $this->get_page_url('edit');
@@ -80,7 +80,7 @@ class Entry_page extends Admin_page
         $next_url = $this->input->post_get('next_url');
         $changes = $this->input->post();
         if ($id && $changes) {
-            unset($changes['id'], $changes['spm'], $changes['next_url']);
+            unset($changes['id'], $changes['next_url']);
             $this->admin_model->update($changes, ['id' => $id]);
             return redirect($next_url);
         } else {

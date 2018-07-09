@@ -2,10 +2,17 @@
 
 
 <?php $this->blockStart('content'); ?>
-    <div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row border-bottom white-bg page-heading">
+        <div class="col-sm-8">
+            <h2>后台用户列表</h2>
+        </div>
+        <div class="col-sm-4 title-action">
+            <a href="" class="btn btn-primary">导出Excel</a>
+        </div>
+    </div>
+
+    <div class="row wrapper-content animated fadeInRight">
         <div class="row col-sm-12 ibox ibox-content">
-            <h4 class="m-t">后台用户列表</h4>
-            <hr>
             <div class="jqGrid_wrapper">
                 <table id="table_list"></table>
                 <div id="pager_list"></div>
