@@ -126,8 +126,9 @@ class Admin_page extends MY_Controller
         $offset = ($page_no - 1) * $this->per_page;
         $conds = $this->filter_where($model);
         $total_rows = $model->count('*', false);
+        $conds['t'] = time();
         $pager = array(
-            'base_url' => $this->get_page_url('list', $conds),
+            'base_url' => $this->get_page_url('list', $conds, true),
             'total_rows' => $total_rows,
             'page_no' => $page_no,
             'page_max' => ceil($total_rows / $this->per_page),

@@ -7,7 +7,7 @@
             <div class="col-sm-12">
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
-                        <h5>示例</h5>
+                        <h5><?=$the_row['name']?></h5>
                         <div class="ibox-tools">
                         </div>
                     </div>
@@ -30,7 +30,7 @@
                                     <tr>
                                         <td><input type="checkbox" class="i-checks" name="id[]" value="<?=$row['id']?>"></td>
                                         <td><span style="color:<?=$row['city_color']?>"><?=$row['city_name']?></span></td>
-                                        <td><a href="<?=$edit_url.'?id='.$row['id']?>"><?=$row['name']?></a></td>
+                                        <td><?=$row['name']?></td>
                                         <td>
                                             <span class="pie"><?=$row['s1_percent'].','.(100-$row['s1_percent'])?></span>
                                             <span><?=sprintf('%.2f', $row['s1_percent'])?>%</span>
@@ -45,11 +45,6 @@
                                     </tr>
                                     <?php endforeach; ?>
                                 </tbody>
-                                <tfoot>
-                                    <tr><td colspan="20">
-                                        <div id="pagination" class="pull-right"></div>
-                                    </td></tr>
-                                </tfoot>
                             </table>
                         </div>
 
@@ -74,21 +69,6 @@
     <script src="<?= $static_url ?>/js/plugins/peity/jquery.peity.min.js"></script>
     <script src="<?= $static_url ?>/js/demo/peity-demo.js"></script>
     <script>
-        layui.use('laypage', function(){
-            var laypage = layui.laypage;
-            laypage.render({
-                elem: 'pagination',
-                curr: <?=$pager['page_no']?>,
-                limit: <?=$pager['per_page']?>,
-                count: <?=$pager['total_rows']?>,
-                jump: function(obj, first) {
-                    if(!first){
-                        var url = "<?=$pager['base_url']?>";
-                        window.location.href = url+'&page_no='+obj.curr;
-                    }
-                }
-            });
-        });
         $(function(){
             $('.i-checks').iCheck({
                 checkboxClass: 'icheckbox_square-green',
