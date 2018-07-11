@@ -69,6 +69,7 @@ class Entry_page extends Admin_page
         $result['the_row'] = $result['page_rows'] ? $result['page_rows'][0] : [];
         $result['city_options'] = self::$city_options;
         $result['layout'] = $this->input->is_ajax_request() ? 'bare' : 'base';
+        $result['save_url'] = $this->get_page_url('save', [], true);
         $result['next_url'] = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
         return $result;
     }

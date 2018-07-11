@@ -3,82 +3,72 @@
 
 <?php $this->blockStart('content'); ?>
     <div class="wrapper wrapper-content animated fadeInRight">
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="ibox float-e-margins">
-                    <div class="ibox-title">
-                        <h5><?=$the_row['name']?></h5>
-                        <div class="ibox-tools">
-                        </div>
-                    </div>
-                    <div class="ibox-content">
-                        <div class="table-responsive">
-                            <table class="table table-striped">
-                                <thead>
-                                    <tr>
-                                        <th><input type="checkbox" class="i-checks" id="ids"></th>
-                                        <th>城市</th>
-                                        <th>驾校</th>
-                                        <th>科目一</th>
-                                        <th>科目二</th>
-                                        <th>加入时间</th>
-                                        <th>操作</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php foreach ($page_rows as $row): ?>
-                                    <tr>
-                                        <td><input type="checkbox" class="i-checks" name="id[]" value="<?=$row['id']?>"></td>
-                                        <td><span style="color:<?=$row['city_color']?>"><?=$row['city_name']?></span></td>
-                                        <td><?=$row['name']?></td>
-                                        <td>
-                                            <span class="pie"><?=$row['s1_percent'].','.(100-$row['s1_percent'])?></span>
-                                            <span><?=sprintf('%.2f', $row['s1_percent'])?>%</span>
-                                        </td>
-                                        <td>
-                                            <span class="pie"><?=$row['s2_percent'].','.(100-$row['s2_percent'])?></span>
-                                            <span><?=sprintf('%.2f', $row['s2_percent'])?>%</span>
-                                        </td>
-                                        <td><?=$row['created_at']?></td>
-                                        <td><a href="#"><i class="fa fa-check text-navy"></i></a>
-                                        </td>
-                                    </tr>
-                                    <?php endforeach; ?>
-                                </tbody>
-                            </table>
-                        </div>
-
-                    </div>
+        <div class="ibox row float-e-margins">
+            <div class="ibox-title">
+                <h5><?=$the_row['name']?></h5>
+                <div class="ibox-tools">
                 </div>
             </div>
+            <div class="ibox-content">
 
+                <form method="post" action="<?=$save_url?>" role="form" class="form-horizontal m-t">
+                    <input type="hidden" name="id" value="<?=$the_row['id']?>">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">城市：</label>
+                        <div class="row m-b col-sm-3">
+                            <select class="form-control" name="prefix">
+                            <?php foreach ($city_options as $key => $val):
+                                $sel = ($key == $the_row['prefix']) ? ' selected="selected"' : '';
+                                printf('<option value="%s"%s>%s</option>', $key, $sel, $val['name']);
+                                echo "\n";
+                            endforeach; ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">驾校名称：</label>
+                        <div class="row col-sm-6">
+                            <input type="text" name="name" value="<?=$the_row['name']?>" class="form-control">
+                            <span class="help-block m-b-none"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">科目一通过率：</label>
+                        <div class="row input-group m-b col-sm-2">
+                            <input type="text" name="s1_percent" value="<?=$the_row['s1_percent']?>" class="form-control">
+                            <span class="input-group-addon">%</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">科目二通过率：</label>
+                        <div class="row input-group m-b col-sm-2">
+                            <input type="text" name="s2_percent" value="<?=$the_row['s2_percent']?>" class="form-control">
+                            <span class="input-group-addon">%</span>
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group">
+                        <div class="col-sm-12 col-sm-offset-3">
+                            <button type="submit" class="btn btn-primary btn-w-m">保存</button>
+                            <button type="reset" class="btn btn-white">取消</button>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
         </div>
     </div>
 <?php $this->blockEnd(); ?>
 
 
 <?php $this->blockStart('styles'); ?>
-    <link href="<?= $static_url ?>/layui/css/layui.css" rel="stylesheet">
     <link href="<?= $static_url ?>/css/plugins/iCheck/custom.css" rel="stylesheet">
 <?php $this->blockEnd(); ?>
 
 
 <?php $this->blockStart('scripts'); ?>
-    <script src="<?= $static_url ?>/layui/layui.js"></script>
-    <script src="<?= $static_url ?>/js/plugins/iCheck/icheck.min.js"></script>
     <script src="<?= $static_url ?>/js/plugins/peity/jquery.peity.min.js"></script>
     <script src="<?= $static_url ?>/js/demo/peity-demo.js"></script>
     <script>
-        $(function(){
-            $('.i-checks').iCheck({
-                checkboxClass: 'icheckbox_square-green',
-                radioClass: 'iradio_square-green',
-            });
-            $('#ids').on('ifChecked', function(ev){
-                $('.i-checks').iCheck('check');
-            }).on('ifUnchecked', function(ev){
-                $('.i-checks').iCheck('uncheck');
-            });
-        });
     </script>
 <?php $this->blockEnd(); ?>

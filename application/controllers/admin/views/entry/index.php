@@ -3,60 +3,64 @@
 
 <?php $this->blockStart('content'); ?>
     <div class="wrapper wrapper-content animated fadeInRight">
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="ibox float-e-margins">
-                    <div class="ibox-title">
-                        <h5>示例</h5>
-                        <div class="ibox-tools">
-                        </div>
-                    </div>
-                    <div class="ibox-content">
-                        <div class="table-responsive">
-                            <table class="table table-striped">
-                                <thead>
-                                    <tr>
-                                        <th><input type="checkbox" class="i-checks" id="ids"></th>
-                                        <th>城市</th>
-                                        <th>驾校</th>
-                                        <th>科目一</th>
-                                        <th>科目二</th>
-                                        <th>加入时间</th>
-                                        <th>操作</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php foreach ($page_rows as $row): ?>
-                                    <tr>
-                                        <td><input type="checkbox" class="i-checks" name="id[]" value="<?=$row['id']?>"></td>
-                                        <td><span style="color:<?=$row['city_color']?>"><?=$row['city_name']?></span></td>
-                                        <td><a href="<?=$edit_url.'?id='.$row['id']?>"><?=$row['name']?></a></td>
-                                        <td>
-                                            <span class="pie"><?=$row['s1_percent'].','.(100-$row['s1_percent'])?></span>
-                                            <span><?=sprintf('%.2f', $row['s1_percent'])?>%</span>
-                                        </td>
-                                        <td>
-                                            <span class="pie"><?=$row['s2_percent'].','.(100-$row['s2_percent'])?></span>
-                                            <span><?=sprintf('%.2f', $row['s2_percent'])?>%</span>
-                                        </td>
-                                        <td><?=$row['created_at']?></td>
-                                        <td><a href="#"><i class="fa fa-check text-navy"></i></a>
-                                        </td>
-                                    </tr>
-                                    <?php endforeach; ?>
-                                </tbody>
-                                <tfoot>
-                                    <tr><td colspan="20">
-                                        <div id="pagination" class="pull-right"></div>
-                                    </td></tr>
-                                </tfoot>
-                            </table>
-                        </div>
-
-                    </div>
+        <div class="ibox row float-e-margins">
+            <div class="ibox-title">
+                <h5>驾校列表</h5>
+                <div class="ibox-tools">
                 </div>
             </div>
+            <div class="ibox-content table-responsive">
 
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th><input type="checkbox" class="i-checks" id="ids"></th>
+                        <th>城市</th>
+                        <th>驾校</th>
+                        <th>科目一</th>
+                        <th>科目二</th>
+                        <th>加入时间</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php foreach ($page_rows as $row): ?>
+                    <tr>
+                        <td><input type="checkbox" class="i-checks" name="id[]" value="<?=$row['id']?>"></td>
+                        <td><span style="color:<?=$row['city_color']?>"><?=$row['city_name']?></span></td>
+                        <td><a href="<?=$edit_url.'?id='.$row['id']?>"><?=$row['name']?></a></td>
+                        <td>
+                            <span class="pie"><?=$row['s1_percent'].','.(100-$row['s1_percent'])?></span>
+                            <span><?=sprintf('%.2f', $row['s1_percent'])?>%</span>
+                        </td>
+                        <td>
+                            <span class="pie"><?=$row['s2_percent'].','.(100-$row['s2_percent'])?></span>
+                            <span><?=sprintf('%.2f', $row['s2_percent'])?>%</span>
+                        </td>
+                        <td><?=$row['created_at']?></td>
+                        <td>
+                            <a href="<?=$edit_url.'?id='.$row['id']?>"
+                                    class="btn btn-default btn-rounded">
+                                <i class="fa fa-edit"></i>
+                            </a>
+                            <a class="btn btn-default btn-rounded">
+                                <i class="fa fa-wrench"></i>
+                            </a>
+                            <a class="btn btn-default btn-rounded">
+                                <i class="fa fa-remove"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    <?php endforeach; ?>
+                    </tbody>
+                    <tfoot>
+                    <tr><td colspan="20">
+                        <div id="pagination" class="pull-right"></div>
+                    </td></tr>
+                    </tfoot>
+                </table>
+
+            </div>
         </div>
     </div>
 <?php $this->blockEnd(); ?>
@@ -75,8 +79,12 @@
     <script src="<?= $static_url ?>/js/demo/peity-demo.js"></script>
     <script>
         layui.use('laypage', function(){
+            //分页
             var laypage = layui.laypage;
             laypage.render({
+                theme: '#46b8da',
+                prev: '<i class="fa fa-chevron-left"></i>',
+                next: '<i class="fa fa-chevron-right"></i>',
                 elem: 'pagination',
                 curr: <?=$pager['page_no']?>,
                 limit: <?=$pager['per_page']?>,
@@ -90,6 +98,7 @@
             });
         });
         $(function(){
+            //复选框
             $('.i-checks').iCheck({
                 checkboxClass: 'icheckbox_square-green',
                 radioClass: 'iradio_square-green',
