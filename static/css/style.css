@@ -1367,6 +1367,13 @@ button.dim:active:before {
     position: relative;
 }
 
+tr.removed > td {
+    text-decoration: line-through;
+}
+
+tr.removed > td.operations {
+    text-decoration: none;
+}
 
 /* PAGINATIN */
 

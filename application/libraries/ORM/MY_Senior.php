@@ -113,9 +113,17 @@ trait MY_Senior
         return $set;
     }
 
-    public function before_delete($resume = false, $escape = null)
+    public function before_delete($recycle = false, $escape = null)
     {
-        return ['is_removed' => $resume ? 0 : 1];
+        return ['is_removed' => $recycle ? 0 : 1];
+    }
+
+    public function undelete($where = '', $limit = null, $escape = null)
+    {
+        $set = $this->before_delete(true, $escape);
+        if ($set && $set = $this->before_update($set, $escape)) {
+            return $this->update_unsafe($set, $where, $limit, $escape);
+        }
     }
 
     public function diff_save_data(array $data, $uniq, array $where = null)

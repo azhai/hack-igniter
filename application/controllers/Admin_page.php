@@ -138,8 +138,13 @@ class Admin_page extends MY_Controller
             $model->order_by($orderby);
         }
         $page_rows = $model->all($this->per_page, $offset);
+        $spans = ['left' => 2, 'right' => 20];
+        if ($page_rows && $col_num = count(reset($page_rows))) {
+            $spans['left'] = ceil($col_num * 0.3);
+            $spans['right'] = $col_num - $spans['left'];
+        }
         return [
-            'conds' => $conds, 'pager' => $pager,
+            'conds' => $conds, 'pager' => $pager, 'spans' => $spans,
             'page_rows' => $this->join_foreigns($page_rows),
             'export_url' => $this->get_page_url('export'),
         ];

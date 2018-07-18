@@ -25,7 +25,7 @@
                     </thead>
                     <tbody>
                     <?php foreach ($page_rows as $row): ?>
-                    <tr>
+                    <tr class="table-row<?=$row['is_removed']?' removed':''?>" data-id="<?=$row['id']?>">
                         <td><input type="checkbox" class="i-checks" name="id[]" value="<?=$row['id']?>"></td>
                         <td><span style="color:<?=$row['city_color']?>"><?=$row['city_name']?></span></td>
                         <td><a href="<?=$edit_url.'?id='.$row['id']?>"><?=$row['name']?></a></td>
@@ -38,25 +38,43 @@
                             <span><?=sprintf('%.2f', $row['s2_percent'])?>%</span>
                         </td>
                         <td><?=$row['created_at']?></td>
-                        <td>
-                            <a href="<?=$edit_url.'?id='.$row['id']?>"
-                                    class="btn btn-default btn-rounded">
-                                <i class="fa fa-edit"></i>
+                        <td class="operations">
+                            <a class="btn btn-default btn-rounded">
+                                <i class="fa fa-edit" title="编辑"></i>
                             </a>
                             <a class="btn btn-default btn-rounded">
-                                <i class="fa fa-wrench"></i>
+                                <i class="fa fa-wrench" title="设置"></i>
                             </a>
+                            <?php if ($row['is_removed']): ?>
                             <a class="btn btn-default btn-rounded">
-                                <i class="fa fa-remove"></i>
+                                <i class="fa fa-recycle" title="恢复"></i>
                             </a>
+                            <?php else: ?>
+                            <a class="btn btn-default btn-rounded">
+                                <i class="fa fa-remove" title="删除"></i>
+                            </a>
+                            <?php endif; ?>
                         </td>
                     </tr>
                     <?php endforeach; ?>
                     </tbody>
                     <tfoot>
-                    <tr><td colspan="20">
-                        <div id="pagination" class="pull-right"></div>
-                    </td></tr>
+                    <tr class="table-row" data-id="checks">
+                        <td colspan="<?=$spans['left']?>">
+                            <a class="btn btn-default btn-rounded">
+                                <i class="fa fa-remove" title="删除"> 删除 </i>
+                            </a>
+                            <a class="btn btn-default btn-rounded">
+                                <i class="fa fa-recycle" title="恢复"> 恢复 </i>
+                            </a>
+                            <a class="btn btn-default btn-rounded">
+                                <i class="fa fa-share-square" title="全部导出"> 全部导出 </i>
+                            </a>
+                        </td>
+                        <td colspan="<?=$spans['right']?>">
+                            <div id="pagination" class="pull-right"></div>
+                        </td>
+                    </tr>
                     </tfoot>
                 </table>
 
@@ -78,25 +96,6 @@
     <script src="<?= $static_url ?>/js/plugins/peity/jquery.peity.min.js"></script>
     <script src="<?= $static_url ?>/js/demo/peity-demo.js"></script>
     <script>
-        layui.use('laypage', function(){
-            //分页
-            var laypage = layui.laypage;
-            laypage.render({
-                theme: '#46b8da',
-                prev: '<i class="fa fa-chevron-left"></i>',
-                next: '<i class="fa fa-chevron-right"></i>',
-                elem: 'pagination',
-                curr: <?=$pager['page_no']?>,
-                limit: <?=$pager['per_page']?>,
-                count: <?=$pager['total_rows']?>,
-                jump: function(obj, first) {
-                    if(!first){
-                        var url = "<?=$pager['base_url']?>";
-                        window.location.href = url+'&page_no='+obj.curr;
-                    }
-                }
-            });
-        });
         $(function(){
             //复选框
             $('.i-checks').iCheck({
@@ -107,6 +106,47 @@
                 $('.i-checks').iCheck('check');
             }).on('ifUnchecked', function(ev){
                 $('.i-checks').iCheck('uncheck');
+            });
+            layui.use(['layer', 'laypage'], function(){
+                var layer = layui.layer;
+                var laypage = layui.laypage;
+                //分页
+                laypage.render({
+                    theme: '#46b8da',
+                    prev: '<i class="fa fa-chevron-left"></i>',
+                    next: '<i class="fa fa-chevron-right"></i>',
+                    elem: 'pagination',
+                    curr: <?=$pager['page_no']?>,
+                    limit: <?=$pager['per_page']?>,
+                    count: <?=$pager['total_rows']?>,
+                    jump: function(obj, first) {
+                        if(!first){
+                            var url = "<?=$pager['base_url']?>";
+                            window.location.href = url+'&page_no='+obj.curr;
+                        }
+                    }
+                });
+                //编辑
+                $('i.fa-edit').parent('a.btn').on('click', function(){
+                    var id = $(this).parents('tr.table-row').data('id');
+                    window.location.href = "<?=$edit_url . '?id='?>"+id;
+                });
+                //删除
+                $('i.fa-remove').parent('a.btn').on('click', function(){
+                    var id = $(this).parents('tr.table-row').data('id');
+                    layer.confirm('确定要删除？', {icon: 0}, function(idx){
+                        window.location.href = "<?=$remove_url . '?id='?>"+id;
+                        layer.close(idx);
+                    });
+                });
+                //恢复
+                $('i.fa-recycle').parent('a.btn').on('click', function(){
+                    var id = $(this).parents('tr.table-row').data('id');
+                    layer.confirm('确定要恢复？', {icon: 0}, function(idx){
+                        window.location.href = "<?=$remove_url . '?recycle=1&id='?>"+id;
+                        layer.close(idx);
+                    });
+                });
             });
         });
     </script>

@@ -48,7 +48,9 @@ class Entry_page extends Admin_page
         $result = $this->list_rows($this->school_model, ['id' => 'DESC']);
         $result['city_options'] = self::$city_options;
         $result['layout'] = $this->input->is_ajax_request() ? 'bare' : 'base';
+        $result['next_url'] = $this->get_page_url('', $result['conds'], true);
         $result['edit_url'] = $this->get_page_url('edit', [], true);
+        $result['remove_url'] = $this->get_page_url('remove', [], true);
 
         // $this->load->model('default/account_model');
         // $this->account_model->increase_by_id(1, 3);
@@ -84,6 +86,20 @@ class Entry_page extends Admin_page
             $next_url = $this->input->post_get('next_url');
         } else {
             $next_url = $this->get_page_url('edit', [], true);
+        }
+        return redirect($next_url);
+    }
+
+    public function remove()
+    {
+        $id = $this->input->post_get('id');
+        $recycle = $this->input->post_get('recycle', 0);
+        if ($id) {
+            $method = $recycle ? 'undelete' : 'delete';
+            $this->school_model->$method(['id' => $id], 1);
+            $next_url = $this->input->post_get('next_url');
+        } else {
+            $next_url = $this->get_page_url('index', [], true);
         }
         return redirect($next_url);
     }
