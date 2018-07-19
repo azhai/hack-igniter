@@ -14,7 +14,7 @@
                 <table class="table table-striped">
                     <thead>
                     <tr>
-                        <th><input type="checkbox" class="i-checks" id="ids"></th>
+                        <th><input type="checkbox" class="i-checks" id="ids" value=""></th>
                         <th>城市</th>
                         <th>驾校</th>
                         <th>科目一</th>
@@ -107,6 +107,17 @@
             }).on('ifUnchecked', function(ev){
                 $('.i-checks').iCheck('uncheck');
             });
+            function getCheckedIds(checkbox) {
+                var ids = '';
+                $(checkbox).each(function(){
+                    var el = $(this);
+                    if (el.prop('checked')) {
+                        ids += el.val() + ',';
+                    }
+                });
+                return ids;
+            }
+
             layui.use(['layer', 'laypage'], function(){
                 var layer = layui.layer;
                 var laypage = layui.laypage;
@@ -134,18 +145,33 @@
                 //删除
                 $('i.fa-remove').parent('a.btn').on('click', function(){
                     var id = $(this).parents('tr.table-row').data('id');
-                    layer.confirm('确定要删除？', {icon: 0}, function(idx){
-                        window.location.href = "<?=$remove_url . '?id='?>"+id;
-                        layer.close(idx);
-                    });
+                    if ('CHECKS' == id) {
+                        id = getCheckedIds('input.i-checks');
+                    }
+                    if ('' == id) {
+                        layer.msg('请选择一行或多行！', {icon: 0});
+                    } else {
+                        layer.confirm('确定要删除？', {icon: 0}, function(idx){
+                            window.location.href = "<?=$remove_url . '?id='?>"+id;
+                            layer.close(idx);
+                        });
+                    }
                 });
                 //恢复
                 $('i.fa-recycle').parent('a.btn').on('click', function(){
                     var id = $(this).parents('tr.table-row').data('id');
-                    layer.confirm('确定要恢复？', {icon: 0}, function(idx){
-                        window.location.href = "<?=$remove_url . '?recycle=1&id='?>"+id;
-                        layer.close(idx);
-                    });
+                    if ('CHECKS' == id) {
+                        id = getCheckedIds('input.i-checks');
+
+                    }
+                    if ('' == id) {
+                        layer.msg('请选择一行或多行！', {icon: 0});
+                    } else {
+                        layer.confirm('确定要恢复？', {icon: 0}, function(idx){
+                            window.location.href = "<?=$remove_url . '?recycle=1&id='?>"+id;
+                            layer.close(idx);
+                        });
+                    }
                 });
             });
         });

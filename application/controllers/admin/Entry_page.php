@@ -94,9 +94,9 @@ class Entry_page extends Admin_page
     {
         $id = $this->input->post_get('id');
         $recycle = $this->input->post_get('recycle', 0);
-        if ($id) {
+        if ($ids = explode(',', trim($id, ', '))) {
             $method = $recycle ? 'undelete' : 'delete';
-            $this->school_model->$method(['id' => $id], 1);
+            $this->school_model->$method(['id' => $ids], count($ids));
             $next_url = $this->input->post_get('next_url');
         } else {
             $next_url = $this->get_page_url('index', [], true);

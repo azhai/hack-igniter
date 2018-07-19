@@ -247,7 +247,7 @@ class MY_Model extends CI_Model implements ArrayAccess
         return $this->result->result_array();
     }
 
-    public function parse_select($columns = null)
+    public function parse_select($columns = null, $escape = null)
     {
         if ($columns && '*' !== $columns) {
             if (is_array($columns)) {
@@ -259,26 +259,26 @@ class MY_Model extends CI_Model implements ArrayAccess
                 $columns = array_values($columns);
             }
             $db = $this->reconnect();
-            $db->select($columns);
+            $db->select($columns, $escape);
         }
         return $this;
     }
 
-    public function parse_where($where = null)
+    public function parse_where($where = null, $escape = null)
     {
         $db = $this->reconnect();
         if (is_array($where)) {
             foreach ($where as $key => $value) {
                 if (!is_array($value)) {
-                    $db->where($key, $value);
+                    $db->where($key, $value, $escape);
                 } elseif (count($value) <= 1) {
-                    $db->where($key, reset($value));
+                    $db->where($key, reset($value), $escape);
                 } else {
-                    $db->where_in($key, $value);
+                    $db->where_in($key, $value, $escape);
                 }
             }
         } elseif (!empty($where)) {
-            $db->where($where);
+            $db->where($where, null, $escape);
         }
         return $this;
     }
@@ -411,7 +411,7 @@ class MY_Model extends CI_Model implements ArrayAccess
         $table = $this->table_name();
         $db = $this->reconnect();
         if (!empty($where)) {
-            $db->where($where, '', $escape);
+            $this->parse_where($where, $escape);
         }
         return $db->delete($table, '', $limit);
     }
@@ -445,7 +445,7 @@ class MY_Model extends CI_Model implements ArrayAccess
         $db = $this->reconnect();
         $db->set($set, '', $escape);
         if (!empty($where)) {
-            $db->where($where, '', $escape);
+            $this->parse_where($where, $escape);
         }
         $db->update($table, null, null, $limit);
         if ($this->is_open_mixin('cacheable')) {
