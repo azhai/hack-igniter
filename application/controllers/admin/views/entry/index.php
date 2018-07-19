@@ -59,7 +59,7 @@
                     <?php endforeach; ?>
                     </tbody>
                     <tfoot>
-                    <tr class="table-row" data-id="checks">
+                    <tr class="table-row" data-id="CHECKS">
                         <td colspan="<?=$spans['left']?>">
                             <a class="btn btn-default btn-rounded">
                                 <i class="fa fa-remove" title="删除"> 删除 </i>

@@ -37,7 +37,7 @@ class Entry_page extends Admin_page
         foreach ($result as &$row) {
             $option = self::$city_options[$row['prefix']];
             $row['city_name'] = $option['name'];
-            $row['city_color'] = $option['color'];
+            $row['city_color'] = $row['is_removed'] ? '#ddd' : $option['color'];
         }
         return $result;
     }

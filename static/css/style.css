@@ -1375,6 +1375,17 @@ tr.removed > td.operations {
     text-decoration: none;
 }
 
+tr.removed,
+tr.removed > td > a,
+tr.removed > td > a:hover,
+tr.removed > td > a:focus,
+tr.removed > td > span
+tr.removed > td > span:hover
+tr.removed > td > span:focus {
+    color: #ddd;
+}
+
+
 /* PAGINATIN */
 
 .pagination > .active > a,
