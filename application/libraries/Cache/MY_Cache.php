@@ -128,7 +128,13 @@ class MY_Cache extends CI_Cache implements SplObserver
     public function delete_cache(SplSubject $subject, $condition)
     {
         $key = $subject->cache_key($condition);
-        return $this->delete($key);
+        if (!is_array($key)) {
+            return $this->delete($key);
+        }
+        foreach ($key as $k) {
+            $result = $this->delete($k);
+        }
+        return $result;
     }
 
     /**
@@ -142,7 +148,13 @@ class MY_Cache extends CI_Cache implements SplObserver
     public function incr_cache(SplSubject $subject, $condition, $offset = 1)
     {
         $key = $subject->cache_key($condition);
-        return $this->increment($key, $offset);
+        if (!is_array($key)) {
+            return $this->increment($key, $offset);
+        }
+        foreach ($key as $k) {
+            $result = $this->increment($k, $offset);
+        }
+        return $result;
     }
 
     /**
@@ -156,6 +168,12 @@ class MY_Cache extends CI_Cache implements SplObserver
     public function decr_cache(SplSubject $subject, $condition, $offset = 1)
     {
         $key = $subject->cache_key($condition);
-        return $this->decrement($key, $offset);
+        if (!is_array($key)) {
+            return $this->decrement($key, $offset);
+        }
+        foreach ($key as $k) {
+            $result = $this->decrement($k, $offset);
+        }
+        return $result;
     }
 }

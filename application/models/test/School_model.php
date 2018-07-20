@@ -13,6 +13,8 @@ class School_model extends MY_Model
     protected $_db_key = 'default';
     protected $_db_key_ro = 'default_ro';
     protected $_table_name = 't_schools';
+    protected $_created_field = 'created_at';
+    protected $_changed_field = 'changed_at';
 
     public function __construct()
     {
@@ -67,6 +69,10 @@ class School_model extends MY_Model
 
     public function cache_key($condition)
     {
-        return 'school:' . $condition['id'];
+        $ids = $condition['id'];
+        if (!is_array($ids)) {
+            return 'school:' . $ids;
+        }
+        return array_map(function($x){return 'school:'.$x;}, $ids);
     }
 }

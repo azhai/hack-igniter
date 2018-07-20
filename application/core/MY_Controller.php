@@ -23,6 +23,7 @@ class MY_Controller extends CI_Controller
     public $curr_page = '';
     public $curr_action = '';
     public $db_conns = [];
+    public $tpl_alias = [];
 
     public function _remap($action, $params = [])
     {
@@ -58,6 +59,9 @@ class MY_Controller extends CI_Controller
 
     protected function get_template($action = '')
     {
+        if ($action && isset($this->tpl_alias[$action])) {
+            $action = $this->tpl_alias[$action];
+        }
         $page_action = trim($this->get_page_url($action), '/');
         if ('twig' === $this->response_type) {
             return $page_action . '.twig';

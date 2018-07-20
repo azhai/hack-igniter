@@ -34,14 +34,28 @@ class MY_Curl
     const SLEEP_SECONDS = 0.3;  //同一请求发送休息间隔
 
     public $retry_times = 0;
-    protected $base_url = '';    //备份全局options
-    protected $global_opts = [];     //最后一次请求结果，会覆盖
-    protected $response = null;
+    public $cookies = [];       //COOKIE
+    public $options = [];       //备份全局options
+    protected $base_url = '';
+    protected $response = null; //最后一次请求结果，会覆盖
 
     public function __construct(array $config = null)
     {
         if ($config && isset($config['base_url'])) {
             $this->set_base_url($config['base_url']);
+        }
+    }
+
+    public function add_cookie($name, $value)
+    {
+        $this->cookies[$name] = $value;
+    }
+
+    public function set_cookie_file($filename)
+    {
+        if (file_exists($filename)) {
+            $this->options[CURLOPT_COOKIEFILE] = $filename;
+            $this->options[CURLOPT_COOKIEJAR] = $filename;
         }
     }
 
@@ -84,20 +98,17 @@ class MY_Curl
      */
     public function prepare(array $options = [])
     {
-        if (!array_key_exists('timeout', $options) && !array_key_exists('Timeout', $options)
-        ) {
-            $options['Timeout'] = intval(ini_get('default_socket_timeout'));
+        if (!array_key_exists('timeout', $options) && !array_key_exists('Timeout', $options)) {
+            $this->options[CURLOPT_TIMEOUT] = intval(ini_get('default_socket_timeout'));
         }
-        if (!array_key_exists('useragent', $options) && !array_key_exists('UserAgent', $options)
-        ) {
-            $options['UserAgent'] = 'Mozilla/4.0';
+        if (!array_key_exists('useragent', $options) && !array_key_exists('UserAgent', $options)) {
+            $this->options[CURLOPT_USERAGENT] = 'Mozilla/4.0';
         }
-        if (empty($this->global_opts)) { //未保存过
-            $this->global_opts = UniRequest::curlOpts([]);
+        if (!empty($this->cookies)) {
+            $cookie = http_build_query($this->cookies, '', '; ');
+            $this->options[CURLOPT_COOKIE] = $cookie;
         }
-        if (!empty($options)) {
-            UniRequest::curlOpts($this->global_opts);
-        }
+        $this->options = UniRequest::curlOpts($this->options);
         return $this;
     }
 
@@ -209,15 +220,10 @@ class MY_Curl
     /**
      * 还原options和记录日志
      */
-    public function finish(
-        $method = 'GET',
-        $url = '-',
-                           $reqbody = '-',
-        $headers = [],
-        $phrase = ''
-    ) {
-        UniRequest::clearCurlOpts();
-        UniRequest::curlOpts($this->global_opts);
+    public function finish($method = 'GET', $url = '-',
+                           $reqbody = '-', $headers = [], $phrase = '')
+    {
+        //UniRequest::clearCurlOpts();
         if (isset($this->logger)) {
             $log_func = [$this->logger, 'log'];
         } elseif (function_exists('log_message')) {
@@ -237,22 +243,11 @@ class MY_Curl
                 $total_time = 0;
             }
             $headers = empty($headers) ? '' : json_encode($headers) . "\n";
+            $options = empty($this->options) ? '' : json_encode($this->options) . "\n";
             $phrase .= ($phrase ? "\n" : '');
             $message = "{$method} \"{$url}\" {$connect_time} {$total_time} {$code}"
-                . "\n{$headers}{$phrase}>>>>>>>>\n{$reqbody}\n<<<<<<<<\n{$respbody}\n";
+                . "\n{$headers}{$options}{$phrase}>>>>>>>>\n{$reqbody}\n<<<<<<<<\n{$respbody}\n";
             call_user_func($log_func, 'DEBUG', $message);
-        }
-    }
-
-    /**
-     * 最后一次状态码
-     */
-    public function get_status_code()
-    {
-        if ($this->response) {
-            return $this->response->code;
-        } else {
-            return -1;
         }
     }
 
@@ -269,6 +264,18 @@ class MY_Curl
             return $body;
         } else {
             return '-';
+        }
+    }
+
+    /**
+     * 最后一次状态码
+     */
+    public function get_status_code()
+    {
+        if ($this->response) {
+            return $this->response->code;
+        } else {
+            return -1;
         }
     }
 
