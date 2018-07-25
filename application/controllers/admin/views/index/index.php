@@ -34,16 +34,16 @@ $this->extendTpl($theme_dir . '/layout.php'); ?>
                         </a>
                         <ul class="nav nav-second-level">
                             <li>
-                                <a class="J_menuItem" href="/admin/user/">用户</a>
+                                <a class="J_menuItem" href="/admin/user/index/">用户</a>
                             </li>
                             <li>
-                                <a class="J_menuItem" href="/admin/role/">角色</a>
+                                <a class="J_menuItem" href="/admin/user/role/">角色</a>
                             </li>
                             <li>
-                                <a class="J_menuItem" href="/admin/menu/">菜单</a>
+                                <a class="J_menuItem" href="/admin/user/menu/">菜单</a>
                             </li>
                             <li>
-                                <a class="J_menuItem" href="/admin/entry/">示例</a>
+                                <a class="J_menuItem" href="/admin/entry/index/">示例</a>
                             </li>
                         </ul>
                     </li>
