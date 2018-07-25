@@ -78,12 +78,4 @@ class User_page extends Admin_page
         $data = $this->admin_model->all(15, $offset);
         return $this->render_json($data);
     }
-
-    public function role()
-    {
-    }
-
-    public function menu()
-    {
-    }
 }

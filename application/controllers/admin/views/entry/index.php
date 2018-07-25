@@ -42,9 +42,6 @@
                             <a class="btn btn-default btn-rounded">
                                 <i class="fa fa-edit" title="编辑"></i>
                             </a>
-                            <a class="btn btn-default btn-rounded">
-                                <i class="fa fa-wrench" title="设置"></i>
-                            </a>
                             <?php if ($row['is_removed']): ?>
                             <a class="btn btn-default btn-rounded">
                                 <i class="fa fa-recycle" title="恢复"></i>
