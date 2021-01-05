@@ -13,11 +13,14 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 $loader = load_class('Loader', 'core');
+$loader->class(__DIR__ . '/MY_Timer.php', 'MY_Timer');
 $loader->name_space('Psr\\Log', VNDPATH . 'psr/log/Psr/Log');
-$loader->name_space('Unirest', VNDPATH . 'mashape/unirest-php/src/Unirest');
+$loader->name_space('Curl', VNDPATH . 'php-curl-class/php-curl-class/src');
 
-class_alias('\\Unirest\\Request', 'UniRequest');
-
+// 域名解析失败错误
+const ERRNO_RESOLVE_FAIL = 6;
+const ERRNO_CONN_FAIL = 7;
+const ERRNO_DNS_FAIL = 28;
 
 /**
  * cURL的HTTP客户端
@@ -26,276 +29,306 @@ class MY_Curl
 {
     use \Psr\Log\LoggerAwareTrait;
 
-    const ERRNO_RESOLVE_FAIL = 6;
-    const ERRNO_CONN_FAIL = 7;
-    const ERRNO_DNS_FAIL = 28;
+    public $client;
+    public $timer;
+    public $is_multi = false;
+    public $batch_data = [];
 
-    const MAX_TRY_TIMES = 3;    //同一请求最大发送次数
-    const SLEEP_SECONDS = 0.3;  //同一请求发送休息间隔
-
-    public $retry_times = 0;
-    public $cookies = [];       //COOKIE
-    public $options = [];       //备份全局options
-    protected $base_url = '';
-    protected $response = null; //最后一次请求结果，会覆盖
-
-    public function __construct(array $config = null)
+    public function __construct(array $config = [])
     {
-        if ($config && isset($config['base_url'])) {
-            $this->set_base_url($config['base_url']);
-        }
-    }
-
-    public function add_cookie($name, $value)
-    {
-        $this->cookies[$name] = $value;
-    }
-
-    public function set_cookie_file($filename)
-    {
-        if (file_exists($filename)) {
-            $this->options[CURLOPT_COOKIEFILE] = $filename;
-            $this->options[CURLOPT_COOKIEJAR] = $filename;
-        }
-    }
-
-    public function set_base_url($base_url)
-    {
-        $this->base_url = rtrim($base_url, '/');
-        return $this;
-    }
-
-    /**
-     * 执行get/post/put/delete/header/option等操作.
-     * $args中的参数次序为 url, headers, body, ...
-     *
-     * @return Unirest\Response对象
-     */
-    public function __call($name, $args)
-    {
-        $this->prepare();
-        @list($url, $headers, $body) = $args;
-        $url = $args[0] = $this->get_url_string($url);
-        $headers = $args[1] = empty($headers) ? [] : $headers;
-        $this->retry_times = 0;
-        do {
-            $phrase = $this->send('UniRequest', $name, $args);
-            if (empty($phrase)) { //无错
-                break;
-            } else {
-                $this->retry_times++;
-                usleep(self::SLEEP_SECONDS * 1.0E6);
-            }
-        } while ($this->retry_times < self::MAX_TRY_TIMES);
-        $body = self::get_body_string($body);
-        $method = self::get_request_method($name);
-        $this->finish($method, $url, $body, $headers, $phrase);
-        return $this->response;
-    }
-
-    /**
-     * 加入options
-     */
-    public function prepare(array $options = [])
-    {
-        if (!array_key_exists('timeout', $options) && !array_key_exists('Timeout', $options)) {
-            $this->options[CURLOPT_TIMEOUT] = intval(ini_get('default_socket_timeout'));
-        }
-        if (!array_key_exists('useragent', $options) && !array_key_exists('UserAgent', $options)) {
-            $this->options[CURLOPT_USERAGENT] = 'Mozilla/4.0';
-        }
-        if (!empty($this->cookies)) {
-            $cookie = http_build_query($this->cookies, '', '; ');
-            $this->options[CURLOPT_COOKIE] = $cookie;
-        }
-        $this->options = UniRequest::curlOpts($this->options);
-        return $this;
-    }
-
-    public function get_url_string($url)
-    {
-        $url = is_string($url) ? ltrim($url, '/') : '';
-        if (!empty($this->base_url)) {
-            $url = $this->base_url . '/' . $url;
-        }
-        return $url;
-    }
-
-    /**
-     * 发送访问请求
-     * 网络出错时替换域名为IP，预备下次重试.
-     *
-     * @param string $request Unirest\Request类名
-     * @param string $name HTTP方法名
-     * @param array $args 参数列表
-     * @return string 错误描述
-     */
-    public function send($request, $name, array & $args = [])
-    {
-        $phrase = '';
-        try {
-            $this->response = exec_method_array($request, $name, $args);
-        } catch (\Exception $e) {
-            $phrase = $e->getMessage();
-            @list($url, $headers) = $args;
-            $url = empty($url) ? '' : $url;
-            $headers = empty($headers) ? [] : $headers;
-            if (!isset($headers['Host']) && self::is_unreachable()) {
-                $headers['Host'] = self::instead_of_url($url);
-                array_splice($args, 0, 2, [$url, $headers]);
-            }
-        }
-        return $phrase;
-    }
-
-    /**
-     * 请求是否遇到网络不可达（如域名解析失败）的错误.
-     *
-     * @return bool
-     */
-    public static function is_unreachable()
-    {
-        $failures = [
-                self::ERRNO_RESOLVE_FAIL,
-                self::ERRNO_DNS_FAIL,
-                self::ERRNO_CONN_FAIL,
+        $config += [
+            'base_url' => '', 'user_agent' => 'Mozilla/4.0',
+            'is_multi' => false, 'concurrency' => 0, 'gap_secs' => 0,
         ];
-        if ($errno = self::get_error_no()) {
-            return in_array($errno, $failures, true);
+        $this->is_multi = !empty($config['is_multi']);
+        $this->client = createClient($this, $config['base_url'], $this->is_multi);
+        if ($config['user_agent']) {
+            $this->client->setUserAgent($config['user_agent']);
+        }
+        if ($this->is_multi && $config['concurrency'] > 0) {
+            $this->client->setConcurrency($config['concurrency']);
+        }
+        if ($config['gap_secs'] > 0) { // 每几秒发送一次累积的消息
+            $this->timer = new MY_Timer($config);
+        }
+    }
+
+    public function __destruct()
+    {
+        $this->close();
+    }
+
+    /**
+     * 关闭前将剩余消息发出
+     */
+    public function close()
+    {
+        if (!$this->is_multi || is_null($this->timer) || empty($this->batch_data)) {
+            return false;
+        }
+        $this->batchSend(array_splice($this->batch_data, 0));
+        return true;
+    }
+
+    /**
+     * 发送消息
+     */
+    public function send(array $msgdata, $ctype = '')
+    {
+        if ($ctype) {
+            $this->setContentType($ctype);
+        }
+        if ($this->is_multi) {
+            $this->client->addPost($msgdata);
+            $this->client->start();
+        } else {
+            $this->client->post($msgdata);
+            $result = $this->client->getResponse();
+            $this->client->close();
+            return $result;
+        }
+    }
+
+    /**
+     * 批量发送消息
+     */
+    public function batchSend(array $batch_data, $ctype = '')
+    {
+        if (empty($batch_data)) {
+            return 0;
+        }
+        if ($ctype) {
+            $this->setContentType($ctype);
+        }
+        if ($this->is_multi) {
+            foreach ($batch_data as $msgdata) {
+                $this->client->addPost($msgdata);
+            }
+            $this->client->start();
+        } else {
+            foreach ($batch_data as $msgdata) {
+                $this->client->post($msgdata);
+            }
+            $this->client->close();
+        }
+    }
+
+    /**
+     * 累积一定数量的消息一起发送
+     */
+    public function append(array $msgdata)
+    {
+        if (!$this->is_multi || is_null($this->timer)) {
+            return false;
+        }
+        $this->batch_data[] = $msgdata;
+        if ($this->timer->isHitting()) {
+            $this->batchSend(array_splice($this->batch_data, 0));
+            return true;
         }
         return false;
     }
 
-    public static function get_error_no()
+    public function addCookie($name, $value)
     {
-        if ($handler = UniRequest::getCurlHandle()) {
-            return curl_errno($handler);
+        $this->client->setCookie($name, $value);
+    }
+
+    public function setCookieFile($filename)
+    {
+        if (file_exists($filename)) {
+            $this->client->setCookieFile($filename);
+            $this->client->setCookieJar($filename);
         }
     }
 
-    /**
-     * 使用指定的IP代替域名访问.
-     *
-     * @param string $url 访问的网址，传址
-     * @return string 解析得到的域名
-     */
-    public static function instead_of_url(& $url)
+    public function setContentType($ctype)
     {
-        $hostname = parse_url($url, PHP_URL_HOST);
-        if ($ipaddr = self::get_domain_ip($hostname)) {
-            $url = str_ireplace($hostname, $ipaddr, $url);
+        $ctype = strtolower($ctype);
+        switch ($ctype) {
+            case 'json':
+                $ctype = 'application/json';
+                break;
+            case 'html':
+                $ctype = 'text/html';
+                break;
         }
-        return $hostname;
-    }
-
-    /**
-     * 解析出正确的IP，用于域名访问超时.
-     *
-     * @return string 域名对应IP地址
-     */
-    public static function get_domain_ip($domain)
-    {
-        $dns_records = dns_get_record($domain, DNS_A, $authns, $addtl);
-        if ($dns_records && $ipaddr = $dns_records[0]['ip']) {
-            return $ipaddr; //使用解析到的IP
-        }
-    }
-
-    public static function get_body_string($body)
-    {
-        if (empty($body)) {
-            $body = '-';
-        } elseif (is_array($body) || $body instanceof \Traversable) {
-            $body = UniRequest::buildHTTPCurlQuery($body);
-            $body = http_build_query($body);
-        }
-        return $body;
-    }
-
-    public static function get_request_method($method = 'GET')
-    {
-        return @constant('\\Unirest\\Method::' . strtoupper($method));
-    }
-
-    /**
-     * 还原options和记录日志
-     */
-    public function finish($method = 'GET', $url = '-',
-                           $reqbody = '-', $headers = [], $phrase = '')
-    {
-        //UniRequest::clearCurlOpts();
-        if (isset($this->logger)) {
-            $log_func = [$this->logger, 'log'];
-        } elseif (function_exists('log_message')) {
-            $log_func = 'log_message';
-        } else {
-            $log_func = null;
-        }
-        if ($log_func) {
-            $code = $this->get_status_code();
-            $respbody = $this->get_response_body('UTF-8');
-            if ($this->response) {
-                //$url = UniRequest::getInfo(CURLINFO_EFFECTIVE_URL); //最终URL
-                $connect_time = UniRequest::getInfo(CURLINFO_CONNECT_TIME);
-                $total_time = UniRequest::getInfo(CURLINFO_TOTAL_TIME);
-            } else {
-                $connect_time = 0;
-                $total_time = 0;
-            }
-            $headers = empty($headers) ? '' : json_encode($headers) . "\n";
-            $options = empty($this->options) ? '' : json_encode($this->options) . "\n";
-            $phrase .= ($phrase ? "\n" : '');
-            $message = "{$method} \"{$url}\" {$connect_time} {$total_time} {$code}"
-                . "\n{$headers}{$options}{$phrase}>>>>>>>>\n{$reqbody}\n<<<<<<<<\n{$respbody}\n";
-            call_user_func($log_func, 'DEBUG', $message);
-        }
-    }
-
-    /**
-     * 最后一次输出
-     */
-    public function get_response_body($encoding = '')
-    {
-        if ($this->response && $this->response->raw_body) {
-            $body = $this->response->raw_body;
-            if ($encoding) {
-                $body = convert_string($body, $encoding);
-            }
-            return $body;
-        } else {
-            return '-';
-        }
-    }
-
-    /**
-     * 最后一次状态码
-     */
-    public function get_status_code()
-    {
-        if ($this->response) {
-            return $this->response->code;
-        } else {
-            return -1;
-        }
+        $this->client->setHeader('Content-Type', $ctype);
     }
 
     /**
      * 最后一次调用是否成功
      */
-    public function is_success()
+    public function isSuccess()
     {
-        $code = $this->get_status_code();
-        return $code >= 100 && $code < 400;
+        if (!$this->is_multi) {
+            $code = $this->client->getHttpStatusCode();
+            return $code >= 100 && $code < 400;
+        }
     }
 
     /**
-     * 转为JSON格式
+     * 记录日志的方法
      */
-    public function to_json()
+    public function getLogFunc()
     {
-        $respbody = $this->get_response_body();
-        if ($respbody && $respbody !== '-') {
-            return json_decode($respbody, true);
+        if (isset($this->logger)) {
+            return [$this->logger, 'log'];
+        } elseif (function_exists('log_message')) {
+            return'log_message';
         }
     }
+}
+
+/**
+ * 创建cURL的HTTP客户端
+ * NOTICE:
+ *   PHP的cURL无法看到本地的/etc/hosts文件，而Bash的curl可以
+ */
+function createClient($wrapper = null, $base_url = null, $is_multi = false)
+{
+    if ($is_multi) {
+        $client = new Curl\MultiCurl($base_url);
+    } else {
+        $client = new Curl\Curl($base_url);
+    }
+    $client->setRetry(replaceHostCallback(false, 443));
+    if ($wrapper && $log = $wrapper->getLogFunc()) {
+        $client->success(logSimpleCallback($log, true, 'DEBUG'));
+        $client->error(logSimpleCallback($log, false, 'ERROR'));
+    }
+    return $client;
+}
+
+
+/**
+ * 是否网络不可达（如域名解析失败）的错误
+ */
+function isErrorUnreachable($code)
+{
+    static $failures = [
+        ERRNO_RESOLVE_FAIL,
+        ERRNO_DNS_FAIL,
+        ERRNO_CONN_FAIL,
+    ];
+    return in_array($code, $failures);
+}
+
+/**
+ * 解析域名对应的IP地址
+ */
+function getDomainIpaddr($domain)
+{
+    $dns_records = dns_get_record($domain, DNS_A);
+    if ($dns_records && $ipaddr = $dns_records[0]['ip']) {
+        return $ipaddr; //使用解析到的IP
+    }
+    return '';
+}
+
+/**
+ * 读取临时文件内容
+ */
+function readTempFile($temp)
+{
+    if (!is_resource($temp)) {
+        return '';
+    }
+    rewind($temp);
+    $content = @stream_get_contents($temp);
+    fclose($temp);
+    return $content ? $content : '';
+}
+
+
+/**
+ * 使用IP地址代替Host
+ * 始终使用
+ *  $client->beforeSend(replaceHostCallback(true, 443, ['localhost' => '127.0.0.1']));
+ * 当域名解析失败时使用
+ *  $client->setRetry(replaceHostCallback());
+ */
+function replaceHostCallback($always = false, $resolve_port = 0, array $hosts = [])
+{
+    return function ($client) use ($always, $resolve_port, $hosts) {
+        if (!$always && !isErrorUnreachable($client->getCurlErrorCode())) {
+            return false;
+        }
+        $url = $client->getUrl();
+        $hostname = parse_url($url, PHP_URL_HOST);
+        $ipaddr = @$hosts[strtolower($hostname)];
+        if (empty($ipaddr)) {
+            $ipaddr = getDomainIpaddr($hostname);
+        }
+        if (empty($ipaddr)) {
+            return false;
+        }
+        if ($resolve_port > 0 && version_compare(PHP_VERSION, '5.5.0') >= 0) {
+            $record = sprintf('%s:%d:%s', $hostname, $resolve_port, $ipaddr);
+            $client->setOpt(CURLOPT_RESOLVE, [$record]); // need php5.5+
+        } else {
+            $url = str_ireplace($hostname, $ipaddr, $url);
+            $client->setUrl($url);
+            $client->setHeader('Host', $hostname);
+        }
+        return true;
+    };
+}
+
+/**
+ * 记录简短日志
+ * $client->success(logSimpleCallback($log, true, 'DEBUG'));
+ * $client->error(logSimpleCallback($log, false, 'ERROR'));
+ */
+function logSimpleCallback(callable $log, $success = false, $level = 'DEBUG')
+{
+    return function ($client) use ($log, $success, $level) {
+        $content = sprintf(
+            'REST> ip_addr: %s total_time: %s',
+            $client->getInfo(CURLINFO_PRIMARY_IP),
+            $client->getInfo(CURLINFO_TOTAL_TIME)
+        ) . "\n";
+        $method = $client->getOpt(CURLOPT_CUSTOMREQUEST);
+        if (empty($method)) {
+            $method = strstr($client->getInfo(CURLINFO_HEADER_OUT), ' ', true);
+        }
+        $content .= 'REST> ' . $method . ' ' . $client->getUrl() . "\n";
+        $request = $client->getOpt(CURLOPT_POSTFIELDS);
+        $content .= 'REST> ' . $request . "\n";
+        $response = $success ? $client->getRawResponse() : 'ERROR: ' . $client->getErrorMessage();
+        $content .= 'REST> ' . $response . "\n";
+        call_user_func($log, $level, $content);
+    };
+}
+
+/**
+ * 记录详细日志
+ * $client->success(logVerboseCallback($log, true, 'DEBUG'));
+ * $client->error(logVerboseCallback($log, false, 'ERROR'));
+ */
+function logVerboseCallback(callable $log, $success = false, $level = 'DEBUG')
+{
+    return function ($client) use ($log, $success, $level) {
+        $url = strstr($client->getUrl(), '?', true);
+        $content = sprintf(
+            '* cURL site_uri: %s ip_addr: %s total_time: %s',
+            $url,
+            $client->getInfo(CURLINFO_PRIMARY_IP),
+            $client->getInfo(CURLINFO_TOTAL_TIME)
+        ) . "\n";
+        if ($success) {
+            $request = $client->getInfo(CURLINFO_HEADER_OUT);
+            $content .= '> ' . rtrim(str_replace("\r\n", "\n> ", $request), '> ');
+        } else {
+            $method = $client->getOpt(CURLOPT_CUSTOMREQUEST);
+            $content .= '> ' . $method . ' ' . $client->getUrl() . "\n";
+            $request = implode("\r\n", $client->getRequestHeaders());
+            $content .= '> ' . rtrim(str_replace("\r\n", "\n> ", $request), '> ') . "\n";
+        }
+        $content .= $client->getOpt(CURLOPT_POSTFIELDS) . "\n";
+        $response = $client->getRawResponseHeaders();
+        $content .= '< ' . rtrim(str_replace("\r\n", "\n< ", $response), '< ');
+        $content .= $success ? $client->getRawResponse() : 'ERROR: ' . $client->getErrorMessage();
+        call_user_func($log, $level, $content);
+    };
 }

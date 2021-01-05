@@ -9,8 +9,6 @@ return PhpCsFixer\Config::create()
     ->setRules([
         '@PSR1' => true,
         '@PSR2' => true,
-        '@PHP56Migration:risky' => true,
-        '@PHPUnit57Migration:risky' => true,
     ])
     ->setFinder(PhpCsFixer\Finder::create()
         ->exclude('adminer.php')

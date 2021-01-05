@@ -73,6 +73,8 @@ class School_model extends MY_Model
         if (!is_array($ids)) {
             return 'school:' . $ids;
         }
-        return array_map(function($x){return 'school:'.$x;}, $ids);
+        return array_map(function ($x) {
+            return 'school:'.$x;
+        }, $ids);
     }
 }

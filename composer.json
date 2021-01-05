@@ -10,20 +10,20 @@
     "repositories": {
         "packagist": {
             "type": "composer",
-            "url": "https://packagist.phpcomposer.com"
+            "url": "https://packagist.org"
         }
     },
     "require": {
         "php": ">=5.4.6",
         "codeigniter/framework": "3.*",
-        "psr/log": "1.*",
-        "twig/twig": "2.*",
-        "mashape/unirest-php": "3.*"
+        "psr/log": "*",
+        "twig/twig": "*",
+        "php-curl-class/php-curl-class": "*"
     },
     "require-dev": {
         "nikic/php-parser": "3.*",
         "azhai/code-refactor": "1.*",
-        "yosymfony/toml": "1.*",
+        "yosymfony/toml": "*",
         "fzaninotto/faker": "*"
     }
 }

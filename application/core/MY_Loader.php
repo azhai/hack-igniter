@@ -151,7 +151,7 @@ class MY_Loader extends CI_Loader
      */
     public function get_driver_library(
         $lib_name,
-            $params,
+        $params,
         $driver_params = null,
         $object_name = null
     ) {
