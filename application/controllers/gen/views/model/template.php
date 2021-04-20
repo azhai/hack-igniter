@@ -16,10 +16,10 @@ endif; ?>
     protected $_db_key_ro = '<?=$db_key?>';
     protected $_table_name = '<?=$table?>';
 <?php if (isset($fields['created_at'])):
-    echo "    protected $_created_field = 'created_at';\n";
+    echo "    protected \$_created_field = 'created_at';\n";
 endif; ?>
 <?php if (isset($fields['changed_at'])):
-    echo "    protected $_changed_field = 'changed_at';\n";
+    echo "    protected \$_changed_field = 'changed_at';\n";
 endif; ?>
 
 <?php if (!$mixin || !in_array('table_indexes', $mixin['methods'], true)): ?>

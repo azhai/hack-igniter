@@ -21,10 +21,19 @@ class MY_Cache_redis extends CI_Cache_redis
      *
      * @param array $config
      */
-    public function set_options(array & $config)
+    public function set_options(array& $config)
     {
+        if (isset($config['password']) && $config['password']) {
+            $this->_redis->auth($config['password']);
+        }
+        $db_index = 0;
         if (isset($config['database']) && $config['database']) {
             $db_index = intval($config['database']);
+        }
+        if (isset($config['dbindex']) && $config['dbindex']) {
+            $db_index = intval($config['dbindex']);
+        }
+        if ($db_index >= 0) {
             $this->_redis->select($db_index);
         }
     }
@@ -41,6 +50,19 @@ class MY_Cache_redis extends CI_Cache_redis
             $this->_redis = $another;
         }
         return $this->_redis;
+    }
+
+    /**
+     * 删除操作，redis5已废弃
+     *
+     * @param string/array $keys （多个）缓存键
+     * @return int 实际删除数量
+     */
+    public function delete($keys)
+    {
+        $redis = $this->instance();
+        $keys = is_array($keys) ? $keys : func_get_args();
+        return $redis->del($keys);
     }
 
     /**
@@ -115,9 +137,13 @@ class MY_Cache_redis extends CI_Cache_redis
      * @param $id
      * @return mixed
      */
-    public function get_hash($id)
+    public function get_hash($id, array $fields = null)
     {
-        return $this->instance()->hGetAll($id);
+        if (empty($fields)) {
+            return $this->instance()->hGetAll($id);
+        } else {
+            return $this->instance()->hmGet($id, $fields);
+        }
     }
 
     /**

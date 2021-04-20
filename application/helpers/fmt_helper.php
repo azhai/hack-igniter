@@ -136,3 +136,69 @@ if (! function_exists('array_export')) {
         return implode("\n", $lines);
     }
 }
+
+if (! function_exists('array_part')) {
+    /**
+     * 只获取数组的一部分
+     */
+    function array_part($data, $keys = null)
+    {
+        if (empty($keys) || '*' === $keys) {
+            return array_slice($data, 0); // 返回全部
+        }
+        if (is_string($keys)) {
+            $keys = array_map('trim', explode(',', $keys));
+        }
+        $refer = array_fill_keys($keys, null);
+        return array_intersect_key($data, $refer);
+    }
+}
+
+
+if (! function_exists('last_month_day')) {
+    /**
+     * 找出上个月的这一天，没有这一天时使用月末
+     * （使用时间戳计算，避免判断跨年）
+     */
+    function last_month_day($time)
+    {
+        $day = intval(date('d', $time)); //当月第几天
+        $time -= $day * 86400; //退回上月最后一天
+        $tail_day = intval(date('d', $time)); //上个月有多长
+        if ($day > $tail_day) {
+            //上个月较短，没有这几天，使用月末
+        } else {
+            $time -= ($tail_day - $day) * 86400;
+        }
+        return date('Y-m-d', $time);
+    }
+}
+
+
+if (! function_exists('escape_db_input')) {
+    /**
+     * 过滤$_REQUEST字符串中的危险字符，用于mysql查询
+     */
+    function escape_db_input($input, $strip_tags=true) {
+        if(is_array($input)) {
+            foreach($input as $key => $value) {
+                $input[$key] = escape_db_input($value);
+            }
+        } else {
+            if(get_magic_quotes_gpc()) {
+                if(ini_get('magic_quotes_sybase')){
+                    $input = str_replace("''", "'", $input);
+                }
+                else {
+                    $input = stripslashes($input);
+                }
+            }
+            if($strip_tags) {
+                $input = strip_tags($input);
+            }
+            $input = mysql_real_escape_string($input);
+            $input = trim($input);
+        }
+        return $input;
+    }
+}

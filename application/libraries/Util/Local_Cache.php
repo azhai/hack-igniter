@@ -1,6 +1,17 @@
-<?php if (!defined('BASEPATH')) {
-    exit('No direct script access allowed');
-}
+<?php
+/**
+ * hack-igniter
+ *
+ * A example project extends of CodeIgniter v3.x
+ *
+ * @package hack-igniter
+ * @author  Ryan Liu (azhai)
+ * @link    http://azhai.surge.sh/
+ * @copyright   Copyright (c) 2013
+ * @license http://opensource.org/licenses/MIT  MIT License
+ */
+
+namespace Mylib\Util;
 
 defined('LOCAL_CACHE_APCU') or define('LOCAL_CACHE_APCU', 'apcu');
 defined('LOCAL_CACHE_YAC') or define('LOCAL_CACHE_YAC', 'yac');
@@ -13,12 +24,12 @@ defined('LOCAL_CONFIG_TTL') or define('LOCAL_CONFIG_TTL', 60);
  *
  * 配置文件： application/config/globals.json 内容： {"local_cache":"yac"}
  * 使用举例：
- * $this->load->library('MY_Local_Cache');
- * $this->local_cache->retrieveData($cache_key, 300, function($cache_key) use ($redis) {
+ * $local_cache = new \Mylib\Util\MY_Local_Cache();
+ * $local_cache->retrieveData($cache_key, 300, function($cache_key) use ($redis) {
  *     return [$redis->hGetAll($cache_key), $redis->ttl($cache_key)];
  * });
  */
-class MY_Local_Cache
+class Local_Cache
 {
     protected $cache_type = '';
     protected $yac;

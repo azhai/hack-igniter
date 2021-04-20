@@ -341,7 +341,8 @@ trait MY_Foreign
         $fkey = $rel['fkey'];
         $another->group_order_by($fkey, '', 'DESC')->order_by($fkey);
         $columns = self::get_foreign_columns($another, $rel);
-        $result = yield self::fetch_contains($this, $another, $name, $rel, $columns);
+        // $result = yield self::fetch_contains($this, $another, $name, $rel, $columns);
+        $result = self::fetch_contains($this, $another, $name, $rel, $columns);
         return $result;
     }
 

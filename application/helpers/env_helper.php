@@ -25,6 +25,53 @@ if (! function_exists('is_winnt')) {
 }
 
 
+if (!function_exists('is_testing_mode')) {
+    /**
+     * 是否测试环境
+     */
+    function is_testing_mode()
+    {
+        if (is_cli() && count($_SERVER['argv']) > 1) {
+            return in_array('testing', $_SERVER['argv']);
+        }
+        if (!isset($_SERVER) || empty($_SERVER)) {
+            return false;
+        }
+        if (isset($_SERVER['CI_ENV'])) {
+            return 'development' === $_SERVER['CI_ENV'];
+        } elseif (isset($_SERVER['SERVER_NAME'])) {
+            return '.test' === substr($_SERVER['SERVER_NAME'], -5);
+        }
+        return false;
+    }
+}
+
+
+if (!function_exists('gen_call_trace')) {
+    /**
+     * 输出PHP调用栈
+     */
+    function gen_call_trace()
+    {
+        $e = new Exception();
+        $trace = explode("\n", $e->getTraceAsString());
+        // reverse array to make steps line up chronologically
+        $trace = array_reverse($trace);
+        array_shift($trace); // remove {main}
+        array_pop($trace); // remove call to this method
+        $length = count($trace);
+        $result = array();
+
+        for ($i = 0; $i < $length; $i++)
+        {
+            $result[] = ($i + 1)  . ')' . substr($trace[$i], strpos($trace[$i], ' ')); // replace '#someNum' with '$i)', set the right ordering
+        }
+
+        return "\t" . implode("\n\t", $result);
+    }
+}
+
+
 if (! function_exists('get_real_client_ip')) {
     /**
      * 获取真实客户端IP
@@ -32,7 +79,7 @@ if (! function_exists('get_real_client_ip')) {
     function get_real_client_ip()
     {
         $keys = [
-            'HTTP_CLIENT_IP', 'HTTP_X_REAL_IP', 'HTTP_X_FORWARDED_FOR',
+            'HTTP_X_FORWARDED_FOR', 'HTTP_X_REAL_IP', 'HTTP_CLIENT_IP',
             'HTTP_X_FORWARDED', 'HTTP_X_CLUSTER_CLIENT_IP',
             'HTTP_FORWARDED_FOR', 'HTTP_FORWARDED', 'REMOTE_ADDR',
         ];

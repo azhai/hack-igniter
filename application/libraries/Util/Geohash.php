@@ -1,17 +1,17 @@
 <?php
+
+namespace Mylib\Util;
+
 # GeoHash
 # Simple php geohash class like python-geohash.
 # Author:  吕海涛
 # License: The MIT License (MIT)
 # Link:    https://github.com/lvht/geohash
 
-defined('BASEPATH') or exit('No direct script access allowed');
-
-
 /**
  * Geo哈希
  */
-class MY_Geohash
+class Geohash
 {
     private static $table = "0123456789bcdefghjkmnpqrstuvwxyz";
     private static $bits = [

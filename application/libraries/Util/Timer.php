@@ -1,11 +1,23 @@
 <?php
-defined('BASEPATH') or exit('No direct script access allowed');
+/**
+ * hack-igniter
+ *
+ * A example project extends of CodeIgniter v3.x
+ *
+ * @package hack-igniter
+ * @author  Ryan Liu (azhai)
+ * @link    http://azhai.surge.sh/
+ * @copyright   Copyright (c) 2013
+ * @license http://opensource.org/licenses/MIT  MIT License
+ */
+
+namespace Mylib\Util;
 
 /**
  * 间隔一段时间或事件触发一次
  * Author: 阿债 https://azhai.surge.sh
  */
-class MY_Timer
+class Timer
 {
     protected $queue_ref;         // 队列引用
     protected $last_hit_time = 0; // 最后命中时间
@@ -15,11 +27,10 @@ class MY_Timer
     public $random_once = 0;      // 随机多少次触发一次
     public $queue_max_size = 0;   // 最大队列长度
 
-    public function __construct(array $config = [])
+    public function __construct($once_times = 0, $gap_secs = 0)
     {
-        $config += ['once_times' => 0, 'gap_secs' => 0];
-        $this->random_once = intval($config['once_times']);
-        $this->setIntervalSecs(intval($config['gap_secs']));
+        $this->random_once = intval($once_times);
+        $this->setIntervalSecs(intval($gap_secs));
         $this->startup_time_msec = microtime(true);
         $this->startup_time = round($this->startup_time_msec);
     }

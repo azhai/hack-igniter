@@ -14,7 +14,7 @@
 namespace Mylib\ORM;
 
 defined('BASEPATH') or exit('No direct script access allowed');
-require_once VNDPATH . 'php-handlersocket/src/HandlerSocket.php';
+require_once VENDPATH . 'php-handlersocket/src/HandlerSocket.php';
 
 /**
  * 扩展Model，使用handlersocket快速读写

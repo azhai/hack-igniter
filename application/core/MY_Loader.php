@@ -13,10 +13,10 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
-if (! class_exists('CI_Loader')) {
+if (!class_exists('CI_Loader')) {
     require_once BASEPATH . 'core/Loader.php';
 }
-if (! function_exists('DB')) {
+if (!function_exists('DB')) {
     require_once BASEPATH . 'database/DB.php';
 }
 require_once APPPATH . 'core/CI_DB.php';
@@ -55,6 +55,17 @@ class MY_Loader extends CI_Loader
             return parent::database($params, $return, $query_builder);
         }
     }
+    public function model($model, $name = '', $db_conn = false)
+    {
+        if (empty($name) && is_string($model) && '' !== $model) {
+            if ($name = strrchr($model, '/')) {
+                $name = ltrim($name, '/');
+            } else {
+                $name = $model;
+            }
+        }
+        return parent::model($model, strtolower($name), $db_conn);
+    }
 
     public function name_space($prefix, $path)
     {
@@ -71,7 +82,7 @@ class MY_Loader extends CI_Loader
      * If a file exists, require it from the file system.
      *
      * @param string $file The file to require.
-     * @param bool   $once
+     * @param bool $once
      * @return bool True if the file exists, false if not.
      */
     public static function require_file($file, $once = false)
@@ -91,14 +102,14 @@ class MY_Loader extends CI_Loader
     {
         $class = trim($class, '\\_');
         $first = strstr($class, '\\', true);
-        if (! isset($this->third_parties[$first])) { //尝试遍历复杂前缀
+        if (!isset($this->third_parties[$first])) { //尝试遍历复杂前缀
             $i = count($this->multi_prefixes);
             do {
                 if (--$i < 0) {
                     return false;
                 }
                 $first = $this->multi_prefixes[$i];
-            } while (! starts_with($class, $first));
+            } while (!starts_with($class, $first));
         }
         $name = substr($class, strlen($first) + 1);
         $path = str_replace('\\', DIRECTORY_SEPARATOR, $name);
@@ -141,12 +152,71 @@ class MY_Loader extends CI_Loader
     }
 
     /**
+     * Library Loader
+     *
+     * @param mixed $library Library name
+     * @param array $params Optional parameters to pass to the library class constructor
+     * @param string $object_name An optional object name to assign to
+     * @return    object
+     */
+    public function library($library, $params = null, $object_name = null)
+    {
+        if (is_array($library)) {
+            foreach ($library as $key => $value) {
+                $object_name = is_numeric($key) ? null : $key;
+                parent::library($value, $params, $object_name);
+            }
+            return $this;
+        }
+        if (empty($object_name)) {
+            $object_name = basename($library);
+            $prefix = config_item('subclass_prefix');
+            if (starts_with($object_name, $prefix)) {
+                $object_name = substr($object_name, strlen($prefix));
+            }
+            $object_name = lcfirst($object_name);
+        }
+        return parent::library($library, $params, $object_name);
+    }
+
+    /**
+     * Driver Loader
+     *
+     * @param string|string[] $library Driver name(s)
+     * @param array $params Optional parameters to pass to the driver
+     * @param string $object_name An optional object name to assign to
+     *
+     * @return    object|bool    Object or FALSE on failure if $library is a string
+     *                and $object_name is set. CI_Loader instance otherwise.
+     */
+    public function driver($library, $params = null, $object_name = null)
+    {
+        if (is_array($library)) {
+            foreach ($library as $key => $value) {
+                $object_name = is_numeric($key) ? null : $key;
+                parent::driver($value, $params, $object_name);
+            }
+            return $this;
+        }
+        if (!strpos($library, '/')) {
+            $prefix = config_item('subclass_prefix');
+            if (starts_with($library, $prefix)) {
+                $libdir = substr($library, strlen($prefix));
+            } else {
+                $libdir = $library;
+            }
+            $library = ucfirst($libdir) . '/' . $library;
+        }
+        return parent::driver($library, $params, $object_name);
+    }
+
+    /**
      * 加载驱动，返回库对象
      *
-     * @param string       $lib_name      库名
-     * @param string|array $params        库配置
-     * @param mixed        $driver_params 驱动配置
-     * @param null|string  $object_name
+     * @param string $lib_name 库名
+     * @param string|array $params 库配置
+     * @param mixed $driver_params 驱动配置
+     * @param null|string $object_name
      * @return object
      */
     public function get_driver_library(
@@ -154,7 +224,8 @@ class MY_Loader extends CI_Loader
         $params,
         $driver_params = null,
         $object_name = null
-    ) {
+    )
+    {
         if (is_array($params)) {
             $adapter = $params['adapter'];
         } else {
@@ -184,8 +255,8 @@ class MY_Loader extends CI_Loader
     /**
      * 处理和保存驱动配置
      *
-     * @param string $adapter       驱动
-     * @param mixed  $driver_params 配置名或参数
+     * @param string $adapter 驱动
+     * @param mixed $driver_params 配置名或参数
      * @return array
      */
     protected function _proc_driver_params($adapter, $driver_params = null)
@@ -205,7 +276,7 @@ class MY_Loader extends CI_Loader
                 $driver_params = $all_params;
             }
         }
-        $config->set_item($adapter, $driver_params);
+//        $config->set_item($adapter, $driver_params);
         return $driver_params;
     }
 }

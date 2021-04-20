@@ -33,7 +33,7 @@ class Model_page extends MY_Controller
     {
         parent::__construct();
         $this->load->helper('inflector');
-        $this->load->helper('format');
+        $this->load->helper('fmt');
     }
 
     public function index()

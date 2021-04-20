@@ -52,6 +52,8 @@ class MY_Model extends CI_Model implements ArrayAccess
     public $result = null;
     //开启的功能
     protected $_mixin_switches = ['senior' => true];
+    protected $_force_master = false; // 强制读主库
+    protected $_force_master_once = false; // 强制读主库（仅执行一次）
 
     //通用连接
     protected $_db_key = '';
@@ -122,6 +124,18 @@ class MY_Model extends CI_Model implements ArrayAccess
             return $this->_mixin_switches[$name];
         } else {
             return false;
+        }
+    }
+    /**
+     * 设置强制读主库
+     * @param false $once 是否只执行一次
+     */
+    function set_force_master($once = false)
+    {
+        if ($once) {
+            $this->_force_master_once = true;
+        } else {
+            $this->_force_master = true;
         }
     }
 
@@ -300,10 +314,17 @@ class MY_Model extends CI_Model implements ArrayAccess
     {
         $db = $this->reconnect();
         if ($this->is_open_mixin('senior') && $this->_group_order) {
-            return $this->get_group_order_sql($db, $table, $reset);
+            $sql = $this->get_group_order_sql($db, $table, $reset);
         } else {
-            return $db->get_compiled_select($table, $reset);
+            $sql = $db->get_compiled_select($table, $reset);
         }
+        if ($this->_force_master) {
+            $sql = '/*FORCE_MASTER*/ ' . $sql; //从主库读
+        } else if ($this->_force_master_once) {
+            $sql = '/*FORCE_MASTER*/ ' . $sql; //从主库读
+            $this->_force_master_once = false;
+        }
+        return $sql;
     }
 
     /**
@@ -469,15 +490,15 @@ class MY_Model extends CI_Model implements ArrayAccess
     {
         $table = $this->table_name();
         $db = $this->reconnect();
-        //更新时间、确保affected_rows在没有其他更新值时也返回1
-        $set[$field] = date('Y-m-d H:i:s');
+        if ($field) { //更新时间、确保affected_rows在没有其他更新值时也返回1
+            $set[$field] = date('Y-m-d H:i:s');
+        }
         $db->set($set, '', $escape);
         if (!empty($where)) {
             $db->where($where, '', $escape);
         }
         $result = $db->update($table, null, null, 1); //最多更新1行
-        if (0 === $db->affected_rows()) {
-            //没有改变任何行
+        if (0 === $db->affected_rows()) { //没有改变任何行
             $set = array_merge($set, $where);
             $result = $db->insert($table, $set, $escape);
         }

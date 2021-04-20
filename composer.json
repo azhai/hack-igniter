@@ -10,7 +10,7 @@
     "repositories": {
         "packagist": {
             "type": "composer",
-            "url": "https://packagist.org"
+            "url": "https://mirrors.aliyun.com/composer"
         }
     },
     "require": {
@@ -18,7 +18,8 @@
         "codeigniter/framework": "3.*",
         "psr/log": "*",
         "twig/twig": "*",
-        "php-curl-class/php-curl-class": "*"
+        "php-curl-class/php-curl-class": "*",
+        "evenement/evenement": "^3.0"
     },
     "require-dev": {
         "nikic/php-parser": "3.*",

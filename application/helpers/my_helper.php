@@ -13,6 +13,22 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
+if (! function_exists('rand_num')) {
+    /**
+     * 随机整数.
+     * @param int $min 最小值
+     * @param int $max 最大值
+     * @return int
+     */
+    function rand_num($min, $max)
+    {
+        if (is_php('7.0')) {
+            $freq = random_int($min, $max);
+        } else {
+            $freq = rand($min, $max);
+        }
+    }
+}
 
 if (! function_exists('starts_with')) {
     /**

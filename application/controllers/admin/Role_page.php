@@ -13,7 +13,7 @@ class Role_page extends Admin_page
     protected function initialize()
     {
         parent::initialize();
-        $this->load->helper('format');
+        $this->load->helper('fmt');
         $this->load->model('test/school_model');
         //$this->school_model->with_foreign('city');
     }

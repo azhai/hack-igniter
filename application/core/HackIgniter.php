@@ -17,7 +17,7 @@
  * @var	string
  *
  */
-const CI_VERSION = '3.1.9';
+const CI_VERSION = '3.1.11';
 
 /*
  * ------------------------------------------------------
@@ -79,12 +79,12 @@ define('ICONV_ENABLED', true);
 define('UTF8_ENABLED', true);
 $charset = strtoupper(config_item('charset'));
 ini_set('default_charset', $charset);
-@ini_set('mbstring.internal_encoding', $charset);
-mb_substitute_character('none');
-
 if (is_php('5.6')) {
     ini_set('php.internal_encoding', $charset);
+} else {
+    @ini_set('mbstring.internal_encoding', $charset);
 }
+mb_substitute_character('none');
 
 /*
  * ------------------------------------------------------
@@ -131,5 +131,10 @@ if (file_exists(APPPATH.'core/'.$CFG->config['subclass_prefix'].'Controller.php'
 
 
 $class = ucfirst($RTR->class);
-require_once(APPPATH.'controllers/'.$RTR->directory.$class.'.php');
+$file_path = APPPATH.'controllers/'.$RTR->directory.$class.'.php';
+if (empty($class) || !file_exists($file_path)) {
+    $class = 'Builtin';
+    $file_path = APPPATH.'controllers/'.$class.'.php';
+}
+require_once($file_path);
 $CI = new $class();

@@ -13,7 +13,8 @@
  */
 
 $loader = load_class('Loader', 'core');
-$loader->name_space('Psr\\Log', VNDPATH . 'psr/log/Psr/Log');
+$loader->helper('env');
+$loader->name_space('Psr\\Log', VENDPATH . 'psr/log/Psr/Log');
 
 use \Psr\Log\LogLevel;
 use \Psr\Log\LoggerInterface;

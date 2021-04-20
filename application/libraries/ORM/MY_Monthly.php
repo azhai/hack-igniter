@@ -103,13 +103,13 @@ trait MY_Monthly
      * 当前指向的数据表完整名称
      * @return string 表完整名称
      */
-    public function table_name()
+    public function table_name($another = false)
     {
         if (is_null($this->beginning)) {
             $this->init_calendar();
         }
         $tail = date('Ym', $this->beginning);
-        return $this->table() . '_' . $tail;
+        return $this->base_table_name() . '_' . $tail;
     }
 
     /**
@@ -219,10 +219,10 @@ trait MY_Monthly
      * 写入一行
      * @return int/null
      */
-    public function insert($data = [])
+    public function insert($row, $is_replace = false, $escape = null)
     {
         try {
-            return $this->insert_unsafe($data);
+            return $this->insert_unsafe($row);
         } catch (\Exception $e) {
             // 先创建当前月份的数据表
             $sql = "CREATE TABLE `%s` LIKE `%s`";
@@ -230,7 +230,7 @@ trait MY_Monthly
             $table_name = $this->table_name();
             $db = $this->reconnect();
             $db->query(sprintf($sql, $table_name, $base_name));
-            return $this->insert_unsafe($data);
+            return $this->insert_unsafe($row);
         }
     }
 }

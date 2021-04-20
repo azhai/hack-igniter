@@ -88,8 +88,9 @@ class MY_Cache extends CI_Cache implements SplObserver
         } elseif ('json' !== $type && $this->is_none($key)) {
             return [];
         } else {
+            $driver = $this->{$this->_adapter};
             $method = 'get_' . $type;
-            return $this->{$this->_adapter}->$method($key);
+            return $driver->$method($key);
         }
     }
 
@@ -109,12 +110,14 @@ class MY_Cache extends CI_Cache implements SplObserver
         if (empty($type)) {
             return $this->save($key, $states, $ttl, true);
         } elseif ('json' !== $type && empty($states)) {
-            $this->{$this->_adapter}->delete($key);
+            $driver = $this->{$this->_adapter};
+            $driver->delete($key);
             return $this->save_none($key, $ttl);
         } else {
+            $driver = $this->{$this->_adapter};
+            $driver->delete($key);
             $method = 'put_' . $type;
-            $this->{$this->_adapter}->delete($key);
-            return $this->{$this->_adapter}->$method($key, $states, $ttl);
+            return $driver->$method($key, $states, $ttl);
         }
     }
 

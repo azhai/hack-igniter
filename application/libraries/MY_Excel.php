@@ -12,10 +12,9 @@
  */
 
 defined('BASEPATH') or exit('No direct script access allowed');
-defined('VNDPATH') or define('VNDPATH', APPPATH . '/third_party/');
 $loader = load_class('Loader', 'core');
-$loader->name_space('Psr\\SimpleCache', VNDPATH . 'psr/simple-cache/src');
-$loader->name_space('PhpOffice', VNDPATH . 'phpoffice/phpspreadsheet/src');
+$loader->name_space('Psr\\SimpleCache', VENDPATH . 'psr/simple-cache/src');
+$loader->name_space('PhpOffice', VENDPATH . 'phpoffice/phpspreadsheet/src');
 
 use \PhpOffice\PhpSpreadsheet\Spreadsheet;
 use \PhpOffice\PhpSpreadsheet\Writer;

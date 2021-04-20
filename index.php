@@ -20,18 +20,18 @@ date_default_timezone_set('Asia/Shanghai');
 define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'development');
 switch (ENVIRONMENT) {
     case 'development':
-        error_reporting(-1);
+        error_reporting(E_ALL);
         ini_set('display_errors', 1);
     break;
 
     case 'testing':
     case 'production':
         ini_set('display_errors', 0);
+        $err_level = E_ALL & ~E_NOTICE & ~E_STRICT;
         if (version_compare(PHP_VERSION, '5.3', '>=')) {
-            error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT & ~E_USER_NOTICE & ~E_USER_DEPRECATED);
-        } else {
-            error_reporting(E_ALL & ~E_NOTICE & ~E_STRICT & ~E_USER_NOTICE);
+            $err_level = $err_level & ~E_DEPRECATED & ~E_USER_NOTICE & ~E_USER_DEPRECATED;
         }
+        error_reporting($err_level);
     break;
 
     default:
@@ -85,7 +85,7 @@ if (PHP_SAPI === 'cli' && isset($_SERVER['CI_APP']) && 'tests' === $_SERVER['CI_
     //phpt测试
     require_once APPPATH . 'core/HackIgniter.php';
     $CI = get_instance();
-} elseif (PHP_SAPI !== 'cli' && strpos($req_uri, '/api/') !== false) {
+} elseif (PHP_SAPI !== 'cli' && strpos($req_uri, '/rpc/') !== false) {
     //yar过程调用
     require_once APPPATH . 'core/HackIgniter.php';
     $CI = get_instance();
