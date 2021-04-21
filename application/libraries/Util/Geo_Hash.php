@@ -9,9 +9,9 @@ namespace Mylib\Util;
 # Link:    https://github.com/lvht/geohash
 
 /**
- * Geo哈希
+ * 经典Geo哈希
  */
-class Geohash
+class Geo_Hash
 {
     private static $table = "0123456789bcdefghjkmnpqrstuvwxyz";
     private static $bits = [

@@ -21,4 +21,33 @@ $loader->name_space('Evenement', VENDPATH . 'evenement/evenement/src/Evenement')
  */
 class Event extends \Evenement\EventEmitter
 {
+    const SLOT_PREFIX = 'slot_';
+    public $event_names = [];
+
+    /**
+     * 注册执行者的公开方法为事件
+     */
+    public function addWorker($worker, $dir = '')
+    {
+        $dir = empty($dir) ? '' : trim($dir, '/');
+        if ($dir && !isset($this->event_names[$dir])) {
+            $this->event_names[$dir] = [];
+        }
+        $prelen = strlen(self::SLOT_PREFIX);
+        $methods = get_class_methods($worker);
+        foreach ($methods as $name) {
+            $name = strtolower($name);
+            if (!starts_with($name, self::SLOT_PREFIX)) {
+                continue;
+            }
+            $event_name = trim(substr($name, $prelen), '_');
+            if ($dir) {
+                $this->event_names[$dir][$event_name] = 1;
+                $event_name = $dir . '/' . $event_name;
+            } else {
+                $this->event_names[$event_name] = 1;
+            }
+            $this->on($event_name, [$worker, $name]);
+        }
+    }
 }

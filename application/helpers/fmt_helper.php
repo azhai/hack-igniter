@@ -116,61 +116,31 @@ if (! function_exists('align_right')) {
 }
 
 
-if (! function_exists('array_export')) {
+if (! function_exists('replace_with')) {
     /**
-     * 格式化数组的输出，采用短语法
+     * 将内容字符串中的变量替换掉.
+     *
+     * @param string $content 内容字符串
+     * @param array  $context 变量数组
+     * @param string $prefix  变量前置符号
+     * @param string $subfix  变量后置符号
+     * @return string 当前内容
      */
-    function array_export(array $data, $indent = 0)
+    function replace_with($content, array $context = [], $prefix = '', $subfix = '')
     {
-        $lines = explode("\n", var_export($data, true));
-        $max = count($lines) - 1;
-        foreach ($lines as $i => &$line) {
-            if (0 === $i) {
-                $line = '[';
-            } elseif ($max === $i) {
-                $line = str_repeat(' ', $indent) . ']';
-            } else {
-                $line = str_repeat(' ', $indent + 4) . ltrim($line);
+        if (empty($context)) {
+            return $content;
+        }
+        if (empty($prefix) && empty($subfix)) {
+            $replacers = $context;
+        } else {
+            $replacers = [];
+            foreach ($context as $key => $value) {
+                $replacers[$prefix . $key . $subfix] = $value;
             }
         }
-        return implode("\n", $lines);
-    }
-}
-
-if (! function_exists('array_part')) {
-    /**
-     * 只获取数组的一部分
-     */
-    function array_part($data, $keys = null)
-    {
-        if (empty($keys) || '*' === $keys) {
-            return array_slice($data, 0); // 返回全部
-        }
-        if (is_string($keys)) {
-            $keys = array_map('trim', explode(',', $keys));
-        }
-        $refer = array_fill_keys($keys, null);
-        return array_intersect_key($data, $refer);
-    }
-}
-
-
-if (! function_exists('last_month_day')) {
-    /**
-     * 找出上个月的这一天，没有这一天时使用月末
-     * （使用时间戳计算，避免判断跨年）
-     */
-    function last_month_day($time)
-    {
-        $day = intval(date('d', $time)); //当月第几天
-        $time -= $day * 86400; //退回上月最后一天
-        $tail_day = intval(date('d', $time)); //上个月有多长
-        if ($day > $tail_day) {
-            //上个月较短，没有这几天，使用月末
-        } else {
-            $time -= ($tail_day - $day) * 86400;
-        }
-        return date('Y-m-d', $time);
+        $content = strtr($content, $replacers);
+        return $content;
     }
 }
 
