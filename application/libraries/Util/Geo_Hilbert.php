@@ -23,7 +23,7 @@ $loader->helper('alg');
  * $point = ['lng' => 113.95196, 'lat' => 22.541497];
  * $gh = new Geo_Hilbert($point);
  * echo $gh->encode(); //2313000100002333212012
- * echo $gh->get_prefix(10 * 1000); //10km
+ * echo $gh->get_prefix(10 * 1000); //10km的前缀为 2313000100
  * $lng2 = 117.30; $lat2 = 39.94;
  * $gh2 = new Geo_Hilbert($lng2, $lat2);
  * echo $gh->get_around_distance($gh2->encode()); //1250943.0m
