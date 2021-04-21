@@ -20,16 +20,19 @@ $loader->helper('alg');
 /**
  * Geohash，使用Hilbert空间算法
  * 
- * $lng = 113.95196; $lat = 22.541497;
- * 
- * $gh = new Geo_Hibert($lng, $lat);
+ * $point = ['lng' => 113.95196, 'lat' => 22.541497];
+ * $gh = new Geo_Hilbert($point);
  * echo $gh->encode(); //2313000100002333212012
  * echo $gh->get_prefix(10 * 1000); //10km
- * echo $gh->get_distance('2313000100002333333333');
+ * $lng2 = 117.30; $lat2 = 39.94;
+ * $gh2 = new Geo_Hilbert($lng2, $lat2);
+ * echo $gh->get_around_distance($gh2->encode()); //1250943.0m
+ * echo $gh->get_accuracy_distance($lng2, $lat2); //1959404.42m
  */
-class Geo_Hibert
+class Geo_Hilbert
 {
     const BITS_PER_CHAR = 2;
+    const EARTH_RADIUS = 6367000.0; //地球半径
     //经纬度范围
     const LAT_MIN = -90.0;
     const LAT_MAX = 90.0;
@@ -150,22 +153,6 @@ class Geo_Hibert
     }
 
     /**
-     * 计算大致距离，单位：米
-     */
-    public function get_distance($another_code)
-    {
-        if (empty($this->code) && $this->lat) {
-            $this->encode();
-        }
-        $same = get_similar_len($this->code, $another_code);
-        $max_index = count(self::$prec_errors) - 1;
-        if ($same > $max_index) {
-            $same = $max_index;
-        }
-        return self::$prec_errors[$same];
-    }
-
-    /**
      * 获取满足条件的相同前缀
      */
     public function get_prefix($distance = 5000)
@@ -180,5 +167,37 @@ class Geo_Hibert
             $this->encode();
         }
         return substr($this->code, 0, $idx);
+    }
+
+    /**
+     * 计算大致距离，单位：米
+     */
+    public function get_around_distance($another_code)
+    {
+        if (empty($this->code) && $this->lat) {
+            $this->encode();
+        }
+        $same = get_similar_len($this->code, $another_code);
+        $max_index = count(self::$prec_errors) - 1;
+        if ($same > $max_index) {
+            $same = $max_index;
+        }
+        return self::$prec_errors[$same];
+    }
+
+    /**
+     * 计算准确距离，单位：米
+     */
+    public function get_accuracy_distance($lng, $lat)
+    {
+        //计算三个参数
+        $dx = $this->lng - floatval($lng);
+        $dy = $this->lat - floatval($lat);
+        $avg = ($this->lat + floatval($lat)) / 2.0; //平均维度
+        //计算东西方向距离和南北方向距离(单位：米)，东西距离采用三阶多项式
+        $lx = self::EARTH_RADIUS * deg2rad($dx) * cos(deg2rad($avg)); // 东西距离
+        $ly = self::EARTH_RADIUS * deg2rad($dy); // 南北距离
+        //用平面的矩形对角距离公式计算总距离
+        return sqrt($lx * $lx + $ly * $ly);
     }
 }
