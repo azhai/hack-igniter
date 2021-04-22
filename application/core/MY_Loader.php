@@ -27,8 +27,6 @@ class MY_Loader extends CI_Loader
     //根据namespace前缀，自动加载类文件
     protected $third_parties = [];
     protected $multi_prefixes = [];
-    //加载的Yar Client
-    protected $yar_clients = [];
 
     public function __construct()
     {
@@ -55,6 +53,7 @@ class MY_Loader extends CI_Loader
             return parent::database($params, $return, $query_builder);
         }
     }
+
     public function model($model, $name = '', $db_conn = false)
     {
         if (empty($name) && is_string($model) && '' !== $model) {
@@ -64,7 +63,7 @@ class MY_Loader extends CI_Loader
                 $name = $model;
             }
         }
-        return parent::model($model, strtolower($name), $db_conn);
+        return parent::model($model, lcfirst($name), $db_conn);
     }
 
     public function name_space($prefix, $path)
@@ -120,22 +119,6 @@ class MY_Loader extends CI_Loader
                 || interface_exists($class, $autoload)
                 || trait_exists($class, $autoload);
         }
-    }
-
-    /**
-     * 加载Yar Client
-     */
-    public function api($name, $group = 'default')
-    {
-        $name = trim($name, '/');
-        if (!isset($this->yar_clients[$name])) {
-            $config = get_instance()->config;
-            $config->load('api', true, true);
-            $api_url = rtrim($config->item($group, 'api'), '/');
-            $server_url = sprintf('%s/%s/', $api_url, $name);
-            $this->yar_clients[$name] = new Yar_Client($server_url);
-        }
-        return $this->yar_clients[$name];
     }
 
     /**
@@ -219,19 +202,11 @@ class MY_Loader extends CI_Loader
      * @param null|string $object_name
      * @return object
      */
-    public function get_driver_library(
-        $lib_name,
-        $params,
-        $driver_params = null,
-        $object_name = null
-    )
+    public function get_driver_library($lib_name, $params,
+                                       $driver_params = null, $object_name = null)
     {
-        if (is_array($params)) {
-            $adapter = $params['adapter'];
-        } else {
-            $adapter = $params;
-            $params = ['adapter' => $adapter];
-        }
+        $drv_config = $this->get_driver_config($params, $driver_params);
+        $adapter = $drv_config['adapter'];
         if (empty($object_name)) {
             $object_name = lcfirst($adapter) . '_' . $lib_name;
             if (is_string($driver_params)) {
@@ -242,7 +217,8 @@ class MY_Loader extends CI_Loader
         if (isset($CI->$object_name)) {
             return $CI->$object_name;
         }
-        $driver_params = $this->_proc_driver_params($adapter, $driver_params);
+        $params = $drv_config['params'];
+        $driver_params = $drv_config['driver_params'];
         if ($this->driver($lib_name, $params, $object_name)) {
             $object = $CI->$object_name;
             if (method_exists($object->$adapter, 'set_options')) {
@@ -250,6 +226,42 @@ class MY_Loader extends CI_Loader
             }
         }
         return $object;
+    }
+
+    /**
+     * 处理驱动配置
+     *
+     * @param string|array $params 库配置
+     * @param mixed $driver_params 驱动配置
+     * @return array
+     */
+    public function get_driver_config($params, $driver_params = null)
+    {
+        if (is_array($params)) {
+            $adapter = $params['adapter'];
+        } else {
+            $adapter = $params;
+            $params = ['adapter' => $adapter];
+        }
+        $driver_params = $this->_proc_driver_params($adapter, $driver_params);
+        return [
+            'adapter' => $adapter,
+            'params' => $params,
+            'driver_params' => $driver_params,
+        ];
+    }
+
+    /**
+     * 处理驱动参数
+     *
+     * @param string|array $params 库配置
+     * @param mixed $driver_params 驱动配置
+     * @return array
+     */
+    public function get_driver_params($params, $driver_params = null)
+    {
+        $drv_config = $this->get_driver_config($params, $driver_params);
+        return $drv_config['driver_params'];
     }
 
     /**
@@ -276,7 +288,7 @@ class MY_Loader extends CI_Loader
                 $driver_params = $all_params;
             }
         }
-//        $config->set_item($adapter, $driver_params);
+        $config->set_item($adapter, $driver_params);
         return $driver_params;
     }
 }
