@@ -122,6 +122,22 @@ class MY_Loader extends CI_Loader
     }
 
     /**
+     * 加载Yar Client
+     */
+    public function rpc($name, $group = 'default')
+    {
+        $name = trim($name, '/');
+        if (!isset($this->yar_clients[$name])) {
+            $config = get_instance()->config;
+            $config->load('rpc', true, true);
+            $rpc_url = rtrim($config->item($group, 'rpc'), '/');
+            $server_url = sprintf('%s/%s/', $rpc_url, $name);
+            $this->yar_clients[$name] = new Yar_Client($server_url);
+        }
+        return $this->yar_clients[$name];
+    }
+
+    /**
      * 加载缓存，例如使用配置中名为user的redis缓存
      *
      * Example:
@@ -274,6 +290,7 @@ class MY_Loader extends CI_Loader
     protected function _proc_driver_params($adapter, $driver_params = null)
     {
         $config = get_instance()->config;
+//        log_message('DEBUG', 'driver_params before: ' . json_encode($driver_params));
         if (!is_array($driver_params)) {
             //同一配置文件只加载一次
             $config->load($adapter, true, true);
@@ -288,6 +305,7 @@ class MY_Loader extends CI_Loader
                 $driver_params = $all_params;
             }
         }
+//        log_message('DEBUG', 'driver_params after: ' . json_encode($driver_params));
         $config->set_item($adapter, $driver_params);
         return $driver_params;
     }

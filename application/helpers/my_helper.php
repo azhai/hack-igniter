@@ -68,6 +68,27 @@ if (! function_exists('convert_string')) {
 }
 
 
+if (! function_exists('to_array')) {
+    /**
+     * 主要用于将对象公开属性转为关联数组
+     *
+     * @param mixed $value      对象或其他值
+     * @param bool  $read_props 读取对象公开属性为数组
+     * @return array
+     */
+    function to_array($value, $read_props = true)
+    {
+        if (is_array($value)) {
+            return $value;
+        } elseif (is_object($value) && $read_props) {
+            return get_object_vars($value);
+        } else {
+            return is_null($value) ? [] : [$value];
+        }
+    }
+}
+
+
 if (! function_exists('exec_method_array')) {
     /**
      * 调用类/对象方法.
