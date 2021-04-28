@@ -2,6 +2,8 @@
 
 A example project extends of CodeIgniter v3.x
 
+[https://azhai.gitbook.io/hack-igniter/](https://azhai.gitbook.io/hack-igniter/)
+
 
 ## 安装
 

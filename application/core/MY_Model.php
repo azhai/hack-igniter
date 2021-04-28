@@ -130,7 +130,7 @@ class MY_Model extends CI_Model implements ArrayAccess
      * 设置强制读主库
      * @param false $once 是否只执行一次
      */
-    function set_force_master($once = false)
+    public function set_force_master($once = false)
     {
         if ($once) {
             $this->_force_master_once = true;
@@ -301,8 +301,8 @@ class MY_Model extends CI_Model implements ArrayAccess
     {
         $db = $this->reconnect();
         if (is_array($orderby)) {
-            foreach ($orderby as $field => $direction) {
-                $db->order_by($field, $direction, $escape);
+            foreach ($orderby as $field => $direct) {
+                $db->order_by($field, $direct, $escape);
             }
         } else {
             $db->order_by($orderby, $direction, $escape);
