@@ -67,10 +67,14 @@ class Jackpot
         $keys = array_keys($this->prizes);
         $result = array_fill_keys($keys, 0);
         for ($i = 0; $i < $this->dozen; $i++) {
-            if (($i + $remain) % 2 == -1) {
-                $key = $this->robin->randNext();
-            } else {
+            if ($result['Z'] >= 8) {
+                $key = $this->robin->setNext('C');
+            } else if (($i + $remain) % 7 > 0) {
                 $key = $this->robin->next();
+            } else if ($result['A'] > 0 || $result['B'] > 1) {
+                $key = $this->robin->next();
+            } else {
+                $key = $this->robin->randNext();
             }
             if ($this->redis->hIncrBy('przs:'. $this->id, $key, -1) >= 0) {
                 $result[$key] += 1;
@@ -96,11 +100,14 @@ function test_jackpot()
     for ($i = 0; $i < 100; $i++) {
         $result[] = json_encode($jp->draw());
     }
-    $result[] = "\n";
     
     /* 输出结果 */
-    return implode("\n", $result);
+    return $result;
 }
 
-// echo test_jackpot();
+// $result = test_jackpot();
+// $counts = array_count_values($result);
+// ksort($counts);
+// var_export($counts);
+// echo "\n" . implode("\n", $result) . "\n";
 

@@ -73,9 +73,10 @@ class RoundRobin
     public function randNext()
     {
         $best = '';
+        mt_srand();
         $idx = mt_rand(1, $this->total);
         foreach ($this->data as $key => $weight) {
-            if (empty($best) && $idx >= $weight) {
+            if ($idx >= $weight) {
                 $idx -= $weight;
                 $best = $key;
             }
@@ -90,11 +91,11 @@ class RoundRobin
 function test_rrd()
 {
     /* 数据初始化，weight: 权重 */
-    $data = ['A'=>5, 'B'=>2, 'C'=>1];
+    $data = ['A'=>1, 'B'=>2, 'C'=>5];
     $rrd = new RoundRobin($data);
     $times = 80;
     
-    /* 模拟30次 */
+    /* 模拟多次 */
     $result = [];
     for ($i = 0; $i < $times; $i++) {
         if ($i > 0 && $i % 10 == 0) {
@@ -108,7 +109,7 @@ function test_rrd()
     $result[] = "\n";
     
     
-    /* 模拟30次 */
+    /* 模拟多次 */
     $rrd->reset();
     for ($i = 0; $i < $times; $i++) {
         if ($i > 0 && $i % 10 == 0) {
@@ -125,8 +126,7 @@ function test_rrd()
     }
     $result[] = "\n";
     
-    
-    /* 模拟30次 */
+    /* 模拟多次 */
     $rrd->reset();
     for ($i = 0; $i < $times; $i++) {
         if ($i > 0 && $i % 10 == 0) {
@@ -142,55 +142,26 @@ function test_rrd()
         }
     }
     $result[] = "\n";
-    $result[] = "\n";
     
+    /* 输出结果 */
+    return implode(' ', $result);
+}
+
+
+function test_rand_rrd()
+{
+    /* 数据初始化，weight: 权重 */
+    $data = ['A'=>1, 'B'=>3, 'C'=>10, 'Z'=> 36];
+    $rrd = new RoundRobin($data);
+    $times = 160;
     
-    /* 模拟30次 */
-    $rrd->reset();
+    /* 模拟多次 */
+    $result = [];
     for ($i = 0; $i < $times; $i++) {
         if ($i > 0 && $i % 10 == 0) {
-            $result[] = '|';
+            $result[] = ($i % 80 == 0) ? "\n" : '|';
         }
-        if ($i > 0 && $i % 16 == 0) { //周期
-            $result[] = "\t";
-        }
-        if ($i % 4 == 0) {
-            $result[] = $rrd->randNext();
-        } else {
-            $result[] = $rrd->next();
-        }
-    }
-    $result[] = "\n";
-    
-    
-    /* 模拟30次 */
-    $rrd->reset();
-    for ($i = 0; $i < $times; $i++) {
-        if ($i > 0 && $i % 10 == 0) {
-            $result[] = '|';
-        }
-        if ($i > 0 && $i % 16 == 0) { //周期
-            $result[] = "\t";
-        }
-        if ($i % 2 == 0) {
-            $result[] = $rrd->randNext();
-        } else {
-            $result[] = $rrd->next();
-        }
-    }
-    $result[] = "\n";
-    
-    
-    /* 模拟30次 */
-    $rrd->reset();
-    for ($i = 0; $i < $times; $i++) {
-        if ($i > 0 && $i % 10 == 0) {
-            $result[] = '|';
-        }
-        if ($i > 0 && $i % 16 == 0) { //周期
-            $result[] = "\t";
-        }
-        if ($i % 4 > 0) {
+        if ($i % 7 == 0) {
             $result[] = $rrd->randNext();
         } else {
             $result[] = $rrd->next();
@@ -202,5 +173,6 @@ function test_rrd()
     return implode(' ', $result);
 }
 
-// echo str_replace("\n ", "\n", test_rrd());
+// echo str_replace("\n ", "\n", test_rrd()) . "\n";
+// echo str_replace("\n ", "\n", test_rand_rrd()) . "\n";
 
