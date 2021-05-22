@@ -15,7 +15,6 @@ namespace Mylib\Util;
 
 /**
  * 权重轮询
- * Author: 阿债 https://azhai.surge.sh
  */
 class RoundRobin
 {

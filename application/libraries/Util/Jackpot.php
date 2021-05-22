@@ -17,7 +17,6 @@ require_once __DIR__ . '/RoundRobin.php';
 
 /**
  * 奖池
- * Author: 阿债 https://azhai.surge.sh
  */
 class Jackpot
 {
@@ -57,7 +56,7 @@ class Jackpot
     /**
      * 执行抽奖
      */
-    public function draw()
+    public function play($draw = null)
     {
         $remain = $this->redis->decrBy('eggs:'. $this->id, $this->dozen);
         if ($remain < 0) {
@@ -65,23 +64,24 @@ class Jackpot
             return [];
         }
         $keys = array_keys($this->prizes);
-        $result = array_fill_keys($keys, 0);
+        $total = array_fill_keys($keys, 0); // 每种奖品数量
+        $progress = []; // 中奖过程
         for ($i = 0; $i < $this->dozen; $i++) {
-            if ($result['Z'] >= 8) {
-                $key = $this->robin->setNext('C');
-            } else if (($i + $remain) % 7 > 0) {
-                $key = $this->robin->next();
-            } else if ($result['A'] > 0 || $result['B'] > 1) {
+            if (is_null($draw)) {
                 $key = $this->robin->next();
             } else {
-                $key = $this->robin->randNext();
+                $key = $draw($this->robin, $total, $i + $remain);
             }
-            if ($this->redis->hIncrBy('przs:'. $this->id, $key, -1) >= 0) {
-                $result[$key] += 1;
+            $progress[] = $key;
+            $total[$key] += 1;
+        }
+        ksort($total);
+        foreach ($total as $key => $num) {
+            $n = $this->redis->hIncrBy('przs:'. $this->id, $key, 0 - $num);
+            if ($n < 0) { //报错
             }
         }
-        ksort($result);
-        return $result;
+        return ['total' => $total, 'progress' => $progress];
     }
 }
 
@@ -92,22 +92,38 @@ function test_jackpot()
     $prizes = ['A'=>1, 'B'=>3, 'C'=>10, 'Z'=> 36];
     $redis = new \Redis();
     $redis->connect('127.0.0.1', 6379);
-    $jp = new Jackpot($prizes, 1000, 10);
-    $jp->initCache($redis);
+    $pot = new Jackpot($prizes, 100 * 10000, 100);
+    $pot->initCache($redis);
     
-    /* 模拟30次 */
+    $draw = function($robin, $total, $i = 0) {
+        if ($total['Z'] >= 90) {
+            $key = $robin->setNext('C');
+        } else if ($i % 7 > 0) {
+            $key = $robin->next();
+        } else if ($total['A'] >= 10 || $total['B'] >= 20) {
+            $key = $robin->next();
+        } else {
+            $key = $robin->randNext();
+        }
+        return $key;
+    };
+        
+    /* 模拟多次 */
     $result = [];
-    for ($i = 0; $i < 100; $i++) {
-        $result[] = json_encode($jp->draw());
+    $stamp = microtime(true);
+    for ($i = 0; $i < 10000; $i++) {
+        $res = $pot->play($draw);
+        $result[] = json_encode($res['total']);
     }
+    printf("use %.2f secs\n", microtime(true) - $stamp);
     
     /* 输出结果 */
     return $result;
 }
 
-// $result = test_jackpot();
-// $counts = array_count_values($result);
-// ksort($counts);
-// var_export($counts);
+$result = test_jackpot();
+$counts = array_count_values($result);
+ksort($counts);
+var_export($counts);
 // echo "\n" . implode("\n", $result) . "\n";
 
