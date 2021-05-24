@@ -74,12 +74,13 @@ class RoundRobin
         $best = '';
         mt_srand();
         $idx = mt_rand(1, $this->total);
+        $total = 0;
         foreach ($this->data as $key => $weight) {
-            if ($idx >= $weight) {
-                $idx -= $weight;
+            $this->currents[$key] += $weight;
+            if ($total <= $idx) {
                 $best = $key;
             }
-            $this->currents[$key] += $weight;
+            $total += $weight;
         }
         $this->currents[$best] -= $this->total;
         return $best;

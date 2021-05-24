@@ -113,7 +113,7 @@ function test_jackpot()
     $stamp = microtime(true);
     for ($i = 0; $i < 10000; $i++) {
         $res = $pot->play($draw);
-        $result[] = json_encode($res['total']);
+        $result[] = json_encode($res['total'], 320);
     }
     printf("use %.2f secs\n", microtime(true) - $stamp);
     
