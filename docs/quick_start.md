@@ -243,6 +243,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 trait User_mixin
 {
     use \Mylib\ORM\MY_Cacheable;
+    use \Mylib\ORM\MY_Cache_Hash;
     use \Mylib\ORM\MY_Foreign;
 
     public function __construct()

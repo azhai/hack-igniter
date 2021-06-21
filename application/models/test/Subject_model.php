@@ -8,6 +8,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class Subject_model extends MY_Model
 {
     use \Mylib\ORM\MY_Cacheable;
+    use \Mylib\ORM\MY_Cache_Hash;
     use \Mylib\ORM\MY_Foreign;
 
     protected $_db_key = 'default';
