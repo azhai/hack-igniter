@@ -32,8 +32,9 @@ class Model_page extends MY_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->helper('inflector');
+        $this->load->helper('alg');
         $this->load->helper('fmt');
+        $this->load->helper('inflector');
     }
 
     public function index()
