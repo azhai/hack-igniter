@@ -89,6 +89,35 @@ if (! function_exists('to_array')) {
 }
 
 
+if (! function_exists('array_column')) {
+    /**
+     * 为PHP5.4及以下实现，但不支持PHP7的对象数组
+     */
+    function array_column(array $input, $column_key, $index_key = null)
+    {
+        if (empty($index_key) && !is_numeric($index_key)) {
+            $index_key = null;
+        }
+        $result = [];
+        foreach ($input as $row) {
+            if (is_null($column_key)) {
+                $value = $row;
+            } elseif (isset($row[$column_key])) {
+                $value = $row[$column_key];
+            } else {
+                $value = null;
+            }
+            if (!is_null($index_key) && isset($row[$index_key])) {
+                $result[$row[$index_key]] = $value;
+            } else {
+                $result[] = $value;
+            }
+        }
+        return $result;
+    }
+}
+
+
 if (! function_exists('exec_method_array')) {
     /**
      * 调用类/对象方法.
