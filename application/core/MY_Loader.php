@@ -46,7 +46,8 @@ class MY_Loader extends CI_Loader
             if (empty($alias) || !is_string($alias)) {
                 $alias = strtolower($class);
             }
-            $this->$alias = $object;
+            $CI =& get_instance();
+            $CI->$alias = $object;
         }
         return $object;
     }
@@ -94,7 +95,12 @@ class MY_Loader extends CI_Loader
         if (file_exists($serv_path . $name . '.php')) {
             require_once($serv_path . $name . '.php');
         }
-        $class = ucfirst(ltrim(strrchr($name, '/'), '/'));
+        $class = strrchr($name, '/');
+        if ($class === false) {
+            $class = ucfirst($name);
+        } else {
+            $class = ucfirst(ltrim($class, '/'));
+        }
         if (!class_exists($class, false)) {
             return;
         }
