@@ -14,7 +14,7 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 
 
-if (! function_exists('starts_with')) {
+if (!function_exists('starts_with')) {
     /**
      * 开始的字符串相同.
      *
@@ -29,7 +29,7 @@ if (! function_exists('starts_with')) {
 }
 
 
-if (! function_exists('ends_with')) {
+if (!function_exists('ends_with')) {
     /**
      * 结束的字符串相同.
      *
@@ -46,11 +46,11 @@ if (! function_exists('ends_with')) {
 }
 
 
-if (! function_exists('convert_string')) {
+if (!function_exists('convert_string')) {
     /**
      * 将内容转为另一种编码
      *
-     * @param string $word     原始字符串
+     * @param string $word 原始字符串
      * @param string $encoding 目标编码
      * @return string 转换后的字符串
      */
@@ -68,12 +68,12 @@ if (! function_exists('convert_string')) {
 }
 
 
-if (! function_exists('to_array')) {
+if (!function_exists('to_array')) {
     /**
      * 主要用于将对象公开属性转为关联数组
      *
-     * @param mixed $value      对象或其他值
-     * @param bool  $read_props 读取对象公开属性为数组
+     * @param mixed $value 对象或其他值
+     * @param bool $read_props 读取对象公开属性为数组
      * @return array
      */
     function to_array($value, $read_props = true)
@@ -89,7 +89,7 @@ if (! function_exists('to_array')) {
 }
 
 
-if (! function_exists('array_column')) {
+if (!function_exists('array_column')) {
     /**
      * 为PHP5.4及以下实现，但不支持PHP7的对象数组
      */
@@ -118,12 +118,12 @@ if (! function_exists('array_column')) {
 }
 
 
-if (! function_exists('exec_method_array')) {
+if (!function_exists('exec_method_array')) {
     /**
      * 调用类/对象方法.
      * 不使用call_user_func_array()的理由同上
      *
-     * @param        object /class $clsobj 对象/类
+     * @param object /class $clsobj 对象/类
      * @param string $method 方法名
      * @param array $args 参数数组，长度限制5个元素及以下
      * @return mixed 执行结果，没有找到可执行方法时返回null
@@ -161,7 +161,7 @@ if (! function_exists('exec_method_array')) {
 }
 
 
-if (! function_exists('exec_function_array')) {
+if (!function_exists('exec_function_array')) {
     /**
      * 调用函数/闭包/可invoke的对象
      * 不使用call_user_func_array()，因为它有几个限制：
@@ -169,8 +169,8 @@ if (! function_exists('exec_function_array')) {
      * 二是$args中如果有引用参数，那么它们必须以引用方式传入；
      * 三是性能较低，只有反射的一半多一点。
      *
-     * @param       string /Closure/object $func 函数名/闭包/含__invoke方法的对象
-     * @param array $args  参数数组，长度限制5个元素及以下
+     * @param string /Closure/object $func 函数名/闭包/含__invoke方法的对象
+     * @param array $args 参数数组，长度限制5个元素及以下
      * @return mixed 执行结果，没有找到可执行函数时返回null
      */
     function exec_function_array($func, array $args = [])
@@ -202,7 +202,7 @@ if (! function_exists('exec_function_array')) {
 }
 
 
-if (! function_exists('exec_callback')) {
+if (!function_exists('exec_callback')) {
     /**
      * 执行给定的函数或方法
      */

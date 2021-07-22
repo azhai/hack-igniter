@@ -27,7 +27,7 @@ trait MY_Nested_set
 
     public function get_nested_root()
     {
-        if (! $this->nested_root) {
+        if (!$this->nested_root) {
             $this->nested_root = $this->create_node();
         }
         return $this->nested_root;
@@ -64,7 +64,7 @@ trait MY_Nested_set
 
     public function get_flatten_rows($where = null, $depth = -1, $limit = null)
     {
-        if (! empty($where)) {
+        if (!empty($where)) {
             $root = $this->get_nested_node(0, $where);
             $this->where('left_no >=', $root->left_no());
             $this->where('right_no <=', $root->right_no());
@@ -223,7 +223,7 @@ class MY_Nested_node
             if ($row['right_no'] >= $right_no) {
                 break;
             }
-            $node->progeny_rows[$key] = & $this->progeny_rows[$key];
+            $node->progeny_rows[$key] = &$this->progeny_rows[$key];
         }
         $node->parent = $this;
         return $node;

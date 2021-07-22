@@ -14,7 +14,7 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 
 
-if (! function_exists('to_corner_span')) {
+if (!function_exists('to_corner_span')) {
     /**
      * 生成角标
      */
@@ -26,7 +26,7 @@ if (! function_exists('to_corner_span')) {
 }
 
 
-if (! function_exists('to_menu_link')) {
+if (!function_exists('to_menu_link')) {
     /**
      * 生成菜单项
      */

@@ -126,6 +126,7 @@ class MY_Model extends CI_Model implements ArrayAccess
             return false;
         }
     }
+
     /**
      * 设置强制读主库
      * @param false $once 是否只执行一次
@@ -141,8 +142,8 @@ class MY_Model extends CI_Model implements ArrayAccess
 
     /**
      * 确保数据库连接
-     * @param  bool $force 强制重连
-     * @param  bool $use_writer 强制使用主库
+     * @param bool $force 强制重连
+     * @param bool $use_writer 强制使用主库
      * @return object/null
      */
     public function reconnect($force = false, $use_writer = false)
@@ -329,8 +330,8 @@ class MY_Model extends CI_Model implements ArrayAccess
 
     /**
      *
-     * @param  string  $column [description]
-     * @param  bool $reset  [description]
+     * @param string $column [description]
+     * @param bool $reset [description]
      * @return int          [description]
      */
     public function count($column = '*', $reset = true)
@@ -568,7 +569,7 @@ class MY_Model extends CI_Model implements ArrayAccess
     /**
      * Offset to set
      * @param mixed $offset The offset to assign the value to.
-     * @param mixed $value  The value to set.
+     * @param mixed $value The value to set.
      * @return void
      */
     public function offsetSet($offset, $value)

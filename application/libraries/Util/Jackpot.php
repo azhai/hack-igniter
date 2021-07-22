@@ -34,7 +34,7 @@ class Jackpot
         $this->prizes = $prizes;
         $this->robin = new RoundRobin($this->prizes);
     }
-    
+
     public function initCache($redis, array $stores = null)
     {
         $this->redis = $redis;
@@ -43,8 +43,8 @@ class Jackpot
         if ($total <= 0) {
             return;
         }
-        $this->redis->set('eggs:'. $this->id, $this->eggs);
-        
+        $this->redis->set('eggs:' . $this->id, $this->eggs);
+
         $eggs = $this->eggs;
         $times = $eggs / $total;
         if (empty($stores)) {
@@ -55,8 +55,8 @@ class Jackpot
             }
             $stores[$key] += $eggs; // 补给最低奖
         }
-        $this->redis->delete('przs:'. $this->id);
-        $this->redis->hmSet('przs:'. $this->id, $stores);
+        $this->redis->delete('przs:' . $this->id);
+        $this->redis->hmSet('przs:' . $this->id, $stores);
         return $stores;
     }
 
@@ -65,9 +65,9 @@ class Jackpot
      */
     public function play($draw)
     {
-        $remain = $this->redis->decrBy('eggs:'. $this->id, $this->dozen);
+        $remain = $this->redis->decrBy('eggs:' . $this->id, $this->dozen);
         if ($remain < 0) {
-            $this->redis->set('eggs:'. $this->id, 0);
+            $this->redis->set('eggs:' . $this->id, 0);
             return [];
         }
         $keys = array_keys($this->prizes);
@@ -85,7 +85,7 @@ class Jackpot
 //        ksort($total);
         $go_on = true;
         foreach ($total as $key => $num) {
-            $n = $this->redis->hIncrBy('przs:'. $this->id, $key, 0 - $num);
+            $n = $this->redis->hIncrBy('przs:' . $this->id, $key, 0 - $num);
             if ($n < 0) { //终止
                 // $go_on = false;
             }
@@ -98,23 +98,23 @@ function test_jackpot()
 {
     /* 数据初始化，weight: 权重 */
     $exp_prizes = [
-        '冰封城堡'=>1,
-        '赠你跑车'=>1,
-        '相聚太空'=>5,
-        '浪漫游轮'=>28,
+        '冰封城堡' => 1,
+        '赠你跑车' => 1,
+        '相聚太空' => 5,
+        '浪漫游轮' => 28,
     ];
     $exp_robin = new RoundRobin($exp_prizes);
     $prizes = [
-        '贵重礼物'=>33,
-        '魔法权杖'=>66, '爱心玫瑰'=>66,
-        '包治百病'=>88, '一见钟情'=>99,
-        '啵啵奶茶'=>2222, '香蕉'=>28888,
+        '贵重礼物' => 33,
+        '魔法权杖' => 66, '爱心玫瑰' => 66,
+        '包治百病' => 88, '一见钟情' => 99,
+        '啵啵奶茶' => 2222, '香蕉' => 28888,
     ];
     $stores = [
-        '贵重礼物'=>36,
-        '魔法权杖'=>38, '爱心玫瑰'=>66,
-        '包治百病'=>88, '一见钟情'=>88,
-        '啵啵奶茶'=>3999, '香蕉'=>36666,
+        '贵重礼物' => 36,
+        '魔法权杖' => 38, '爱心玫瑰' => 66,
+        '包治百病' => 88, '一见钟情' => 88,
+        '啵啵奶茶' => 3999, '香蕉' => 36666,
     ];
     $redis = new \Redis();
     $redis->connect('127.0.0.1', 6379);
@@ -123,11 +123,11 @@ function test_jackpot()
     $stores = $pot->initCache($redis);
     var_export($stores);
 
-    $draw = function($robin, $total, $i = 0) {
+    $draw = function ($robin, $total, $i = 0) {
         if ($i == 0) {
             $key = $robin->setNext('啵啵奶茶');
         } else if ($total['贵重礼物'] >= 1 || $total['魔法权杖'] >= 1 || $total['爱心玫瑰'] >= 1
-                || $total['包治百病'] >= 1 || $total['一见钟情'] >= 1) {
+            || $total['包治百病'] >= 1 || $total['一见钟情'] >= 1) {
             $key = $robin->next();
         } else if ($i % 3 > 0) {
             $key = $robin->next();

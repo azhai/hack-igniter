@@ -37,14 +37,14 @@ if (defined('SITE_BASE_URL')) {
 | WARNING: If you set this to 'PATH_INFO', URIs will always be URL-decoded!
 |
 */
-$config['uri_protocol']	= 'PATH_INFO';
+$config['uri_protocol'] = 'PATH_INFO';
 
 /*
 |--------------------------------------------------------------------------
 | Default Language
 |--------------------------------------------------------------------------
 */
-$config['language']	= 'english';
+$config['language'] = 'english';
 
 /*
 |--------------------------------------------------------------------------
@@ -86,11 +86,11 @@ $config['sess_regenerate_destroy'] = false;
 | Cookie Related Variables
 |--------------------------------------------------------------------------
 */
-$config['cookie_prefix']	= '';
-$config['cookie_domain']	= '';
-$config['cookie_path']		= '/';
-$config['cookie_secure']	= false;
-$config['cookie_httponly'] 	= false;
+$config['cookie_prefix'] = '';
+$config['cookie_domain'] = '';
+$config['cookie_path'] = '/';
+$config['cookie_secure'] = false;
+$config['cookie_httponly'] = false;
 
 /*
 |--------------------------------------------------------------------------
@@ -129,4 +129,4 @@ $config['compress_output'] = true;
 | the visitor's IP address.
 |
 */
-$config['proxy_ips'] = ['192.168.0.0/24', ];
+$config['proxy_ips'] = ['192.168.0.0/24',];

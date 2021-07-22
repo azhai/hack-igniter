@@ -51,8 +51,8 @@ class MY_Templater
     /**
      * 添加一个或多个全局变量.
      *
-     * @param string|array $key   一个变量名或变量数组
-     * @param mixed        $value 变量值
+     * @param string|array $key 一个变量名或变量数组
+     * @param mixed $value 变量值
      * @return this
      */
     public function addGlobal($key, $value = null)
@@ -80,8 +80,8 @@ class MY_Templater
     /**
      * 页面跳转，GET方式.
      *
-     * @param string $to_url    要跳转网址
-     * @param bool   $permanent 是否永久跳转(HTTP 301)
+     * @param string $to_url 要跳转网址
+     * @param bool $permanent 是否永久跳转(HTTP 301)
      *
      * @return 进入新页面
      */
@@ -182,7 +182,7 @@ class MY_Templater
     /**
      * 设置文档类型和字符集
      *
-     * @param string $type    文档类型
+     * @param string $type 文档类型
      * @param string $charset 字符集
      * @return this
      */

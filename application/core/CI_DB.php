@@ -56,7 +56,7 @@ class CI_DB extends CI_DB_query_builder
             self::$last_active_group = false; //用完及时清理
         }
         $result = parent::initialize();
-        if ($result && $name && ! $is_exists) {
+        if ($result && $name && !$is_exists) {
             self::$conn_registry[$name] = $this->conn_id;
             if (defined('DB_RECONNECT_TIMEOUT')) {
                 $this->set_timeout(constant('DB_RECONNECT_TIMEOUT'));
@@ -112,11 +112,11 @@ class CI_DB extends CI_DB_query_builder
     public function reset_count()
     {
         $this->_reset_run(array(
-            'qb_select'     => array(),
-            'qb_from'       => array(),
-            'qb_join'       => array(),
+            'qb_select' => array(),
+            'qb_from' => array(),
+            'qb_join' => array(),
             'qb_aliased_tables' => array(),
-            'qb_no_escape'      => array(),
+            'qb_no_escape' => array(),
         ));
     }
 
@@ -127,7 +127,7 @@ class CI_DB extends CI_DB_query_builder
     {
         if ($result = parent::_compile_group_by()) {
             $this->qb_groupby = array_unique($this->qb_groupby);
-            $result = "\nGROUP BY ".implode(', ', $this->qb_groupby);
+            $result = "\nGROUP BY " . implode(', ', $this->qb_groupby);
         }
         return $result;
     }
@@ -139,7 +139,7 @@ class CI_DB extends CI_DB_query_builder
     {
         if ($result = parent::_compile_order_by()) {
             $this->qb_orderby = array_unique($this->qb_orderby);
-            $result = "\nORDER BY ".implode(', ', $this->qb_orderby);
+            $result = "\nORDER BY " . implode(', ', $this->qb_orderby);
         }
         return $result;
     }

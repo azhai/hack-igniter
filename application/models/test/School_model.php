@@ -48,7 +48,7 @@ class School_model extends MY_Model
                 'model' => 'test/student_model',
                 'fkey' => 'school_id',
                 'columns' => ['id', 'name', 'gender',
-                        'school_id', 'is_removed'],
+                    'school_id', 'is_removed'],
             ],
         ];
     }
@@ -75,7 +75,7 @@ class School_model extends MY_Model
             return 'school:' . $ids;
         }
         return array_map(function ($x) {
-            return 'school:'.$x;
+            return 'school:' . $x;
         }, $ids);
     }
 }

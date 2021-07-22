@@ -45,7 +45,7 @@ class Fake_page extends MY_Controller
     public function create($generator, $count = 1)
     {
         $rows = [];
-        for (; $count > 0; $count --) {
+        for (; $count > 0; $count--) {
             $row = [];
             foreach ($generator as $col => $gen) {
                 $row[$col] = $gen();

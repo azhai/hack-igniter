@@ -11,7 +11,8 @@
     <meta name="keywords" content="">
     <meta name="description" content="">
 
-    <link rel="shortcut icon" href="favicon.ico"> <link href="<?= $static_url ?>/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link rel="shortcut icon" href="favicon.ico">
+    <link href="<?= $static_url ?>/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
     <link href="<?= $static_url ?>/css/font-awesome.css?v=4.4.0" rel="stylesheet">
 
     <link href="<?= $static_url ?>/css/animate.css" rel="stylesheet">
@@ -22,22 +23,20 @@
 <body class="gray-bg">
 
 
-    <div class="middle-box text-center animated fadeInDown">
-        <h1>500</h1>
-        <h3 class="font-bold">服务器内部错误</h3>
+<div class="middle-box text-center animated fadeInDown">
+    <h1>500</h1>
+    <h3 class="font-bold">服务器内部错误</h3>
 
-        <div class="error-desc">
-            服务器好像出错了...
-            <br/>您可以返回主页看看
-            <br/><a href="index.html" class="btn btn-primary m-t">主页</a>
-        </div>
+    <div class="error-desc">
+        服务器好像出错了...
+        <br/>您可以返回主页看看
+        <br/><a href="index.html" class="btn btn-primary m-t">主页</a>
     </div>
+</div>
 
-    <!-- 全局js -->
-    <script src="<?= $static_url ?>/js/jquery.min.js?v=2.1.4"></script>
-    <script src="<?= $static_url ?>/js/bootstrap.min.js?v=3.3.6"></script>
-
-
+<!-- 全局js -->
+<script src="<?= $static_url ?>/js/jquery.min.js?v=2.1.4"></script>
+<script src="<?= $static_url ?>/js/bootstrap.min.js?v=3.3.6"></script>
 
 
 </body>

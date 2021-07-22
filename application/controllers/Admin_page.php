@@ -85,7 +85,7 @@ class Admin_page extends MY_Controller
         $this->load->model('default/privilege_model');
         $this->load->model('default/role_privilege_model');
 
-        $rows = $this->menu_model->get_menu_rows([$menu_id, ]);
+        $rows = $this->menu_model->get_menu_rows([$menu_id,]);
         $menu_ids = array_column($rows, 'id');
         array_unshift($menu_ids, 0);
         $priv_ids = [];
@@ -108,7 +108,7 @@ class Admin_page extends MY_Controller
         return $is_revoked ^ $has_priv;
     }
 
-    protected function filter_where(& $model)
+    protected function filter_where(&$model)
     {
         $conds = [];
         return $conds;
@@ -119,7 +119,7 @@ class Admin_page extends MY_Controller
         return $result;
     }
 
-    protected function list_rows(& $model, $orderby = null)
+    protected function list_rows(&$model, $orderby = null)
     {
         $page_no = $this->input->post_get('page_no');
         $page_no = ($page_no && $page_no > 0) ? intval($page_no) : 1;

@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 
 /**
@@ -19,45 +19,45 @@ Filename:    /home/ryan/projects/hack-igniter/application/controllers/gen/views/
 Line Number: 19
 
 Backtrace:
-	File: /home/ryan/projects/hack-igniter/application/controllers/gen/views/model/template.php
-	Line: 19
-	Function: _error_handler
+File: /home/ryan/projects/hack-igniter/application/controllers/gen/views/model/template.php
+Line: 19
+    function: _error_handler
 
 	File: /home/ryan/projects/hack-igniter/application/libraries/MY_Templater.php
 	Line: 214
-	Function: include
+	function: include
 
 	File: /home/ryan/projects/hack-igniter/application/core/MY_Controller.php
 	Line: 145
-	Function: render
+	function: render
 
 	File: /home/ryan/projects/hack-igniter/application/controllers/gen/Model_page.php
 	Line: 141
-	Function: render_html
+	function: render_html
 
 	File: /home/ryan/projects/hack-igniter/application/controllers/gen/Model_page.php
 	Line: 117
-	Function: write_model
+	function: write_model
 
 	File: /home/ryan/projects/hack-igniter/application/controllers/gen/Model_page.php
 	Line: 80
-	Function: write_db_models
+	function: write_db_models
 
 	File: /home/ryan/projects/hack-igniter/application/controllers/gen/Model_page.php
 	Line: 51
-	Function: create_models
+	function: create_models
 
 	File: /home/ryan/projects/hack-igniter/application/helpers/my_helper.php
 	Line: 87
-	Function: index
+	function: index
 
 	File: /home/ryan/projects/hack-igniter/application/core/MY_Controller.php
 	Line: 39
-	Function: exec_method_array
+	function: exec_method_array
 
 	File: /home/ryan/projects/hack-igniter/index.php
 	Line: 95
-	Function: require_once
+	function: require_once
 
 
     protected  = 'created_at';
@@ -72,43 +72,43 @@ Line Number: 22
 Backtrace:
 	File: /home/ryan/projects/hack-igniter/application/controllers/gen/views/model/template.php
 	Line: 22
-	Function: _error_handler
+	function: _error_handler
 
 	File: /home/ryan/projects/hack-igniter/application/libraries/MY_Templater.php
 	Line: 214
-	Function: include
+	function: include
 
 	File: /home/ryan/projects/hack-igniter/application/core/MY_Controller.php
 	Line: 145
-	Function: render
+	function: render
 
 	File: /home/ryan/projects/hack-igniter/application/controllers/gen/Model_page.php
 	Line: 141
-	Function: render_html
+	function: render_html
 
 	File: /home/ryan/projects/hack-igniter/application/controllers/gen/Model_page.php
 	Line: 117
-	Function: write_model
+	function: write_model
 
 	File: /home/ryan/projects/hack-igniter/application/controllers/gen/Model_page.php
 	Line: 80
-	Function: write_db_models
+	function: write_db_models
 
 	File: /home/ryan/projects/hack-igniter/application/controllers/gen/Model_page.php
 	Line: 51
-	Function: create_models
+	function: create_models
 
 	File: /home/ryan/projects/hack-igniter/application/helpers/my_helper.php
 	Line: 87
-	Function: index
+	function: index
 
 	File: /home/ryan/projects/hack-igniter/application/core/MY_Controller.php
 	Line: 39
-	Function: exec_method_array
+	function: exec_method_array
 
 	File: /home/ryan/projects/hack-igniter/index.php
 	Line: 95
-	Function: require_once
+	function: require_once
 
 
     protected  = 'changed_at';

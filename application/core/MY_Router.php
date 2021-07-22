@@ -22,7 +22,7 @@ class MY_Router extends CI_Router
      * to be called.
      *
      * @used-by CI_Router::_parse_routes()
-     * @param   array $segments URI segments
+     * @param array $segments URI segments
      * @return  void
      */
     protected function _set_request($segments = [])
@@ -55,7 +55,7 @@ class MY_Router extends CI_Router
     /**
      * Set class name
      *
-     * @param   string $class Class name
+     * @param string $class Class name
      * @return  void
      */
     public function set_class($class)

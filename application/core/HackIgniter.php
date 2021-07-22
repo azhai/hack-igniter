@@ -14,7 +14,7 @@
 /**
  * CodeIgniter Version
  *
- * @var	string
+ * @var    string
  *
  */
 const CI_VERSION = '3.1.11';
@@ -24,12 +24,12 @@ const CI_VERSION = '3.1.11';
  *  Load the framework constants
  * ------------------------------------------------------
  */
-if (file_exists(APPPATH.'config/'.ENVIRONMENT.'/constants.php')) {
-    require_once(APPPATH.'config/'.ENVIRONMENT.'/constants.php');
+if (file_exists(APPPATH . 'config/' . ENVIRONMENT . '/constants.php')) {
+    require_once(APPPATH . 'config/' . ENVIRONMENT . '/constants.php');
 }
 
-if (file_exists(APPPATH.'config/constants.php')) {
-    require_once(APPPATH.'config/constants.php');
+if (file_exists(APPPATH . 'config/constants.php')) {
+    require_once(APPPATH . 'config/constants.php');
 }
 
 /*
@@ -37,7 +37,7 @@ if (file_exists(APPPATH.'config/constants.php')) {
  *  Load the global functions
  * ------------------------------------------------------
  */
-require_once(BASEPATH.'core/Common.php');
+require_once(BASEPATH . 'core/Common.php');
 
 /*
  * ------------------------------------------------------
@@ -92,10 +92,10 @@ mb_substitute_character('none');
  * ------------------------------------------------------
  */
 
-require_once(BASEPATH.'core/compat/mbstring.php');
-require_once(BASEPATH.'core/compat/hash.php');
-require_once(BASEPATH.'core/compat/password.php');
-require_once(BASEPATH.'core/compat/standard.php');
+require_once(BASEPATH . 'core/compat/mbstring.php');
+require_once(BASEPATH . 'core/compat/hash.php');
+require_once(BASEPATH . 'core/compat/password.php');
+require_once(BASEPATH . 'core/compat/standard.php');
 
 /*
  * ------------------------------------------------------
@@ -111,30 +111,43 @@ $RTR =& load_class('Router', 'core', isset($routing) ? $routing : null);
  *
  */
 // Load the base controller class
-require_once BASEPATH.'core/Controller.php';
+require_once BASEPATH . 'core/Controller.php';
 
 /**
  * Reference to the CI_Controller method.
  *
  * Returns current CI instance object
  *
- * @return CI_Controller
+ * @return object of CI_Controller
  */
 function &get_instance()
 {
     return CI_Controller::get_instance();
 }
 
-if (file_exists(APPPATH.'core/'.$CFG->config['subclass_prefix'].'Controller.php')) {
-    require_once APPPATH.'core/'.$CFG->config['subclass_prefix'].'Controller.php';
+/**
+ * Create object object of a subclass of CI_Controller
+ */
+function create_instance($dir, $class, $base_class = FALSE)
+{
+    if ($base_class && file_exists(APPPATH . 'core/' . $base_class . '.php')) {
+        require_once APPPATH . 'core/' . $base_class . '.php';
+    }
+    $file_path = APPPATH . trim($dir, '/') . '/' . $class . '.php';
+    if (file_exists($file_path)) {
+        require_once $file_path;
+        return new $class();
+    }
 }
 
 
 $class = ucfirst($RTR->class);
-$file_path = APPPATH.'controllers/'.$RTR->directory.$class.'.php';
-if (empty($class) || !file_exists($file_path)) {
-    $class = 'Builtin';
-    $file_path = APPPATH.'controllers/'.$class.'.php';
+$prefix = $CFG->config['subclass_prefix'];
+$CI = create_instance('services/' . $RTR->directory, $class, $prefix . 'Service');
+if (is_null($CI)) {
+    $base_class = $prefix . 'Controller';
+    $CI = create_instance('controllers/' . $RTR->directory, $class, $base_class);
+    if (is_null($CI)) {
+        $CI = new $base_class();
+    }
 }
-require_once($file_path);
-$CI = new $class();

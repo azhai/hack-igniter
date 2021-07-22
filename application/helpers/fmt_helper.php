@@ -14,7 +14,7 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 
 
-if (! function_exists('get_numbers')) {
+if (!function_exists('get_numbers')) {
     /**
      * 保留字符串中的数字和小数点
      */
@@ -30,7 +30,7 @@ if (! function_exists('get_numbers')) {
 }
 
 
-if (! function_exists('format_money')) {
+if (!function_exists('format_money')) {
     /**
      * 输出金额
      */
@@ -41,7 +41,7 @@ if (! function_exists('format_money')) {
 }
 
 
-if (! function_exists('format_date')) {
+if (!function_exists('format_date')) {
     /**
      * 输出日期
      */
@@ -59,7 +59,7 @@ if (! function_exists('format_date')) {
 }
 
 
-if (! function_exists('format_stars')) {
+if (!function_exists('format_stars')) {
     /**
      * 输出0~5颗星
      */
@@ -88,7 +88,7 @@ if (! function_exists('format_stars')) {
 }
 
 
-if (! function_exists('hide_middle')) {
+if (!function_exists('hide_middle')) {
     /**
      * 隐藏中间若干位
      */
@@ -104,7 +104,7 @@ if (! function_exists('hide_middle')) {
 }
 
 
-if (! function_exists('align_right')) {
+if (!function_exists('align_right')) {
     /**
      * 输出金额
      */
@@ -116,14 +116,14 @@ if (! function_exists('align_right')) {
 }
 
 
-if (! function_exists('replace_with')) {
+if (!function_exists('replace_with')) {
     /**
      * 将内容字符串中的变量替换掉.
      *
      * @param string $content 内容字符串
-     * @param array  $context 变量数组
-     * @param string $prefix  变量前置符号
-     * @param string $subfix  变量后置符号
+     * @param array $context 变量数组
+     * @param string $prefix 变量前置符号
+     * @param string $subfix 变量后置符号
      * @return string 当前内容
      */
     function replace_with($content, array $context = [], $prefix = '', $subfix = '')
@@ -145,25 +145,25 @@ if (! function_exists('replace_with')) {
 }
 
 
-if (! function_exists('escape_db_input')) {
+if (!function_exists('escape_db_input')) {
     /**
      * 过滤$_REQUEST字符串中的危险字符，用于mysql查询
      */
-    function escape_db_input($input, $strip_tags=true) {
-        if(is_array($input)) {
-            foreach($input as $key => $value) {
+    function escape_db_input($input, $strip_tags = true)
+    {
+        if (is_array($input)) {
+            foreach ($input as $key => $value) {
                 $input[$key] = escape_db_input($value);
             }
         } else {
-            if(get_magic_quotes_gpc()) {
-                if(ini_get('magic_quotes_sybase')){
+            if (get_magic_quotes_gpc()) {
+                if (ini_get('magic_quotes_sybase')) {
                     $input = str_replace("''", "'", $input);
-                }
-                else {
+                } else {
                     $input = stripslashes($input);
                 }
             }
-            if($strip_tags) {
+            if ($strip_tags) {
                 $input = strip_tags($input);
             }
             $input = mysql_real_escape_string($input);

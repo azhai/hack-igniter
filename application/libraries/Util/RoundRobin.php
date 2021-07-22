@@ -23,18 +23,37 @@ class RoundRobin
     protected $ladders = [];   // 权重阶梯
     protected $total = 0;      // 权重总和
 
-    public function __construct(array $data)
+    public function __construct(array $data = null)
     {
-        $this->data = $data;
-        $this->reset();
+        if (!empty($data)) {
+            $this->reset($data);
+        }
     }
-    
-    public function reset()
+
+    public function reset(array $data = null)
     {
+        if (!empty($data)) {
+            $this->data = $data;
+        }
         $keys = array_keys($this->data);
         $this->currents = array_fill_keys($keys, 0); //PHP5.2+
         $this->total = array_sum($this->data);
         return $this->total;
+    }
+
+    public function update(array $changes, $is_offset = false)
+    {
+        foreach ($changes as $key => $value) {
+            if (!isset($this->data[$key])) {
+                continue;
+            }
+            if ($is_offset) {
+                $this->data[$key] += $value;
+            } else {
+                $this->data[$key] = $value;
+            }
+        }
+        return $this->reset();
     }
 
     /**
@@ -45,7 +64,8 @@ class RoundRobin
         $best = '';
         $max_weight = 0;
         foreach ($this->data as $key => $weight) {
-            $current_weight = $this->currents[$key] += $weight;
+            $this->currents[$key] += $weight;
+            $current_weight = $this->currents[$key];
             if ($current_weight >= $max_weight) {
                 $best = $key;
                 $max_weight = $current_weight;

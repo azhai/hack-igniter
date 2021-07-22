@@ -5,16 +5,16 @@ endif; ?>
 
 
 /**
- * <?=$title . "\n"?>
- */
-class <?=$name?> extends MY_Model
+* <?= $title . "\n" ?>
+*/
+class <?= $name ?> extends MY_Model
 {
 <?php if ($mixin):
     echo '    use \\' . $mixin['name'] . ';' . "\n\n";
 endif; ?>
-    protected $_db_key = '<?=$db_key?>';
-    protected $_db_key_ro = '<?=$db_key?>';
-    protected $_table_name = '<?=$table?>';
+protected $_db_key = '<?= $db_key ?>';
+protected $_db_key_ro = '<?= $db_key ?>';
+protected $_table_name = '<?= $table ?>';
 <?php if (isset($fields['created_at'])):
     echo "    protected \$_created_field = 'created_at';\n";
 endif; ?>
@@ -25,14 +25,14 @@ endif; ?>
 <?php if (!$mixin || !in_array('table_indexes', $mixin['methods'], true)): ?>
     public function table_indexes($another = false)
     {
-        return ['<?=implode("', '", $pkeys)?>'];
+    return ['<?= implode("', '", $pkeys) ?>'];
     }
 <?php endif; ?>
 
 <?php if (!$mixin || !in_array('table_fields', $mixin['methods'], true)): ?>
     public function table_fields()
     {
-        return <?=array_export($fields, 8)?>;
+    return <?= array_export($fields, 8) ?>;
     }
 <?php endif; ?>
 }

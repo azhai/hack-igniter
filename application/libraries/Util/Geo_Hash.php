@@ -15,7 +15,7 @@ class Geo_Hash
 {
     private static $table = "0123456789bcdefghjkmnpqrstuvwxyz";
     private static $bits = [
-            0b10000, 0b01000, 0b00100, 0b00010, 0b00001,
+        0b10000, 0b01000, 0b00100, 0b00010, 0b00001,
     ];
 
     public static function encode($lng, $lat, $prec = 0.00001)
@@ -71,14 +71,14 @@ class Geo_Hash
         $dlat = ($maxlat - $minlat) / 2;
 
         return [
-                self::encode($minlng - $dlng, $maxlat + $dlat),
-                self::encode($minlng + $dlng, $maxlat + $dlat),
-                self::encode($maxlng + $dlng, $maxlat + $dlat),
-                self::encode($minlng - $dlng, $maxlat - $dlat),
-                self::encode($maxlng + $dlng, $maxlat - $dlat),
-                self::encode($minlng - $dlng, $minlat - $dlat),
-                self::encode($minlng + $dlng, $minlat - $dlat),
-                self::encode($maxlng + $dlng, $minlat - $dlat),
+            self::encode($minlng - $dlng, $maxlat + $dlat),
+            self::encode($minlng + $dlng, $maxlat + $dlat),
+            self::encode($maxlng + $dlng, $maxlat + $dlat),
+            self::encode($minlng - $dlng, $maxlat - $dlat),
+            self::encode($maxlng + $dlng, $maxlat - $dlat),
+            self::encode($minlng - $dlng, $minlat - $dlat),
+            self::encode($minlng + $dlng, $minlat - $dlat),
+            self::encode($maxlng + $dlng, $minlat - $dlat),
         ];
     }
 
@@ -87,18 +87,18 @@ class Geo_Hash
         list($minlng, $maxlng, $minlat, $maxlat) = self::decode($hash);
 
         return [
-                [$minlng, $minlat],
-                [$minlng, $maxlat],
-                [$maxlng, $maxlat],
-                [$maxlng, $minlat],
+            [$minlng, $minlat],
+            [$minlng, $maxlat],
+            [$maxlng, $maxlat],
+            [$maxlng, $minlat],
         ];
     }
 
     /**
      * decode a geohash string to a geographical area
      *
-     * @var $hash string geohash
      * @return array array($minlng, $maxlng, $minlat, $maxlat);
+     * @var $hash string geohash
      */
     public static function decode($hash)
     {

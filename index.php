@@ -22,7 +22,7 @@ switch (ENVIRONMENT) {
     case 'development':
         error_reporting(E_ALL);
         ini_set('display_errors', 1);
-    break;
+        break;
 
     case 'testing':
     case 'production':
@@ -32,7 +32,7 @@ switch (ENVIRONMENT) {
             $err_level = $err_level & ~E_DEPRECATED & ~E_USER_NOTICE & ~E_USER_DEPRECATED;
         }
         error_reporting($err_level);
-    break;
+        break;
 
     default:
         header('HTTP/1.1 503 Service Unavailable.', true, 503);
@@ -63,14 +63,14 @@ if (defined('STDIN')) {
     chdir(dirname(__FILE__));
 }
 // Now that we know the path, set the main path constants
-define('APPPATH', $application_folder.DIRECTORY_SEPARATOR);
-define('VIEWPATH', $view_folder.DIRECTORY_SEPARATOR);
+define('APPPATH', $application_folder . DIRECTORY_SEPARATOR);
+define('VIEWPATH', $view_folder . DIRECTORY_SEPARATOR);
 // The name of THIS file
 define('SELF', pathinfo(__FILE__, PATHINFO_BASENAME));
 // Path to the system directory
 define('BASEPATH', $system_path);
 // Path to the front controller (this file) directory
-define('FCPATH', dirname(__FILE__).DIRECTORY_SEPARATOR);
+define('FCPATH', dirname(__FILE__) . DIRECTORY_SEPARATOR);
 // Name of the "system" directory
 define('SYSDIR', basename(BASEPATH));
 

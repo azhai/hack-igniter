@@ -40,6 +40,17 @@ class MY_Loader extends CI_Loader
         spl_autoload_register([$this, 'auto_load']);
     }
 
+    public function set_alias($object, $class, $alias = '')
+    {
+        if (!is_null($alias) && $alias !== false) {
+            if (empty($alias) || !is_string($alias)) {
+                $alias = strtolower($class);
+            }
+            $this->$alias = $object;
+        }
+        return $object;
+    }
+
     public function database($params = '', $return = false, $query_builder = null)
     {
         CI_DB::$last_active_group = false;
@@ -64,6 +75,31 @@ class MY_Loader extends CI_Loader
             }
         }
         return parent::model($model, lcfirst($name), $db_conn);
+    }
+
+    /**
+     * 加载Service
+     */
+    public function service($name, $alias = '')
+    {
+        $base_class = config_item('subclass_prefix') . 'Service';
+        if (!class_exists($base_class, false)) {
+            $app_path = APPPATH . 'core' . DIRECTORY_SEPARATOR;
+            if (file_exists($app_path . $base_class . '.php')) {
+                require_once($app_path . $base_class . '.php');
+            }
+        }
+        $serv_path = APPPATH . 'services' . DIRECTORY_SEPARATOR;
+        $name = trim($name, '/');
+        if (file_exists($serv_path . $name . '.php')) {
+            require_once($serv_path . $name . '.php');
+        }
+        $class = ucfirst(ltrim(strrchr($name, '/'), '/'));
+        if (!class_exists($class, false)) {
+            return;
+        }
+        $object = new $class();
+        return $this->set_alias($object, $class, $alias);
     }
 
     public function name_space($prefix, $path)
@@ -119,22 +155,6 @@ class MY_Loader extends CI_Loader
                 || interface_exists($class, $autoload)
                 || trait_exists($class, $autoload);
         }
-    }
-
-    /**
-     * 加载Yar Client
-     */
-    public function rpc($name, $group = 'default')
-    {
-        $name = trim($name, '/');
-        if (!isset($this->yar_clients[$name])) {
-            $config = get_instance()->config;
-            $config->load('rpc', true, true);
-            $rpc_url = rtrim($config->item($group, 'rpc'), '/');
-            $server_url = sprintf('%s/%s/', $rpc_url, $name);
-            $this->yar_clients[$name] = new Yar_Client($server_url);
-        }
-        return $this->yar_clients[$name];
     }
 
     /**

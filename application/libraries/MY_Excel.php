@@ -16,9 +16,9 @@ $loader = load_class('Loader', 'core');
 $loader->name_space('Psr\\SimpleCache', VENDPATH . 'psr/simple-cache/src');
 $loader->name_space('PhpOffice', VENDPATH . 'phpoffice/phpspreadsheet/src');
 
-use \PhpOffice\PhpSpreadsheet\Spreadsheet;
-use \PhpOffice\PhpSpreadsheet\Writer;
-use \PhpOffice\PhpSpreadsheet\Style;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Style;
+use PhpOffice\PhpSpreadsheet\Writer;
 
 /**
  * MS Excel or csv
@@ -82,7 +82,7 @@ class MY_Excel
         return $col_right;
     }
 
-    public function set_sheet_style(& $sheet, $head_lines = 0)
+    public function set_sheet_style(&$sheet, $head_lines = 0)
     {
         $col_right = $this->get_col_right();
         $rect = sprintf('A1:%s%d', $col_right, $this->row_count + $head_lines);
@@ -110,7 +110,7 @@ class MY_Excel
         }
     }
 
-    public function add_data(array& $rows, array $col_fields = null)
+    public function add_data(array &$rows, array $col_fields = null)
     {
         if ($count = count($rows)) {
             if ($col_fields) {
@@ -140,9 +140,9 @@ class MY_Excel
             $gap = 1; //空行
             $chead = create_function('$c', 'return $c<26?chr($c+65):chr(floor($c/26)+64).chr($c%26+65);');
             if ($col_titles) {
-                $gap ++;
+                $gap++;
                 foreach ($col_titles as $c => $title) {
-                    $sheet->setCellValue($chead($c).'1', $title);
+                    $sheet->setCellValue($chead($c) . '1', $title);
                 }
             }
             foreach ($this->data as $i => $row) {
@@ -151,7 +151,7 @@ class MY_Excel
                     if (is_numeric($value)) {
                         $value = " " . $value;
                     }
-                    $sheet->setCellValue($chead($c).($i + $gap), $value);
+                    $sheet->setCellValue($chead($c) . ($i + $gap), $value);
                 }
             }
             $writer = $this->save_xls();

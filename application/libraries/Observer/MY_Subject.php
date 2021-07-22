@@ -75,8 +75,8 @@ class MY_Subject implements SplSubject
      * 通知Observer
      *
      * @param string $name 方法名
-     * @param array  $args 参数组，不含Subject
-     * @param int    $notify_type
+     * @param array $args 参数组，不含Subject
+     * @param int $notify_type
      */
     protected function _notify($name, array $args, $notify_type = 0)
     {

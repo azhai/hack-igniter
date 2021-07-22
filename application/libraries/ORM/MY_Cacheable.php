@@ -35,12 +35,12 @@ trait MY_Cacheable
 
     /**
      * @param string|object $cache 缓存对象或缓存参数
-     * @param string        $class 缓存类名
+     * @param string $class 缓存类名
      * @return mixed
      */
     public function add_cache($cache, $params = null)
     {
-        if (! is_object($cache) && $params) {
+        if (!is_object($cache) && $params) {
             $cache = $this->load->cache($cache, $params);
         }
         if ($cache) {

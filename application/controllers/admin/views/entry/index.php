@@ -2,175 +2,176 @@
 
 
 <?php $this->blockStart('content'); ?>
-    <div class="wrapper wrapper-content animated fadeInRight">
-        <div class="ibox row float-e-margins">
-            <div class="ibox-title">
-                <h5>驾校列表</h5>
-                <div class="ibox-tools">
-                </div>
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="ibox row float-e-margins">
+        <div class="ibox-title">
+            <h5>驾校列表</h5>
+            <div class="ibox-tools">
             </div>
-            <div class="ibox-content table-responsive">
+        </div>
+        <div class="ibox-content table-responsive">
 
-                <table class="table table-striped">
-                    <thead>
-                    <tr>
-                        <th><input type="checkbox" class="i-checks" id="ids" value=""></th>
-                        <th>城市</th>
-                        <th>驾校</th>
-                        <th>科目一</th>
-                        <th>科目二</th>
-                        <th>加入时间</th>
-                        <th>操作</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <?php foreach ($page_rows as $row): ?>
-                    <tr class="table-row<?=$row['is_removed']?' removed':''?>" data-id="<?=$row['id']?>">
-                        <td><input type="checkbox" class="i-checks" name="id[]" value="<?=$row['id']?>"></td>
-                        <td><span style="color:<?=$row['city_color']?>"><?=$row['city_name']?></span></td>
-                        <td><a href="<?=$edit_url.'?id='.$row['id']?>"><?=$row['name']?></a></td>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th><input type="checkbox" class="i-checks" id="ids" value=""></th>
+                    <th>城市</th>
+                    <th>驾校</th>
+                    <th>科目一</th>
+                    <th>科目二</th>
+                    <th>加入时间</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <?php foreach ($page_rows as $row): ?>
+                    <tr class="table-row<?= $row['is_removed'] ? ' removed' : '' ?>" data-id="<?= $row['id'] ?>">
+                        <td><input type="checkbox" class="i-checks" name="id[]" value="<?= $row['id'] ?>"></td>
+                        <td><span style="color:<?= $row['city_color'] ?>"><?= $row['city_name'] ?></span></td>
+                        <td><a href="<?= $edit_url . '?id=' . $row['id'] ?>"><?= $row['name'] ?></a></td>
                         <td>
-                            <span class="pie"><?=$row['s1_percent'].','.(100-$row['s1_percent'])?></span>
-                            <span><?=sprintf('%.2f', $row['s1_percent'])?>%</span>
+                            <span class="pie"><?= $row['s1_percent'] . ',' . (100 - $row['s1_percent']) ?></span>
+                            <span><?= sprintf('%.2f', $row['s1_percent']) ?>%</span>
                         </td>
                         <td>
-                            <span class="pie"><?=$row['s2_percent'].','.(100-$row['s2_percent'])?></span>
-                            <span><?=sprintf('%.2f', $row['s2_percent'])?>%</span>
+                            <span class="pie"><?= $row['s2_percent'] . ',' . (100 - $row['s2_percent']) ?></span>
+                            <span><?= sprintf('%.2f', $row['s2_percent']) ?>%</span>
                         </td>
-                        <td><?=$row['created_at']?></td>
+                        <td><?= $row['created_at'] ?></td>
                         <td class="operations">
                             <a class="btn btn-default btn-rounded">
                                 <i class="fa fa-edit" title="编辑"></i>
                             </a>
                             <?php if ($row['is_removed']): ?>
-                            <a class="btn btn-default btn-rounded">
-                                <i class="fa fa-recycle" title="恢复"></i>
-                            </a>
+                                <a class="btn btn-default btn-rounded">
+                                    <i class="fa fa-recycle" title="恢复"></i>
+                                </a>
                             <?php else: ?>
-                            <a class="btn btn-default btn-rounded">
-                                <i class="fa fa-remove" title="删除"></i>
-                            </a>
+                                <a class="btn btn-default btn-rounded">
+                                    <i class="fa fa-remove" title="删除"></i>
+                                </a>
                             <?php endif; ?>
                         </td>
                     </tr>
-                    <?php endforeach; ?>
-                    </tbody>
-                    <tfoot>
-                    <tr class="table-row" data-id="CHECKS">
-                        <td colspan="<?=$spans['left']?>">
-                            <a class="btn btn-default btn-rounded">
-                                <i class="fa fa-remove" title="删除"> 删除 </i>
-                            </a>
-                            <a class="btn btn-default btn-rounded">
-                                <i class="fa fa-recycle" title="恢复"> 恢复 </i>
-                            </a>
-                            <a class="btn btn-default btn-rounded">
-                                <i class="fa fa-share-square" title="全部导出"> 全部导出 </i>
-                            </a>
-                        </td>
-                        <td colspan="<?=$spans['right']?>">
-                            <div id="pagination" class="pull-right"></div>
-                        </td>
-                    </tr>
-                    </tfoot>
-                </table>
+                <?php endforeach; ?>
+                </tbody>
+                <tfoot>
+                <tr class="table-row" data-id="CHECKS">
+                    <td colspan="<?= $spans['left'] ?>">
+                        <a class="btn btn-default btn-rounded">
+                            <i class="fa fa-remove" title="删除"> 删除 </i>
+                        </a>
+                        <a class="btn btn-default btn-rounded">
+                            <i class="fa fa-recycle" title="恢复"> 恢复 </i>
+                        </a>
+                        <a class="btn btn-default btn-rounded">
+                            <i class="fa fa-share-square" title="全部导出"> 全部导出 </i>
+                        </a>
+                    </td>
+                    <td colspan="<?= $spans['right'] ?>">
+                        <div id="pagination" class="pull-right"></div>
+                    </td>
+                </tr>
+                </tfoot>
+            </table>
 
-            </div>
         </div>
     </div>
+</div>
 <?php $this->blockEnd(); ?>
 
 
 <?php $this->blockStart('styles'); ?>
-    <link href="<?= $static_url ?>/layui/css/layui.css" rel="stylesheet">
-    <link href="<?= $static_url ?>/css/plugins/iCheck/custom.css" rel="stylesheet">
+<link href="<?= $static_url ?>/layui/css/layui.css" rel="stylesheet">
+<link href="<?= $static_url ?>/css/plugins/iCheck/custom.css" rel="stylesheet">
 <?php $this->blockEnd(); ?>
 
 
 <?php $this->blockStart('scripts'); ?>
-    <script src="<?= $static_url ?>/layui/layui.js"></script>
-    <script src="<?= $static_url ?>/js/plugins/iCheck/icheck.min.js"></script>
-    <script src="<?= $static_url ?>/js/plugins/peity/jquery.peity.min.js"></script>
-    <script src="<?= $static_url ?>/js/demo/peity-demo.js"></script>
-    <script>
-        $(function(){
-            //复选框
-            $('.i-checks').iCheck({
-                checkboxClass: 'icheckbox_square-green',
-                radioClass: 'iradio_square-green',
-            });
-            $('#ids').on('ifChecked', function(ev){
-                $('.i-checks').iCheck('check');
-            }).on('ifUnchecked', function(ev){
-                $('.i-checks').iCheck('uncheck');
-            });
-            function getCheckedIds(checkbox) {
-                var ids = '';
-                $(checkbox).each(function(){
-                    var el = $(this);
-                    if (el.prop('checked')) {
-                        ids += el.val() + ',';
-                    }
-                });
-                return ids;
-            }
+<script src="<?= $static_url ?>/layui/layui.js"></script>
+<script src="<?= $static_url ?>/js/plugins/iCheck/icheck.min.js"></script>
+<script src="<?= $static_url ?>/js/plugins/peity/jquery.peity.min.js"></script>
+<script src="<?= $static_url ?>/js/demo/peity-demo.js"></script>
+<script>
+    $(function () {
+        //复选框
+        $('.i-checks').iCheck({
+            checkboxClass: 'icheckbox_square-green',
+            radioClass: 'iradio_square-green',
+        });
+        $('#ids').on('ifChecked', function (ev) {
+            $('.i-checks').iCheck('check');
+        }).on('ifUnchecked', function (ev) {
+            $('.i-checks').iCheck('uncheck');
+        });
 
-            layui.use(['layer', 'laypage'], function(){
-                var layer = layui.layer;
-                var laypage = layui.laypage;
-                //分页
-                laypage.render({
-                    theme: '#46b8da',
-                    prev: '<i class="fa fa-chevron-left"></i>',
-                    next: '<i class="fa fa-chevron-right"></i>',
-                    elem: 'pagination',
-                    curr: <?=$pager['page_no']?>,
-                    limit: <?=$pager['per_page']?>,
-                    count: <?=$pager['total_rows']?>,
-                    jump: function(obj, first) {
-                        if(!first){
-                            var url = "<?=$pager['base_url']?>";
-                            window.location.href = url+'&page_no='+obj.curr;
-                        }
-                    }
-                });
-                //编辑
-                $('i.fa-edit').parent('a.btn').on('click', function(){
-                    var id = $(this).parents('tr.table-row').data('id');
-                    window.location.href = "<?=$edit_url . '?id='?>"+id;
-                });
-                //删除
-                $('i.fa-remove').parent('a.btn').on('click', function(){
-                    var id = $(this).parents('tr.table-row').data('id');
-                    if ('CHECKS' == id) {
-                        id = getCheckedIds('input.i-checks');
-                    }
-                    if ('' == id) {
-                        layer.msg('请选择一行或多行！', {icon: 0});
-                    } else {
-                        layer.confirm('确定要删除？', {icon: 0}, function(idx){
-                            window.location.href = "<?=$remove_url . '?id='?>"+id;
-                            layer.close(idx);
-                        });
-                    }
-                });
-                //恢复
-                $('i.fa-recycle').parent('a.btn').on('click', function(){
-                    var id = $(this).parents('tr.table-row').data('id');
-                    if ('CHECKS' == id) {
-                        id = getCheckedIds('input.i-checks');
+        function getCheckedIds(checkbox) {
+            var ids = '';
+            $(checkbox).each(function () {
+                var el = $(this);
+                if (el.prop('checked')) {
+                    ids += el.val() + ',';
+                }
+            });
+            return ids;
+        }
 
+        layui.use(['layer', 'laypage'], function () {
+            var layer = layui.layer;
+            var laypage = layui.laypage;
+            //分页
+            laypage.render({
+                theme: '#46b8da',
+                prev: '<i class="fa fa-chevron-left"></i>',
+                next: '<i class="fa fa-chevron-right"></i>',
+                elem: 'pagination',
+                curr: <?=$pager['page_no']?>,
+                limit: <?=$pager['per_page']?>,
+                count: <?=$pager['total_rows']?>,
+                jump: function (obj, first) {
+                    if (!first) {
+                        var url = "<?=$pager['base_url']?>";
+                        window.location.href = url + '&page_no=' + obj.curr;
                     }
-                    if ('' == id) {
-                        layer.msg('请选择一行或多行！', {icon: 0});
-                    } else {
-                        layer.confirm('确定要恢复？', {icon: 0}, function(idx){
-                            window.location.href = "<?=$remove_url . '?recycle=1&id='?>"+id;
-                            layer.close(idx);
-                        });
-                    }
-                });
+                }
+            });
+            //编辑
+            $('i.fa-edit').parent('a.btn').on('click', function () {
+                var id = $(this).parents('tr.table-row').data('id');
+                window.location.href = "<?=$edit_url . '?id='?>" + id;
+            });
+            //删除
+            $('i.fa-remove').parent('a.btn').on('click', function () {
+                var id = $(this).parents('tr.table-row').data('id');
+                if ('CHECKS' == id) {
+                    id = getCheckedIds('input.i-checks');
+                }
+                if ('' == id) {
+                    layer.msg('请选择一行或多行！', {icon: 0});
+                } else {
+                    layer.confirm('确定要删除？', {icon: 0}, function (idx) {
+                        window.location.href = "<?=$remove_url . '?id='?>" + id;
+                        layer.close(idx);
+                    });
+                }
+            });
+            //恢复
+            $('i.fa-recycle').parent('a.btn').on('click', function () {
+                var id = $(this).parents('tr.table-row').data('id');
+                if ('CHECKS' == id) {
+                    id = getCheckedIds('input.i-checks');
+
+                }
+                if ('' == id) {
+                    layer.msg('请选择一行或多行！', {icon: 0});
+                } else {
+                    layer.confirm('确定要恢复？', {icon: 0}, function (idx) {
+                        window.location.href = "<?=$remove_url . '?recycle=1&id='?>" + id;
+                        layer.close(idx);
+                    });
+                }
             });
         });
-    </script>
+    });
+</script>
 <?php $this->blockEnd(); ?>

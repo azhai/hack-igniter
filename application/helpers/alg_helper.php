@@ -14,7 +14,7 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 
 
-if (! function_exists('get_similar_len')) {
+if (!function_exists('get_similar_len')) {
     /**
      * 开头相同部分的长度
      */
@@ -22,7 +22,7 @@ if (! function_exists('get_similar_len')) {
     {
         $len = min(strlen($haystack), strlen($needle));
         while (0 !== strncmp($haystack, $needle, $len)) {
-            $len --;
+            $len--;
         }
         return $len;
     }
@@ -53,12 +53,12 @@ if (!function_exists('binary_search')) {
 }
 
 
-if (! function_exists('array_flatten')) {
+if (!function_exists('array_flatten')) {
     /**
      * 将多维折叠数组变为一维
      *
-     * @param array $values     多维数组
-     * @param bool $drop_empty  去掉为空的值
+     * @param array $values 多维数组
+     * @param bool $drop_empty 去掉为空的值
      * @return array
      */
     function array_flatten(array $values, $drop_empty = false)
@@ -74,7 +74,7 @@ if (! function_exists('array_flatten')) {
 }
 
 
-if (! function_exists('array_export')) {
+if (!function_exists('array_export')) {
     /**
      * 格式化数组的输出，采用短语法
      */
@@ -95,7 +95,7 @@ if (! function_exists('array_export')) {
     }
 }
 
-if (! function_exists('array_part')) {
+if (!function_exists('array_part')) {
     /**
      * 只获取数组的一部分
      */
@@ -112,7 +112,7 @@ if (! function_exists('array_part')) {
     }
 }
 
-if (! function_exists('rand_num')) {
+if (!function_exists('rand_num')) {
     /**
      * 随机整数.
      * @param int $min 最小值
@@ -130,7 +130,7 @@ if (! function_exists('rand_num')) {
 }
 
 
-if (! function_exists('rand_string')) {
+if (!function_exists('rand_string')) {
     /**
      * 产生可识别的随机字符串
      */
@@ -140,7 +140,7 @@ if (! function_exists('rand_string')) {
             // 字符池，去掉了难以分辨的0,1,o,O,l,I
             $good_letters = 'abcdefghijkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789';
         }
-        srand((float) microtime() * 1000000);
+        srand((float)microtime() * 1000000);
         // 每次可以产生的字符串最大长度
         $gen_length = ceil($length / $shuffles);
         $buffer = '';
@@ -155,7 +155,7 @@ if (! function_exists('rand_string')) {
 }
 
 
-if (! function_exists('last_month_day')) {
+if (!function_exists('last_month_day')) {
     /**
      * 找出上个月的这一天，没有这一天时使用月末
      * （使用时间戳计算，避免判断跨年）

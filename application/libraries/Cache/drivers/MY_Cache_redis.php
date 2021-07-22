@@ -21,7 +21,7 @@ class MY_Cache_redis extends CI_Cache_redis
      *
      * @param array $config
      */
-    public function set_options(array& $config)
+    public function set_options(array &$config)
     {
 //        if (isset($config['password']) && $config['password']) {
 //            $password = $config['password'];
@@ -73,15 +73,14 @@ class MY_Cache_redis extends CI_Cache_redis
      * 检查锁是否已存在，不存在时加锁一定时间
      *
      * @param     $cache_key 锁名
-     * @param int $ttl       新的时效
+     * @param int $ttl 新的时效
      * @return bool 是否成功
      */
     public function add_lock($cache_key, $ttl = 3600)
     {
         $redis = $this->instance();
-        $old_ttl = intval($redis->ttl($cache_key));
-        if (-2 === $old_ttl) { //不存在
-            $redis->set($cache_key, time() + $ttl, $ttl);
+        if ($redis->setnx($cache_key, time() + $ttl)) { //原先不存在
+            $redis->expire($cache_key, $ttl);
             return true;
         } else {
             return false;

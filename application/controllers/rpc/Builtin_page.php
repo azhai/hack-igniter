@@ -6,7 +6,7 @@ class Builtin_page extends MY_Controller
 {
     /**
      * 加法
-     * @param integer  $a 被加数
+     * @param integer $a 被加数
      * @param integer $b 加数，默认1
      */
     public function add($a, $b = 1)

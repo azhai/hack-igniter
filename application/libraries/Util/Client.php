@@ -61,7 +61,9 @@ class Client
         } else {
             $this->curl = new Curl\Curl($base_url);
         }
-        // $this->curl->setRetry(replaceHostCallback());
+        //$this->curl->setRetry(replaceHostCallback(false, 443));
+        //$this->curl->success(logSimpleCallback(true));
+        //$this->curl->error(logSimpleCallback());
     }
 
     /**
@@ -106,25 +108,25 @@ class Client
             $this->curl->error(logSimpleCallback($log, false, 'ERROR'));
         }
     }
-    
+
     public function getHtml($url, $data = '')
     {
         $this->setContentType('html');
         return $this->send($url, $data, 'get');
     }
-    
+
     public function getJson($url, array $data = [])
     {
         $this->setContentType('json');
         return $this->send($url, $data, 'get');
     }
-    
+
     public function postHtml($url, $data = '')
     {
         $this->setContentType('html');
         return $this->send($url, $data, 'post');
     }
-    
+
     public function postJson($url, array $data = [])
     {
         $this->setContentType('json');
@@ -232,8 +234,8 @@ class Client
             return $code >= 100 && $code < 400;
         }
     }
-        }
-    }
+}
+}
 }
 
 
@@ -320,10 +322,10 @@ function logSimpleCallback(callable $log, $success = false, $level = 'DEBUG')
 {
     return function ($client) use ($log, $success, $level) {
         $content = sprintf(
-            'REST> ip_addr: %s total_time: %s',
-            $client->getInfo(CURLINFO_PRIMARY_IP),
-            $client->getInfo(CURLINFO_TOTAL_TIME)
-        ) . "\n";
+                'REST> ip_addr: %s total_time: %s',
+                $client->getInfo(CURLINFO_PRIMARY_IP),
+                $client->getInfo(CURLINFO_TOTAL_TIME)
+            ) . "\n";
         $method = $client->getOpt(CURLOPT_CUSTOMREQUEST);
         if (empty($method)) {
             $method = strstr($client->getInfo(CURLINFO_HEADER_OUT), ' ', true);
@@ -347,11 +349,11 @@ function logVerboseCallback(callable $log, $success = false, $level = 'DEBUG')
     return function ($client) use ($log, $success, $level) {
         $url = strstr($client->getUrl(), '?', true);
         $content = sprintf(
-            '* cURL site_uri: %s ip_addr: %s total_time: %s',
-            $url,
-            $client->getInfo(CURLINFO_PRIMARY_IP),
-            $client->getInfo(CURLINFO_TOTAL_TIME)
-        ) . "\n";
+                '* cURL site_uri: %s ip_addr: %s total_time: %s',
+                $url,
+                $client->getInfo(CURLINFO_PRIMARY_IP),
+                $client->getInfo(CURLINFO_TOTAL_TIME)
+            ) . "\n";
         if ($success) {
             $request = $client->getInfo(CURLINFO_HEADER_OUT);
             $content .= '> ' . rtrim(str_replace("\r\n", "\n> ", $request), '> ');

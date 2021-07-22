@@ -3,108 +3,112 @@ $this->extendTpl($theme_dir . '/layout.php'); ?>
 
 
 <?php $this->blockStart('content'); ?>
-    <div class="wrapper wrapper-content">
-        <div class="row">
-            <div class="col-sm-10">
-                <div class="row">
-                    <div class="col-sm-4">
-                        <div class="row row-sm text-center">
-                            <div class="col-xs-6">
-                                <div class="panel padder-v item">
-                                    <div class="h1 text-info font-thin h1">521</div>
-                                    <span class="text-muted text-xs">同比增长</span>
-                                    <div class="top text-right w-full">
-                                        <i class="fa fa-caret-down text-warning m-r-sm"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xs-6">
-                                <div class="panel padder-v item bg-info">
-                                    <div class="h1 text-fff font-thin h1">521</div>
-                                    <span class="text-muted text-xs">今日访问</span>
-                                    <div class="top text-right w-full">
-                                        <i class="fa fa-caret-down text-warning m-r-sm"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xs-6">
-                                <div class="panel padder-v item bg-primary">
-                                    <div class="h1 text-fff font-thin h1">521</div>
-                                    <span class="text-muted text-xs">销售数量</span>
-                                    <div class="top text-right w-full">
-                                        <i class="fa fa-caret-down text-warning m-r-sm"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xs-6">
-                                <div class="panel padder-v item">
-                                    <div class="font-thin h1">$129</div>
-                                    <span class="text-muted text-xs">近日盈利</span>
-                                    <div class="bottom text-left">
-                                        <i class="fa fa-caret-up text-warning m-l-sm"></i>
-                                    </div>
+<div class="wrapper wrapper-content">
+    <div class="row">
+        <div class="col-sm-10">
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="row row-sm text-center">
+                        <div class="col-xs-6">
+                            <div class="panel padder-v item">
+                                <div class="h1 text-info font-thin h1">521</div>
+                                <span class="text-muted text-xs">同比增长</span>
+                                <div class="top text-right w-full">
+                                    <i class="fa fa-caret-down text-warning m-r-sm"></i>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-sm-8">
-                        <div class="ibox float-e-margins">
-                            <div class="ibox-title" style="border-bottom:none;background:#fff;">
-                                <h5>服务器状态</h5>
+                        <div class="col-xs-6">
+                            <div class="panel padder-v item bg-info">
+                                <div class="h1 text-fff font-thin h1">521</div>
+                                <span class="text-muted text-xs">今日访问</span>
+                                <div class="top text-right w-full">
+                                    <i class="fa fa-caret-down text-warning m-r-sm"></i>
+                                </div>
                             </div>
-                            <div class="ibox-content" style="border-top:none;">
-                                <div id="flot-line-chart-moving" style="height:217px;">
+                        </div>
+                        <div class="col-xs-6">
+                            <div class="panel padder-v item bg-primary">
+                                <div class="h1 text-fff font-thin h1">521</div>
+                                <span class="text-muted text-xs">销售数量</span>
+                                <div class="top text-right w-full">
+                                    <i class="fa fa-caret-down text-warning m-r-sm"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-6">
+                            <div class="panel padder-v item">
+                                <div class="font-thin h1">$129</div>
+                                <span class="text-muted text-xs">近日盈利</span>
+                                <div class="bottom text-left">
+                                    <i class="fa fa-caret-up text-warning m-l-sm"></i>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-sm-9" style="padding-right:0;">
-                        <div class="ibox float-e-margins">
-                            <div class="ibox-title" style="border-bottom:none;background:#fff;">
-                                <h5>往年数据</h5>
-                            </div>
-                            <div class="ibox-content" style="border-top:none;">
-                                <div id="yesterday" style="height:217px;">
-                                </div>
+                <div class="col-sm-8">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title" style="border-bottom:none;background:#fff;">
+                            <h5>服务器状态</h5>
+                        </div>
+                        <div class="ibox-content" style="border-top:none;">
+                            <div id="flot-line-chart-moving" style="height:217px;">
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-3" style="padding-left:0;">
-                        <div class="ibox float-e-margins">
-                            <div class="ibox-content" style="border-top:none;background-color:#e4eaec;">
-                                <h5>新增玩家</h5>
-                                <div class="progress progress-striped active">
-                                    <div style="width: 75%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="75" role="progressbar" class="progress-bar">
-                                        <span class="sr-only"></span>
-                                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-9" style="padding-right:0;">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title" style="border-bottom:none;background:#fff;">
+                            <h5>往年数据</h5>
+                        </div>
+                        <div class="ibox-content" style="border-top:none;">
+                            <div id="yesterday" style="height:217px;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-3" style="padding-left:0;">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-content" style="border-top:none;background-color:#e4eaec;">
+                            <h5>新增玩家</h5>
+                            <div class="progress progress-striped active">
+                                <div style="width: 75%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="75"
+                                     role="progressbar" class="progress-bar">
+                                    <span class="sr-only"></span>
                                 </div>
-                                <h5>流失玩家</h5>
-                                <div class="progress progress-striped active">
-                                    <div style="width: 75%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="75" role="progressbar" class="progress-bar progress-bar-warning">
-                                        <span class="sr-only"></span>
-                                    </div>
+                            </div>
+                            <h5>流失玩家</h5>
+                            <div class="progress progress-striped active">
+                                <div style="width: 75%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="75"
+                                     role="progressbar" class="progress-bar progress-bar-warning">
+                                    <span class="sr-only"></span>
                                 </div>
-                                <h5>新增玩家</h5>
-                                <div class="progress progress-striped active">
-                                    <div style="width: 75%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="75" role="progressbar" class="progress-bar .progress-bar-danger">
-                                        <span class="sr-only"></span>
-                                    </div>
+                            </div>
+                            <h5>新增玩家</h5>
+                            <div class="progress progress-striped active">
+                                <div style="width: 75%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="75"
+                                     role="progressbar" class="progress-bar .progress-bar-danger">
+                                    <span class="sr-only"></span>
                                 </div>
-                                <h5>新增玩家</h5>
-                                <div class="progress progress-striped active">
-                                    <div style="width: 75%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="75" role="progressbar" class="progress-bar progress-bar-info">
-                                        <span class="sr-only"></span>
-                                    </div>
+                            </div>
+                            <h5>新增玩家</h5>
+                            <div class="progress progress-striped active">
+                                <div style="width: 75%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="75"
+                                     role="progressbar" class="progress-bar progress-bar-info">
+                                    <span class="sr-only"></span>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-sm-5">
-                        <div class="ibox float-e-margins">
+            </div>
+            <div class="row">
+                <div class="col-sm-5">
+                    <div class="ibox float-e-margins">
                         <div class="" id="ibox-content">
 
                             <div id="vertical-timeline" class="vertical-container light-timeline">
@@ -179,416 +183,456 @@ $this->extendTpl($theme_dir . '/layout.php'); ?>
                                 </div>
                             </div>
                         </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-7">
-                        <div class="ibox">
-                            <div class="ibox-title">
-                                <h5>所有项目</h5>
-                                <div class="ibox-tools">
-                                    <a href="projects.html" class="btn btn-primary btn-xs">创建新项目</a>
-                                </div>
-                            </div>
-                            <div class="ibox-content">
-                                <div class="row m-b-sm m-t-sm">
-                                    <div class="col-md-1">
-                                        <button type="button" id="loading-example-btn" class="btn btn-white btn-sm"><i class="fa fa-refresh"></i> 刷新</button>
-                                    </div>
-                                    <div class="col-md-11">
-                                        <div class="input-group">
-                                            <input type="text" placeholder="请输入项目名称" class="input-sm form-control"> <span class="input-group-btn">
-                                                <button type="button" class="btn btn-sm btn-primary"> 搜索</button> </span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="project-list">
-                                    <table class="table table-hover">
-                                        <tbody>
-                                            <tr>
-                                                <td class="project-status">
-                                                    <span class="label label-primary">进行中
-                                                </span></td>
-                                                <td class="project-title">
-                                                    <a href="project_detail.html">LIKE－一款能够让用户快速获得认同感的兴趣社交应用</a>
-                                                    <br>
-                                                    <small>创建于 2014.08.15</small>
-                                                </td>
-                                                <td class="project-completion">
-                                                        <small>当前进度： 48%</small>
-                                                        <div class="progress progress-mini">
-                                                            <div style="width: 48%;" class="progress-bar"></div>
-                                                        </div>
-                                                </td>
-                                                <td class="project-people">
-                                                    <a href="projects.html"><img alt="image" class="img-circle" src="<?= $static_url ?>/img/a3.jpg"></a>
-                                                    <a href="projects.html"><img alt="image" class="img-circle" src="<?= $static_url ?>/img/a1.jpg"></a>
-                                                    <a href="projects.html"><img alt="image" class="img-circle" src="<?= $static_url ?>/img/a2.jpg"></a>
-                                                    <a href="projects.html"><img alt="image" class="img-circle" src="<?= $static_url ?>/img/a4.jpg"></a>
-                                                    <a href="projects.html"><img alt="image" class="img-circle" src="<?= $static_url ?>/img/a5.jpg"></a>
-                                                </td>
-                                                <td class="project-actions">
-                                                    <a href="projects.html#" class="btn btn-white btn-sm"><i class="fa fa-folder"></i> 查看 </a>
-                                                    <a href="projects.html#" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> 编辑 </a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="project-status">
-                                                    <span class="label label-primary">进行中
-                                                </span></td>
-                                                <td class="project-title">
-                                                    <a href="project_detail.html">米莫说｜MiMO Show</a>
-                                                    <br>
-                                                    <small>创建于 2014.08.15</small>
-                                                </td>
-                                                <td class="project-completion">
-                                                    <small>当前进度： 28%</small>
-                                                    <div class="progress progress-mini">
-                                                        <div style="width: 28%;" class="progress-bar"></div>
-                                                    </div>
-                                                </td>
-                                                <td class="project-people">
-                                                    <a href="projects.html"><img alt="image" class="img-circle" src="<?= $static_url ?>/img/a7.jpg"></a>
-                                                    <a href="projects.html"><img alt="image" class="img-circle" src="<?= $static_url ?>/img/a6.jpg"></a>
-                                                    <a href="projects.html"><img alt="image" class="img-circle" src="<?= $static_url ?>/img/a3.jpg"></a>
-                                                </td>
-                                                <td class="project-actions">
-                                                    <a href="projects.html#" class="btn btn-white btn-sm"><i class="fa fa-folder"></i> 查看 </a>
-                                                    <a href="projects.html#" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> 编辑 </a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="project-status">
-                                                    <span class="label label-default">已取消
-                                                </span></td>
-                                                <td class="project-title">
-                                                    <a href="project_detail.html">商家与购物用户的交互试衣应用</a>
-                                                    <br>
-                                                    <small>创建于 2014.08.15</small>
-                                                </td>
-                                                <td class="project-completion">
-                                                    <small>当前进度： 8%</small>
-                                                    <div class="progress progress-mini">
-                                                        <div style="width: 8%;" class="progress-bar"></div>
-                                                    </div>
-                                                </td>
-                                                <td class="project-people">
-                                                    <a href="projects.html"><img alt="image" class="img-circle" src="<?= $static_url ?>/img/a5.jpg"></a>
-                                                    <a href="projects.html"><img alt="image" class="img-circle" src="<?= $static_url ?>/img/a3.jpg"></a>
-                                                </td>
-                                                <td class="project-actions">
-                                                    <a href="projects.html#" class="btn btn-white btn-sm"><i class="fa fa-folder"></i> 查看 </a>
-                                                    <a href="projects.html#" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> 编辑 </a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="project-status">
-                                                    <span class="label label-primary">进行中
-                                                </span></td>
-                                                <td class="project-title">
-                                                    <a href="project_detail.html">天狼---智能硬件项目</a>
-                                                    <br>
-                                                    <small>创建于 2014.08.15</small>
-                                                </td>
-                                                <td class="project-completion">
-                                                    <small>当前进度： 83%</small>
-                                                    <div class="progress progress-mini">
-                                                        <div style="width: 83%;" class="progress-bar"></div>
-                                                    </div>
-                                                </td>
-                                                <td class="project-people">
-                                                    <a href="projects.html"><img alt="image" class="img-circle" src="<?= $static_url ?>/img/a2.jpg"></a>
-                                                    <a href="projects.html"><img alt="image" class="img-circle" src="<?= $static_url ?>/img/a3.jpg"></a>
-                                                    <a href="projects.html"><img alt="image" class="img-circle" src="<?= $static_url ?>/img/a1.jpg"></a>
-                                                    <a href="projects.html"><img alt="image" class="img-circle" src="<?= $static_url ?>/img/a7.jpg"></a>
-                                                </td>
-                                                <td class="project-actions">
-                                                    <a href="projects.html#" class="btn btn-white btn-sm"><i class="fa fa-folder"></i> 查看 </a>
-                                                    <a href="projects.html#" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> 编辑 </a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="project-status">
-                                                    <span class="label label-primary">进行中
-                                                </span></td>
-                                                <td class="project-title">
-                                                    <a href="project_detail.html">乐活未来</a>
-                                                    <br>
-                                                    <small>创建于 2014.08.15</small>
-                                                </td>
-                                                <td class="project-completion">
-                                                    <small>当前进度： 97%</small>
-                                                    <div class="progress progress-mini">
-                                                        <div style="width: 97%;" class="progress-bar"></div>
-                                                    </div>
-                                                </td>
-                                                <td class="project-people">
-                                                    <a href="projects.html"><img alt="image" class="img-circle" src="<?= $static_url ?>/img/a4.jpg"></a>
-                                                </td>
-                                                <td class="project-actions">
-                                                    <a href="projects.html#" class="btn btn-white btn-sm"><i class="fa fa-folder"></i> 查看 </a>
-                                                    <a href="projects.html#" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> 编辑 </a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="project-status">
-                                                    <span class="label label-primary">进行中
-                                                </span></td>
-                                                <td class="project-title">
-                                                    <a href="project_detail.html">【私人医生项目】</a>
-                                                    <br>
-                                                    <small>创建于 2014.08.15</small>
-                                                </td>
-                                                <td class="project-completion">
-                                                    <small>当前进度： 48%</small>
-                                                    <div class="progress progress-mini">
-                                                        <div style="width: 48%;" class="progress-bar"></div>
-                                                    </div>
-                                                </td>
-                                                <td class="project-people">
-                                                    <a href="projects.html"><img alt="image" class="img-circle" src="<?= $static_url ?>/img/a1.jpg"></a>
-                                                    <a href="projects.html"><img alt="image" class="img-circle" src="<?= $static_url ?>/img/a2.jpg"></a>
-                                                    <a href="projects.html"><img alt="image" class="img-circle" src="<?= $static_url ?>/img/a4.jpg"></a>
-                                                    <a href="projects.html"><img alt="image" class="img-circle" src="<?= $static_url ?>/img/a5.jpg"></a>
-                                                </td>
-                                                <td class="project-actions">
-                                                    <a href="projects.html#" class="btn btn-white btn-sm"><i class="fa fa-folder"></i> 查看 </a>
-                                                    <a href="projects.html#" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> 编辑 </a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="project-status">
-                                                    <span class="label label-primary">进行中
-                                                </span></td>
-                                                <td class="project-title">
-                                                    <a href="project_detail.html">快狗家居</a>
-                                                    <br>
-                                                    <small>创建于 2014.08.15</small>
-                                                </td>
-                                                <td class="project-completion">
-                                                    <small>当前进度： 28%</small>
-                                                    <div class="progress progress-mini">
-                                                        <div style="width: 28%;" class="progress-bar"></div>
-                                                    </div>
-                                                </td>
-                                                <td class="project-people">
-                                                    <a href="projects.html"><img alt="image" class="img-circle" src="<?= $static_url ?>/img/a7.jpg"></a>
-                                                    <a href="projects.html"><img alt="image" class="img-circle" src="<?= $static_url ?>/img/a6.jpg"></a>
-                                                    <a href="projects.html"><img alt="image" class="img-circle" src="<?= $static_url ?>/img/a3.jpg"></a>
-                                                </td>
-                                                <td class="project-actions">
-                                                    <a href="projects.html#" class="btn btn-white btn-sm"><i class="fa fa-folder"></i> 查看 </a>
-                                                    <a href="projects.html#" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> 编辑 </a>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-sm-2">
-                <div class="ibox float-e-margins">
-                    <div class="ibox-title">
-                        <h5>任务列表</h5>
-                    </div>
-                    <div class="ibox-content">
-                        <ul class="todo-list m-t small-list ui-sortable">
-                            <li>
-                                <a href="widgets.html#" class="check-link"><i class="fa fa-check-square"></i> </a>
-                                <span class="m-l-xs todo-completed">吃饭</span>
-
-                            </li>
-                            <li>
-                                <a href="widgets.html#" class="check-link"><i class="fa fa-check-square"></i> </a>
-                                <span class="m-l-xs  todo-completed">多吃饭</span>
-
-                            </li>
-                            <li>
-                                <a href="widgets.html#" class="check-link"><i class="fa fa-square-o"></i> </a>
-                                <span class="m-l-xs">睡觉</span>
-                                <small class="label label-primary"><i class="fa fa-clock-o"></i> 1小时</small>
-                            </li>
-                            <li>
-                                <a href="widgets.html#" class="check-link"><i class="fa fa-square-o"></i> </a>
-                                <span class="m-l-xs">睡觉</span>
-                                <small class="label label-primary"><i class="fa fa-clock-o"></i> 1小时</small>
-                            </li>
-                            <li>
-                                <a href="widgets.html#" class="check-link"><i class="fa fa-square-o"></i> </a>
-                                <span class="m-l-xs">睡觉</span>
-                                <small class="label label-primary"><i class="fa fa-clock-o"></i> 1小时</small>
-                            </li>
-                            <li>
-                                <a href="widgets.html#" class="check-link"><i class="fa fa-square-o"></i> </a>
-                                <span class="m-l-xs">睡觉</span>
-                                <small class="label label-primary"><i class="fa fa-clock-o"></i> 1小时</small>
-                            </li>
-                            <li>
-                                <a href="widgets.html#" class="check-link"><i class="fa fa-square-o"></i> </a>
-                                <span class="m-l-xs">睡觉</span>
-                                <small class="label label-primary"><i class="fa fa-clock-o"></i> 1小时</small>
-                            </li>
-                            <li>
-                                <a href="widgets.html#" class="check-link"><i class="fa fa-square-o"></i> </a>
-                                <span class="m-l-xs">睡觉</span>
-                                <small class="label label-primary"><i class="fa fa-clock-o"></i> 1小时</small>
-                            </li>
-                            <li>
-                                <a href="widgets.html#" class="check-link"><i class="fa fa-square-o"></i> </a>
-                                <span class="m-l-xs">睡觉</span>
-                                <small class="label label-primary"><i class="fa fa-clock-o"></i> 1小时</small>
-                            </li>
-                            <li>
-                                <a href="widgets.html#" class="check-link"><i class="fa fa-square-o"></i> </a>
-                                <span class="m-l-xs">睡觉</span>
-                                <small class="label label-primary"><i class="fa fa-clock-o"></i> 1小时</small>
-                            </li>
-                            <li>
-                                <a href="widgets.html#" class="check-link"><i class="fa fa-square-o"></i> </a>
-                                <span class="m-l-xs">睡觉</span>
-                                <small class="label label-primary"><i class="fa fa-clock-o"></i> 1小时</small>
-                            </li>
-                            <li>
-                                <a href="widgets.html#" class="check-link"><i class="fa fa-square-o"></i> </a>
-                                <span class="m-l-xs">睡觉</span>
-                                <small class="label label-primary"><i class="fa fa-clock-o"></i> 1小时</small>
-                            </li>
-                            <li>
-                                <a href="widgets.html#" class="check-link"><i class="fa fa-square-o"></i> </a>
-                                <span class="m-l-xs">睡觉</span>
-                                <small class="label label-primary"><i class="fa fa-clock-o"></i> 1小时</small>
-                            </li>
-                            <li>
-                                <a href="widgets.html#" class="check-link"><i class="fa fa-square-o"></i> </a>
-                                <span class="m-l-xs">睡觉</span>
-                                <small class="label label-primary"><i class="fa fa-clock-o"></i> 1小时</small>
-                            </li>
-                            <li>
-                                <a href="widgets.html#" class="check-link"><i class="fa fa-square-o"></i> </a>
-                                <span class="m-l-xs">睡觉</span>
-                                <small class="label label-primary"><i class="fa fa-clock-o"></i> 1小时</small>
-                            </li>
-                            <li>
-                                <a href="widgets.html#" class="check-link"><i class="fa fa-square-o"></i> </a>
-                                <span class="m-l-xs">睡觉</span>
-                                <small class="label label-primary"><i class="fa fa-clock-o"></i> 1小时</small>
-                            </li>
-                            <li>
-                                <a href="widgets.html#" class="check-link"><i class="fa fa-square-o"></i> </a>
-                                <span class="m-l-xs">睡觉</span>
-                                <small class="label label-primary"><i class="fa fa-clock-o"></i> 1小时</small>
-                            </li>
-                            <li>
-                                <a href="widgets.html#" class="check-link"><i class="fa fa-square-o"></i> </a>
-                                <span class="m-l-xs">睡觉</span>
-                                <small class="label label-primary"><i class="fa fa-clock-o"></i> 1小时</small>
-                            </li>
-                            <li>
-                                <a href="widgets.html#" class="check-link"><i class="fa fa-square-o"></i> </a>
-                                <span class="m-l-xs">睡觉</span>
-                                <small class="label label-primary"><i class="fa fa-clock-o"></i> 1小时</small>
-                            </li>
-                            <li>
-                                <a href="widgets.html#" class="check-link"><i class="fa fa-square-o"></i> </a>
-                                <span class="m-l-xs">睡觉</span>
-                                <small class="label label-primary"><i class="fa fa-clock-o"></i> 1小时</small>
-                            </li>
-                            <li>
-                                <a href="widgets.html#" class="check-link"><i class="fa fa-square-o"></i> </a>
-                                <span class="m-l-xs">睡觉</span>
-                                <small class="label label-primary"><i class="fa fa-clock-o"></i> 1小时</small>
-                            </li>
-                            <li>
-                                <a href="widgets.html#" class="check-link"><i class="fa fa-square-o"></i> </a>
-                                <span class="m-l-xs">睡觉</span>
-                                <small class="label label-primary"><i class="fa fa-clock-o"></i> 1小时</small>
-                            </li>
-                            <li>
-                                <a href="widgets.html#" class="check-link"><i class="fa fa-square-o"></i> </a>
-                                <span class="m-l-xs">睡觉</span>
-                                <small class="label label-primary"><i class="fa fa-clock-o"></i> 1小时</small>
-                            </li>
-                            <li>
-                                <a href="widgets.html#" class="check-link"><i class="fa fa-square-o"></i> </a>
-                                <span class="m-l-xs">睡觉</span>
-                                <small class="label label-primary"><i class="fa fa-clock-o"></i> 1小时</small>
-                            </li>
-                            <li>
-                                <a href="widgets.html#" class="check-link"><i class="fa fa-square-o"></i> </a>
-                                <span class="m-l-xs">睡觉</span>
-                                <small class="label label-primary"><i class="fa fa-clock-o"></i> 1小时</small>
-                            </li>
-                            <li>
-                                <a href="widgets.html#" class="check-link"><i class="fa fa-square-o"></i> </a>
-                                <span class="m-l-xs">睡觉</span>
-                                <small class="label label-primary"><i class="fa fa-clock-o"></i> 1小时</small>
-                            </li>
-                            <li>
-                                <a href="widgets.html#" class="check-link"><i class="fa fa-square-o"></i> </a>
-                                <span class="m-l-xs">睡觉</span>
-                                <small class="label label-primary"><i class="fa fa-clock-o"></i> 1小时</small>
-                            </li>
-                            <li>
-                                <a href="widgets.html#" class="check-link"><i class="fa fa-square-o"></i> </a>
-                                <span class="m-l-xs">睡觉</span>
-                                <small class="label label-primary"><i class="fa fa-clock-o"></i> 1小时</small>
-                            </li>
-                            <li>
-                                <a href="widgets.html#" class="check-link"><i class="fa fa-square-o"></i> </a>
-                                <span class="m-l-xs">睡觉</span>
-                                <small class="label label-primary"><i class="fa fa-clock-o"></i> 1小时</small>
-                            </li>
-                            <li>
-                                <a href="widgets.html#" class="check-link"><i class="fa fa-square-o"></i> </a>
-                                <span class="m-l-xs">睡觉</span>
-                                <small class="label label-primary"><i class="fa fa-clock-o"></i> 1小时</small>
-                            </li>
-                            <li>
-                                <a href="widgets.html#" class="check-link"><i class="fa fa-square-o"></i> </a>
-                                <span class="m-l-xs">睡觉</span>
-                                <small class="label label-primary"><i class="fa fa-clock-o"></i> 1小时</small>
-                            </li>
-                            <li>
-                                <a href="widgets.html#" class="check-link"><i class="fa fa-square-o"></i> </a>
-                                <span class="m-l-xs">睡觉</span>
-                                <small class="label label-primary"><i class="fa fa-clock-o"></i> 1小时</small>
-                            </li>
-                            <li>
-                                <a href="widgets.html#" class="check-link"><i class="fa fa-square-o"></i> </a>
-                                <span class="m-l-xs">睡觉</span>
-                                <small class="label label-primary"><i class="fa fa-clock-o"></i> 1小时</small>
-                            </li>
-                            <li>
-                                <a href="widgets.html#" class="check-link"><i class="fa fa-square-o"></i> </a>
-                                <span class="m-l-xs">睡觉</span>
-                                <small class="label label-primary"><i class="fa fa-clock-o"></i> 1小时</small>
-                            </li>
-                            <li>
-                                <a href="widgets.html#" class="check-link"><i class="fa fa-square-o"></i> </a>
-                                <span class="m-l-xs">睡觉</span>
-                                <small class="label label-primary"><i class="fa fa-clock-o"></i> 1小时</small>
-                            </li>
-                            <li>
-                                <a href="widgets.html#" class="check-link"><i class="fa fa-square-o"></i> </a>
-                                <span class="m-l-xs">睡觉</span>
-                                <small class="label label-primary"><i class="fa fa-clock-o"></i> 1小时</small>
-                            </li>
-                            <li>
-                                <a href="widgets.html#" class="check-link"><i class="fa fa-square-o"></i> </a>
-                                <span class="m-l-xs">睡觉</span>
-                                <small class="label label-primary"><i class="fa fa-clock-o"></i> 1小时</small>
-                            </li>
-                        </ul>
+                <div class="col-sm-7">
+                    <div class="ibox">
+                        <div class="ibox-title">
+                            <h5>所有项目</h5>
+                            <div class="ibox-tools">
+                                <a href="projects.html" class="btn btn-primary btn-xs">创建新项目</a>
+                            </div>
+                        </div>
+                        <div class="ibox-content">
+                            <div class="row m-b-sm m-t-sm">
+                                <div class="col-md-1">
+                                    <button type="button" id="loading-example-btn" class="btn btn-white btn-sm"><i
+                                                class="fa fa-refresh"></i> 刷新
+                                    </button>
+                                </div>
+                                <div class="col-md-11">
+                                    <div class="input-group">
+                                        <input type="text" placeholder="请输入项目名称" class="input-sm form-control"> <span
+                                                class="input-group-btn">
+                                                <button type="button"
+                                                        class="btn btn-sm btn-primary"> 搜索</button> </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="project-list">
+                                <table class="table table-hover">
+                                    <tbody>
+                                    <tr>
+                                        <td class="project-status">
+                                                    <span class="label label-primary">进行中
+                                                </span></td>
+                                        <td class="project-title">
+                                            <a href="project_detail.html">LIKE－一款能够让用户快速获得认同感的兴趣社交应用</a>
+                                            <br>
+                                            <small>创建于 2014.08.15</small>
+                                        </td>
+                                        <td class="project-completion">
+                                            <small>当前进度： 48%</small>
+                                            <div class="progress progress-mini">
+                                                <div style="width: 48%;" class="progress-bar"></div>
+                                            </div>
+                                        </td>
+                                        <td class="project-people">
+                                            <a href="projects.html"><img alt="image" class="img-circle"
+                                                                         src="<?= $static_url ?>/img/a3.jpg"></a>
+                                            <a href="projects.html"><img alt="image" class="img-circle"
+                                                                         src="<?= $static_url ?>/img/a1.jpg"></a>
+                                            <a href="projects.html"><img alt="image" class="img-circle"
+                                                                         src="<?= $static_url ?>/img/a2.jpg"></a>
+                                            <a href="projects.html"><img alt="image" class="img-circle"
+                                                                         src="<?= $static_url ?>/img/a4.jpg"></a>
+                                            <a href="projects.html"><img alt="image" class="img-circle"
+                                                                         src="<?= $static_url ?>/img/a5.jpg"></a>
+                                        </td>
+                                        <td class="project-actions">
+                                            <a href="projects.html#" class="btn btn-white btn-sm"><i
+                                                        class="fa fa-folder"></i> 查看 </a>
+                                            <a href="projects.html#" class="btn btn-white btn-sm"><i
+                                                        class="fa fa-pencil"></i> 编辑 </a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="project-status">
+                                                    <span class="label label-primary">进行中
+                                                </span></td>
+                                        <td class="project-title">
+                                            <a href="project_detail.html">米莫说｜MiMO Show</a>
+                                            <br>
+                                            <small>创建于 2014.08.15</small>
+                                        </td>
+                                        <td class="project-completion">
+                                            <small>当前进度： 28%</small>
+                                            <div class="progress progress-mini">
+                                                <div style="width: 28%;" class="progress-bar"></div>
+                                            </div>
+                                        </td>
+                                        <td class="project-people">
+                                            <a href="projects.html"><img alt="image" class="img-circle"
+                                                                         src="<?= $static_url ?>/img/a7.jpg"></a>
+                                            <a href="projects.html"><img alt="image" class="img-circle"
+                                                                         src="<?= $static_url ?>/img/a6.jpg"></a>
+                                            <a href="projects.html"><img alt="image" class="img-circle"
+                                                                         src="<?= $static_url ?>/img/a3.jpg"></a>
+                                        </td>
+                                        <td class="project-actions">
+                                            <a href="projects.html#" class="btn btn-white btn-sm"><i
+                                                        class="fa fa-folder"></i> 查看 </a>
+                                            <a href="projects.html#" class="btn btn-white btn-sm"><i
+                                                        class="fa fa-pencil"></i> 编辑 </a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="project-status">
+                                                    <span class="label label-default">已取消
+                                                </span></td>
+                                        <td class="project-title">
+                                            <a href="project_detail.html">商家与购物用户的交互试衣应用</a>
+                                            <br>
+                                            <small>创建于 2014.08.15</small>
+                                        </td>
+                                        <td class="project-completion">
+                                            <small>当前进度： 8%</small>
+                                            <div class="progress progress-mini">
+                                                <div style="width: 8%;" class="progress-bar"></div>
+                                            </div>
+                                        </td>
+                                        <td class="project-people">
+                                            <a href="projects.html"><img alt="image" class="img-circle"
+                                                                         src="<?= $static_url ?>/img/a5.jpg"></a>
+                                            <a href="projects.html"><img alt="image" class="img-circle"
+                                                                         src="<?= $static_url ?>/img/a3.jpg"></a>
+                                        </td>
+                                        <td class="project-actions">
+                                            <a href="projects.html#" class="btn btn-white btn-sm"><i
+                                                        class="fa fa-folder"></i> 查看 </a>
+                                            <a href="projects.html#" class="btn btn-white btn-sm"><i
+                                                        class="fa fa-pencil"></i> 编辑 </a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="project-status">
+                                                    <span class="label label-primary">进行中
+                                                </span></td>
+                                        <td class="project-title">
+                                            <a href="project_detail.html">天狼---智能硬件项目</a>
+                                            <br>
+                                            <small>创建于 2014.08.15</small>
+                                        </td>
+                                        <td class="project-completion">
+                                            <small>当前进度： 83%</small>
+                                            <div class="progress progress-mini">
+                                                <div style="width: 83%;" class="progress-bar"></div>
+                                            </div>
+                                        </td>
+                                        <td class="project-people">
+                                            <a href="projects.html"><img alt="image" class="img-circle"
+                                                                         src="<?= $static_url ?>/img/a2.jpg"></a>
+                                            <a href="projects.html"><img alt="image" class="img-circle"
+                                                                         src="<?= $static_url ?>/img/a3.jpg"></a>
+                                            <a href="projects.html"><img alt="image" class="img-circle"
+                                                                         src="<?= $static_url ?>/img/a1.jpg"></a>
+                                            <a href="projects.html"><img alt="image" class="img-circle"
+                                                                         src="<?= $static_url ?>/img/a7.jpg"></a>
+                                        </td>
+                                        <td class="project-actions">
+                                            <a href="projects.html#" class="btn btn-white btn-sm"><i
+                                                        class="fa fa-folder"></i> 查看 </a>
+                                            <a href="projects.html#" class="btn btn-white btn-sm"><i
+                                                        class="fa fa-pencil"></i> 编辑 </a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="project-status">
+                                                    <span class="label label-primary">进行中
+                                                </span></td>
+                                        <td class="project-title">
+                                            <a href="project_detail.html">乐活未来</a>
+                                            <br>
+                                            <small>创建于 2014.08.15</small>
+                                        </td>
+                                        <td class="project-completion">
+                                            <small>当前进度： 97%</small>
+                                            <div class="progress progress-mini">
+                                                <div style="width: 97%;" class="progress-bar"></div>
+                                            </div>
+                                        </td>
+                                        <td class="project-people">
+                                            <a href="projects.html"><img alt="image" class="img-circle"
+                                                                         src="<?= $static_url ?>/img/a4.jpg"></a>
+                                        </td>
+                                        <td class="project-actions">
+                                            <a href="projects.html#" class="btn btn-white btn-sm"><i
+                                                        class="fa fa-folder"></i> 查看 </a>
+                                            <a href="projects.html#" class="btn btn-white btn-sm"><i
+                                                        class="fa fa-pencil"></i> 编辑 </a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="project-status">
+                                                    <span class="label label-primary">进行中
+                                                </span></td>
+                                        <td class="project-title">
+                                            <a href="project_detail.html">【私人医生项目】</a>
+                                            <br>
+                                            <small>创建于 2014.08.15</small>
+                                        </td>
+                                        <td class="project-completion">
+                                            <small>当前进度： 48%</small>
+                                            <div class="progress progress-mini">
+                                                <div style="width: 48%;" class="progress-bar"></div>
+                                            </div>
+                                        </td>
+                                        <td class="project-people">
+                                            <a href="projects.html"><img alt="image" class="img-circle"
+                                                                         src="<?= $static_url ?>/img/a1.jpg"></a>
+                                            <a href="projects.html"><img alt="image" class="img-circle"
+                                                                         src="<?= $static_url ?>/img/a2.jpg"></a>
+                                            <a href="projects.html"><img alt="image" class="img-circle"
+                                                                         src="<?= $static_url ?>/img/a4.jpg"></a>
+                                            <a href="projects.html"><img alt="image" class="img-circle"
+                                                                         src="<?= $static_url ?>/img/a5.jpg"></a>
+                                        </td>
+                                        <td class="project-actions">
+                                            <a href="projects.html#" class="btn btn-white btn-sm"><i
+                                                        class="fa fa-folder"></i> 查看 </a>
+                                            <a href="projects.html#" class="btn btn-white btn-sm"><i
+                                                        class="fa fa-pencil"></i> 编辑 </a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="project-status">
+                                                    <span class="label label-primary">进行中
+                                                </span></td>
+                                        <td class="project-title">
+                                            <a href="project_detail.html">快狗家居</a>
+                                            <br>
+                                            <small>创建于 2014.08.15</small>
+                                        </td>
+                                        <td class="project-completion">
+                                            <small>当前进度： 28%</small>
+                                            <div class="progress progress-mini">
+                                                <div style="width: 28%;" class="progress-bar"></div>
+                                            </div>
+                                        </td>
+                                        <td class="project-people">
+                                            <a href="projects.html"><img alt="image" class="img-circle"
+                                                                         src="<?= $static_url ?>/img/a7.jpg"></a>
+                                            <a href="projects.html"><img alt="image" class="img-circle"
+                                                                         src="<?= $static_url ?>/img/a6.jpg"></a>
+                                            <a href="projects.html"><img alt="image" class="img-circle"
+                                                                         src="<?= $static_url ?>/img/a3.jpg"></a>
+                                        </td>
+                                        <td class="project-actions">
+                                            <a href="projects.html#" class="btn btn-white btn-sm"><i
+                                                        class="fa fa-folder"></i> 查看 </a>
+                                            <a href="projects.html#" class="btn btn-white btn-sm"><i
+                                                        class="fa fa-pencil"></i> 编辑 </a>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-<?php $this->blockEnd(); ?>
+        <div class="col-sm-2">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>任务列表</h5>
+                </div>
+                <div class="ibox-content">
+                    <ul class="todo-list m-t small-list ui-sortable">
+                        <li>
+                            <a href="widgets.html#" class="check-link"><i class="fa fa-check-square"></i> </a>
+                            <span class="m-l-xs todo-completed">吃饭</span>
+
+                        </li>
+                        <li>
+                            <a href="widgets.html#" class="check-link"><i class="fa fa-check-square"></i> </a>
+                            <span class="m-l-xs  todo-completed">多吃饭</span>
+
+                        </li>
+                        <li>
+                            <a href="widgets.html#" class="check-link"><i class="fa fa-square-o"></i> </a>
+                            <span class="m-l-xs">睡觉</span>
+                            <small class="label label-primary"><i class="fa fa-clock-o"></i> 1小时</small>
+                        </li>
+                        <li>
+                            <a href="widgets.html#" class="check-link"><i class="fa fa-square-o"></i> </a>
+                            <span class="m-l-xs">睡觉</span>
+                            <small class="label label-primary"><i class="fa fa-clock-o"></i> 1小时</small>
+                        </li>
+                        <li>
+                            <a href="widgets.html#" class="check-link"><i class="fa fa-square-o"></i> </a>
+                            <span class="m-l-xs">睡觉</span>
+                            <small class="label label-primary"><i class="fa fa-clock-o"></i> 1小时</small>
+                        </li>
+                        <li>
+                            <a href="widgets.html#" class="check-link"><i class="fa fa-square-o"></i> </a>
+                            <span class="m-l-xs">睡觉</span>
+                            <small class="label label-primary"><i class="fa fa-clock-o"></i> 1小时</small>
+                        </li>
+                        <li>
+                            <a href="widgets.html#" class="check-link"><i class="fa fa-square-o"></i> </a>
+                            <span class="m-l-xs">睡觉</span>
+                            <small class="label label-primary"><i class="fa fa-clock-o"></i> 1小时</small>
+                        </li>
+                        <li>
+                            <a href="widgets.html#" class="check-link"><i class="fa fa-square-o"></i> </a>
+                            <span class="m-l-xs">睡觉</span>
+                            <small class="label label-primary"><i class="fa fa-clock-o"></i> 1小时</small>
+                        </li>
+                        <li>
+                            <a href="widgets.html#" class="check-link"><i class="fa fa-square-o"></i> </a>
+                            <span class="m-l-xs">睡觉</span>
+                            <small class="label label-primary"><i class="fa fa-clock-o"></i> 1小时</small>
+                        </li>
+                        <li>
+                            <a href="widgets.html#" class="check-link"><i class="fa fa-square-o"></i> </a>
+                            <span class="m-l-xs">睡觉</span>
+                            <small class="label label-primary"><i class="fa fa-clock-o"></i> 1小时</small>
+                        </li>
+                        <li>
+                            <a href="widgets.html#" class="check-link"><i class="fa fa-square-o"></i> </a>
+                            <span class="m-l-xs">睡觉</span>
+                            <small class="label label-primary"><i class="fa fa-clock-o"></i> 1小时</small>
+                        </li>
+                        <li>
+                            <a href="widgets.html#" class="check-link"><i class="fa fa-square-o"></i> </a>
+                            <span class="m-l-xs">睡觉</span>
+                            <small class="label label-primary"><i class="fa fa-clock-o"></i> 1小时</small>
+                        </li>
+                        <li>
+                            <a href="widgets.html#" class="check-link"><i class="fa fa-square-o"></i> </a>
+                            <span class="m-l-xs">睡觉</span>
+                            <small class="label label-primary"><i class="fa fa-clock-o"></i> 1小时</small>
+                        </li>
+                        <li>
+                            <a href="widgets.html#" class="check-link"><i class="fa fa-square-o"></i> </a>
+                            <span class="m-l-xs">睡觉</span>
+                            <small class="label label-primary"><i class="fa fa-clock-o"></i> 1小时</small>
+                        </li>
+                        <li>
+                            <a href="widgets.html#" class="check-link"><i class="fa fa-square-o"></i> </a>
+                            <span class="m-l-xs">睡觉</span>
+                            <small class="label label-primary"><i class="fa fa-clock-o"></i> 1小时</small>
+                        </li>
+                        <li>
+                            <a href="widgets.html#" class="check-link"><i class="fa fa-square-o"></i> </a>
+                            <span class="m-l-xs">睡觉</span>
+                            <small class="label label-primary"><i class="fa fa-clock-o"></i> 1小时</small>
+                        </li>
+                        <li>
+                            <a href="widgets.html#" class="check-link"><i class="fa fa-square-o"></i> </a>
+                            <span class="m-l-xs">睡觉</span>
+                            <small class="label label-primary"><i class="fa fa-clock-o"></i> 1小时</small>
+                        </li>
+                        <li>
+                            <a href="widgets.html#" class="check-link"><i class="fa fa-square-o"></i> </a>
+                            <span class="m-l-xs">睡觉</span>
+                            <small class="label label-primary"><i class="fa fa-clock-o"></i> 1小时</small>
+                        </li>
+                        <li>
+                            <a href="widgets.html#" class="check-link"><i class="fa fa-square-o"></i> </a>
+                            <span class="m-l-xs">睡觉</span>
+                            <small class="label label-primary"><i class="fa fa-clock-o"></i> 1小时</small>
+                        </li>
+                        <li>
+                            <a href="widgets.html#" class="check-link"><i class="fa fa-square-o"></i> </a>
+                            <span class="m-l-xs">睡觉</span>
+                            <small class="label label-primary"><i class="fa fa-clock-o"></i> 1小时</small>
+                        </li>
+                        <li>
+                            <a href="widgets.html#" class="check-link"><i class="fa fa-square-o"></i> </a>
+                            <span class="m-l-xs">睡觉</span>
+                            <small class="label label-primary"><i class="fa fa-clock-o"></i> 1小时</small>
+                        </li>
+                        <li>
+                            <a href="widgets.html#" class="check-link"><i class="fa fa-square-o"></i> </a>
+                            <span class="m-l-xs">睡觉</span>
+                            <small class="label label-primary"><i class="fa fa-clock-o"></i> 1小时</small>
+                        </li>
+                        <li>
+                            <a href="widgets.html#" class="check-link"><i class="fa fa-square-o"></i> </a>
+                            <span class="m-l-xs">睡觉</span>
+                            <small class="label label-primary"><i class="fa fa-clock-o"></i> 1小时</small>
+                        </li>
+                        <li>
+                            <a href="widgets.html#" class="check-link"><i class="fa fa-square-o"></i> </a>
+                            <span class="m-l-xs">睡觉</span>
+                            <small class="label label-primary"><i class="fa fa-clock-o"></i> 1小时</small>
+                        </li>
+                        <li>
+                            <a href="widgets.html#" class="check-link"><i class="fa fa-square-o"></i> </a>
+                            <span class="m-l-xs">睡觉</span>
+                            <small class="label label-primary"><i class="fa fa-clock-o"></i> 1小时</small>
+                        </li>
+                        <li>
+                            <a href="widgets.html#" class="check-link"><i class="fa fa-square-o"></i> </a>
+                            <span class="m-l-xs">睡觉</span>
+                            <small class="label label-primary"><i class="fa fa-clock-o"></i> 1小时</small>
+                        </li>
+                        <li>
+                            <a href="widgets.html#" class="check-link"><i class="fa fa-square-o"></i> </a>
+                            <span class="m-l-xs">睡觉</span>
+                            <small class="label label-primary"><i class="fa fa-clock-o"></i> 1小时</small>
+                        </li>
+                        <li>
+                            <a href="widgets.html#" class="check-link"><i class="fa fa-square-o"></i> </a>
+                            <span class="m-l-xs">睡觉</span>
+                            <small class="label label-primary"><i class="fa fa-clock-o"></i> 1小时</small>
+                        </li>
+                        <li>
+                            <a href="widgets.html#" class="check-link"><i class="fa fa-square-o"></i> </a>
+                            <span class="m-l-xs">睡觉</span>
+                            <small class="label label-primary"><i class="fa fa-clock-o"></i> 1小时</small>
+                        </li>
+                        <li>
+                            <a href="widgets.html#" class="check-link"><i class="fa fa-square-o"></i> </a>
+                            <span class="m-l-xs">睡觉</span>
+                            <small class="label label-primary"><i class="fa fa-clock-o"></i> 1小时</small>
+                        </li>
+                        <li>
+                            <a href="widgets.html#" class="check-link"><i class="fa fa-square-o"></i> </a>
+                            <span class="m-l-xs">睡觉</span>
+                            <small class="label label-primary"><i class="fa fa-clock-o"></i> 1小时</small>
+                        </li>
+                        <li>
+                            <a href="widgets.html#" class="check-link"><i class="fa fa-square-o"></i> </a>
+                            <span class="m-l-xs">睡觉</span>
+                            <small class="label label-primary"><i class="fa fa-clock-o"></i> 1小时</small>
+                        </li>
+                        <li>
+                            <a href="widgets.html#" class="check-link"><i class="fa fa-square-o"></i> </a>
+                            <span class="m-l-xs">睡觉</span>
+                            <small class="label label-primary"><i class="fa fa-clock-o"></i> 1小时</small>
+                        </li>
+                        <li>
+                            <a href="widgets.html#" class="check-link"><i class="fa fa-square-o"></i> </a>
+                            <span class="m-l-xs">睡觉</span>
+                            <small class="label label-primary"><i class="fa fa-clock-o"></i> 1小时</small>
+                        </li>
+                        <li>
+                            <a href="widgets.html#" class="check-link"><i class="fa fa-square-o"></i> </a>
+                            <span class="m-l-xs">睡觉</span>
+                            <small class="label label-primary"><i class="fa fa-clock-o"></i> 1小时</small>
+                        </li>
+                        <li>
+                            <a href="widgets.html#" class="check-link"><i class="fa fa-square-o"></i> </a>
+                            <span class="m-l-xs">睡觉</span>
+                            <small class="label label-primary"><i class="fa fa-clock-o"></i> 1小时</small>
+                        </li>
+                        <li>
+                            <a href="widgets.html#" class="check-link"><i class="fa fa-square-o"></i> </a>
+                            <span class="m-l-xs">睡觉</span>
+                            <small class="label label-primary"><i class="fa fa-clock-o"></i> 1小时</small>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <?php $this->blockEnd(); ?>
 
 
-<?php $this->blockStart('scripts'); ?>
+    <?php $this->blockStart('scripts'); ?>
     <!-- 全局js -->
     <script src="<?= $static_url ?>/js/jquery.min.js?v=2.1.4"></script>
     <script src="<?= $static_url ?>/js/bootstrap.min.js?v=3.3.6"></script>
@@ -602,7 +646,7 @@ $this->extendTpl($theme_dir . '/layout.php'); ?>
     <script src="<?= $static_url ?>/js/content.js"></script>
     <!--flotdemo-->
     <script type="text/javascript">
-        $(function() {
+        $(function () {
             var container = $("#flot-line-chart-moving");
             var maximum = container.outerWidth() / 2 || 300;
             var data = [];
@@ -622,6 +666,7 @@ $this->extendTpl($theme_dir . '/layout.php'); ?>
                 }
                 return res;
             }
+
             series = [{
                 data: getRandomData(),
                 lines: {
@@ -633,7 +678,7 @@ $this->extendTpl($theme_dir . '/layout.php'); ?>
 
                     color: "#999999",
                     tickColor: "#f7f9fb",
-                    borderWidth:0,
+                    borderWidth: 0,
                     minBorderMargin: 20,
                     labelMargin: 10,
                     backgroundColor: {
@@ -644,7 +689,7 @@ $this->extendTpl($theme_dir . '/layout.php'); ?>
                         bottom: 20,
                         left: 20
                     },
-                    markings: function(axes) {
+                    markings: function (axes) {
                         var markings = [];
                         var xaxis = axes.xaxis;
                         for (var x = Math.floor(xaxis.min); x < xaxis.max; x += xaxis.tickSize * 2) {
@@ -661,7 +706,7 @@ $this->extendTpl($theme_dir . '/layout.php'); ?>
                 },
                 colors: ["#4fc5ea"],
                 xaxis: {
-                    tickFormatter: function() {
+                    tickFormatter: function () {
                         return "";
                     }
                 },
@@ -682,7 +727,7 @@ $this->extendTpl($theme_dir . '/layout.php'); ?>
                 plot.draw();
             }, 40);
         });
-        $(function() {
+        $(function () {
             var oilprices = [
                 [1167692400000, 61.05],
                 [1167778800000, 58.32],
@@ -1643,7 +1688,7 @@ $this->extendTpl($theme_dir . '/layout.php'); ?>
             ];
 
             function euroFormatter(v, axis) {
-                return "&yen;"+v.toFixed(axis.tickDecimals);
+                return "&yen;" + v.toFixed(axis.tickDecimals);
             }
 
             function doPlot(position) {
@@ -1674,7 +1719,7 @@ $this->extendTpl($theme_dir . '/layout.php'); ?>
                         hoverable: true,
                         clickable: true,
                         tickColor: "#f7f9fb",
-                        borderWidth:0,
+                        borderWidth: 0,
                         hoverable: true
 
                     },
@@ -1683,18 +1728,18 @@ $this->extendTpl($theme_dir . '/layout.php'); ?>
                         content: "%s %x 为 %y",
                         xDateFormat: "%y-%0m-%0d",
 
-                        onHover: function(flotItem, $tooltipEl) {
+                        onHover: function (flotItem, $tooltipEl) {
                             // console.log(flotItem, $tooltipEl);
                         }
                     }
                 });
-    }
+            }
 
-    doPlot("right");
+            doPlot("right");
 
-    $("button").click(function() {
-        doPlot($(this).text());
-    });
-});
+            $("button").click(function () {
+                doPlot($(this).text());
+            });
+        });
     </script>
-<?php $this->blockEnd(); ?>
+    <?php $this->blockEnd(); ?>

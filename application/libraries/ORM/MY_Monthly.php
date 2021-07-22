@@ -65,7 +65,7 @@ trait MY_Monthly
     /**
      * 获取执行的终点时间戳
      */
-    public function get_finishing($start = null, array& $tables = [])
+    public function get_finishing($start = null, array &$tables = [])
     {
         if ($start) {
             return self::get_begin_stamp($start);
@@ -94,7 +94,7 @@ trait MY_Monthly
      * 初始化日历为当前时间，指向当前月份的数据表
      * @param int/string/null $time
      */
-    protected function init_calendar($time = null)
+    public function init_calendar($time = null)
     {
         $this->beginning = self::get_begin_stamp($time);
     }
@@ -175,7 +175,8 @@ trait MY_Monthly
         $limit = null,
         $offset = 0,
         $fields = '*'
-    ) {
+    )
+    {
         if (empty($offset) || $offset <= 0) {
             $offset = 0;
         }

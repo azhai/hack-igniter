@@ -65,7 +65,7 @@ trait MY_Senior
      * 必须使用RIGHT JOIN自身的方法，这里自动实现此功能
      * @return $this
      */
-    public function get_group_order_sql(& $db, $table = '', $reset = true)
+    public function get_group_order_sql(&$db, $table = '', $reset = true)
     {
         @list($group, $order, $direction) = $this->_group_order;
         $db->where($group . ' IS NOT NULL', null, false);

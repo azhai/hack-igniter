@@ -50,7 +50,7 @@ class Menu_model extends MY_Model
             'parent' => [
                 'model' => FOREIGN_SELF_MODEL,
                 'columns' => ['id', 'parent_id', 'title',
-                        'url', 'icon', 'corner', 'is_removed']
+                    'url', 'icon', 'corner', 'is_removed']
             ],
             'children' => [
                 'type' => FOREIGN_HAS_MANY,
@@ -58,7 +58,7 @@ class Menu_model extends MY_Model
                 'rev_name' => 'parent',
                 'fkey' => 'parent_id',
                 'columns' => ['id', 'parent_id', 'title',
-                        'url', 'icon', 'corner', 'is_removed']
+                    'url', 'icon', 'corner', 'is_removed']
             ],
         ];
     }
@@ -98,7 +98,7 @@ class Menu_model extends MY_Model
             $ids = explode(',', $row['ids']);
             sort($ids, SORT_NUMERIC);
             foreach ($ids as $i => $id) {
-                $this->update(['seqno' => $i*10+10], ['id' => $id]);
+                $this->update(['seqno' => $i * 10 + 10], ['id' => $id]);
             }
         }
     }
@@ -123,7 +123,7 @@ class Menu_model extends MY_Model
     {
         $menus = $branch_ids = [];
         $this->with_foreign('children');
-        $where =['parent_id' => 0, 'is_removed' => 0];
+        $where = ['parent_id' => 0, 'is_removed' => 0];
         $rows = $this->parse_where($where)->all();
         foreach ($rows as $row) {
             if ($row['children']) {

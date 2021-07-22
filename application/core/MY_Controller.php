@@ -13,6 +13,9 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
+/**
+ * 基础Controller
+ */
 class MY_Controller extends CI_Controller
 {
     protected $context = [];
@@ -25,6 +28,16 @@ class MY_Controller extends CI_Controller
     public $db_conns = [];
     public $tpl_alias = [];
 
+    /**
+     * 构造函数
+     */
+    public function __construct()
+    {
+        parent::__construct();
+        $this->load->helper('my');
+        $this->load->helper('env');
+    }
+
     public function _remap($action, $params = [])
     {
         if (!method_exists($this, $action)) {
@@ -35,7 +48,7 @@ class MY_Controller extends CI_Controller
                 return show_404(); //私有方法
             }
         }
-        $this->context = (array) $this->initialize();
+        $this->context = (array)$this->initialize();
         $data = exec_method_array($this, $action, $params);
         if (is_array($data)) {
             $this->context = array_replace($this->context, $data);

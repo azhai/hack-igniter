@@ -76,7 +76,7 @@ class MY_Cache extends CI_Cache implements SplObserver
      * 读取缓存值
      *
      * @param SplSubject $subject
-     * @param mixed      $conditon
+     * @param mixed $conditon
      * @return mixed
      */
     public function read_cache(SplSubject $subject, $condition)
@@ -98,8 +98,8 @@ class MY_Cache extends CI_Cache implements SplObserver
      * 写缓存，类型和时效由$subject确定
      *
      * @param SplSubject $subject
-     * @param mixed      $conditon
-     * @param mixed      $states
+     * @param mixed $conditon
+     * @param mixed $states
      * @return mixed
      */
     public function write_cache(SplSubject $subject, $condition, $states)
@@ -125,7 +125,7 @@ class MY_Cache extends CI_Cache implements SplObserver
      * 删除缓存
      *
      * @param SplSubject $subject
-     * @param mixed      $conditon
+     * @param mixed $conditon
      * @return mixed
      */
     public function delete_cache(SplSubject $subject, $condition)
@@ -144,8 +144,8 @@ class MY_Cache extends CI_Cache implements SplObserver
      * 缓存数据加上一个步进值，不存在当作0处理
      *
      * @param SplSubject $subject
-     * @param mixed      $conditon
-     * @param int|float  $offset
+     * @param mixed $conditon
+     * @param int|float $offset
      * @return mixed
      */
     public function incr_cache(SplSubject $subject, $condition, $offset = 1)
@@ -164,8 +164,8 @@ class MY_Cache extends CI_Cache implements SplObserver
      * 缓存数据减去一个步进值
      *
      * @param SplSubject $subject
-     * @param mixed      $conditon
-     * @param int|float  $offset
+     * @param mixed $conditon
+     * @param int|float $offset
      * @return mixed
      */
     public function decr_cache(SplSubject $subject, $condition, $offset = 1)

@@ -16,8 +16,8 @@ $loader = load_class('Loader', 'core');
 $loader->helper('env');
 $loader->name_space('Psr\\Log', VENDPATH . 'psr/log/Psr/Log');
 
-use \Psr\Log\LogLevel;
-use \Psr\Log\LoggerInterface;
+use Psr\Log\LoggerInterface;
+use Psr\Log\LogLevel;
 
 /**
  * 日志
@@ -26,7 +26,7 @@ class MY_Logger extends CI_Driver_Library implements LoggerInterface
 {
     use \Psr\Log\LoggerTrait;
 
-    protected $valid_drivers = ['file', ];
+    protected $valid_drivers = ['file',];
     protected $lib_name = 'Logger';
     protected $adapter = 'file';
     protected $name = 'access';
@@ -50,7 +50,7 @@ class MY_Logger extends CI_Driver_Library implements LoggerInterface
      *
      * Separate load_driver call to support explicit driver load by library or user
      *
-     * @param    string    Driver name (w/o parent prefix)
+     * @param string    Driver name (w/o parent prefix)
      * @return    object    Child class
      */
     public function load_driver($child)
@@ -85,10 +85,10 @@ class MY_Logger extends CI_Driver_Library implements LoggerInterface
             }
             $record = [
                 'time' => time(),
-                'ipaddr'  => get_real_client_ip(),
-                'name'    => $this->getLogName(),
-                'level'   => strtoupper($level),
-                'sep'     => '-->',
+                'ipaddr' => get_real_client_ip(),
+                'name' => $this->getLogName(),
+                'level' => strtoupper($level),
+                'sep' => '-->',
                 'content' => $message,
             ];
             $this->{$this->adapter}->writeLine($record);

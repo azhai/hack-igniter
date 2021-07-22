@@ -235,7 +235,8 @@ trait MY_Foreign
         $name,
         $frows = null,
         $columns = '*'
-    ) {
+    )
+    {
         if (!$model->foreign_data[$name]) {
             return []; //外键没有数据
         }
@@ -273,7 +274,8 @@ trait MY_Foreign
         $name,
         array $rel = [],
         $columns = '*'
-    ) {
+    )
+    {
         $fkey = $rel['fkey'];
         if (isset($rel['rev_name'])) {
             $rev_name = $rel['rev_name'];

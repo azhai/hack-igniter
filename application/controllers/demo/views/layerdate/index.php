@@ -11,7 +11,8 @@
     <meta name="keywords" content="">
     <meta name="description" content="">
 
-    <link rel="shortcut icon" href="favicon.ico"> <link href="<?= $static_url ?>/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link rel="shortcut icon" href="favicon.ico">
+    <link href="<?= $static_url ?>/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
     <link href="<?= $static_url ?>/css/font-awesome.css?v=4.4.0" rel="stylesheet">
     <link href="<?= $static_url ?>/css/animate.css" rel="stylesheet">
     <link href="<?= $static_url ?>/css/animate.css" rel="stylesheet">
@@ -19,130 +20,136 @@
 </head>
 
 <body class="gray-bg">
-    <div class="wrapper wrapper-content animated fadeIn">
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="ibox float-e-margins">
-                    <div class="ibox-title">
-                        <h5>layerDate简介</h5>
-                        <div class="ibox-tools">
-                            <a class="collapse-link">
-                                <i class="fa fa-chevron-up"></i>
-                            </a>
-                            <a class="dropdown-toggle" data-toggle="dropdown" href="tabs_panels.html#">
-                                <i class="fa fa-wrench"></i>
-                            </a>
-                            <ul class="dropdown-menu dropdown-user">
-                                <li><a href="tabs_panels.html#">选项1</a>
-                                </li>
-                                <li><a href="tabs_panels.html#">选项2</a>
-                                </li>
-                            </ul>
-                            <a class="close-link">
-                                <i class="fa fa-times"></i>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="ibox-content">
-                        <p>你是时候换一款日期控件了，而layDate非常愿意和您成为工作伙伴。她致力于成为全球最用心的web日期支撑，为国内外所有从事web应用开发的同仁提供力所能及的动力。她基于原生JavaScript精心雕琢，兼容了包括IE6在内的所有主流浏览器。她具备优雅的内部代码，良好的性能体验，和完善的皮肤体系，并且完全开源，你可以任意获取开发版源代码，一扫某些传统日期控件的封闭与狭隘。layDate本着资源共享的开发者精神和对网页日历交互无穷的追求，延续了layui一贯的简单与易用。她遵循LGPL协议，您可以免费将她用于任何个人项目。</p>
-                        <p>官网：<a href="http://sentsin.com/layui/laydate/" target="_blank">http://sentsin.com/layui/laydate/</a>
-                        </p>
+<div class="wrapper wrapper-content animated fadeIn">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>layerDate简介</h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="tabs_panels.html#">
+                            <i class="fa fa-wrench"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-user">
+                            <li><a href="tabs_panels.html#">选项1</a>
+                            </li>
+                            <li><a href="tabs_panels.html#">选项2</a>
+                            </li>
+                        </ul>
+                        <a class="close-link">
+                            <i class="fa fa-times"></i>
+                        </a>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-sm-6">
-                        <div class="ibox float-e-margins">
-                            <div class="ibox-title">
-                                <h5>layerDate示例</h5>
-                                <div class="ibox-tools">
-                                    <a class="collapse-link">
-                                        <i class="fa fa-chevron-up"></i>
-                                    </a>
-                                    <a class="dropdown-toggle" data-toggle="dropdown" href="tabs_panels.html#">
-                                        <i class="fa fa-wrench"></i>
-                                    </a>
-                                    <ul class="dropdown-menu dropdown-user">
-                                        <li><a href="tabs_panels.html#">选项1</a>
-                                        </li>
-                                        <li><a href="tabs_panels.html#">选项2</a>
-                                        </li>
-                                    </ul>
-                                    <a class="close-link">
-                                        <i class="fa fa-times"></i>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="ibox-content">
-
-                                <form class="form-horizontal m-t">
-                                    <div class="form-group">
-                                        <label class="col-sm-2 control-label">普通：</label>
-                                        <div class="col-sm-10">
-                                            <input class="form-control layer-date" placeholder="YYYY-MM-DD hh:mm:ss" onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})">
-                                            <label class="laydate-icon"></label>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-sm-2 control-label">外部js调用：</label>
-                                        <div class="col-sm-10">
-                                            <input id="hello" class="laydate-icon form-control layer-date">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-sm-2 control-label">图标触发日期：</label>
-                                        <div class="col-sm-10">
-                                            <input readonly class="form-control layer-date" id="hello1">
-                                            <label class="laydate-icon inline demoicon" onclick="laydate({elem: '#hello1'});"></label>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-sm-2 control-label">图标触发日期：</label>
-                                        <div class="col-sm-10">
-                                            <input placeholder="开始日期" class="form-control layer-date" id="start">
-                                            <input placeholder="结束日期" class="form-control layer-date" id="end">
-                                        </div>
-                                    </div>
-                                </form>
-                                <hr>
-                                <p>日期选择器时，请给input添加<code>class="form-control layer-date"</code>，否则可能出现错位的情况。</p>
+                <div class="ibox-content">
+                    <p>
+                        你是时候换一款日期控件了，而layDate非常愿意和您成为工作伙伴。她致力于成为全球最用心的web日期支撑，为国内外所有从事web应用开发的同仁提供力所能及的动力。她基于原生JavaScript精心雕琢，兼容了包括IE6在内的所有主流浏览器。她具备优雅的内部代码，良好的性能体验，和完善的皮肤体系，并且完全开源，你可以任意获取开发版源代码，一扫某些传统日期控件的封闭与狭隘。layDate本着资源共享的开发者精神和对网页日历交互无穷的追求，延续了layui一贯的简单与易用。她遵循LGPL协议，您可以免费将她用于任何个人项目。</p>
+                    <p>官网：<a href="http://sentsin.com/layui/laydate/"
+                             target="_blank">http://sentsin.com/layui/laydate/</a>
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>layerDate示例</h5>
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="tabs_panels.html#">
+                                    <i class="fa fa-wrench"></i>
+                                </a>
+                                <ul class="dropdown-menu dropdown-user">
+                                    <li><a href="tabs_panels.html#">选项1</a>
+                                    </li>
+                                    <li><a href="tabs_panels.html#">选项2</a>
+                                    </li>
+                                </ul>
+                                <a class="close-link">
+                                    <i class="fa fa-times"></i>
+                                </a>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="ibox float-e-margins">
-                            <div class="ibox-title">
-                                <h5>layerDate API文档</h5>
-                                <div class="ibox-tools">
-                                    <a class="collapse-link">
-                                        <i class="fa fa-chevron-up"></i>
-                                    </a>
-                                    <a class="dropdown-toggle" data-toggle="dropdown" href="tabs_panels.html#">
-                                        <i class="fa fa-wrench"></i>
-                                    </a>
-                                    <ul class="dropdown-menu dropdown-user">
-                                        <li><a href="tabs_panels.html#">选项1</a>
-                                        </li>
-                                        <li><a href="tabs_panels.html#">选项2</a>
-                                        </li>
-                                    </ul>
-                                    <a class="close-link">
-                                        <i class="fa fa-times"></i>
-                                    </a>
+                        <div class="ibox-content">
+
+                            <form class="form-horizontal m-t">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">普通：</label>
+                                    <div class="col-sm-10">
+                                        <input class="form-control layer-date" placeholder="YYYY-MM-DD hh:mm:ss"
+                                               onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})">
+                                        <label class="laydate-icon"></label>
+                                    </div>
                                 </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">外部js调用：</label>
+                                    <div class="col-sm-10">
+                                        <input id="hello" class="laydate-icon form-control layer-date">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">图标触发日期：</label>
+                                    <div class="col-sm-10">
+                                        <input readonly class="form-control layer-date" id="hello1">
+                                        <label class="laydate-icon inline demoicon"
+                                               onclick="laydate({elem: '#hello1'});"></label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">图标触发日期：</label>
+                                    <div class="col-sm-10">
+                                        <input placeholder="开始日期" class="form-control layer-date" id="start">
+                                        <input placeholder="结束日期" class="form-control layer-date" id="end">
+                                    </div>
+                                </div>
+                            </form>
+                            <hr>
+                            <p>日期选择器时，请给input添加<code>class="form-control layer-date"</code>，否则可能出现错位的情况。</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>layerDate API文档</h5>
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="tabs_panels.html#">
+                                    <i class="fa fa-wrench"></i>
+                                </a>
+                                <ul class="dropdown-menu dropdown-user">
+                                    <li><a href="tabs_panels.html#">选项1</a>
+                                    </li>
+                                    <li><a href="tabs_panels.html#">选项2</a>
+                                    </li>
+                                </ul>
+                                <a class="close-link">
+                                    <i class="fa fa-times"></i>
+                                </a>
                             </div>
-                            <div class="ibox-content">
-                                <div class="panel-body">
-                                    <div class="panel-group" id="accordion">
-                                        <div class="panel panel-default">
-                                            <div class="panel-heading">
-                                                <h5 class="panel-title">
-                                                <span class="label label-info">1</span> <a data-toggle="collapse" data-parent="#accordion" href="tabs_panels.html#collapseOne">核心方法：<code>aydate(options)</code></a>
+                        </div>
+                        <div class="ibox-content">
+                            <div class="panel-body">
+                                <div class="panel-group" id="accordion">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <h5 class="panel-title">
+                                                <span class="label label-info">1</span> <a data-toggle="collapse"
+                                                                                           data-parent="#accordion"
+                                                                                           href="tabs_panels.html#collapseOne">核心方法：<code>aydate(options)</code></a>
                                             </h5>
-                                            </div>
-                                            <div id="collapseOne" class="panel-collapse collapse in">
-                                                <div class="panel-body">
-                                                    <p>options是一个对象，它包含了以下key: '默认值'</p>
-                                                    <pre>
+                                        </div>
+                                        <div id="collapseOne" class="panel-collapse collapse in">
+                                            <div class="panel-body">
+                                                <p>options是一个对象，它包含了以下key: '默认值'</p>
+                                                <pre>
 elem: '#id', //需显示日期的元素选择器
 event: 'click', //触发事件
 format: 'YYYY-MM-DD hh:mm:ss', //日期格式
@@ -159,18 +166,19 @@ zIndex: 99999999, //css z-index
 choose: function(dates){ //选择好日期的回调
 
 }</pre>
-                                                </div>
                                             </div>
                                         </div>
-                                        <div class="panel panel-default">
-                                            <div class="panel-heading">
-                                                <h4 class="panel-title">
+                                    </div>
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <h4 class="panel-title">
                                                 <span class="label label-info">2</span>
-                                                <a data-toggle="collapse" data-parent="#accordion" href="tabs_panels.html#collapseTwo">其它方法/属性</a>
+                                                <a data-toggle="collapse" data-parent="#accordion"
+                                                   href="tabs_panels.html#collapseTwo">其它方法/属性</a>
                                             </h4>
-                                            </div>
-                                            <div id="collapseTwo" class="panel-collapse collapse">
-                                                <div class="panel-body">
+                                        </div>
+                                        <div id="collapseTwo" class="panel-collapse collapse">
+                                            <div class="panel-body">
                                                     <pre>
 laydate.v   //获取laydate版本号
 laydate.skin(lib);  //加载皮肤，参数lib为皮肤名
@@ -182,7 +190,6 @@ laydate.skin(lib);  //加载皮肤，参数lib为皮肤名
 layer.now(timestamp, format);   //该方法提供了丰富的功能，推荐灵活使用。
 
 laydate.reset();    //重设日历控件坐标，一般用于页面dom结构改变时。无参</pre>
-                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -194,55 +201,53 @@ laydate.reset();    //重设日历控件坐标，一般用于页面dom结构改�
             </div>
         </div>
     </div>
+</div>
 
-    <!-- 全局js -->
-    <script src="<?= $static_url ?>/js/jquery.min.js?v=2.1.4"></script>
-    <script src="<?= $static_url ?>/js/bootstrap.min.js?v=3.3.6"></script>
-
-
-
-    <!-- 自定义js -->
-    <script src="<?= $static_url ?>/js/content.js?v=1.0.0"></script>
+<!-- 全局js -->
+<script src="<?= $static_url ?>/js/jquery.min.js?v=2.1.4"></script>
+<script src="<?= $static_url ?>/js/bootstrap.min.js?v=3.3.6"></script>
 
 
-    <!-- layerDate plugin javascript -->
-    <script src="<?= $static_url ?>/js/plugins/layer/laydate/laydate.js"></script>
-    <script>
-        //外部js调用
-        laydate({
-            elem: '#hello', //目标元素。由于laydate.js封装了一个轻量级的选择器引擎，因此elem还允许你传入class、tag但必须按照这种方式 '#id .class'
-            event: 'focus' //响应事件。如果没有传入event，则按照默认的click
-        });
-
-        //日期范围限制
-        var start = {
-            elem: '#start',
-            format: 'YYYY/MM/DD hh:mm:ss',
-            min: laydate.now(), //设定最小日期为当前日期
-            max: '2099-06-16 23:59:59', //最大日期
-            istime: true,
-            istoday: false,
-            choose: function (datas) {
-                end.min = datas; //开始日选好后，重置结束日的最小日期
-                end.start = datas //将结束日的初始值设定为开始日
-            }
-        };
-        var end = {
-            elem: '#end',
-            format: 'YYYY/MM/DD hh:mm:ss',
-            min: laydate.now(),
-            max: '2099-06-16 23:59:59',
-            istime: true,
-            istoday: false,
-            choose: function (datas) {
-                start.max = datas; //结束日选好后，重置开始日的最大日期
-            }
-        };
-        laydate(start);
-        laydate(end);
-    </script>
+<!-- 自定义js -->
+<script src="<?= $static_url ?>/js/content.js?v=1.0.0"></script>
 
 
+<!-- layerDate plugin javascript -->
+<script src="<?= $static_url ?>/js/plugins/layer/laydate/laydate.js"></script>
+<script>
+    //外部js调用
+    laydate({
+        elem: '#hello', //目标元素。由于laydate.js封装了一个轻量级的选择器引擎，因此elem还允许你传入class、tag但必须按照这种方式 '#id .class'
+        event: 'focus' //响应事件。如果没有传入event，则按照默认的click
+    });
+
+    //日期范围限制
+    var start = {
+        elem: '#start',
+        format: 'YYYY/MM/DD hh:mm:ss',
+        min: laydate.now(), //设定最小日期为当前日期
+        max: '2099-06-16 23:59:59', //最大日期
+        istime: true,
+        istoday: false,
+        choose: function (datas) {
+            end.min = datas; //开始日选好后，重置结束日的最小日期
+            end.start = datas //将结束日的初始值设定为开始日
+        }
+    };
+    var end = {
+        elem: '#end',
+        format: 'YYYY/MM/DD hh:mm:ss',
+        min: laydate.now(),
+        max: '2099-06-16 23:59:59',
+        istime: true,
+        istoday: false,
+        choose: function (datas) {
+            start.max = datas; //结束日选好后，重置开始日的最大日期
+        }
+    };
+    laydate(start);
+    laydate(end);
+</script>
 
 
 </body>

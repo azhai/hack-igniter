@@ -7,7 +7,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class Event_page extends MY_Controller
 {
     const SLOT_PREFIX = 'slot_';
-    
+
     protected $event = null;
     protected $client = null;
 

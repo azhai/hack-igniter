@@ -14,7 +14,7 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 
 
-if (! function_exists('is_winnt')) {
+if (!function_exists('is_winnt')) {
     /**
      * 是否Windows系统，不含Cygwin.
      */
@@ -62,9 +62,8 @@ if (!function_exists('gen_call_trace')) {
         $length = count($trace);
         $result = array();
 
-        for ($i = 0; $i < $length; $i++)
-        {
-            $result[] = ($i + 1)  . ')' . substr($trace[$i], strpos($trace[$i], ' ')); // replace '#someNum' with '$i)', set the right ordering
+        for ($i = 0; $i < $length; $i++) {
+            $result[] = ($i + 1) . ')' . substr($trace[$i], strpos($trace[$i], ' ')); // replace '#someNum' with '$i)', set the right ordering
         }
 
         return "\t" . implode("\n\t", $result);
@@ -72,7 +71,21 @@ if (!function_exists('gen_call_trace')) {
 }
 
 
-if (! function_exists('get_real_client_ip')) {
+if (!function_exists('sleep_until')) {
+    /**
+     * 休眠直到某个时刻
+     */
+    function sleep_until($next_time)
+    {
+        $sleep_secs = $next_time - microtime(true);
+        if ($sleep_secs > 0) {
+            usleep($sleep_secs * pow(10, 6));
+        }
+    }
+}
+
+
+if (!function_exists('get_real_client_ip')) {
     /**
      * 获取真实客户端IP
      */
@@ -94,7 +107,7 @@ if (! function_exists('get_real_client_ip')) {
 }
 
 
-if (! function_exists('set_language')) {
+if (!function_exists('set_language')) {
     /**
      * 设置语言.
      */
@@ -110,7 +123,7 @@ if (! function_exists('set_language')) {
 }
 
 
-if (! function_exists('rand_numbers')) {
+if (!function_exists('rand_numbers')) {
     /**
      * 产生几个数字，仅用于Linux/Unix/MacOS下
      */
@@ -132,7 +145,7 @@ if (! function_exists('rand_numbers')) {
 }
 
 
-if (! function_exists('respawn_process')) {
+if (!function_exists('respawn_process')) {
     /**
      * 启动一个相同的CLI进程，并退出当前进程
      */

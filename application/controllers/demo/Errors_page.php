@@ -8,8 +8,9 @@ class Errors_page extends Admin_page
     {
     }
 
-    public function 500()
-    {
-    }
+public
+function 500()
+{
+}
 
 }
