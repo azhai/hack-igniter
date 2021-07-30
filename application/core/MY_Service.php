@@ -4,19 +4,18 @@ defined('BASEPATH') or exit('No direct script access allowed');
 /**
  * 基础微服务
  */
-class MY_Service extends CI_Controller
+class MY_Service
 {
     /**
      * 构造函数
      */
     public function __construct()
     {
-        $instance = self::get_instance();
+        $instance = get_instance();
         if (is_null($instance)) {
-            parent::__construct();
-        } else {
-            $this->load = $instance->load;
+            $instance = new CI_Controller();
         }
+        $instance->service =& $this;
         $this->load->helper('my');
         $this->load->helper('env');
     }
@@ -35,6 +34,6 @@ class MY_Service extends CI_Controller
         //	If you're here because you're getting an error message
         //	saying 'Undefined Property: system/core/Model.php', it's
         //	most likely a typo in your model code.
-        return self::get_instance()->$key;
+        return get_instance()->$key;
     }
 }

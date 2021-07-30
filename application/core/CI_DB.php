@@ -70,7 +70,17 @@ class CI_DB extends CI_DB_query_builder
         if (!$this->$prop) {
             return '';
         }
-        $result = spl_object_hash($this->$prop);
+        if (is_resource($this->$prop)) {
+            if (function_exists('mysql_thread_id')) {
+                $result = md5(mysql_thread_id($this->$prop));
+            } elseif (function_exists('get_resource_id')) {
+                $result = md5(get_resource_id($this->$prop));
+            } else {
+                $result = md5(var_export($this->$prop, true));
+            }
+        } else {
+            $result = spl_object_hash($this->$prop);
+        }
         if ($offset || $tail) {
             $result = substr($result, $offset, $tail);
         }

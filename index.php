@@ -89,7 +89,7 @@ if (PHP_SAPI === 'cli' && isset($_SERVER['CI_APP']) && 'tests' === $_SERVER['CI_
     //yar过程调用
     require_once APPPATH . 'core/HackIgniter.php';
     $CI = get_instance();
-    $service = new Yar_Server($CI);
+    $service = new Yar_Server($CI->service);
     $service->handle();
 } else {
     require_once BASEPATH . 'core/CodeIgniter.php';
