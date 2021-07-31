@@ -30,17 +30,32 @@ class RoundRobin
         }
     }
 
+    /**
+     * 返回空的结果
+     */
+    public function empty_result()
+    {
+        return array_fill_keys(array_keys($this->data), 0); // 每种奖品数量
+    }
+
+    /**
+     * 初始化权重
+     */
     public function reset(array $data = null)
     {
         if (!empty($data)) {
             $this->data = $data;
         }
+        asort($this->data, SORT_NUMERIC);
         $keys = array_keys($this->data);
         $this->currents = array_fill_keys($keys, 0); //PHP5.2+
         $this->total = array_sum($this->data);
         return $this->total;
     }
 
+    /**
+     * 更新部分权重
+     */
     public function update(array $changes, $is_offset = false)
     {
         foreach ($changes as $key => $value) {
@@ -54,6 +69,25 @@ class RoundRobin
             }
         }
         return $this->reset();
+    }
+
+    /**
+     * 自动分配库存
+     */
+    public function allocate($eggs, array $stores = [])
+    {
+        $first_key = '';
+        reset($this->data);
+        $times = $eggs / $this->total;
+        foreach ($this->data as $key => $weight) {
+            if (empty($first_key)) {
+                $first_key = $key;
+            }
+            $stores[$key] = round($weight * $times);
+            $eggs -= $stores[$key];
+        }
+        $stores[$first_key] += $eggs; // 补给最低奖
+        return $stores;
     }
 
     /**
@@ -92,10 +126,13 @@ class RoundRobin
      */
     public function randNext()
     {
+        $best = '';
+        if ($this->total < 1) {
+            return $best;
+        }
         mt_srand();
         $idx = mt_rand(1, $this->total);
         $total = 0;
-        $best = '';
         foreach ($this->data as $key => $weight) {
             $this->currents[$key] += $weight;
             if ($total <= $idx) {
