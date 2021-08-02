@@ -141,7 +141,7 @@ function create_instance($dir, $class, $base_class = FALSE)
 }
 
 
-$class = ucfirst($RTR->class);
+$class = $RTR->class ? ucfirst($RTR->class) : 'Index';
 $prefix = $CFG->config['subclass_prefix'];
 $CI = create_instance('services/' . $RTR->directory, $class, $prefix . 'Service');
 if (is_null($CI)) {
