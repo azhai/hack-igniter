@@ -114,6 +114,9 @@ class RoundRobin
      */
     public function setNext($best)
     {
+        if (!isset($this->data[$best]) || $this->data[$best] <= 0) {
+            return 0;
+        }
         foreach ($this->data as $key => $weight) {
             $this->currents[$key] += $weight;
         }
