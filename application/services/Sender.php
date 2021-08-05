@@ -73,12 +73,15 @@ class Sender extends MY_Service
     }
 
     /**
-     * 腾讯云账号参数
+     * 腾讯云接口网址
+     *
+     * @param false $is_batch 群发接口，和cURL并发不是一回事
+     * @return string
      */
-    protected function get_request_url()
+    protected function get_request_url($is_batch = false)
     {
         $query_string = $this->get_query_string();
-        if ($this->client && $this->client->is_multi) {
+        if ($is_batch) {
             return $this->url_batch . $query_string;
         } else {
             return $this->url_apart . $query_string;

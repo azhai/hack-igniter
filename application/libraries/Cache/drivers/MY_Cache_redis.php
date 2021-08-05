@@ -66,7 +66,11 @@ class MY_Cache_redis extends CI_Cache_redis
     {
         $redis = $this->instance();
         $keys = is_array($keys) ? $keys : func_get_args();
-        return $redis->del($keys);
+        if (method_exists($redis, 'unlink')) {
+            return $redis->unlink($keys); //较高版本的扩展
+        } else {
+            return $redis->del($keys);
+        }
     }
 
     /**

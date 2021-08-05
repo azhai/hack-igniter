@@ -13,6 +13,9 @@
 
 namespace Mylib\Util;
 
+use Psr\Log\LoggerAwareTrait;
+use Psr\Log\LoggerInterface;
+
 $loader = load_class('Loader', 'core');
 $loader->name_space('Psr\\Log', VENDPATH . 'psr/log/Psr/Log');
 $loader->name_space('Curl', VENDPATH . 'php-curl-class/php-curl-class/src');
@@ -33,7 +36,7 @@ const ERRNO_DNS_FAIL = 28;
  */
 class Client
 {
-    use \Psr\Log\LoggerAwareTrait;
+    use LoggerAwareTrait;
 
     public $is_multi = false;
     public $batch_data = [];
@@ -97,7 +100,7 @@ class Client
         if (empty($log) || is_string($log) && !function_exists($log)) {
             return;
         }
-        if (is_array($log) && $log[0] instanceof \Psr\Log\LoggerInterface) {
+        if (is_array($log) && $log[0] instanceof LoggerInterface) {
             $this->setLogger($log[0]);
         }
         if ($verbose) {
@@ -149,7 +152,7 @@ class Client
         } else {
             $this->curl->$method($url, $data);
             $result = $this->curl->getResponse();
-            $this->curl->close();
+//            $this->curl->close();
             return $result;
         }
     }
@@ -176,7 +179,7 @@ class Client
             foreach ($batch_data as $data) {
                 $this->curl->$method($url, $data);
             }
-            $this->curl->close();
+//            $this->curl->close();
         }
     }
 
@@ -234,8 +237,6 @@ class Client
             return $code >= 100 && $code < 400;
         }
     }
-}
-}
 }
 
 
