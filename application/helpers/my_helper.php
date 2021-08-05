@@ -14,6 +14,51 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 
 
+if (!function_exists('debug_output')) {
+    /**
+     * 记录到日志或屏幕
+     *
+     * @param string $log 日志内容
+     * @param string ...$args 其他参数
+     * @return bool
+     */
+    function debug_output($log)
+    {
+        $args = func_get_args();
+        if (count($args) > 1) {
+            $log = exec_function_array('sprintf', $args);
+        }
+        if (PHP_SAPI === 'cli') {
+            echo $log . "\n";
+        } else {
+            log_message('DEBUG', $log);
+        }
+    }
+}
+
+
+if (!function_exists('debug_trace')) {
+    /**
+     * 输出PHP调用栈
+     */
+    function debug_trace()
+    {
+        $e = new Exception();
+        $trace = explode("\n", $e->getTraceAsString());
+        // reverse array to make steps line up chronologically
+        $trace = array_reverse($trace);
+        array_shift($trace); // remove {main}
+        array_pop($trace); // remove call to this method
+        $length = count($trace);
+        $result = array();
+        for ($i = 0; $i < $length; $i++) {
+            $result[] = ($i + 1) . ')' . substr($trace[$i], strpos($trace[$i], ' ')); // replace '#someNum' with '$i)', set the right ordering
+        }
+        return debug_output("\t" . implode("\n\t", $result));
+    }
+}
+
+
 if (!function_exists('starts_with')) {
     /**
      * 开始的字符串相同.

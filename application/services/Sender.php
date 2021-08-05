@@ -10,12 +10,14 @@ use Mylib\Util\Client;
  */
 class Sender extends MY_Service
 {
-    protected $client = null;
+    const IM_QUEUE_NAME = 'im-queue';
+
+    protected $url_apart = 'https://console.tim.qq.com/v4/openim/sendmsg';
+    protected $url_batch = 'https://console.tim.qq.com/v4/openim/batchsendmsg';
+
     protected $tlssig_config = [];
     protected $secretary_id = ''; //小秘书的userid
     protected $sys_notice_id = ''; //系统通知的userid
-    protected $url_apart = 'https://console.tim.qq.com/v4/openim/sendmsg';
-    protected $url_batch = 'https://console.tim.qq.com/v4/openim/batchsendmsg';
 
     /**
      * 构造函数
@@ -23,15 +25,13 @@ class Sender extends MY_Service
     public function __construct()
     {
         parent::__construct();
+        $this->load->library('TxMsg', [], 'txmsg');
         $this->config->load('tlssigConfig', true, true);
         $this->tlssig_config = $this->config->item('tlssigConfig');
         $this->secretary_id = $this->tlssig_config['secretary_id'];
         $this->sys_notice_id = $this->tlssig_config['sys_notice_id'];
-
-        $this->load->library('TxMsg', [], 'txmsg');
-        $this->client = new Client(null, 0);
-        $this->client->setHeader('Content-Type', 'application/json');
-        $this->client->setUserAgent('xiaojidong');
+        $this->load->cache('redis', 'gift', 'gift_cache');
+        $this->redisdb3 = $this->gift_cache->redis->instance();
     }
 
     /**
@@ -74,11 +74,10 @@ class Sender extends MY_Service
 
     /**
      * 腾讯云接口网址
-     *
-     * @param false $is_batch 群发接口，和cURL并发不是一回事
+     * @param false $is_batch 是否使用群发接口
      * @return string
      */
-    protected function get_request_url($is_batch = false)
+    public function get_request_url($is_batch = false)
     {
         $query_string = $this->get_query_string();
         if ($is_batch) {
@@ -89,6 +88,51 @@ class Sender extends MY_Service
     }
 
     /**
+     * 队列名称
+     * @return string
+     */
+    public function get_queue_name()
+    {
+        return self::IM_QUEUE_NAME;
+    }
+
+    /**
+     * 添加要发送的消息
+     * @param array $msgdata 消息完整内容
+     * @return bool
+     */
+    public function add_message(array $msgdata)
+    {
+        if ($json_data = json_encode($msgdata, 320)) {
+            $this->redisdb3->lPush(self::IM_QUEUE_NAME, $json_data);
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 发送文本消息
+     *
+     * @param array $msgdata 消息数据
+     * @param string/array $to （多个）接收者
+     * @return int
+     */
+    public function send_more(array $msgdata, $to)
+    {
+        if (!is_array($to)) {
+            $to = [$to, ];
+        }
+        $count = 0;
+        foreach ($to as $one) {
+            $msgdata['To_Account'] = (string)$one;
+            if ($this->add_message($msgdata)) {
+                $count ++;
+            }
+        }
+        return $count;
+    }
+
+    /**
      * 发送文本消息
      *
      * @param string $text 消息内容
@@ -96,23 +140,13 @@ class Sender extends MY_Service
      * @param string/array $to （多个）接收者
      * @param bool $is_system = false 是否系统消息，如果是，则MsgOper = 1
      * @param int $life_time = 604800 消息保留时间，默认7天
-     * @return object/null
+     * @return int
      */
     public function send_text($text, $from, $to, $is_system = false, $life_time = 604800)
     {
         $this->txmsg->create($text, $life_time);
         $msgdata = $this->txmsg->buildText($from, 0, $is_system);
-        $url = $this->get_request_url();
-        if (!is_array($to)) {
-            $msgdata['To_Account'] = (string)$to;
-            return $this->client->send($url, $msgdata);
-        } else {
-            $batch_data = array_map(function ($one) {
-                $msgdata['To_Account'] = (string)$one;
-                return $msgdata;
-            }, $to);
-            return $this->client->batchSend($url, $batch_data);
-        }
+        return $this->send_more($msgdata, $to);
     }
 
     /**
@@ -120,7 +154,7 @@ class Sender extends MY_Service
      *
      * @param string $text 消息内容
      * @param string/array $to （多个）接收者
-     * @return object/null
+     * @return int
      */
     public function send_secret_text($text, $to)
     {
@@ -134,23 +168,13 @@ class Sender extends MY_Service
      * @param string $from 发送者
      * @param string/array $to （多个）接收者
      * @param bool $is_system = false 是否系统消息，如果是，则MsgOper = 1
-     * @return object/null
+     * @return int
      */
     public function send_tips($text, $from, $to, $is_system = false)
     {
         $this->txmsg->create($text);
         $msgdata = $this->txmsg->buildTips($from, 0, $is_system);
-        $url = $this->get_request_url();
-        if (!is_array($to)) {
-            $msgdata['To_Account'] = (string)$to;
-            return $this->client->send($url, $msgdata);
-        } else {
-            $batch_data = array_map(function ($one) {
-                $msgdata['To_Account'] = (string)$one;
-                return $msgdata;
-            }, $to);
-            return $this->client->batchSend($url, $batch_data);
-        }
+        return $this->send_more($msgdata, $to);
     }
 
     /**
@@ -158,7 +182,7 @@ class Sender extends MY_Service
      *
      * @param string $text 消息内容
      * @param string/array $to （多个）接收者
-     * @return object/null
+     * @return int
      */
     public function send_notice_text($text, $to)
     {
