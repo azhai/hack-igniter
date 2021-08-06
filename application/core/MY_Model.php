@@ -79,16 +79,27 @@ class MY_Model extends CI_Model implements ArrayAccess
             throw new Exception('Method in a trait');
         }
         $db = $this->reconnect();
-        if (in_array($lower_name, ['sum', 'min', 'max', 'avg'], true)) {
-            $table = $this->table_name();
-            $name = 'select_' . $lower_name;
-            exec_method_array($db, $name, $args);
-            $row = $db->get($table)->row_array();
-            return reset($row);
-        } else {
+        if (!in_array($lower_name, ['sum', 'min', 'max', 'avg'], true)) {
             $result = exec_method_array($db, $name, $args);
             return ($result === $db) ? $this : $result;
         }
+        $table = $this->table_name();
+        $name = 'select_' . $lower_name;
+        //单个查询字段和别名
+        $num_args = count($args);
+        if ($num_args <= 2) {
+            $expr = ($num_args === 0) ? '*' : $args[0];
+            $alias = ($num_args === 1) ? $lower_name : $args[1];
+            $db->$name($expr, $alias);
+            $row = $db->get($table)->row_array();
+            return reset($row);
+        }
+        //多个查询字段和别名
+        $chunks = array_chunk($args, 2);
+        foreach ($chunks as $one_args) {
+            exec_method_array($db, $name, $one_args);
+        }
+        return $db->get($table)->row_array();
     }
 
     /**

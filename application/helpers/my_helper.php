@@ -16,7 +16,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 if (!function_exists('debug_output')) {
     /**
-     * 记录到日志或屏幕
+     * 记录信息到日志或屏幕
      *
      * @param string $log 日志内容
      * @param string ...$args 其他参数
@@ -32,6 +32,29 @@ if (!function_exists('debug_output')) {
             echo $log . "\n";
         } else {
             log_message('DEBUG', $log);
+        }
+    }
+}
+
+
+if (!function_exists('debug_error')) {
+    /**
+     * 记录错误到日志或屏幕
+     *
+     * @param string $log 日志内容
+     * @param string ...$args 其他参数
+     * @return bool
+     */
+    function debug_error($log)
+    {
+        $args = func_get_args();
+        if (count($args) > 1) {
+            $log = exec_function_array('sprintf', $args);
+        }
+        if (PHP_SAPI === 'cli') {
+            file_put_contents('php://stderr', $log . "\n", FILE_APPEND);
+        } else {
+            log_message('ERROR', $log);
         }
     }
 }
@@ -54,7 +77,7 @@ if (!function_exists('debug_trace')) {
         for ($i = 0; $i < $length; $i++) {
             $result[] = ($i + 1) . ')' . substr($trace[$i], strpos($trace[$i], ' ')); // replace '#someNum' with '$i)', set the right ordering
         }
-        return debug_output("\t" . implode("\n\t", $result));
+        return debug_error("\t" . implode("\n\t", $result));
     }
 }
 

@@ -131,6 +131,15 @@ class CI_DB extends CI_DB_query_builder
     }
 
     /**
+     * Protect Identifiers
+     */
+    public function protect_identifiers($item, $prefix_single = FALSE, $protect_identifiers = NULL, $field_exists = TRUE)
+    {
+//        $protect_identifiers = false;
+        return parent::protect_identifiers($item, $prefix_single, $protect_identifiers, $field_exists);
+    }
+
+    /**
      * Compile GROUP BY
      */
     protected function _compile_group_by()

@@ -92,7 +92,7 @@ class Credit extends MY_Service
         $retry_times = 0;
         while ($retry_times < self::MAX_RETRY_TIMES) {
             $retry_times ++;
-            debug_output("retry %d user %s change %.2f %s discount %.2f", $retry_times, $userid, $number, $coin_type, $discount);
+            debug_output("user %s change %.2f %s discount %.2f retry x%d", $userid, $number, $coin_type, $discount, $retry_times);
             if (self::USING_TRANSCATION && !$this->user_credit_model->trans_start()) {
                 usleep(0.01 * self::SECOND_HAVE_MICRO);
                 continue;
