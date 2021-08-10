@@ -142,7 +142,7 @@ trait MY_Monthly
     }
 
     /**
-     * 计算所有分表中的行数，可以定义时间范围
+     * 跨表统计行数，可以定义时间范围
      */
     public function count_more($where = [], $start = null, $stop = null)
     {
@@ -166,16 +166,9 @@ trait MY_Monthly
     }
 
     /**
-     *  在所有分表中查询数据，按时间字段倒序排列
+     * 跨表查询，可以定义时间范围
      */
-    public function all_more(
-        $where = [],
-        $start = null,
-        $stop = null,
-        $limit = null,
-        $offset = 0,
-        $fields = '*'
-    )
+    public function all_more($where, $start = null, $stop = null, $limit = null, $offset = 0, $fields = '*')
     {
         if (empty($offset) || $offset <= 0) {
             $offset = 0;
@@ -188,28 +181,66 @@ trait MY_Monthly
         $count = 0;
         while ($this->beginning >= $start) {
             $table = $this->table_name();
-            if (in_array($table, $tables, true)) {
+            if (!in_array($table, $tables, true)) {
+                $this->backward();
+                continue;
+            }
+            if ($offset > 0) { //偏移量
                 if ($where) {
                     $this->where($where);
                 }
-                if ($offset > 0) { //偏移量
-                    $count = $this->count();
-                    $offset -= $count;
+                $count = $this->count();
+                $offset -= $count;
+                if ($offset > 0) {
+                    $this->backward();
+                    continue;
                 }
-                if ($offset <= 0) {
-                    $offset = ($offset < 0) ? $offset + $count : 0;
-                    $this->order_by($this->get_sort_field(), 'DESC');
-                    $rows = $this->all($limit, $offset, $fields);
-                    if (count($rows) > 0) {
-                        $result = array_merge($result, $rows);
-                    }
-                    if (is_numeric($limit)) { //数量限制
-                        $limit -= count($rows);
-                        if ($limit <= 0) {
-                            break;
-                        }
-                    }
+            }
+
+            if ($where) {
+                $this->where($where);
+            }
+            $offset = ($offset < 0) ? $offset + $count : 0;
+            $rows = $this->all($limit, $offset, $fields);
+            if (count($rows) > 0) {
+                $result = array_merge($result, $rows);
+            }
+            if (is_numeric($limit)) { //数量限制
+                $limit -= $count;
+                if ($limit <= 0) {
+                    break;
                 }
+            }
+            $this->backward();
+        }
+        return $result;
+    }
+
+    /**
+     * 在所有分表中查询数据
+     */
+    public function group_more($where, $group, $fields, $start = null, $stop = null)
+    {
+        $base_name = $this->base_table_name();
+        $tables = $this->list_tables($base_name . '_');
+        $start = $this->get_finishing($start, $tables);
+        $this->init_calendar($stop);
+        $result = [];
+        while ($this->beginning >= $start) {
+            $table = $this->table_name();
+            if (!in_array($table, $tables, true)) {
+                $this->backward();
+                continue;
+            }
+            if ($where) {
+                $this->where($where);
+            }
+            if ($group) {
+                $this->group_by($group);
+            }
+            $rows = $this->all(null, 0, $fields);
+            if (count($rows) > 0) {
+                $result = array_merge($result, $rows);
             }
             $this->backward();
         }

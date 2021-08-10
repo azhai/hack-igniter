@@ -74,7 +74,7 @@ class RoundRobin
     /**
      * 自动分配库存
      */
-    public function allocate($eggs, array $stores = [])
+    public function allocate($eggs, array $stocks = [])
     {
         $first_key = '';
         reset($this->data);
@@ -83,11 +83,11 @@ class RoundRobin
             if (empty($first_key)) {
                 $first_key = $key;
             }
-            $stores[$key] = round($weight * $times);
-            $eggs -= $stores[$key];
+            $stocks[$key] = round($weight * $times);
+            $eggs -= $stocks[$key];
         }
-        $stores[$first_key] += $eggs; // 补给最低奖
-        return $stores;
+        $stocks[$first_key] += $eggs; // 补给最低奖
+        return $stocks;
     }
 
     /**

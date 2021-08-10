@@ -92,7 +92,7 @@ class MY_Model extends CI_Model implements ArrayAccess
             $alias = ($num_args === 1) ? $lower_name : $args[1];
             $db->$name($expr, $alias);
             $row = $db->get($table)->row_array();
-            return reset($row);
+            return $row ? reset($row) : null;
         }
         //多个查询字段和别名
         $chunks = array_chunk($args, 2);
