@@ -435,6 +435,36 @@ class MY_Model extends CI_Model implements ArrayAccess
     }
 
     /**
+     * 插入信息，当唯一索引重复时改为更新
+     */
+    public function insert_duplicate($indexes, array $set)
+    {
+        $table = $this->table_name();
+        $db = $this->reconnect();
+        $sql = $db->insert_string($table, $set);
+        if ($indexes) {
+            // 去掉唯一索引的相关值
+            if (is_string($indexes)) {
+                unset($set[$indexes]);
+            } elseif (is_array($indexes)) {
+                foreach ($indexes as $idx) {
+                    unset($set[$idx]);
+                }
+            }
+            // 遇到重复时在原记录上更新
+            $items = [];
+            foreach ($set as $key => $value) {
+                $items[] = $key . "='" . $value . "'";
+            }
+            if ($items) {
+                $sql .= ' ON DUPLICATE KEY UPDATE ' . implode(', ', $items);
+            }
+        }
+        $db->simple_query($sql);
+        return $db->insert_id();
+    }
+
+    /**
      * 删除记录
      * @param array/string/null $where
      * @return bool
@@ -511,6 +541,9 @@ class MY_Model extends CI_Model implements ArrayAccess
         }
         $result = $db->update($table, null, null, 1); //最多更新1行
         if (0 === $db->affected_rows()) { //没有改变任何行
+            if ($fields = $this->table_fields()) {
+                $where = array_intersect_key($where, $fields); //只保留等于条件
+            }
             $set = array_merge($set, $where);
             $result = $db->insert($table, $set, $escape);
         }

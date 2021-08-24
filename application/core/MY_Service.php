@@ -15,7 +15,7 @@ class MY_Service
         if (is_null($instance)) {
             $instance = new CI_Controller();
         }
-        if (is_null($instance->service)) {
+        if (!isset($instance->service)) {
             $instance->service =& $this;
         }
         $this->load->helper('my');

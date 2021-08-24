@@ -110,12 +110,11 @@ class MY_Cache extends CI_Cache implements SplObserver
         if (empty($type)) {
             return $this->save($key, $states, $ttl, true);
         } elseif ('json' !== $type && empty($states)) {
-            $driver = $this->{$this->_adapter};
-            $driver->delete($key);
+            $this->delete($key);
             return $this->save_none($key, $ttl);
         } else {
+            $this->delete($key);
             $driver = $this->{$this->_adapter};
-            $driver->delete($key);
             $method = 'put_' . $type;
             return $driver->$method($key, $states, $ttl);
         }

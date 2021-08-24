@@ -23,13 +23,13 @@ class MY_Cache_redis extends CI_Cache_redis
      */
     public function set_options(array &$config)
     {
-//        if (isset($config['password']) && $config['password']) {
-//            $password = $config['password'];
-//            if (isset($config['username']) && $config['username']) {
-//                $password = $config['username'] . ':' . $password;
-//            }
-//            $this->_redis->auth($password);
-//        }
+        if (isset($config['password']) && $config['password']) {
+            $password = $config['password'];
+            if (isset($config['username']) && $config['username']) {
+                $password = $config['username'] . ':' . $password;
+            }
+            $this->_redis->auth($password);
+        }
         $db_index = 0;
         if (isset($config['database']) && $config['database']) {
             $db_index = intval($config['database']);

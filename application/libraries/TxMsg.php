@@ -5,6 +5,9 @@
  */
 class TxMsg
 {
+    //等于 JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE
+    const JSON_OPTS = 320; //5.4及以下不允许常量使用表达式
+
     public $text = '';
     public $life_time = 604800;
 
@@ -76,7 +79,7 @@ class TxMsg
         return [
             'MsgType' => 'TIMCustomElem',
             'MsgContent' => [
-                'Data' => json_encode($extra),
+                'Data' => json_encode($extra, self::JSON_OPTS),
             ],
         ];
     }
@@ -84,12 +87,29 @@ class TxMsg
     /**
      * 自定义消息项
      */
-    public static function createCustomItem($text, array $content = [])
+    public static function createCustomDescItem($text, array $content = [])
     {
         $content['Desc'] = trim($text);
         return [
             'MsgType' => 'TIMCustomElem',
             'MsgContent' => $content,
+        ];
+    }
+
+    /**
+     * 自定义消息项
+     */
+    public static function createCustomTypeItem($type, $data)
+    {
+        $inner = [
+            'type' => trim($type),
+            'data' => json_encode($data, self::JSON_OPTS),
+        ];
+        return [
+            'MsgType' => 'TIMCustomElem',
+            'MsgContent' => [
+                'Data' => json_encode($inner, self::JSON_OPTS),
+            ],
         ];
     }
 
@@ -133,7 +153,7 @@ class TxMsg
         }
         $data = array_merge($params, [
             'SyncOtherMachine' => 2,
-            'MsgRandom' => self::createRandNum() + 1e9,
+            'MsgRandom' => intval(self::createRandNum() + 1e9),
             'MsgTimeStamp' => time(),
             'MsgBody' => $body,
         ]);
@@ -174,14 +194,31 @@ class TxMsg
             'id' => uniqid('w_'), 'text' => trim($this->text),
             'nickname' => $nickname, 'Ext' => 'tips',
         ];
-        $content = ['Sound' => 'dingdong.aiff', 'Data' => json_encode($data, JSON_UNESCAPED_UNICODE)];
-        $cust_elem = self::createCustomItem($this->text, $content);
+        $content = ['Sound' => 'dingdong.aiff', 'Data' => json_encode($data, self::JSON_OPTS)];
+        $cust_elem = self::createCustomDescItem($this->text, $content);
         $params = [
             'MsgLifeTime' => $this->life_time,
             'From_Account' => (string)$from,
             'To_Account' => (string)$to,
         ];
         return $this->build($cust_elem, $params, $is_system, $extra);
+    }
+
+    /**
+     * 自定义类型消息
+     */
+    public function buildCustomData($from, $to, $type, $data)
+    {
+        if (empty($from) || empty($to)) {
+            return;
+        }
+        $cust_elem = self::createCustomTypeItem($type, $data);
+        $params = [
+            'MsgLifeTime' => $this->life_time,
+            'From_Account' => (string)$from,
+            'To_Account' => (string)$to,
+        ];
+        return $this->build($cust_elem, $params);
     }
 
     /**
@@ -195,9 +232,9 @@ class TxMsg
         $extjson = json_encode([
             'pushType' => 1,
             'data' => ['tartgetId' => $to],
-        ]);
+        ], self::JSON_OPTS);
         $content = ['Sound' => 'dingdong.aiff', 'Ext' => $extjson, 'Data' => ''];
-        $cust_elem = self::createCustomItem($this->text, $content);
+        $cust_elem = self::createCustomDescItem($this->text, $content);
         $params = [
             'MsgLifeTime' => $this->life_time,
             'From_Account' => (string)$from,

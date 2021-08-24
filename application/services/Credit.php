@@ -94,10 +94,10 @@ class Credit extends MY_Service
             $retry_times ++;
             debug_output("user %s change %.2f %s discount %.2f retry x%d", $userid, $number, $coin_type, $discount, $retry_times);
             if (self::USING_TRANSCATION && !$this->user_credit_model->trans_start()) {
-                usleep(0.01 * self::SECOND_HAVE_MICRO);
+                usleep(0.01 * self::SECOND_HAVE_MICRO * $retry_times);
                 continue;
             } else if (self::USING_SPIN_LOCK && !$this->_acquire_spinlock($userid)) {
-                usleep(0.01 * self::SECOND_HAVE_MICRO);
+                usleep(0.01 * self::SECOND_HAVE_MICRO * $retry_times);
                 continue;
             }
             if ($number >= 0) {
@@ -110,7 +110,7 @@ class Credit extends MY_Service
             } else if (self::USING_SPIN_LOCK) {
                 $this->_release_spinlock($userid);
             }
-            if ($number < 0 && $result[0]) {
+            if ($number < 0 && $result[0] > 0 && $result[2] > 0) {
                 continue;
             }
             break;
@@ -234,12 +234,13 @@ class Credit extends MY_Service
         $prepay = isset($options['prepay']) ? $options['prepay'] : 0.0;
         $force = isset($options['force']) ? $options['force'] : false;
         @list($errno, $paid, $balance) = $this->charge_balance($userid, $number, $discount, 'goldcoin', $force);
+        $total_paid = $paid + $prepay; //总支出，综合预付和结余（如果多付了，结余会是正数）
         $insert_id = 0;
-        if (0 === $errno || ($force && $paid + $prepay < 0)) {
-            $data = ['credittype' => 'goldcoin', 'count' => $balance, 'number' => $paid + $prepay];
+        if (0 === $errno || ($force && $total_paid < 0)) {
+            $data = ['credittype' => 'goldcoin', 'count' => $balance, 'number' => $total_paid];
             $insert_id = $this->logging_operation($userid, $relatedid, $data, $options);
         }
-        $result[] = [$insert_id, $paid + $prepay, $balance];
+        $result[] = [$insert_id, $total_paid, $balance];
 
         //返还
         $ratio = isset($reward['ratio']) ? floatval($reward['ratio']) : 0;
@@ -247,15 +248,15 @@ class Credit extends MY_Service
             $number = reset($reward);
             $coin_type = key($reward);
         } else {
-            $number = abs($paid + $prepay);
+            $number = abs($total_paid);
             $coin_type = 'jifen';
         }
-        if ($paid <= 0 && $number > 0) {
-            @list($errno2, $paid2, $balance) = $this->charge_balance($relatedid, $number, $ratio, $coin_type);
-            $data = ['credittype' => $coin_type, 'number' => $paid2, 'count' => $balance];
+        if ($total_paid <= 0 && $number > 0) {
+            @list($errno2, $gained, $balance) = $this->charge_balance($relatedid, $number, $ratio, $coin_type);
+            $data = ['credittype' => $coin_type, 'number' => $gained, 'count' => $balance];
             $options['prepay'] = 0.0;
             $insert_id = $this->logging_operation($userid, $relatedid, $data, $options, true);
-            $result[] = [$insert_id, $paid2, $balance];
+            $result[] = [$insert_id, $gained, $balance];
         }
         return $result;
     }
@@ -275,7 +276,7 @@ class Credit extends MY_Service
         if ($discount <= 0) {
             $discount += 1.0;
         }
-        return $discount * $number;
+        return bcmul($discount, $number, 1);
     }
 
     /**

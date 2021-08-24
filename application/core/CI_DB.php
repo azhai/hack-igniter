@@ -140,6 +140,25 @@ class CI_DB extends CI_DB_query_builder
     }
 
     /**
+     * Returns an array of table names
+     *
+     * @param	string	$constrain_by_prefix = FALSE
+     * @return	array
+     */
+    public function list_tables($constrain_by_prefix = FALSE)
+    {
+        $tables = parent::list_tables($constrain_by_prefix);
+        if ($constrain_by_prefix === false || $constrain_by_prefix === '') {
+            return $tables;
+        }
+        //当有表名缓存时，原CI代码不会检查前缀
+        $prefix = (string)$constrain_by_prefix;
+        return array_filter($tables, function($table) use ($prefix) {
+            return starts_with($table, $prefix);
+        });
+    }
+
+    /**
      * Compile GROUP BY
      */
     protected function _compile_group_by()

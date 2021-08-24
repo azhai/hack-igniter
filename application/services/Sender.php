@@ -25,6 +25,8 @@ class Sender extends MY_Service
     public function __construct()
     {
         parent::__construct();
+        $this->load->model('message/message_log_model');
+        $this->load->model('cdr_log/cdr_log_model');
         $this->load->library('TxMsg', [], 'txmsg');
         $this->config->load('tlssigConfig', true, true);
         $this->tlssig_config = $this->config->item('tlssigConfig');
@@ -103,7 +105,7 @@ class Sender extends MY_Service
      */
     public function add_message(array $msgdata)
     {
-        if ($json_data = json_encode($msgdata, 320)) {
+        if ($json_data = json_encode($msgdata, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE)) {
             $this->redisdb3->lPush(self::IM_QUEUE_NAME, $json_data);
             return true;
         }
@@ -187,5 +189,51 @@ class Sender extends MY_Service
     public function send_notice_text($text, $to)
     {
         return $this->send_tips($text, $this->sys_notice_id, $to, true);
+    }
+
+    /**
+     * 发送自定义类型消息
+     *
+     * @param string/int $from 发送方
+     * @param string/int $to 接收方
+     * @param string $type 数据类型
+     * @param mixed $data 具体数据
+     * @return int
+     */
+    public function send_custom($from, $to, $type, $data)
+    {
+        $msgdata = $this->txmsg->buildCustomData($from, $to, $type, $data);
+        return $this->add_message($msgdata) ? 1 : 0;
+    }
+
+    /**
+     * 给双方发送134挂断信号
+     *
+     * @param array/string $callid 话单ID或者话单信息（除挂断原因外）
+     * @param string $reason 挂断原因
+     * @param string/int $from  通话一方
+     * @param string/int $to  通话另一方
+     * @return int
+     */
+    public function send_hang_up($callid, $reason = '', $from = 0, $to = 0, $isvideo = null)
+    {
+        $detail = is_array($callid) ? $callid : ['callid' => $callid];
+        assert(isset($detail['callid']) && $detail['callid'] > 0);
+        $detail['reason'] = $reason;
+        if ($from > 0) {
+            $detail['from_userid'] = $from;
+        }
+        if ($to > 0) {
+            $detail['to_userid'] = $to;
+        }
+        if (!is_null($isvideo)) {
+            $detail['isvideo'] = $isvideo ? '1' : '0';
+        }
+        $count = 0;
+        $msgdata = $this->txmsg->buildHangUp($detail['from_userid'], $detail['to_userid'], $detail);
+        $count += $this->add_message($msgdata) ? 1 : 0;
+        $msgdata = $this->txmsg->buildHangUp($detail['to_userid'], $detail['from_userid'], $detail);
+        $count += $this->add_message($msgdata) ? 1 : 0;
+        return $count;
     }
 }

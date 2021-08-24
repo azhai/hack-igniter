@@ -47,37 +47,16 @@ if (!function_exists('is_testing_mode')) {
 }
 
 
-if (!function_exists('gen_call_trace')) {
-    /**
-     * 输出PHP调用栈
-     */
-    function gen_call_trace()
-    {
-        $e = new Exception();
-        $trace = explode("\n", $e->getTraceAsString());
-        // reverse array to make steps line up chronologically
-        $trace = array_reverse($trace);
-        array_shift($trace); // remove {main}
-        array_pop($trace); // remove call to this method
-        $length = count($trace);
-        $result = array();
-
-        for ($i = 0; $i < $length; $i++) {
-            $result[] = ($i + 1) . ')' . substr($trace[$i], strpos($trace[$i], ' ')); // replace '#someNum' with '$i)', set the right ordering
-        }
-
-        return "\t" . implode("\n\t", $result);
-    }
-}
-
-
 if (!function_exists('sleep_until')) {
     /**
      * 休眠直到某个时刻
      */
-    function sleep_until($next_time)
+    function sleep_until($next_time, $half = false)
     {
         $sleep_secs = $next_time - microtime(true);
+        if ($half && $sleep_secs > 0.5) {
+            $sleep_secs -= 0.5;
+        }
         if ($sleep_secs > 0) {
             usleep($sleep_secs * pow(10, 6));
         }

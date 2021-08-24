@@ -44,9 +44,9 @@ class RoundRobin
     public function reset(array $data = null)
     {
         if (!empty($data)) {
-            $this->data = $data;
+            $this->data = array_filter($data, function($v){ return $v>=0; });
         }
-        asort($this->data, SORT_NUMERIC);
+        arsort($this->data, SORT_NUMERIC);
         $keys = array_keys($this->data);
         $this->currents = array_fill_keys($keys, 0); //PHP5.2+
         $this->total = array_sum($this->data);
@@ -60,12 +60,15 @@ class RoundRobin
     {
         foreach ($changes as $key => $value) {
             if (!isset($this->data[$key])) {
-                continue;
+                $this->data[$key] = 0;
             }
             if ($is_offset) {
                 $this->data[$key] += $value;
             } else {
                 $this->data[$key] = $value;
+            }
+            if ($this->data[$key] < 0) {
+                $this->data[$key] = 0;
             }
         }
         return $this->reset();
