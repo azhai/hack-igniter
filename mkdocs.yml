@@ -1,5 +1,5 @@
-site_name: hack-igniter
-site_description: HackIgniter Documentation
+site_name: 'Hack Igniter'
+site_description: Hack-Igniter Documentation
 theme:
   name: material
   palette:
@@ -23,5 +23,5 @@ markdown_extensions:
   - admonition
 
 nav:
-  - 'Welcome': 'index.md'
+  - 'Home': 'index.md'
   - 'Quick Start': 'quick_start.md'
