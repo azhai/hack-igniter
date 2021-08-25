@@ -1,0 +1,27 @@
+site_name: hack-igniter
+site_description: HackIgniter Documentation
+theme:
+  name: material
+  palette:
+    #    scheme: slate
+    primary: teal
+    accent: teal
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/azhai/hack-igniter
+repo_url: https://github.com/azhai/hack-igniter
+
+markdown_extensions:
+  - abbr
+  - pymdownx.snippets
+  - pymdownx.emoji:
+      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg
+  - pymdownx.highlight
+  - pymdownx.superfences
+  - admonition
+
+nav:
+  - 'Welcome': 'index.md'
+  - 'Quick Start': 'quick_start.md'
