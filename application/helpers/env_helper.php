@@ -14,6 +14,17 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 
 
+if (!function_exists('is_php_gte')) {
+    /**
+     * PHP是否在某版本以上.
+     */
+    function is_php_gte($version = '7.0.0')
+    {
+        return version_compare(PHP_VERSION, $version) >= 0;
+    }
+}
+
+
 if (!function_exists('is_winnt')) {
     /**
      * 是否Windows系统，不含Cygwin.
@@ -47,18 +58,33 @@ if (!function_exists('is_testing_mode')) {
 }
 
 
-if (!function_exists('sleep_until')) {
+if (!function_exists('sleep_second_until')) {
     /**
-     * 休眠直到某个时刻
+     * 按秒休眠直到某个时刻
      */
-    function sleep_until($next_time, $half = false)
+    function sleep_second_until($next_time, $is_half = false)
     {
         $sleep_secs = $next_time - microtime(true);
-        if ($half && $sleep_secs > 0.5) {
+        if ($is_half === true && $sleep_secs > 0.5) {
             $sleep_secs -= 0.5;
         }
         if ($sleep_secs > 0) {
             usleep($sleep_secs * pow(10, 6));
+        }
+    }
+}
+
+
+if (!function_exists('sleep_minute_until')) {
+    /**
+     * 按分钟休眠直到某个时刻
+     */
+    function sleep_minute_until($next_time, $min_sleep = 0)
+    {
+        $sleep_secs = floor($next_time - time());
+        $sleep_secs = max($sleep_secs, $min_sleep * 60);
+        if ($sleep_secs > 0) {
+            sleep($sleep_secs);
         }
     }
 }

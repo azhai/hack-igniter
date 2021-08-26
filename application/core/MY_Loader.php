@@ -247,8 +247,12 @@ class MY_Loader extends CI_Loader
     public function get_driver_library($lib_name, $params,
                                        $driver_params = null, $object_name = null)
     {
-        $drv_config = $this->get_driver_config($params, $driver_params);
-        $adapter = $drv_config['adapter'];
+        if (is_array($params)) {
+            $adapter = $params['adapter'];
+        } else {
+            $adapter = $params;
+            $params = ['adapter' => $adapter];
+        }
         if (empty($object_name)) {
             $object_name = lcfirst($adapter) . '_' . $lib_name;
             if (is_string($driver_params)) {
@@ -259,8 +263,7 @@ class MY_Loader extends CI_Loader
         if (isset($CI->$object_name)) {
             return $CI->$object_name;
         }
-        $params = $drv_config['params'];
-        $driver_params = $drv_config['driver_params'];
+        $driver_params = $this->_proc_driver_params($adapter, $driver_params);
         if ($this->driver($lib_name, $params, $object_name)) {
             $object = $CI->$object_name;
             if (method_exists($object->$adapter, 'set_options')) {
@@ -268,42 +271,6 @@ class MY_Loader extends CI_Loader
             }
         }
         return $object;
-    }
-
-    /**
-     * 处理驱动配置
-     *
-     * @param string|array $params 库配置
-     * @param mixed $driver_params 驱动配置
-     * @return array
-     */
-    public function get_driver_config($params, $driver_params = null)
-    {
-        if (is_array($params)) {
-            $adapter = $params['adapter'];
-        } else {
-            $adapter = $params;
-            $params = ['adapter' => $adapter];
-        }
-        $driver_params = $this->_proc_driver_params($adapter, $driver_params);
-        return [
-            'adapter' => $adapter,
-            'params' => $params,
-            'driver_params' => $driver_params,
-        ];
-    }
-
-    /**
-     * 处理驱动参数
-     *
-     * @param string|array $params 库配置
-     * @param mixed $driver_params 驱动配置
-     * @return array
-     */
-    public function get_driver_params($params, $driver_params = null)
-    {
-        $drv_config = $this->get_driver_config($params, $driver_params);
-        return $drv_config['driver_params'];
     }
 
     /**

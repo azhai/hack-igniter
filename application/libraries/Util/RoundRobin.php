@@ -79,9 +79,12 @@ class RoundRobin
      */
     public function allocate($eggs, array $stocks = [])
     {
-        $first_key = '';
         reset($this->data);
+        if ($this->total < 0) {
+            return $this->empty_result();
+        }
         $times = $eggs / $this->total;
+        $first_key = '';
         foreach ($this->data as $key => $weight) {
             if (empty($first_key)) {
                 $first_key = $key;

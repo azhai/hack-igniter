@@ -7,6 +7,8 @@ class TxMsg
 {
     //等于 JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE
     const JSON_OPTS = 320; //5.4及以下不允许常量使用表达式
+    const OPT_IS_SYS = 1;
+    const OPT_IS_SYNC = 2;
 
     public $text = '';
     public $life_time = 604800;
@@ -14,6 +16,13 @@ class TxMsg
     public function __construct($text = '', $life_time = 0)
     {
         $this->create($text, $life_time);
+    }
+    /**
+     * 检查是否包含选项.
+     */
+    public static function hasOpt($opt, $val)
+    {
+        return ($opt & $val) === $val;
     }
 
     /**
@@ -60,14 +69,17 @@ class TxMsg
     /**
      * 推送内容
      */
-    public static function createPushInfo($text, $extjson)
+    public static function createPushInfo($text, $extjson, $apns_title = '')
     {
-        return [
+        $data = [
             'PushFlag' => 0,
             'Desc' => trim($text),   // 展示在标题栏目中的描述
             'Ext' => $extjson,   // 这是透传的内容
-            'ApnsInfo' => self::createApnsInfo(),
         ];
+        if ($apns_title) {
+            $data['ApnsInfo'] = self::createApnsInfo($apns_title);
+        }
+        return $data;
     }
 
     /**
@@ -104,11 +116,14 @@ class TxMsg
         $inner = [
             'type' => trim($type),
             'data' => json_encode($data, self::JSON_OPTS),
+            'id' => uniqid('w_'),
         ];
         return [
             'MsgType' => 'TIMCustomElem',
             'MsgContent' => [
                 'Data' => json_encode($inner, self::JSON_OPTS),
+                'Desc' => '',
+                'Sound' => 'dingdong.aiff',
             ],
         ];
     }
@@ -145,19 +160,21 @@ class TxMsg
     /**
      * 组装消息
      */
-    public function build($item, array $params = [], $is_system = false, array $extra = [])
+    public function build($item, array $params = [], $opt = 0, array $extra = [])
     {
         $body = is_null($item) ? [] : [$item];
-        if ($is_system) { // 系统消息
+        if (self::hasOpt($opt, self::OPT_IS_SYS)) { // 系统消息
             $body[] = self::createSysItem($extra);
         }
-        $data = array_merge($params, [
-            'SyncOtherMachine' => 2,
+        $data = [
             'MsgRandom' => intval(self::createRandNum() + 1e9),
             'MsgTimeStamp' => time(),
             'MsgBody' => $body,
-        ]);
-        return $data;
+        ];
+        if (self::hasOpt($opt, self::OPT_IS_SYNC)) { // 系统消息
+            $data['SyncOtherMachine'] = 2;
+        }
+        return array_merge($params, $data);
     }
 
     /**
@@ -174,7 +191,8 @@ class TxMsg
             'From_Account' => (string)$from,
             'To_Account' => (string)$to,
         ];
-        return $this->build($text_elem, $params, $is_system, $extra);
+        $opt = self::OPT_IS_SYNC | ($is_system ? self::OPT_IS_SYS : 0);
+        return $this->build($text_elem, $params, $opt, $extra);
     }
 
     /**
@@ -201,7 +219,8 @@ class TxMsg
             'From_Account' => (string)$from,
             'To_Account' => (string)$to,
         ];
-        return $this->build($cust_elem, $params, $is_system, $extra);
+        $opt = self::OPT_IS_SYNC | ($is_system ? self::OPT_IS_SYS : 0);
+        return $this->build($cust_elem, $params, $opt, $extra);
     }
 
     /**
@@ -218,7 +237,7 @@ class TxMsg
             'From_Account' => (string)$from,
             'To_Account' => (string)$to,
         ];
-        return $this->build($cust_elem, $params);
+        return $this->build($cust_elem, $params, self::OPT_IS_SYNC);
     }
 
     /**
@@ -239,8 +258,120 @@ class TxMsg
             'MsgLifeTime' => $this->life_time,
             'From_Account' => (string)$from,
             'To_Account' => (string)$to,
-            'OfflinePushInfo' => self::createPushInfo($this->text, $extjson),
+            'OfflinePushInfo' => self::createPushInfo($this->text, $extjson, '标题'),
         ];
-        return $this->build($cust_elem, $params, $is_system, $extra);
+        $opt = self::OPT_IS_SYNC | ($is_system ? self::OPT_IS_SYS : 0);
+        return $this->build($cust_elem, $params, $opt, $extra);
+    }
+
+    /**
+     * 全员推送
+     */
+    public function buildAllMemberPush($from, $content, $type = 'bullet_chat')
+    {
+        if (empty($from)) {
+            return;
+        }
+        $cust_elem = self::createCustomTypeItem($type, ['content' => $content]);
+        $push_info = self::createPushInfo('', '');
+        $params = [
+            'MsgLifeTime' => $this->life_time,
+            'From_Account' => (string)$from,
+        ];
+        if (!empty($to)) {
+            $params['To_Account'] = (string)$to;
+        }
+        $params['OfflinePushInfo'] = $push_info;
+        return $this->build($cust_elem, $params);
+    }
+
+    /**
+     * 撤回消息
+     */
+    public function buildRevoke($from, $to, array $orig = [])
+    {
+        if (empty($from) || empty($to)) {
+            return;
+        }
+        $data = [
+            'Type' => '1', //撤回类型0或空用户撤回1系统撤回
+            'RevokeDesc' => '系统撤回了一条消息', //撤回消息描述
+            'Targets' => (string)$from, //对方用户id
+            'MsgRandom' => isset($orig['msgid']) ? intval($orig['msgid']) : 0, //唯一标识哪路通话
+            'Timestamp' => isset($orig['msgtime']) ? intval($orig['msgtime']) : 0,
+            'MsgSeq' => isset($orig['msgseq']) ? intval($orig['msgseq']) : 0,
+            'Ext' => 'RevokeMsg', //撤回消息命令
+        ];
+        $content = ['Data' => json_encode($data, self::JSON_OPTS)];
+        $cust_elem = self::createCustomDescItem('', $content);
+        $params = [
+            'MsgLifeTime' => $this->life_time,
+            'From_Account' => (string)$from,
+            'To_Account' => (string)$to,
+        ];
+        return $this->build($cust_elem, $params, self::OPT_IS_SYNC);
+    }
+
+    /**
+     * 挂断信号
+     */
+    public function buildHangUp($from, $to, array $call = [])
+    {
+        if (empty($from) || empty($to)) {
+            return;
+        }
+        $data = [
+            'Sender' => (string)$from, //挂断方
+            'Targets' => [(string)$to],
+            'AVRoomID' => isset($call['callid']) ? $call['callid'] : '', //唯一标识哪路通话
+            'UserAction' => 134, //134挂断
+            'CallDate' => time(), //呼叫时间戳
+            'CallSponsor' => (string)$from,
+            'CallType' => isset($call['isvideo']) && $call['isvideo'] == '0' ? 1 : 2,//1语音2视频
+            'reason' => isset($call['reason']) ? $call['reason'] : '',
+        ];
+        $content = ['Ext' => 'CallNotification', 'Data' => json_encode($data, self::JSON_OPTS)];
+        $cust_elem = self::createCustomDescItem('', $content);
+        $params = [
+            'MsgLifeTime' => $this->life_time,
+            'From_Account' => (string)$from,
+            'To_Account' => (string)$to,
+        ];
+        return $this->build($cust_elem, $params, self::OPT_IS_SYNC);
+    }
+
+    /**
+     * 弹框信息
+     */
+    public function buildPopUp($from, $to = 0, array $bottons = [])
+    {
+        if (empty($this->text) || empty($from)) {
+            return;
+        }
+        $nickname = $headphoto = '';
+        if (is_array($from)) { // 同时传userid和nickname
+            $nickname = isset($from['nickname']) ? $from['nickname'] : '';
+            if (isset($from['headphoto']) && $from['headphoto']) {
+                $headphoto = $from['headphoto'];
+            } else if (isset($from['smallheadpho']) && $from['smallheadpho']) {
+                $headphoto = $from['smallheadpho'];
+            } else if (isset($from['midleheadpho']) && $from['midleheadpho']) {
+                $headphoto = $from['midleheadpho'];
+            }
+            $from = $from['userid'];
+        }
+        $data = [
+            'id' => uniqid('w_'), 'text' => trim($this->text),
+            'headphoto' => $headphoto, 'botton' => $bottons,
+            'nickname' => $nickname, 'high' => 60, 'Ext' => 'common_msg',
+        ];
+        $content = ['Sound' => 'dingdong.aiff', 'Data' => json_encode($data, self::JSON_OPTS)];
+        $cust_elem = self::createCustomDescItem($this->text, $content);
+        $params = [
+            'MsgLifeTime' => $this->life_time,
+            'From_Account' => (string)$from,
+            'To_Account' => (string)$to,
+        ];
+        return $this->build($cust_elem, $params, self::OPT_IS_SYNC);
     }
 }

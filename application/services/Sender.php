@@ -14,6 +14,7 @@ class Sender extends MY_Service
 
     protected $url_apart = 'https://console.tim.qq.com/v4/openim/sendmsg';
     protected $url_batch = 'https://console.tim.qq.com/v4/openim/batchsendmsg';
+    protected $url_all = 'https://console.tim.qq.com/v4/all_member_push/im_push';
 
     protected $tlssig_config = [];
     protected $secretary_id = ''; //小秘书的userid
@@ -32,8 +33,10 @@ class Sender extends MY_Service
         $this->tlssig_config = $this->config->item('tlssigConfig');
         $this->secretary_id = $this->tlssig_config['secretary_id'];
         $this->sys_notice_id = $this->tlssig_config['sys_notice_id'];
+        if (!isset($this->redisdb3)) {
         $this->load->cache('redis', 'gift', 'gift_cache');
         $this->redisdb3 = $this->gift_cache->redis->instance();
+    }
     }
 
     /**
@@ -76,26 +79,45 @@ class Sender extends MY_Service
 
     /**
      * 腾讯云接口网址
-     * @param false $is_batch 是否使用群发接口
+     * @param int $push_type 0=单发 1=群发 2=全员
      * @return string
      */
-    public function get_request_url($is_batch = false)
+    public function get_request_url($push_type = 0)
     {
         $query_string = $this->get_query_string();
-        if ($is_batch) {
-            return $this->url_batch . $query_string;
-        } else {
-            return $this->url_apart . $query_string;
+        switch (intval($push_type)) {
+            case 2:
+                $url = $this->url_all . $query_string;
+                break;
+            case 1:
+                $url = $this->url_batch . $query_string;
+                break;
+            default:
+                $url = $this->url_apart . $query_string;
+                break;
         }
+        return $url . $query_string;
     }
 
     /**
      * 队列名称
+     * @param int $push_type 0=单发 1=群发 2=全员
      * @return string
      */
-    public function get_queue_name()
+    public function get_queue_name($push_type = 0)
     {
-        return self::IM_QUEUE_NAME;
+        switch (intval($push_type)) {
+            case 2:
+                $queue_name = self::IM_QUEUE_NAME . '-all';
+                break;
+            case 1:
+                $queue_name = self::IM_QUEUE_NAME . '-batch';
+                break;
+            default:
+                $queue_name = self::IM_QUEUE_NAME;
+                break;
+        }
+        return $queue_name;
     }
 
     /**
@@ -103,10 +125,11 @@ class Sender extends MY_Service
      * @param array $msgdata 消息完整内容
      * @return bool
      */
-    public function add_message(array $msgdata)
+    public function add_message(array $msgdata, $push_type = 0)
     {
+        $queue_name = $this->get_queue_name($push_type);
         if ($json_data = json_encode($msgdata, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE)) {
-            $this->redisdb3->lPush(self::IM_QUEUE_NAME, $json_data);
+            $this->redisdb3->lPush($queue_name, $json_data);
             return true;
         }
         return false;
@@ -235,5 +258,21 @@ class Sender extends MY_Service
         $msgdata = $this->txmsg->buildHangUp($detail['to_userid'], $detail['from_userid'], $detail);
         $count += $this->add_message($msgdata) ? 1 : 0;
         return $count;
+    }
+
+    /**
+     * 全员推送
+     *
+     * @param string/int $userid  发送人
+     * @param string $content  内容
+     * @return int
+     */
+    public function all_member_push($userid, $content)
+    {
+        $userid = empty($userid) ? '1051814' : $userid; //系统消息账号
+        $this->txmsg->create('', 60); //有效时间
+        $msgdata = $this->txmsg->buildAllMemberPush($userid, $content, 'bullet_chat');
+        debug_error('all_member_push data: %s', json_encode($msgdata, 320));
+        return $this->add_message($msgdata, 2) ? 1 : 0;
     }
 }

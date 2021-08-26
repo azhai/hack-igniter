@@ -1,0 +1,115 @@
+<?php
+/**
+ * hack-igniter
+ *
+ * A example project extends of CodeIgniter v3.x
+ *
+ * @package hack-igniter
+ * @author  Ryan Liu (azhai)
+ * @link    http://azhai.surge.sh/
+ * @copyright   Copyright (c) 2013
+ * @license http://opensource.org/licenses/MIT  MIT License
+ */
+
+defined('BASEPATH') or exit('No direct script access allowed');
+
+
+if (!function_exists('whereis')) {
+    /**
+     * 调用Linux Bash的whereis命令，输出命令的完整路径
+     * exec和shell_exec的区别是它只返回输出的最后一行
+     */
+    function whereis($cmd, $only_binary = false)
+    {
+        $opts = $only_binary ? '-b' : '';
+        if ($output = @exec(sprintf('/bin/whereis %s %s', $opts, $cmd))) {
+            $pieces = explode(':', $output, 2);
+            if (count($pieces) === 2 && trim($pieces[0]) === $cmd) {
+                return strtok(ltrim($pieces[1]), " \r\n");
+            }
+        }
+    }
+}
+
+
+if (!function_exists('toolkit_gen_files')) {
+    /**
+     * 生成火焰图.
+     *
+     * 安装
+     * sudo apt install -y graphviz
+     * go install github.com/tideways/toolkit@latest
+     * https://github.com/tideways/php-xhprof-extension.git
+     * 火焰图用法：
+     * toolkit analyze-xhprof -m 0 61274e7955c6d.json > 61274e7955c6d.txt
+     * toolkit generate-xhprof-graphviz -o 61274e7955c6d.dot 61274e7955c6d.json
+     * dot -Tsvg -o 61274e7955c6d.svg 61274e7955c6d.dot
+     */
+    function toolkit_gen_files($filename, $ext = 'json')
+    {
+        $outfile = $filename . '.' .  ltrim($ext, '.');
+        if (empty($outfile) || !file_exists($outfile)) {
+            return;
+        }
+        if ($toolkit = whereis('toolkit', true)) {
+            shell_exec(sprintf('%s analyze-xhprof -m 0 %s > %s.txt', $toolkit, $outfile, $filename));
+            shell_exec(sprintf('%s generate-xhprof-graphviz -o %s.dot %s', $toolkit, $filename, $outfile));
+        }
+        if ($toolkit && $dot = whereis('dot', false)) {
+            shell_exec(sprintf('%s -Tsvg -o %s.svg %s.dot', $dot, $filename, $filename));
+        }
+    }
+}
+
+
+if (!function_exists('xhprof_open')) {
+    /**
+     * 开启xhprof
+     */
+    function xhprof_open()
+    {
+        static $options = [
+            'nob' => 'XHPROF_FLAGS_NO_BUILTINS',
+            'cpu' => 'XHPROF_FLAGS_CPU',
+            'mem' => 'XHPROF_FLAGS_MEMORY',
+        ];
+        $value = 0;
+        $is_php7 = is_php_gte('7.0.0');
+        $opts = func_get_args();
+        foreach ($opts as $key) {
+            $key = strtolower($key);
+            if (isset($options[$key])) {
+                $name = ($is_php7 ? 'TIDEWAYS_' : '') . $options[$key];
+                $value |= constant($name);
+            }
+        }
+        if ($is_php7) {
+            return tideways_xhprof_enable($value);
+        } else {
+            return xhprof_enable($value);
+        }
+    }
+}
+
+
+if (!function_exists('xhprof_close')) {
+    /**
+     * 关闭xhprof并保存结果
+     */
+    function xhprof_close($filename = '', $gen_files = false)
+    {
+        $is_php7 = is_php_gte('7.0.0');
+        $xhprof_data = $is_php7 ? tideways_xhprof_disable() : xhprof_disable();
+        if (empty($xhprof_data)) {
+            return false;
+        }
+        if (empty($filename)) {
+            $filename = sprintf('%s/xhprof-%s', sys_get_temp_dir(), uniqid());
+        }
+        @file_put_contents($filename . '.json', json_encode($xhprof_data, 320));
+        if ($gen_files) {
+            toolkit_gen_files($filename, '.json');
+        }
+        return $filename;
+    }
+}

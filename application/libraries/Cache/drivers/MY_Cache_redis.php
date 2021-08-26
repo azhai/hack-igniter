@@ -28,7 +28,9 @@ class MY_Cache_redis extends CI_Cache_redis
             if (isset($config['username']) && $config['username']) {
                 $password = $config['username'] . ':' . $password;
             }
+            if (is_string($password) && $password) {
             $this->_redis->auth($password);
+        }
         }
         $db_index = 0;
         if (isset($config['database']) && $config['database']) {
@@ -66,11 +68,13 @@ class MY_Cache_redis extends CI_Cache_redis
     {
         $redis = $this->instance();
         $keys = is_array($keys) ? $keys : func_get_args();
-        if (method_exists($redis, 'unlink')) {
-            return $redis->unlink($keys); //较高版本的扩展
-        } else {
-            return $redis->del($keys);
-        }
+        $method = parent::$_delete_name;
+        return $redis->$method($keys);
+//        if (method_exists($redis, 'unlink')) {
+//            return $redis->unlink($keys); //较高版本的扩展
+//        } else {
+//            return $redis->del($keys);
+//        }
     }
 
     /**
