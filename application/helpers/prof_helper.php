@@ -22,12 +22,15 @@ if (!function_exists('whereis')) {
     function whereis($cmd, $only_binary = false)
     {
         $opts = $only_binary ? '-b' : '';
-        if ($output = @exec(sprintf('/bin/whereis %s %s', $opts, $cmd))) {
-            $pieces = explode(':', $output, 2);
-            if (count($pieces) === 2 && trim($pieces[0]) === $cmd) {
-                return strtok(ltrim($pieces[1]), " \r\n");
-            }
+        $output = @exec(sprintf('/bin/whereis %s %s', $opts, $cmd));
+        if (empty($output)) {
+            return null;
         }
+        $pieces = explode(':', $output, 2);
+        if (count($pieces) === 2 && trim($pieces[0]) === $cmd) {
+            return strtok(ltrim($pieces[1]), " \r\n");
+        }
+        return false;
     }
 }
 
@@ -41,22 +44,22 @@ if (!function_exists('toolkit_gen_files')) {
      * go install github.com/tideways/toolkit@latest
      * https://github.com/tideways/php-xhprof-extension.git
      * 火焰图用法：
-     * toolkit analyze-xhprof -m 0 61274e7955c6d.json > 61274e7955c6d.txt
+     * toolkit analyze-xhprof -m 0.0003 -o 61274e7955c6d.txt 61274e7955c6d.json
      * toolkit generate-xhprof-graphviz -o 61274e7955c6d.dot 61274e7955c6d.json
-     * dot -Tsvg -o 61274e7955c6d.svg 61274e7955c6d.dot
+     * dot -T svg -t 0.0003 -o 61274e7955c6d.svg 61274e7955c6d.dot
      */
-    function toolkit_gen_files($filename, $ext = 'json')
+    function toolkit_gen_files($filename, $ext = 'json', $min = 0)
     {
         $outfile = $filename . '.' .  ltrim($ext, '.');
         if (empty($outfile) || !file_exists($outfile)) {
             return;
         }
         if ($toolkit = whereis('toolkit', true)) {
-            shell_exec(sprintf('%s analyze-xhprof -m 0 %s > %s.txt', $toolkit, $outfile, $filename));
-            shell_exec(sprintf('%s generate-xhprof-graphviz -o %s.dot %s', $toolkit, $filename, $outfile));
+            shell_exec(sprintf('%s analyze-xhprof -m %f -o %s.txt %s', $min, $toolkit, $filename, $outfile));
+            shell_exec(sprintf('%s generate-xhprof-graphviz -t %f -o %s.dot %s', $min, $toolkit, $filename, $outfile));
         }
         if ($toolkit && $dot = whereis('dot', false)) {
-            shell_exec(sprintf('%s -Tsvg -o %s.svg %s.dot', $dot, $filename, $filename));
+            shell_exec(sprintf('%s -T svg -o %s.svg %s.dot', $dot, $filename, $filename));
         }
     }
 }

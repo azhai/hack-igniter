@@ -16,6 +16,19 @@
  */
 class MY_Cache_redis extends CI_Cache_redis
 {
+    public static function get_delete_name()
+    {
+        if (in_array(static::$_delete_name, ['del', 'unlink'], true)) {
+            return static::$_delete_name; //phpredis or redis >= v5.0
+        }
+        $version = phpversion('redis');
+        if ($version !== false && version_compare($version, '5', '>=')) {
+            static::$_delete_name = 'unlink';
+            return 'unlink';
+        }
+        return 'delete';
+    }
+
     /**
      * 其他连接参数
      *
@@ -68,7 +81,7 @@ class MY_Cache_redis extends CI_Cache_redis
     {
         $redis = $this->instance();
         $keys = is_array($keys) ? $keys : func_get_args();
-        $method = parent::$_delete_name;
+        $method = self::get_delete_name();
         return $redis->$method($keys);
 //        if (method_exists($redis, 'unlink')) {
 //            return $redis->unlink($keys); //较高版本的扩展
