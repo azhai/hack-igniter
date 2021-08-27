@@ -37,7 +37,7 @@ if (!function_exists('whereis')) {
 
 if (!function_exists('toolkit_gen_files')) {
     /**
-     * 生成火焰图.
+     * 生成直观的图表（与火焰图相近）.
      *
      * 安装
      * sudo apt install -y graphviz
@@ -77,7 +77,7 @@ if (!function_exists('xhprof_open')) {
             'mem' => 'XHPROF_FLAGS_MEMORY',
         ];
         $value = 0;
-        $is_php7 = is_php_gte('7.0.0');
+        $is_php7 = is_php_gte('7');
         $opts = func_get_args();
         foreach ($opts as $key) {
             $key = strtolower($key);
@@ -99,20 +99,23 @@ if (!function_exists('xhprof_close')) {
     /**
      * 关闭xhprof并保存结果
      */
-    function xhprof_close($filename = '', $gen_files = false, $min = 0)
+    function xhprof_close($tk_min = -1, $base_name = '', $out_dir = false)
     {
-        $is_php7 = is_php_gte('7.0.0');
+        $is_php7 = is_php_gte('7');
         $xhprof_data = $is_php7 ? tideways_xhprof_disable() : xhprof_disable();
         if (empty($xhprof_data)) {
             return false;
         }
-        if (empty($filename)) {
-            $filename = sprintf('%s/xhprof-%s', sys_get_temp_dir(), uniqid());
+        $out_dir = $out_dir ? realpath($out_dir) : sys_get_temp_dir();
+        if (empty($base_name)) {
+            $base_name = 'xhprof-' . uniqid();
         }
+        $filename = $out_dir . DIRECTORY_SEPARATOR . $base_name;
         @file_put_contents($filename . '.json', json_encode($xhprof_data, 320));
-        if ($gen_files) {
-            toolkit_gen_files($filename, '.json', $min);
+        if ($tk_min >= 0) { //生成调用耗时图表
+            toolkit_gen_files($filename, '.json', $tk_min);
         }
         return $filename;
     }
 }
+
