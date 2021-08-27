@@ -99,7 +99,7 @@ if (!function_exists('xhprof_close')) {
     /**
      * 关闭xhprof并保存结果
      */
-    function xhprof_close($filename = '', $gen_files = false)
+    function xhprof_close($filename = '', $gen_files = false, $min = 0)
     {
         $is_php7 = is_php_gte('7.0.0');
         $xhprof_data = $is_php7 ? tideways_xhprof_disable() : xhprof_disable();
@@ -111,7 +111,7 @@ if (!function_exists('xhprof_close')) {
         }
         @file_put_contents($filename . '.json', json_encode($xhprof_data, 320));
         if ($gen_files) {
-            toolkit_gen_files($filename, '.json');
+            toolkit_gen_files($filename, '.json', $min);
         }
         return $filename;
     }
