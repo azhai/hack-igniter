@@ -14,17 +14,6 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 
 
-if (!function_exists('is_php_gte')) {
-    /**
-     * PHP是否在某版本以上.
-     */
-    function is_php_gte($version = '7.0.0')
-    {
-        return version_compare(PHP_VERSION, $version) >= 0;
-    }
-}
-
-
 if (!function_exists('is_winnt')) {
     /**
      * 是否Windows系统，不含Cygwin.

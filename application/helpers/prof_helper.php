@@ -44,9 +44,9 @@ if (!function_exists('toolkit_gen_files')) {
      * go install github.com/tideways/toolkit@latest
      * https://github.com/tideways/php-xhprof-extension.git
      * 火焰图用法：
-     * toolkit analyze-xhprof -m 0.0003 -o 61274e7955c6d.txt 61274e7955c6d.json
-     * toolkit generate-xhprof-graphviz -o 61274e7955c6d.dot 61274e7955c6d.json
-     * dot -T svg -t 0.0003 -o 61274e7955c6d.svg 61274e7955c6d.dot
+     * toolkit analyze-xhprof -m 0.0003 61274e7955c6d.json > 61274e7955c6d.txt
+     * toolkit generate-xhprof-graphviz -t 0.0003 -o 61274e7955c6d.dot 61274e7955c6d.json
+     * dot -T svg -o 61274e7955c6d.svg 61274e7955c6d.dot
      */
     function toolkit_gen_files($filename, $ext = 'json', $min = 0)
     {
@@ -55,7 +55,7 @@ if (!function_exists('toolkit_gen_files')) {
             return;
         }
         if ($toolkit = whereis('toolkit', true)) {
-            shell_exec(sprintf('%s analyze-xhprof -m %f -o %s.txt %s', $min, $toolkit, $filename, $outfile));
+            shell_exec(sprintf('%s analyze-xhprof -m %f %s -o %s.txt', $min, $toolkit, $outfile, $filename));
             shell_exec(sprintf('%s generate-xhprof-graphviz -t %f -o %s.dot %s', $min, $toolkit, $filename, $outfile));
         }
         if ($toolkit && $dot = whereis('dot', false)) {
@@ -77,16 +77,16 @@ if (!function_exists('xhprof_open')) {
             'mem' => 'XHPROF_FLAGS_MEMORY',
         ];
         $value = 0;
-        $is_php7 = is_php_gte('7');
+        $prefix = is_php('7.0') ? 'TIDEWAYS_' : '';
         $opts = func_get_args();
         foreach ($opts as $key) {
             $key = strtolower($key);
             if (isset($options[$key])) {
-                $name = ($is_php7 ? 'TIDEWAYS_' : '') . $options[$key];
+                $name = $prefix . $options[$key];
                 $value |= constant($name);
             }
         }
-        if ($is_php7) {
+        if ($prefix) {
             return tideways_xhprof_enable($value);
         } else {
             return xhprof_enable($value);
@@ -101,8 +101,7 @@ if (!function_exists('xhprof_close')) {
      */
     function xhprof_close($tk_min = -1, $base_name = '', $out_dir = false)
     {
-        $is_php7 = is_php_gte('7');
-        $xhprof_data = $is_php7 ? tideways_xhprof_disable() : xhprof_disable();
+        $xhprof_data = is_php('7.0') ? tideways_xhprof_disable() : xhprof_disable();
         if (empty($xhprof_data)) {
             return false;
         }

@@ -121,11 +121,7 @@ if (!function_exists('rand_num')) {
      */
     function rand_num($min, $max)
     {
-        if (is_php('7.0')) {
-            $freq = random_int($min, $max);
-        } else {
-            $freq = rand($min, $max);
-        }
+        return is_php('7.0') ? random_int($min, $max) : rand($min, $max);
     }
 }
 

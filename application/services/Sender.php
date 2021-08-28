@@ -26,6 +26,7 @@ class Sender extends MY_Service
     public function __construct()
     {
         parent::__construct();
+        $this->load->helper('alg');
         $this->load->model('message/message_log_model');
         $this->load->model('cdr_log/cdr_log_model');
         $this->load->library('TxMsg', [], 'txmsg');
@@ -34,9 +35,17 @@ class Sender extends MY_Service
         $this->secretary_id = $this->tlssig_config['secretary_id'];
         $this->sys_notice_id = $this->tlssig_config['sys_notice_id'];
         if (!isset($this->redisdb3)) {
-        $this->load->cache('redis', 'gift', 'gift_cache');
-        $this->redisdb3 = $this->gift_cache->redis->instance();
+            $this->load->cache('redis', 'gift', 'gift_cache');
+            $this->redisdb3 = $this->gift_cache->redis->instance();
+        }
     }
+
+    /**
+     * 获取系统消息或小秘书的账号
+     */
+    public function get_sys_sender($appid = '', $is_secretary = false)
+    {
+        return $is_secretary ? $this->secretary_id : $this->sys_notice_id;
     }
 
     /**
@@ -179,11 +188,13 @@ class Sender extends MY_Service
      *
      * @param string $text 消息内容
      * @param string/array $to （多个）接收者
+     * @param string $appid APP代码
      * @return int
      */
-    public function send_secret_text($text, $to)
+    public function send_secret_text($text, $to, $appid = '')
     {
-        return $this->send_text($text, $this->secretary_id, $to, true);
+        $sender = $this->get_sys_sender($appid, true);
+        return $this->send_text($text, $sender, $to, true);
     }
 
     /**
@@ -207,11 +218,13 @@ class Sender extends MY_Service
      *
      * @param string $text 消息内容
      * @param string/array $to （多个）接收者
+     * @param string $appid APP代码
      * @return int
      */
-    public function send_notice_text($text, $to)
+    public function send_notice_text($text, $to, $appid = '')
     {
-        return $this->send_tips($text, $this->sys_notice_id, $to, true);
+        $sender = $this->get_sys_sender($appid);
+        return $this->send_tips($text, $sender, $to, true);
     }
 
     /**
@@ -263,15 +276,15 @@ class Sender extends MY_Service
     /**
      * 全员推送
      *
-     * @param string/int $userid  发送人
      * @param string $content  内容
+     * @param string $appid APP代码
      * @return int
      */
-    public function all_member_push($userid, $content)
+    public function all_member_push($content, $appid = '')
     {
-        $userid = empty($userid) ? '1051814' : $userid; //系统消息账号
+        $sender = $this->get_sys_sender($appid);
         $this->txmsg->create('', 60); //有效时间
-        $msgdata = $this->txmsg->buildAllMemberPush($userid, $content, 'bullet_chat');
+        $msgdata = $this->txmsg->buildAllMemberPush($sender, $content, 'bullet_chat');
         debug_error('all_member_push data: %s', json_encode($msgdata, 320));
         return $this->add_message($msgdata, 2) ? 1 : 0;
     }
