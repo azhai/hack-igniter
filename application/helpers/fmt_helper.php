@@ -145,6 +145,36 @@ if (!function_exists('replace_with')) {
 }
 
 
+if (!function_exists('wrap_lines')) {
+    /**
+     * 将长行换行或将短行合并，每行经量不超出最大长度
+     *
+     * @param $content 原始内容，可能本身就有换行
+     * @param int $max_width = 100 最大长度
+     * @return string 换行后的内容
+     */
+    function wrap_lines($content, $max_width = 100)
+    {
+        $result = "";
+        $line_size = 0;
+        $token = " \r\n";
+        $words = strtok(trim($content), $token);
+        while ($words !== false) {
+            $size = mb_strwidth($words);
+            if ($line_size + $size + 1 <= $max_width) {
+                $result .= ' ' . $words;
+                $line_size += $size + 1;
+            } else {
+                $result .= "\n" . $words;
+                $line_size = $size;
+            }
+            $words = strtok($token);
+        }
+        return $result;
+    }
+}
+
+
 if (!function_exists('escape_db_input')) {
     /**
      * 过滤$_REQUEST字符串中的危险字符，用于mysql查询

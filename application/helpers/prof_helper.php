@@ -55,7 +55,7 @@ if (!function_exists('toolkit_gen_files')) {
             return;
         }
         if ($toolkit = whereis('toolkit', true)) {
-            shell_exec(sprintf('%s analyze-xhprof -m %f %s -o %s.txt', $min, $toolkit, $outfile, $filename));
+            shell_exec(sprintf('%s analyze-xhprof -m %f %s > %s.txt', $min, $toolkit, $outfile, $filename));
             shell_exec(sprintf('%s generate-xhprof-graphviz -t %f -o %s.dot %s', $min, $toolkit, $filename, $outfile));
         }
         if ($toolkit && $dot = whereis('dot', false)) {

@@ -14,6 +14,8 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 require_once BASEPATH . 'database/DB_driver.php';
 require_once BASEPATH . 'database/DB_query_builder.php';
+require_once APPPATH . 'helpers/my_helper.php';
+require_once APPPATH . 'helpers/fmt_helper.php';
 
 
 class CI_DB extends CI_DB_query_builder
@@ -115,7 +117,9 @@ class CI_DB extends CI_DB_query_builder
     {
         $this->switch_conn($this->is_in_trans() || $this->is_write_type($sql));
         $hash = $this->get_conn_hash('conn_id', 8);
-        log_message('DEBUG', sprintf('conn[%s] SQL: %s;', $hash, $sql));
+        if (!starts_with($sql, 'SET SESSION')) {
+            log_message('DEBUG', sprintf('conn[%s] SQL: %s;', $hash, wrap_lines($sql)));
+        }
         return parent::simple_query($sql);
     }
 
