@@ -93,7 +93,7 @@ class MY_Cache_redis extends CI_Cache_redis
     /**
      * 检查锁是否已存在，不存在时加锁一定时间
      *
-     * @param     $cache_key 锁名
+     * @param string $cache_key 锁名
      * @param int $ttl 新的时效
      * @return bool 是否成功
      */
@@ -111,7 +111,7 @@ class MY_Cache_redis extends CI_Cache_redis
     /**
      * 检查是否占位符
      *
-     * @param $key 缓存键
+     * @param string $key 缓存键
      * @return null|bool 是空值时返回true
      */
     public function is_none($key)
@@ -125,7 +125,7 @@ class MY_Cache_redis extends CI_Cache_redis
     /**
      * 保存占位符，防止缓存穿透
      *
-     * @param     $key 缓存键
+     * @param string $key 缓存键
      * @param int $ttl 失效时间，单位：秒
      * @return bool 成功返回true
      */
@@ -136,7 +136,7 @@ class MY_Cache_redis extends CI_Cache_redis
     }
 
     /**
-     * @param $id
+     * @param string $id
      * @return mixed
      */
     public function get_json($id)
@@ -146,8 +146,8 @@ class MY_Cache_redis extends CI_Cache_redis
     }
 
     /**
-     * @param     $id
-     * @param     $data
+     * @param string $id
+     * @param mixed $data
      * @param int $ttl
      * @return mixed
      */
@@ -158,7 +158,7 @@ class MY_Cache_redis extends CI_Cache_redis
     }
 
     /**
-     * @param $id
+     * @param string $id
      * @return mixed
      */
     public function get_hash($id, array $fields = null)
@@ -171,8 +171,8 @@ class MY_Cache_redis extends CI_Cache_redis
     }
 
     /**
-     * @param     $id
-     * @param     $data
+     * @param string $id
+     * @param mixed $data
      * @param int $ttl
      * @return mixed
      */
@@ -185,7 +185,7 @@ class MY_Cache_redis extends CI_Cache_redis
     }
 
     /**
-     * @param $id
+     * @param string $id
      * @return mixed
      */
     public function get_zset($id)
@@ -199,8 +199,8 @@ class MY_Cache_redis extends CI_Cache_redis
     }
 
     /**
-     * @param     $id
-     * @param     $data
+     * @param string $id
+     * @param mixed $data
      * @param int $ttl
      * @return mixed
      */

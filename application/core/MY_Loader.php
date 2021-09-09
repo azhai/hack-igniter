@@ -34,6 +34,26 @@ class MY_Loader extends CI_Loader
         $this->name_space('Mylib', APPPATH . 'libraries/');
     }
 
+    /**
+     * 加载驱动适配器，例如加载缓存
+     *
+     * Example: 使用配置中名为user的redis缓存
+     * $CI = get_instance();
+     * $CI->load->cache('redis', 'user', 'user_cache');
+     * $redis = $CI->user_cache->redis->instance();
+     *
+     * @param string $adapter 缓存类型，如redis/memcached
+     * @param string/array $params 连接配置或配置名称
+     * @param string/null $object_name 对象名称，为空将会得到类似 user_redis_cache 字符串
+     * @return object
+     */
+    public function __call($name, $args)
+    {
+        assert(count($args) >= 1);
+        @list($adapter, $params, $object_name, $force) = $args;
+        return $this->adapter($name, $adapter, $params, $object_name, $force);
+    }
+
     public function initialize()
     {
         parent::initialize();
@@ -164,24 +184,6 @@ class MY_Loader extends CI_Loader
     }
 
     /**
-     * 加载缓存，例如使用配置中名为user的redis缓存
-     *
-     * Example:
-     * $CI = get_instance();
-     * $CI->load->cache('redis', 'user', 'user_cache');
-     * $redis = $CI->user_cache->redis->instance();
-     *
-     * @param string $adapter 缓存类型，如redis/memcached
-     * @param string/array $driver_params 连接配置或配置名称
-     * @param string/null $object_name 对象名称，为空将会得到类似 user_redis_cache 字符串
-     * @return object
-     */
-    public function cache($adapter, $driver_params = 'default', $object_name = null)
-    {
-        return $this->get_driver_library('cache', $adapter, $driver_params, $object_name);
-    }
-
-    /**
      * Library Loader
      *
      * @param mixed $library Library name
@@ -243,25 +245,25 @@ class MY_Loader extends CI_Loader
     /**
      * 加载驱动，返回库对象
      *
-     * @param string $lib_name 库名
-     * @param string|array $params 库配置
-     * @param mixed $driver_params 驱动配置
-     * @param null|string $object_name
+     * @param string $library 库类型
+     * @param string|array $adapter 适配器名称或具体参数
+     * @param mixed $params 驱动键名或具体参数
+     * @param null|string $object_name 属性名
+     * @param bool $force 强制重载
      * @return object
      */
-    public function get_driver_library($lib_name, $params,
-                                       $driver_params = null, $object_name = null)
+    public function adapter($library, $adapter, $params = null, $object_name = null, $force = false)
     {
-        @list($adapter, $params) = $this->_get_adapter_params($params);
+        @list($adapter, $adapter_params) = $this->_get_adapter_params($adapter);
         if (empty($object_name)) {
-            $object_name = $this->get_object_name($lib_name, $adapter, $driver_params);
+            $object_name = $this->get_object_name($library, $adapter, $params);
         }
         $CI = get_instance();
-        if (isset($CI->$object_name)) {
+        if (empty($force) && isset($CI->$object_name)) {
             return $CI->$object_name;
         }
-        $driver_params = $this->_proc_driver_params($adapter, $driver_params);
-        if ($this->driver($lib_name, $params, $object_name)) {
+        $driver_params = $this->_get_driver_params($adapter, $params);
+        if ($this->driver($library, $adapter_params, $object_name)) {
             $object = $CI->$object_name;
             if (method_exists($object->$adapter, 'set_options')) {
                 $object->$adapter->set_options($driver_params);
@@ -273,20 +275,20 @@ class MY_Loader extends CI_Loader
     /**
      * 拼接对象名
      *
-     * @param string $lib_name 库名
-     * @param string|array $params 库配置
-     * @param mixed $driver_params 驱动配置
+     * @param string $library 库类型
+     * @param string $adapter 适配器名称
+     * @param mixed $params 驱动键名或具体参数
      * @return string
      */
-    public function get_object_name($lib_name, $adapter, $driver_params = null)
+    public function get_object_name($library, $adapter, $params = null)
     {
-        $object_name = lcfirst($adapter) . '_' . $lib_name;
-        if (empty($driver_params)) {
+        $object_name = lcfirst($adapter) . '_' . $library;
+        if (empty($params)) {
             return $object_name;
-        } elseif (is_string($driver_params)) {
-            return $driver_params . '_' . $object_name;
+        } elseif (is_string($params)) {
+            return $params . '_' . $object_name;
         } else {
-            $object_hash = md5(serialize($driver_params));
+            $object_hash = md5(serialize($params));
             return $object_name . '_' . substr($object_hash, 0, 8);
         }
     }
@@ -294,32 +296,30 @@ class MY_Loader extends CI_Loader
     /**
      * 提取适配器类型
      *
-     * @param string|array $params 库配置
+     * @param string|array $adapter 适配器名称或具体参数
      * @return array
      */
-    protected function _get_adapter_params($params)
+    protected function _get_adapter_params($adapter)
     {
-        if (is_array($params)) {
-            $adapter = $params['adapter'];
+        if (is_array($adapter)) {
+            return [$adapter['adapter'], $adapter];
         } else {
-            $adapter = $params;
-            $params = ['adapter' => $adapter];
+            return [$adapter, ['adapter' => $adapter]];
         }
-        return [$adapter, $params];
     }
 
     /**
      * 处理和保存驱动配置
      *
-     * @param string $adapter 驱动
-     * @param mixed $driver_params 配置名或参数
+     * @param string $adapter 适配器名称
+     * @param mixed $params 驱动键名或具体参数
      * @return array
      */
-    protected function _proc_driver_params($adapter, $driver_params = null)
+    protected function _get_driver_params($adapter, $params = null)
     {
         $config = get_instance()->config;
-//        log_message('DEBUG', 'driver_params before: ' . json_encode($driver_params));
-        if (!is_array($driver_params)) {
+//        log_message('DEBUG', 'driver_params before: ' . json_encode($params));
+        if (!is_array($params)) {
             //同一配置文件只加载一次
             $config->load($adapter, true, true);
             $all_params = $config->item('all_' . $adapter);
@@ -327,14 +327,14 @@ class MY_Loader extends CI_Loader
                 $all_params = $config->item($adapter);
                 $config->set_item('all_' . $adapter, $all_params);
             }
-            if (is_string($driver_params) && isset($all_params[$driver_params])) {
-                $driver_params = $all_params[$driver_params]; //使用当前部分
+            if (is_string($params) && isset($all_params[$params])) {
+                $params = $all_params[$params]; //使用当前部分
             } else {
-                $driver_params = $all_params;
+                $params = $all_params;
             }
         }
-//        log_message('DEBUG', 'driver_params after: ' . json_encode($driver_params));
-        $config->set_item($adapter, $driver_params);
-        return $driver_params;
+//        log_message('DEBUG', 'driver_params after: ' . json_encode($params));
+        $config->set_item($adapter, $params);
+        return $params;
     }
 }
