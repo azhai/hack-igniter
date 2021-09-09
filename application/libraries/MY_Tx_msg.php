@@ -3,7 +3,7 @@
 /**
  * 腾讯云消息
  */
-class TxMsg
+class MY_Tx_msg
 {
     //等于 JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE
     const JSON_OPTS = 320; //5.4及以下不允许常量使用表达式
@@ -343,7 +343,7 @@ class TxMsg
     /**
      * 弹框信息
      */
-    public function buildPopUp($from, $to = 0, array $bottons = [])
+    public function buildPopUp($from, $to = 0, array $buttons = [])
     {
         if (empty($this->text) || empty($from)) {
             return;
@@ -362,7 +362,7 @@ class TxMsg
         }
         $data = [
             'id' => uniqid('w_'), 'text' => trim($this->text),
-            'headphoto' => $headphoto, 'botton' => $bottons,
+            'headphoto' => $headphoto, 'botton' => $buttons,
             'nickname' => $nickname, 'high' => 60, 'Ext' => 'common_msg',
         ];
         $content = ['Sound' => 'dingdong.aiff', 'Data' => json_encode($data, self::JSON_OPTS)];

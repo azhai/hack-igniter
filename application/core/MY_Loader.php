@@ -170,10 +170,15 @@ class MY_Loader extends CI_Loader
      * $CI = get_instance();
      * $CI->load->cache('redis', 'user', 'user_cache');
      * $redis = $CI->user_cache->redis->instance();
+     *
+     * @param string $adapter 缓存类型，如redis/memcached
+     * @param string/array $driver_params 连接配置或配置名称
+     * @param string/null $object_name 对象名称，为空将会得到类似 user_redis_cache 字符串
+     * @return object
      */
-    public function cache($params, $driver_params = null, $object_name = null)
+    public function cache($adapter, $driver_params = 'default', $object_name = null)
     {
-        return $this->get_driver_library('cache', $params, $driver_params, $object_name);
+        return $this->get_driver_library('cache', $adapter, $driver_params, $object_name);
     }
 
     /**
@@ -247,17 +252,9 @@ class MY_Loader extends CI_Loader
     public function get_driver_library($lib_name, $params,
                                        $driver_params = null, $object_name = null)
     {
-        if (is_array($params)) {
-            $adapter = $params['adapter'];
-        } else {
-            $adapter = $params;
-            $params = ['adapter' => $adapter];
-        }
+        @list($adapter, $params) = $this->_get_adapter_params($params);
         if (empty($object_name)) {
-            $object_name = lcfirst($adapter) . '_' . $lib_name;
-            if (is_string($driver_params)) {
-                $object_name = $driver_params . '_' . $object_name;
-            }
+            $object_name = $this->get_object_name($lib_name, $adapter, $driver_params);
         }
         $CI = get_instance();
         if (isset($CI->$object_name)) {
@@ -271,6 +268,44 @@ class MY_Loader extends CI_Loader
             }
         }
         return $object;
+    }
+
+    /**
+     * 拼接对象名
+     *
+     * @param string $lib_name 库名
+     * @param string|array $params 库配置
+     * @param mixed $driver_params 驱动配置
+     * @return string
+     */
+    public function get_object_name($lib_name, $adapter, $driver_params = null)
+    {
+        $object_name = lcfirst($adapter) . '_' . $lib_name;
+        if (empty($driver_params)) {
+            return $object_name;
+        } elseif (is_string($driver_params)) {
+            return $driver_params . '_' . $object_name;
+        } else {
+            $object_hash = md5(serialize($driver_params));
+            return $object_name . '_' . substr($object_hash, 0, 8);
+        }
+    }
+
+    /**
+     * 提取适配器类型
+     *
+     * @param string|array $params 库配置
+     * @return array
+     */
+    protected function _get_adapter_params($params)
+    {
+        if (is_array($params)) {
+            $adapter = $params['adapter'];
+        } else {
+            $adapter = $params;
+            $params = ['adapter' => $adapter];
+        }
+        return [$adapter, $params];
     }
 
     /**

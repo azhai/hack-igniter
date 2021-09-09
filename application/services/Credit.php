@@ -223,6 +223,7 @@ class Credit extends MY_Service
      *              float  prepay = 0  预付金额，正数为加款，负数为扣费
      *              bool   force = false 是否强制扣费
      *              string operation = ''  操作类型
+     *              string only_proof = ''  唯一凭证
      *              string description = '' 操作描述
      *              string another_description = '' 对方的操作描述
      * @return array 日志ID、实付、余额

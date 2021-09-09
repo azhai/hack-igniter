@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-use Mylib\Util\Geo_Hilbert;
+use Mylib\Util\Geo_hilbert;
 
 
 class Index extends MY_Service
@@ -41,8 +41,8 @@ class Index extends MY_Service
      */
     public function get_around_distance(array $p1, array $p2)
     {
-        $gh = new Geo_Hilbert($p1);
-        $gh2 = new Geo_Hilbert($p2);
+        $gh = new Geo_hilbert($p1);
+        $gh2 = new Geo_hilbert($p2);
         return $gh->get_around_distance($gh2->encode());
     }
 
@@ -55,7 +55,7 @@ class Index extends MY_Service
      */
     public function get_accuracy_distance(array $p1, array $p2)
     {
-        $gh = new Geo_Hilbert($p1);
+        $gh = new Geo_hilbert($p1);
         return $gh->get_accuracy_distance($p2['lng'], $p2['lat']);
     }
 }

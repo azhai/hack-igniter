@@ -500,7 +500,7 @@ class MY_Model extends CI_Model implements ArrayAccess
      * 更新记录
      * @param array $set
      * @param array/string/null $where
-     * @return bool
+     * @return int
      */
     public function update_unsafe(array $set, $where = null, $limit = null, $escape = null)
     {

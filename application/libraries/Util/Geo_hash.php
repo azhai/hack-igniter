@@ -11,7 +11,7 @@ namespace Mylib\Util;
 /**
  * 经典Geo哈希
  */
-class Geo_Hash
+class Geo_hash
 {
     private static $table = "0123456789bcdefghjkmnpqrstuvwxyz";
     private static $bits = [

@@ -155,7 +155,7 @@ trait MY_Monthly
             $table = $this->table_name();
             if (in_array($table, $tables, true)) {
                 if ($where) {
-                    $this->where($where);
+                    $this->parse_where($where);
                 }
                 $count = $this->count();
                 $result += $count;
@@ -187,7 +187,7 @@ trait MY_Monthly
             }
             if ($offset > 0) { //偏移量
                 if ($where) {
-                    $this->where($where);
+                    $this->parse_where($where);
                 }
                 $count = $this->count();
                 $offset -= $count;
@@ -198,7 +198,7 @@ trait MY_Monthly
             }
 
             if ($where) {
-                $this->where($where);
+                $this->parse_where($where);
             }
             $offset = ($offset < 0) ? $offset + $count : 0;
             $rows = $this->all($limit, $offset, $fields);
@@ -233,7 +233,7 @@ trait MY_Monthly
                 continue;
             }
             if ($where) {
-                $this->where($where);
+                $this->parse_where($where);
             }
             if ($group) {
                 $this->group_by($group);
@@ -248,20 +248,59 @@ trait MY_Monthly
     }
 
     /**
+     * 更新记录
+     * @param array $set
+     * @param array/string/null $where
+     * @return int
+     */
+    public function update_more(array $set, $where, $start = null, $limit = null, $escape = null)
+    {
+        $base_name = $this->base_table_name();
+        $tables = $this->list_tables($base_name . '_');
+        $start = $this->get_finishing($start, $tables);
+        $this->init_calendar();
+        $count = 0;
+        while ($this->beginning >= $start) {
+            $table = $this->table_name();
+            if (!in_array($table, $tables, true)) {
+                $this->backward();
+                continue;
+            }
+            $count += $this->update_unsafe($set, $where, $limit, $escape);
+            if (is_numeric($limit)) { //数量限制
+                $limit -= $count;
+                if ($limit <= 0) {
+                    break;
+                }
+            }
+            $this->backward();
+        }
+        return $count;
+    }
+
+    /**
+     * 创建当前月份的数据表
+     * @return bool
+     */
+    public function create_current_table()
+    {
+        $tpl = "CREATE TABLE IF NOT EXISTS `%s` LIKE `%s`";
+        $sql = sprintf($tpl, $this->table_name(), $this->base_table_name());
+        $db = $this->reconnect();
+        return $db->simple_query($sql);
+    }
+
+    /**
      * 写入一行
      * @return int/null
      */
     public function insert($row, $is_replace = false, $escape = null)
     {
+        $this->init_calendar();
         try {
             return $this->insert_unsafe($row);
         } catch (\Exception $e) {
-            // 先创建当前月份的数据表
-            $sql = "CREATE TABLE `%s` LIKE `%s`";
-            $base_name = $this->base_table_name();
-            $table_name = $this->table_name();
-            $db = $this->reconnect();
-            $db->query(sprintf($sql, $table_name, $base_name));
+            $this->create_current_table();
             return $this->insert_unsafe($row);
         }
     }

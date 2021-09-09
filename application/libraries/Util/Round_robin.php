@@ -16,7 +16,7 @@ namespace Mylib\Util;
 /**
  * 权重轮询
  */
-class RoundRobin
+class Round_robin
 {
     protected $data = [];      // 原始权重键值对
     protected $currents = [];  // 当前累积权重
@@ -80,7 +80,7 @@ class RoundRobin
     public function allocate($eggs, array $stocks = [])
     {
         reset($this->data);
-        if ($this->total < 0) {
+        if ($this->total <= 0) {
             return $this->empty_result();
         }
         $times = $eggs / $this->total;

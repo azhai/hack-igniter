@@ -29,7 +29,7 @@ class Sender extends MY_Service
         $this->load->helper('alg');
         $this->load->model('message/message_log_model');
         $this->load->model('cdr_log/cdr_log_model');
-        $this->load->library('TxMsg', [], 'txmsg');
+        $this->load->library('MY_Tx_msg', [], 'txmsg');
         $this->config->load('tlssigConfig', true, true);
         $this->tlssig_config = $this->config->item('tlssigConfig');
         $this->secretary_id = $this->tlssig_config['secretary_id'];
@@ -239,6 +239,46 @@ class Sender extends MY_Service
     public function send_custom($from, $to, $type, $data)
     {
         $msgdata = $this->txmsg->buildCustomData($from, $to, $type, $data);
+        return $this->add_message($msgdata) ? 1 : 0;
+    }
+
+    /**
+     * 发送任务达到通知
+     * status  [任务状态 1=新福利 2=待领取 3=领取完成 4=隐藏福利中心]
+     *
+     * @param string/int $userid 接收方
+     * @param array $task 任务数据
+     * @param string $message 消息内容
+     * @param string $appid APP代码
+     * @return int
+     */
+    public function send_task($userid, $task, $message, $appid = '')
+    {
+        $sender = $this->get_sys_sender($appid);
+        $task_fields = 'id,task_name,task_url,task_image,reward_num,reward_type';
+        $data = ['state' => 2, 'message' => $message,
+            'url' => 'web://' . WEBSITE_URL . '/web_page/user_task.php',
+            'task' => array_part($task, $task_fields)];
+        $msgdata = $this->txmsg->buildCustomData($sender, $userid, 'welfare_center', $data);
+        return $this->add_message($msgdata) ? 1 : 0;
+    }
+
+    /**
+     * 发送余额不足提示和充值按钮
+     *
+     * @param string/int $userid 接收方
+     * @param string $appid APP代码
+     * @return int
+     */
+    public function send_lock_of_money($userid, $appid = '')
+    {
+        $sender = $this->get_sys_sender($appid);
+        $user_fields = 'userid,nickname,headphoto,smallheadpho,midleheadpho';
+        $sender = $this->user_service->get_profile($sender, $user_fields);
+        $params = 'paymodes=alipay&title=获取金币&mtitle=金币不足';
+        $button = ['name' => '去获取金币', 'url' => 'in://fastpay?' . $params];
+        $this->txmsg->create('亲，你的金币不足哦');
+        $msgdata = $this->txmsg->buildPopUp($sender, $userid, [$button]);
         return $this->add_message($msgdata) ? 1 : 0;
     }
 

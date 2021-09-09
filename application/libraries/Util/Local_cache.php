@@ -24,12 +24,12 @@ defined('LOCAL_CONFIG_TTL') or define('LOCAL_CONFIG_TTL', 60);
  *
  * 配置文件： application/config/globals.json 内容： {"local_cache":"yac"}
  * 使用举例：
- * $local_cache = new \Mylib\Util\MY_Local_Cache();
+ * $local_cache = new \Mylib\Util\Local_cache();
  * $local_cache->retrieveData($cache_key, 300, function($cache_key) use ($redis) {
  *     return [$redis->hGetAll($cache_key), $redis->ttl($cache_key)];
  * });
  */
-class Local_Cache
+class Local_cache
 {
     protected $cache_type = '';
     protected $yac;
