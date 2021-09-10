@@ -146,7 +146,7 @@ class MY_Controller extends CI_Controller
     {
         $this->load->library('MY_Templater', [], 'tpl');
         $this->tpl->setContentType('json');
-        return die(json_encode($context));
+        return die(json_encode($context, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE));
     }
 
     protected function render_html($template, array $context = [], array $globals = [])

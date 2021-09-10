@@ -153,7 +153,7 @@ class MY_Cache_redis extends CI_Cache_redis
      */
     public function put_json($id, $data, $ttl = 60)
     {
-        $json = json_encode($data, JSON_UNESCAPED_UNICODE);
+        $json = json_encode($data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
         return $this->instance()->set($id, $json, $ttl);
     }
 

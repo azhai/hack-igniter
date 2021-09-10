@@ -13,6 +13,8 @@
 
 namespace Mylib\Mixin;
 
+defined('REDIS_DEFAULT_POOL_SIZE') or define('REDIS_DEFAULT_POOL_SIZE', 1); //默认连接池大小
+
 /**
  * 缓存连接池
  */
@@ -39,12 +41,15 @@ trait Cache_mixin
      * 使用Redis连接池
      *
      * @param string $params 配置名称
-     * @param int $pool_size 池子大小 -1:每次都重连 0/1:单例 2+:最大连接数
+     * @param int $pool_size 池子大小 -1:每次都重连 0:使用全局设置 1:单例 2+:最大连接数
      */
-    public function load_redis_pool($params = 'default', $pool_size = 1)
+    public function load_redis_pool($params = 'default', $pool_size = 0)
     {
         $object_name = $params . '_redis';
-        if ($pool_size >= 2) {
+        if ($pool_size === 0) {
+            $pool_size = constant('REDIS_DEFAULT_POOL_SIZE'); //全局设置
+        }
+        if ($pool_size >= 2) { //使用连接池
             $object_name .= sprintf('%03d', rand(1, $pool_size));
         }
         $force = ($pool_size < 0); //每次都重连

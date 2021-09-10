@@ -18,7 +18,9 @@ namespace Mylib\Util;
  */
 class Cache_lock
 {
-    const LOCK_CACHE_KEY = 'locks';
+    const CACHE_KEY_SPIN_MULTI = 'spin-locks';
+    const CACHE_KEY_TAIL_VALUE = 'value';
+    const CACHE_KEY_TAIL_EXPIRE = 'expire';
     protected $redis;
 
     /**
@@ -55,9 +57,9 @@ class Cache_lock
      */
     public function spin_add($name, $ttl = 10)
     {
-        $value = $this->redis->zScore(self::LOCK_CACHE_KEY, $name);
+        $value = $this->redis->zScore(self::CACHE_KEY_SPIN_MULTI, $name);
         if (empty($value) || $value < time()) { //原先不存在或已过期
-            $this->redis->zAdd(self::LOCK_CACHE_KEY, time() + $ttl, $name);
+            $this->redis->zAdd(self::CACHE_KEY_SPIN_MULTI, time() + $ttl, $name);
             return true;
         } else {
             return false;
@@ -70,25 +72,25 @@ class Cache_lock
      * @param string $name 锁名
      * @param int $times 重试次数
      * @param int $ttl 自动解锁时间
-     * @return bool 是否成功
+     * @return int -1:失败 0:成功（临界点） 1:成功
      */
     public function tail_lock($name, $times = 10, $ttl = 5)
     {
         $sleep_msec = rand(10, 200) * 1000;
         while (--$times >= 0) { // lock>=0 继续执行 -1执行并解锁 <-1等待锁
-            $lock = $this->redis->hIncrBy($name, 'value', -1);
-            if ($lock < -1) {
-                usleep($sleep_msec);
-                if ($this->redis->hGet($name, 'expire') < time()) {
-                    $this->redis->hSet($name, 'value', 0);  //释放锁
-                }
-                continue;
-            } elseif ($lock == 0) {
-                $this->redis->hSet($name, 'expire', time() + $ttl);
+            $value = $this->redis->hIncrBy($name, self::CACHE_KEY_TAIL_VALUE, -1);
+            if ($value >= 0) {
+                return 1;
+            } elseif ($value == -1) {
+                $this->redis->hSet($name, self::CACHE_KEY_TAIL_EXPIRE, time() + $ttl);
+                return 0;
             }
-            return true;
-        }
-        return false;
+                usleep($sleep_msec);
+            if ($this->redis->hGet($name, self::CACHE_KEY_TAIL_EXPIRE) < time()) {
+                $this->redis->hSet($name, self::CACHE_KEY_TAIL_VALUE, 0);  //释放锁
+                }
+            }
+        return -1;
     }
 
     /**
@@ -101,7 +103,7 @@ class Cache_lock
      */
     public function tail_change($name, $value = 0, $ttl = 2678400)
     {
-        $result = $this->redis->hSet($name, 'value', $value);
+        $result = $this->redis->hSet($name, self::CACHE_KEY_TAIL_VALUE, $value);
         $this->redis->expire($name, $ttl);
         return $result;
     }

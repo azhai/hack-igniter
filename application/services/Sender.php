@@ -267,17 +267,18 @@ class Sender extends MY_Service
      * 发送余额不足提示和充值按钮
      *
      * @param string/int $userid 接收方
+     * @param string $text 展示文案
      * @param string $appid APP代码
      * @return int
      */
-    public function send_lock_of_money($userid, $appid = '')
+    public function send_lock_of_money($userid, $text, $appid = '')
     {
         $sender = $this->get_sys_sender($appid);
         $user_fields = 'userid,nickname,headphoto,smallheadpho,midleheadpho';
         $sender = $this->user_service->get_profile($sender, $user_fields);
         $params = 'paymodes=alipay&title=获取金币&mtitle=金币不足';
         $button = ['name' => '去获取金币', 'url' => 'in://fastpay?' . $params];
-        $this->txmsg->create('亲，你的金币不足哦');
+        $this->txmsg->create($text);
         $msgdata = $this->txmsg->buildPopUp($sender, $userid, [$button]);
         return $this->add_message($msgdata) ? 1 : 0;
     }

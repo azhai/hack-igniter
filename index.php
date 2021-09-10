@@ -79,23 +79,20 @@ define('SYSDIR', basename(BASEPATH));
  * 启动CodeIgniter，或它的简化版HackIgniter（用于Yar的Server端）
  * --------------------------------------------------------------------
  */
-require_once APPPATH . 'helpers/my_helper.php';
-if (PHP_SAPI === 'cli') { //命令行运行
-    if (isset($_SERVER['CI_APP']) && 'tests' === $_SERVER['CI_APP']) { //phpt测试或psysh交互
-        require_once APPPATH . 'core/HackIgniter.php';
-        $CI = get_instance();
-    } else {
-        require_once BASEPATH . 'core/CodeIgniter.php';
+$app_mode = isset($_SERVER['CI_APP']) ? strtoupper($_SERVER['CI_APP']) : '';
+if ($app_mode === 'RPC') { //yar过程调用
+    require_once APPPATH . 'core/HackIgniter.php';
+    $CI = get_instance();
+    if (!isset($CI->service)) {
+        require_once APPPATH . 'services/Index.php';
+        new Index();
     }
+    $service = new Yar_Server($CI->service);
+    $service->handle();
+} elseif (PHP_SAPI === 'cli' && in_array($app_mode, ['REPL', 'TEST'], true)) { //psysh交互或phpt测试
+    require_once APPPATH . 'core/HackIgniter.php';
+    $CI = get_instance();
 } else {
-    $req_uri = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '';
-    if (strpos($req_uri, '/rpc/') !== false) { //yar过程调用
-        require_once APPPATH . 'core/HackIgniter.php';
-        $CI = get_instance();
-        $service = new Yar_Server($CI->service);
-        $service->handle();
-    } else {
-        require_once BASEPATH . 'core/CodeIgniter.php';
-    }
+    require_once BASEPATH . 'core/CodeIgniter.php';
 }
 
