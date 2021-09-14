@@ -95,4 +95,3 @@ if ($app_mode === 'RPC') { //yar过程调用
 } else {
     require_once BASEPATH . 'core/CodeIgniter.php';
 }
-

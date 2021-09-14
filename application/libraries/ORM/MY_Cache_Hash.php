@@ -75,15 +75,19 @@ trait MY_Cache_Hash
                 $result[$value] = $row;
             }
         }
+        if (empty($remains)) {
+            return $result;
+        }
         //读数据库和缓存剩下的
-        if (count($remains) > 0) {
-            if (empty($key)) {
-                $key = key($where);
-            }
+        if (empty($key)) {
+            $key = key($where);
+        }
+        $chunks = array_chunk($remains, 800);
+        foreach ($chunks as $chunk) {
             if ($fields = $this->cache_fields()) {
                 $this->select(array_keys($fields));
             }
-            $rows = $this->parse_where([$key => $remains])->all();
+            $rows = $this->parse_where([$key => $chunk])->all();
             foreach ($rows as $row) {
                 $value = $row[$key];
                 $result[$value] = $row;
