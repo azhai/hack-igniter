@@ -70,8 +70,8 @@ trait MY_Monthly
         if ($start) {
             return self::get_begin_stamp($start);
         }
-        if ($min_table = min($tables)) { // 找出最早的表
-            $min_tail = substr($min_table, strlen($this->table()) + 1);
+        if (count($tables) > 0 && $min_table = min($tables)) { // 找出最早的表
+            $min_tail = substr($min_table, strlen($this->table_name()) + 1);
             $year = substr($min_tail, 0, 4);
             $month = substr($min_tail, 4, 2);
             return self::get_begin_stamp($year, $month);
@@ -298,10 +298,10 @@ trait MY_Monthly
     {
         $this->init_calendar();
         try {
-            return $this->insert_unsafe($row);
+            return $this->insert_unsafe($row, $is_replace, $escape);
         } catch (\Exception $e) {
             $this->create_current_table();
-            return $this->insert_unsafe($row);
+            return $this->insert_unsafe($row, $is_replace, $escape);
         }
     }
 }

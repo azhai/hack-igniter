@@ -26,6 +26,13 @@ class CI_DB extends CI_DB_query_builder
     public $conn_writer = null;
     public $conn_reader = null;
 
+    /**
+     * ESCAPE character
+     *
+     * @var	string
+     */
+    protected $_like_escape_chr = '\\';
+
     public function is_pdo_driver()
     {
         if (class_exists('CI_DB_pdo_driver')) {
@@ -151,7 +158,7 @@ class CI_DB extends CI_DB_query_builder
      */
     public function list_tables($constrain_by_prefix = FALSE)
     {
-        $tables = parent::list_tables($constrain_by_prefix);
+        $tables = parent::list_tables(!empty($constrain_by_prefix));
         if ($constrain_by_prefix === false || $constrain_by_prefix === '') {
             return $tables;
         }

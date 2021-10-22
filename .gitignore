@@ -13,4 +13,5 @@
 adminer.php
 application/logs/*.php
 data/*
+site/*
 vendor/*
