@@ -245,6 +245,16 @@ class MY_Model extends CI_Model implements ArrayAccess
         return $indexes ? reset($indexes) : '';
     }
 
+    /**
+     * 设置自增ID
+     */
+    public function set_auto_incr($value = 1)
+    {
+        $tpl = "ALTER TABLE `%s` AUTO_INCREMENT = %d";
+        $sql = sprintf($tpl, $this->table_name(), $value);
+        return $this->reconnect()->simple_query($sql);
+    }
+
     public function table_fields()
     {
         if (empty($this->_table_fields)) {
