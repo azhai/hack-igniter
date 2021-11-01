@@ -213,4 +213,23 @@ class MY_Cache_redis extends CI_Cache_redis
         $redis->expire($id, $ttl);
         return $result;
     }
+
+    /**
+     * Class destructor
+     *
+     * Closes the connection to Redis if present.
+     *
+     * @return	void
+     */
+    public function __destruct()
+    {
+        if ($this->_redis)
+        {
+            try {
+                // Closing a persistent connection requires PhpRedis >= 4.2.0
+                $this->_redis->close();
+            } catch (Exception $e) {
+            }
+        }
+    }
 }

@@ -153,20 +153,48 @@ class CI_DB extends CI_DB_query_builder
     /**
      * Returns an array of table names
      *
-     * @param	string	$constrain_by_prefix = FALSE
+     * @param	bool/string	$constrain_by_prefix = FALSE
      * @return	array
      */
     public function list_tables($constrain_by_prefix = FALSE)
     {
-        $tables = parent::list_tables(!empty($constrain_by_prefix));
-        if ($constrain_by_prefix === false || $constrain_by_prefix === '') {
-            return $tables;
+        //原始的 list_tables() 始终使用缓存，而且也不会检查前缀
+        $sql = $this->_list_tables($constrain_by_prefix);
+        if ($sql === false || $constrain_by_prefix === false) {
+            return parent::list_tables($constrain_by_prefix);
         }
-        //当有表名缓存时，原CI代码不会检查前缀
-        $prefix = (string)$constrain_by_prefix;
-        return array_filter($tables, function($table) use ($prefix) {
-            return starts_with($table, $prefix);
-        });
+
+        $rows = [];
+        if ($query = $this->query($sql)) {
+            $rows = $query->result_array();
+        }
+        if (empty($rows)) {
+            return [];
+        }
+
+        //找出对应的字段
+        $row = reset($rows);
+        if (isset($row['table_name'])) {
+            $key = 'table_name';
+        } elseif (isset($row['TABLE_NAME'])) {
+            $key = 'TABLE_NAME';
+        } else {
+            $keys = array_keys($row);
+            $key = array_shift($keys);
+        }
+
+        //返回符合条件的数据
+        $result = [];
+        $this->data_cache['table_names'] = [];
+        $prefix = $constrain_by_prefix ? (string)$constrain_by_prefix : '';
+        foreach ($rows as $row) {
+            $table = $row[$key];
+            $this->data_cache['table_names'][] = $table;
+            if ($prefix === '' || starts_with($table, $prefix)) {
+                $result[] = $table;
+            }
+        }
+        return $result;
     }
 
     /**

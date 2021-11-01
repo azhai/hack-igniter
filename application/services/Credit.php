@@ -22,6 +22,23 @@ class Credit extends MY_Service
     }
 
     /**
+     * 倒数重试次数
+     *
+     * @param int $retries 重试次数
+     * @param int $sleep_ms = 0 休眠时间，单位：毫秒
+     */
+    public static function count_down($retries, $sleep_ms = 0)
+    {
+        if ($retries <= 0) {
+            return false;
+        }
+        if ($sleep_ms > 0) {
+            usleep($sleep_ms * 1000);
+        }
+        return true;
+    }
+
+    /**
      * 按月读取消费记录
      *
      * @param int $userid 用户的userid
@@ -59,20 +76,49 @@ class Credit extends MY_Service
      *
      * @param $userids 单个或多个用户的userid
      * @param bool $master = false  是否强制读取主库
+     * @param int $retry_times = 3  重试次数
      * @return array 用户的userid和账户的关联数组
      */
-    public function read_balances($userids, $master = false)
+    public function read_balances($userids, $master = false, $retry_times = 3)
     {
         $userids = is_array($userids) ? $userids : explode(',', $userids);
         if (empty($userids)) {
             return [];
         }
+        do {
         if ($master) {
             $this->user_credit_model->set_force_master(true);
         }
         $this->user_credit_model->where_in('userid', $userids);
         $rows = $this->user_credit_model->all();
+        } while (empty($rows) && self::count_down(--$retry_times, 150));
         return array_column($rows, null, 'userid');
+    }
+
+    /**
+     * 读取或创建余额。可选择从主库读
+     *
+     * @param string $userid 用户的userid
+     * @param bool $master = false  是否强制读取主库
+     * @param int $retry_times = 3  重试次数
+     * @return array 账户关联数组
+     */
+    public function get_or_create_balance($userid, $master = false, $retry_times = 3)
+    {
+        $table = $this->user_credit_model->table_name();
+        $where = ['userid' => $userid];
+        do {
+            if ($master) {
+                $this->user_credit_model->set_force_master(true);
+            }
+            $row = $this->user_credit_model->one($where);
+            if ($is_failure = empty($row)) {
+                $tpl = "INSERT IGNORE `%s` (userid, dateline) VALUES ('%s', %d)";
+                $db = $this->user_credit_model->reconnect();
+                $db->query(sprintf($tpl, $table, $userid, time()));
+            }
+        } while ($is_failure && self::count_down(--$retry_times, 150));
+        return $row;
     }
 
     /**
@@ -89,9 +135,8 @@ class Credit extends MY_Service
     {
         //$errno, $paid（实付与$number相同符号）, $balance
         $result = [1, 0, 0];
-        $retry_times = 0;
-        while ($retry_times < self::MAX_RETRY_TIMES) {
-            $retry_times ++;
+        $retry_times = self::MAX_RETRY_TIMES;
+        do {
             debug_output("user %s change %.2f %s discount %.2f retry x%d", $userid, $number, $coin_type, $discount, $retry_times);
             if (self::USING_TRANSCATION && !$this->user_credit_model->trans_start()) {
                 usleep(0.01 * self::SECOND_HAVE_MICRO * $retry_times);
@@ -110,11 +155,10 @@ class Credit extends MY_Service
             } else if (self::USING_SPIN_LOCK) {
                 $this->_release_spinlock($userid);
             }
-            if ($number < 0 && $result[0] > 0 && $result[2] > 0) {
-                continue;
-            }
-            break;
+            if ($number >= 0 || intval($result[0]) === 0 || $result[2] <= 0) {
+                break; //成功
         }
+        } while (self::count_down(--$retry_times, 200));
         return $result;
     }
 
@@ -305,12 +349,11 @@ class Credit extends MY_Service
         $success = ($db->query($sql) && $db->affected_rows() > 0); //操作成功
         if (empty($success)) { //不存在记录，新写入一行
             $count = floatval($number);
-            $tpl = "INSERT INTO `%s` (userid, dateline, %s) VALUES ('%s', %d, %.2f)";
+            $tpl = "INSERT IGNORE `%s` (userid, dateline, %s) VALUES ('%s', %d, %.2f)";
             $db->query(sprintf($tpl, $table, $coin_type, $userid, time(), $count));
-        } else {
-            $balances = $this->read_balances($userid, true);
-            $count = floatval($balances[$userid][$coin_type]);
         }
+        $balances = $this->get_or_create_balance($userid, true);
+        $count = floatval($balances[$coin_type]);
         debug_output("user %s result ok, add %.2f remain %.2f", $userid, $number, $count);
         return [0, $number, $count];
     }
@@ -332,15 +375,8 @@ class Credit extends MY_Service
         }
         $db = $this->user_credit_model->reconnect();
         $table = $this->user_credit_model->table_name();
-        $balances = $this->read_balances($userid, true);
-        if (!isset($balances[$userid])) { //不存在记录，新写入一行余额为0
-            $tpl = "INSERT INTO `%s` (userid, dateline, %s) VALUES ('%s', %d, 0)";
-            $db->query(sprintf($tpl, $table, $coin_type, $userid, time()));
-            $errno = ($number == 0) ? 0 : 1;
-            return [$errno, 0, 0];
-        }
-
-        $count = floatval($balances[$userid][$coin_type]);
+        $balances = $this->get_or_create_balance($userid, true);
+        $count = floatval($balances[$coin_type]);
         $abs_number = abs($number);
         if ($count >= $abs_number) {
             $actually_paid = 0 - $abs_number;

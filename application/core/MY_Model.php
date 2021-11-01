@@ -332,6 +332,19 @@ class MY_Model extends CI_Model implements ArrayAccess
         return $this;
     }
 
+    public function order_by_rand($pkey = '')
+    {
+        $db = $this->reconnect();
+        if (empty($pkey)) {
+            $orderby = 'RAND()';
+        } else {
+            $orderby = '(FLOOR(UNIX_TIMESTAMP(NOW(6)) * '
+                . '(POW(10,6)-' . $pkey . ')) ^ ' . $pkey . ') * 37 & 0xFFFFFF';
+        }
+        $db->order_by($orderby, '', false);
+        return $this;
+    }
+
     public function get_compiled_select($table = '', $reset = true)
     {
         $db = $this->reconnect();
