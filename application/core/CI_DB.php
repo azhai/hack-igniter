@@ -161,7 +161,7 @@ class CI_DB extends CI_DB_query_builder
     {
         if (!isset($this->data_cache['table_names_at'])
             || $this->data_cache['table_names_at'] < time() - TABLE_NAME_TIMEOUT) {
-            $this->data_cache['table_names'] = [];
+            $this->data_cache['table_names'] = null;
             $this->data_cache['table_names_at'] = time();
             }
         $tables = parent::list_tables(false);
