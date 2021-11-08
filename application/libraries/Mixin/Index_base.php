@@ -14,14 +14,23 @@
 namespace Mylib\Mixin;
 
 use \MY_Model;
+defined('INDEX_CACHE_KEY') or define('INDEX_CACHE_KEY', 'index'); //缓存配置名
+
 
 /**
  * 索引表
  */
 abstract class Index_base extends MY_Model
 {
+    abstract public function get_cache_key();
     abstract public function get_log_table();
     abstract public function get_interval();
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->load->cache('redis', INDEX_CACHE_KEY, 'index_cache');
+    }
 
     /**
      * 相对于 $stamp 时间，下个月1号零点的时间戳
@@ -73,6 +82,30 @@ abstract class Index_base extends MY_Model
     }
 
     /**
+     * 根据时间找出起始id
+     */
+    public function _get_start_id($field, $start, $pkey = 'id', $suffix = '')
+    {
+        $suffix = $suffix ? '_' . ltrim($suffix, '_') : date('_Ym');
+        if ($cache_key = $this->get_cache_key()) {
+            $cache_key .= $suffix;
+            $stop = $start - $this->get_interval();
+            $options = ['limit' => [0, 1]];
+            $keys = $this->index_cache->zRevRangeByScore($cache_key, $start, $stop, $options);
+            if (count($keys) > 0) {
+                return $keys[0];
+            }
+        }
+        $this->_add_log_index($field, $pkey);
+        $find = ['stamp_number <=' => $start, 'table_suffix' => $suffix];
+        if ($row = $this->order_by('stamp_number', 'DESC')->one($find)) {
+            $this->index_cache->zAdd($cache_key, $row['stamp_number'], $row['start_id']);
+            $this->index_cache->expire($cache_key, 86400);
+            return $row['start_id'];
+        }
+    }
+
+    /**
      * 根据时间时间重写where，加上id条件
      */
     public function _rewrite_where($where, $field, $pkey = 'id', $suffix = '')
@@ -89,18 +122,11 @@ abstract class Index_base extends MY_Model
                 break;
             }
         }
-        if ($start <= 0) {
-            return $where;
-        }
-
-        $this->_add_log_index($field, $pkey);
-        $find = ['stamp_number <=' => $start];
-        if ($suffix) {
-            $suffix = '_' . ltrim($suffix, '_');
-            $find['table_suffix'] = $suffix;
-        }
-        if ($row = $this->order_by('stamp_number', 'DESC')->one($find)) {
-            $where[$cond] = $row['start_id'];
+        if ($start > 0) {
+            $start_id = $this->_get_start_id($field, $start, $pkey, $suffix);
+            if (!empty($start_id)) {
+                $where[$cond] = $start_id;
+            }
         }
         return $where;
     }

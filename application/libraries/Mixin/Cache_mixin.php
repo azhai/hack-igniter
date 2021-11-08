@@ -15,6 +15,7 @@ namespace Mylib\Mixin;
 
 defined('REDIS_DEFAULT_POOL_SIZE') or define('REDIS_DEFAULT_POOL_SIZE', 1); //默认连接池大小
 
+
 /**
  * 缓存连接池
  */
