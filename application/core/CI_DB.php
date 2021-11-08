@@ -12,6 +12,7 @@
  */
 
 defined('BASEPATH') or exit('No direct script access allowed');
+defined('TABLE_NAME_TIMEOUT') or define('TABLE_NAME_TIMEOUT', 3600); //表名缓存时间
 require_once BASEPATH . 'database/DB_driver.php';
 require_once BASEPATH . 'database/DB_query_builder.php';
 require_once APPPATH . 'helpers/my_helper.php';
@@ -158,43 +159,20 @@ class CI_DB extends CI_DB_query_builder
      */
     public function list_tables($constrain_by_prefix = FALSE)
     {
-        //原始的 list_tables() 始终使用缓存，而且也不会检查前缀
-        $sql = $this->_list_tables($constrain_by_prefix);
-        if ($sql === false || $constrain_by_prefix === false) {
-            return parent::list_tables($constrain_by_prefix);
-        }
-
-        $rows = [];
-        if ($query = $this->query($sql)) {
-            $rows = $query->result_array();
-        }
-        if (empty($rows)) {
-            return [];
-        }
-
-        //找出对应的字段
-        $row = reset($rows);
-        if (isset($row['table_name'])) {
-            $key = 'table_name';
-        } elseif (isset($row['TABLE_NAME'])) {
-            $key = 'TABLE_NAME';
-        } else {
-            $keys = array_keys($row);
-            $key = array_shift($keys);
-        }
-
-        //返回符合条件的数据
-        $result = [];
-        $this->data_cache['table_names'] = [];
-        $prefix = $constrain_by_prefix ? (string)$constrain_by_prefix : '';
-        foreach ($rows as $row) {
-            $table = $row[$key];
-            $this->data_cache['table_names'][] = $table;
-            if ($prefix === '' || starts_with($table, $prefix)) {
-                $result[] = $table;
+        if (!isset($this->data_cache['table_names_at'])
+            || $this->data_cache['table_names_at'] < time() - TABLE_NAME_TIMEOUT) {
+            $this->data_cache['table_names'] = [];
+            $this->data_cache['table_names_at'] = time();
             }
+        $tables = parent::list_tables(false);
+        if ($constrain_by_prefix === false || $constrain_by_prefix === '') {
+            return $tables;
         }
-        return $result;
+        //当有表名缓存时，原CI代码不会检查前缀
+        $prefix = (string)$constrain_by_prefix;
+        return array_filter($tables, function($table) use ($prefix) {
+            return starts_with($table, $prefix);
+        });
     }
 
     /**
