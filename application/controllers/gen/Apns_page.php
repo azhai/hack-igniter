@@ -11,7 +11,7 @@
  * @license http://opensource.org/licenses/MIT  MIT License
  */
 
-defined('BASEPATH') or exit('No direct script access allowed');
+defined('BASEPATH') || exit('No direct script access allowed');
 
 /**
  * iOS的Apns消息推送服务

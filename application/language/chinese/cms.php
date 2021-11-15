@@ -1,5 +1,5 @@
 <?php
-defined('ShopNC_CLUB') or exit('Access Invalid!');
+defined('ShopNC_CLUB') || exit('Access Invalid!');
 $lang['cms_isuse'] = 'CMS开关';
 $lang['cms_url'] = 'CMS地址';
 $lang['cms_url_explain'] = '填写为CMS配置的二级域名，没有配置请留空。';

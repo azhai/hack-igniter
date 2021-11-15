@@ -13,7 +13,7 @@
 
 namespace Mylib\Mixin;
 
-defined('REDIS_DEFAULT_POOL_SIZE') or define('REDIS_DEFAULT_POOL_SIZE', 1); //默认连接池大小
+\defined('REDIS_DEFAULT_POOL_SIZE') || \define('REDIS_DEFAULT_POOL_SIZE', 1); //默认连接池大小
 
 
 /**
@@ -32,7 +32,7 @@ trait Cache_mixin
     {
 //        $loader = load_class('Loader', 'core');
         $loader = get_instance()->load;
-        if (empty($object_name) && is_string($params)) {
+        if (empty($object_name) && \is_string($params)) {
             $object_name = $params . '_redis';
         }
         return $loader->cache('redis', $params, $object_name, $force);
@@ -48,7 +48,7 @@ trait Cache_mixin
     {
         $object_name = $params . '_redis';
         if ($pool_size === 0) {
-            $pool_size = constant('REDIS_DEFAULT_POOL_SIZE'); //全局设置
+            $pool_size = \constant('REDIS_DEFAULT_POOL_SIZE'); //全局设置
         }
         if ($pool_size >= 2) { //使用连接池
             $object_name .= sprintf('%03d', rand(1, $pool_size));

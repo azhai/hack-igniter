@@ -42,15 +42,15 @@ class MY_Cache_redis extends CI_Cache_redis
                 $password = $config['username'] . ':' . $password;
             }
             if (is_string($password) && $password) {
-            $this->_redis->auth($password);
-        }
+                $this->_redis->auth($password);
+            }
         }
         $db_index = 0;
         if (isset($config['database']) && $config['database']) {
-            $db_index = intval($config['database']);
+            $db_index = (int) ($config['database']);
         }
         if (isset($config['dbindex']) && $config['dbindex']) {
-            $db_index = intval($config['dbindex']);
+            $db_index = (int) ($config['dbindex']);
         }
         if ($db_index >= 0) {
             $this->_redis->select($db_index);
@@ -223,8 +223,7 @@ class MY_Cache_redis extends CI_Cache_redis
      */
     public function __destruct()
     {
-        if ($this->_redis)
-        {
+        if ($this->_redis) {
             try {
                 // Closing a persistent connection requires PhpRedis >= 4.2.0
                 $this->_redis->close();

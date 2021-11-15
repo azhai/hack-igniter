@@ -53,7 +53,7 @@ class MY_Portable_hash
     {
         $output = '';
         if (@is_readable('/dev/urandom') &&
-            ($fh = @fopen('/dev/urandom', 'rb'))
+            ($fh = @fopen('/dev/urandom', 'r'))
         ) {
             $output = fread($fh, $count);
             fclose($fh);

@@ -86,7 +86,7 @@ class Client
     public function __call($name, $args)
     {
         $name = strtolower($name);
-        if ($this->is_multi && in_array($name, self::$methods, true)) {
+        if ($this->is_multi && \in_array($name, self::$methods, true)) {
             $name = 'add' . ucfirst($name);
         }
         return exec_method_array($this->curl, $name, $args);
@@ -97,10 +97,10 @@ class Client
      */
     public function setLogMethod($log = 'log_message', $verbose = false)
     {
-        if (empty($log) || is_string($log) && !function_exists($log)) {
+        if (empty($log) || \is_string($log) && !\function_exists($log)) {
             return;
         }
-        if (is_array($log) && $log[0] instanceof LoggerInterface) {
+        if (\is_array($log) && $log[0] instanceof LoggerInterface) {
             $this->setLogger($log[0]);
         }
         if ($verbose) {
@@ -188,7 +188,7 @@ class Client
      */
     public function append($url, array $data, $method = 'post')
     {
-        if (!$this->is_multi || is_null($this->timer)) {
+        if (!$this->is_multi || null === $this->timer) {
             return false;
         }
         $this->batch_data[] = $data;
@@ -250,7 +250,7 @@ function isErrorUnreachable($code)
         ERRNO_DNS_FAIL,
         ERRNO_CONN_FAIL,
     ];
-    return in_array($code, $failures);
+    return \in_array($code, $failures, true);
 }
 
 /**
@@ -270,7 +270,7 @@ function getDomainIpaddr($domain)
  */
 function readTempFile($temp)
 {
-    if (!is_resource($temp)) {
+    if (!\is_resource($temp)) {
         return '';
     }
     rewind($temp);
@@ -323,10 +323,10 @@ function logSimpleCallback(callable $log, $success = false, $level = 'DEBUG')
 {
     return function ($client) use ($log, $success, $level) {
         $content = sprintf(
-                'REST> ip_addr: %s total_time: %s',
-                $client->getInfo(CURLINFO_PRIMARY_IP),
-                $client->getInfo(CURLINFO_TOTAL_TIME)
-            ) . "\n";
+            'REST> ip_addr: %s total_time: %s',
+            $client->getInfo(CURLINFO_PRIMARY_IP),
+            $client->getInfo(CURLINFO_TOTAL_TIME)
+        ) . "\n";
         $method = $client->getOpt(CURLOPT_CUSTOMREQUEST);
         if (empty($method)) {
             $method = strstr($client->getInfo(CURLINFO_HEADER_OUT), ' ', true);
@@ -336,7 +336,7 @@ function logSimpleCallback(callable $log, $success = false, $level = 'DEBUG')
         $content .= 'REST> ' . $request . "\n";
         $response = $success ? $client->getRawResponse() : 'ERROR: ' . $client->getErrorMessage();
         $content .= 'REST> ' . $response . "\n";
-        call_user_func($log, $level, $content);
+        \call_user_func($log, $level, $content);
     };
 }
 
@@ -350,11 +350,11 @@ function logVerboseCallback(callable $log, $success = false, $level = 'DEBUG')
     return function ($client) use ($log, $success, $level) {
         $url = strstr($client->getUrl(), '?', true);
         $content = sprintf(
-                '* cURL site_uri: %s ip_addr: %s total_time: %s',
-                $url,
-                $client->getInfo(CURLINFO_PRIMARY_IP),
-                $client->getInfo(CURLINFO_TOTAL_TIME)
-            ) . "\n";
+            '* cURL site_uri: %s ip_addr: %s total_time: %s',
+            $url,
+            $client->getInfo(CURLINFO_PRIMARY_IP),
+            $client->getInfo(CURLINFO_TOTAL_TIME)
+        ) . "\n";
         if ($success) {
             $request = $client->getInfo(CURLINFO_HEADER_OUT);
             $content .= '> ' . rtrim(str_replace("\r\n", "\n> ", $request), '> ');
@@ -368,6 +368,6 @@ function logVerboseCallback(callable $log, $success = false, $level = 'DEBUG')
         $response = $client->getRawResponseHeaders();
         $content .= '< ' . rtrim(str_replace("\r\n", "\n< ", $response), '< ');
         $content .= $success ? $client->getRawResponse() : 'ERROR: ' . $client->getErrorMessage();
-        call_user_func($log, $level, $content);
+        \call_user_func($log, $level, $content);
     };
 }

@@ -1,8 +1,7 @@
 <?php
-defined('BASEPATH') or exit('No direct script access allowed');
+defined('BASEPATH') || exit('No direct script access allowed');
 
 use Mylib\Util\Geo_hilbert;
-
 
 class Index extends MY_Service
 {

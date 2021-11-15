@@ -1,5 +1,5 @@
 <?php
-defined('ShopNC_CLUB') or exit('Access Invalid!');
+defined('ShopNC_CLUB') || exit('Access Invalid!');
 $lang['admin_voucher_unavailable'] = '需开启 代金券、积分，正在跳转到设置页面 。。。';
 $lang['admin_voucher_jb_unavailable'] = '需开启金币，正在跳转至设置页面 。。。';
 $lang['admin_voucher_applystate_new'] = '待审核';

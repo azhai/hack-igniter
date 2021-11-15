@@ -33,7 +33,7 @@ class Event extends \Evenement\EventEmitter
         if ($dir && !isset($this->event_names[$dir])) {
             $this->event_names[$dir] = [];
         }
-        $prelen = strlen(self::SLOT_PREFIX);
+        $prelen = \strlen(self::SLOT_PREFIX);
         $methods = get_class_methods($worker);
         foreach ($methods as $name) {
             $name = strtolower($name);

@@ -29,8 +29,8 @@ class Timer
 
     public function __construct($once_times = 0, $gap_secs = 0)
     {
-        $this->random_once = intval($once_times);
-        $this->setIntervalSecs(intval($gap_secs));
+        $this->random_once = (int) $once_times;
+        $this->setIntervalSecs((int) $gap_secs);
         $this->startup_time_msec = microtime(true);
         $this->startup_time = round($this->startup_time_msec);
     }
@@ -45,7 +45,7 @@ class Timer
         } elseif ($base <= 1) {
             return true;
         }
-        return mt_rand() % intval($base) === 0;
+        return mt_rand() % (int) $base === 0;
     }
 
     /**
@@ -73,7 +73,7 @@ class Timer
             $result = self::randomTimes($this->random_once);
         }
         if (empty($result) && $this->queue_max_size > 0) {
-            $result = (count($this->queue_ref) >= $this->queue_max_size);
+            $result = (\count($this->queue_ref) >= $this->queue_max_size);
         }
         if ($result && $this->last_hit_time > 0) { // 更新最后命中时间
             $this->last_hit_time = time();

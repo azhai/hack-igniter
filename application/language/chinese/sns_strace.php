@@ -1,5 +1,5 @@
 <?php
-defined('ShopNC_CLUB') or exit('Access Invalid!');
+defined('ShopNC_CLUB') || exit('Access Invalid!');
 
 $lang['admin_snsstrace_storename'] = '店铺名称';
 $lang['store_sns_coupon_price'] = '优惠券面额';

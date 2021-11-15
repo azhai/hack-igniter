@@ -1,5 +1,5 @@
 <?php
-defined('ShopNC_CLUB') or exit('Access Invalid!');
+defined('ShopNC_CLUB') || exit('Access Invalid!');
 /**
  * 导出语言包，只有在执行导出行为时，才会调用
  */

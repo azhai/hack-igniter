@@ -11,7 +11,7 @@
  * @license http://opensource.org/licenses/MIT  MIT License
  */
 
-defined('BASEPATH') or exit('No direct script access allowed');
+defined('BASEPATH') || exit('No direct script access allowed');
 
 
 if (!function_exists('is_winnt')) {
@@ -32,7 +32,7 @@ if (!function_exists('is_testing_mode')) {
     function is_testing_mode()
     {
         if (is_cli() && count($_SERVER['argv']) > 1) {
-            return in_array('testing', $_SERVER['argv']);
+            return in_array('testing', $_SERVER['argv'], true);
         }
         if (!isset($_SERVER) || empty($_SERVER)) {
             return false;
@@ -58,7 +58,7 @@ if (!function_exists('sleep_second_until')) {
             $sleep_secs -= 0.5;
         }
         if ($sleep_secs > 0) {
-            usleep($sleep_secs * pow(10, 6));
+            usleep($sleep_secs * 10** 6);
         }
     }
 }

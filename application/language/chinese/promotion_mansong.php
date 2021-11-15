@@ -1,5 +1,5 @@
 <?php
-defined('ShopNC_CLUB') or exit('Access Invalid!');
+defined('ShopNC_CLUB') || exit('Access Invalid!');
 
 $lang['promotion_unavailable'] = '商品促销功能尚未开启';
 

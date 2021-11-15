@@ -46,7 +46,7 @@ class MY_Subject_cache extends MY_Subject
     public function cache_timeout($another = false)
     {
         if (is_numeric($another)) {
-            $this->_cache_timeout = intval($another);
+            $this->_cache_timeout = (int) $another;
         } elseif (method_exists($this->_producer, 'cache_timeout')) {
             $this->_cache_timeout = $this->_producer->cache_timeout();
         }
@@ -58,7 +58,7 @@ class MY_Subject_cache extends MY_Subject
      */
     public function cache_type($another = false)
     {
-        if (is_string($another)) {
+        if (\is_string($another)) {
             $this->_cache_type = $another;
         } elseif (method_exists($this->_producer, 'cache_type')) {
             $this->_cache_type = $this->_producer->cache_type();
@@ -74,12 +74,12 @@ class MY_Subject_cache extends MY_Subject
         if (method_exists($this->_producer, 'cache_key')) {
             return $this->_producer->cache_key($condition);
         } else {
-            $class = get_class($this->_producer);
+            $class = \get_class($this->_producer);
             $class = strtolower($class);
             if (ends_with($class, '_model')) {
                 $class = substr($class, 0, -6); //去除_model
             }
-            if (is_array($condition)) {
+            if (\is_array($condition)) {
                 $args = array_values($condition);
             } else {
                 $args = to_array($condition);

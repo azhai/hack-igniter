@@ -58,7 +58,7 @@ trait Bundle
     public function complete()
     {
         $batch_data = array_splice($this->_queue, 0);
-        if (count($batch_data) > 0) {
+        if (\count($batch_data) > 0) {
             $this->process($batch_data);
         }
     }
@@ -82,7 +82,7 @@ trait Bundle
      */
     public function add_data($data)
     {
-        if (!is_null($data)) {
+        if (null !== $data) {
             $this->_queue[] = $data;
         }
         if ($this->_timer->isHitting()) {

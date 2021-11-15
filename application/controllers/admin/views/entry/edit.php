@@ -18,7 +18,7 @@
                     <div class="row m-b col-sm-3">
                         <select class="form-control" name="prefix">
                             <?php foreach ($city_options as $key => $val):
-                                $sel = ($key == $the_row['prefix']) ? ' selected="selected"' : '';
+                                $sel = ($key === $the_row['prefix']) ? ' selected="selected"' : '';
                                 printf('<option value="%s"%s>%s</option>', $key, $sel, $val['name']);
                                 echo "\n";
                             endforeach; ?>

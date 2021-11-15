@@ -11,7 +11,7 @@
  * @license http://opensource.org/licenses/MIT  MIT License
  */
 
-defined('BASEPATH') or exit('No direct script access allowed');
+defined('BASEPATH') || exit('No direct script access allowed');
 
 
 if (!function_exists('debug_output')) {
@@ -73,7 +73,7 @@ if (!function_exists('debug_trace')) {
         array_shift($trace); // remove {main}
         array_pop($trace); // remove call to this method
         $length = count($trace);
-        $result = array();
+        $result = [];
         for ($i = 0; $i < $length; $i++) {
             $result[] = ($i + 1) . ')' . substr($trace[$i], strpos($trace[$i], ' ')); // replace '#someNum' with '$i)', set the right ordering
         }
@@ -151,7 +151,7 @@ if (!function_exists('to_array')) {
         } elseif (is_object($value) && $read_props) {
             return get_object_vars($value);
         } else {
-            return is_null($value) ? [] : [$value];
+            return null === $value ? [] : [$value];
         }
     }
 }
@@ -168,14 +168,14 @@ if (!function_exists('array_column')) {
         }
         $result = [];
         foreach ($input as $row) {
-            if (is_null($column_key)) {
+            if (null === $column_key) {
                 $value = $row;
             } elseif (isset($row[$column_key])) {
                 $value = $row[$column_key];
             } else {
                 $value = null;
             }
-            if (!is_null($index_key) && isset($row[$index_key])) {
+            if (null !== $index_key && isset($row[$index_key])) {
                 $result[$row[$index_key]] = $value;
             } else {
                 $result[] = $value;

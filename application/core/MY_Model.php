@@ -11,7 +11,7 @@
  * @license http://opensource.org/licenses/MIT  MIT License
  */
 
-defined('BASEPATH') or exit('No direct script access allowed');
+defined('BASEPATH') || exit('No direct script access allowed');
 
 /**
  * 基础Model，设置了数据库和表名
@@ -165,7 +165,7 @@ class MY_Model extends CI_Model implements ArrayAccess
         }
         if (empty($this->_db_conn)) {
             $this->_db_conn = $this->load->database($this->_db_key, true);
-            if (!empty($this->_db_key_ro) && $this->_db_key_ro != $this->_db_key) {
+            if (!empty($this->_db_key_ro) && $this->_db_key_ro !== $this->_db_key) {
                 //连接只读数据库，在simple_query()中实现连接的切换
                 if ($db = $this->load->database($this->_db_key_ro, true)) {
                     $this->_db_conn->add_reader($db->conn_id, true);
@@ -355,7 +355,7 @@ class MY_Model extends CI_Model implements ArrayAccess
         }
         if ($this->_force_master) {
             $sql = '/*FORCE_MASTER*/ ' . $sql; //从主库读
-        } else if ($this->_force_master_once) {
+        } elseif ($this->_force_master_once) {
             $sql = '/*FORCE_MASTER*/ ' . $sql; //从主库读
             $this->_force_master_once = false;
         }
@@ -416,7 +416,7 @@ class MY_Model extends CI_Model implements ArrayAccess
                 return $rows ? $rows[0] : [];
             }
         } else {
-            $type = get_class($this);
+            $type = static::class;
         }
         return $this->result->row(0, $type);
     }

@@ -11,7 +11,7 @@
  * @license http://opensource.org/licenses/MIT  MIT License
  */
 
-defined('LOG_WRITE_FILE_FREQ') or define('LOG_WRITE_FILE_FREQ', 1); //写文件的概率
+defined('LOG_WRITE_FILE_FREQ') || define('LOG_WRITE_FILE_FREQ', 1); //写文件的概率
 
 
 /**
@@ -48,7 +48,7 @@ class MY_Logger_file extends CI_Driver
     public function close()
     {
         $this->writeFiles();
-        unset($this->records);
+        $this->records = null;
     }
 
     /**
@@ -89,7 +89,7 @@ class MY_Logger_file extends CI_Driver
         }
         $record['time'] = date($this->time_format, $record['time']);
         $line = implode(' ', $record) . PHP_EOL;
-        array_push($this->records[$today], $line);
+        $this->records[$today][] = $line;
         if (LOG_WRITE_FILE_FREQ >= 1 || LOG_WRITE_FILE_FREQ >= random_int(1, 10000) / 10000) {
             $this->writeFiles();
         }

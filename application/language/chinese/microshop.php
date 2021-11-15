@@ -1,5 +1,5 @@
 <?php
-defined('ShopNC_CLUB') or exit('Access Invalid!');
+defined('ShopNC_CLUB') || exit('Access Invalid!');
 $lang['microshop_not_install'] = '您没有安装微商城模块';
 
 $lang['microshop_member'] = '用户';

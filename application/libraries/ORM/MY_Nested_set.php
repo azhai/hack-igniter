@@ -265,14 +265,14 @@ class MY_Nested_node
         return $result;
     }
 
-    protected function _set_parent(MY_Nested_node $node, $id = null, $parent = null)
+    protected function _set_parent(self $node, $id = null, $parent = null)
     {
-        if (is_null($parent)) {
+        if (null === $parent) {
             $parent = $this;
         }
         $node->parent = $parent;
-        if (is_null($id) || false === $id) {
-            $id = count($parent->children);
+        if (null === $id || false === $id) {
+            $id = \count($parent->children);
         }
         $parent->children[$id] = $node;
         do {

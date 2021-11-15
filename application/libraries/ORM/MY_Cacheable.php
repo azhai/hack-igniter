@@ -40,7 +40,7 @@ trait MY_Cacheable
      */
     public function add_cache($cache, $params = null)
     {
-        if (!is_object($cache) && $params) {
+        if (!\is_object($cache) && $params) {
             $cache = $this->load->cache($cache, $params);
         }
         if ($cache) {
@@ -71,7 +71,7 @@ trait MY_Cacheable
     {
         if (empty($data)) {
             $data = to_array($this);
-        } elseif (!is_array($data)) {
+        } elseif (!\is_array($data)) {
             $data = to_array($data);
         }
         if ($fields = $this->cache_fields()) {
@@ -87,7 +87,7 @@ trait MY_Cacheable
     public function condition($value = null)
     {
         $indexes = $this->table_indexes();
-        if (is_null($value)) {
+        if (null === $value) {
 //            require_once APPPATH . 'helpers/fmt_helper';
 //            $result = array_part($this, $indexes);
             $result = [];

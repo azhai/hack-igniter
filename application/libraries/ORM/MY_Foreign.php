@@ -16,11 +16,11 @@ namespace Mylib\ORM;
 $loader = load_class('Loader', 'core');
 $loader->helper('inflector');
 
-defined('FOREIGN_BELONGS_TO') or define('FOREIGN_BELONGS_TO', 0);
-defined('FOREIGN_HAS_ONE') or define('FOREIGN_HAS_ONE', 1);
-defined('FOREIGN_HAS_MANY') or define('FOREIGN_HAS_MANY', 2);
-defined('FOREIGN_MANY_TO_MANY') or define('FOREIGN_MANY_TO_MANY', 3);
-defined('FOREIGN_SELF_MODEL') or define('FOREIGN_SELF_MODEL', '**SELF**');
+\defined('FOREIGN_BELONGS_TO') || \define('FOREIGN_BELONGS_TO', 0);
+\defined('FOREIGN_HAS_ONE') || \define('FOREIGN_HAS_ONE', 1);
+\defined('FOREIGN_HAS_MANY') || \define('FOREIGN_HAS_MANY', 2);
+\defined('FOREIGN_MANY_TO_MANY') || \define('FOREIGN_MANY_TO_MANY', 3);
+\defined('FOREIGN_SELF_MODEL') || \define('FOREIGN_SELF_MODEL', '**SELF**');
 
 
 /**
@@ -94,10 +94,10 @@ trait MY_Foreign
         if ('*' === $name) {
             $relations = $this->get_relations();
             $names = array_keys($relations);
-        } elseif (is_array($name)) {
+        } elseif (\is_array($name)) {
             $names = array_values($name);
         } else {
-            $names = array_filter(func_get_args());
+            $names = array_filter(\func_get_args());
         }
         if ($this->foreign_names = $names) {
             $this->foreign_data = array_fill_keys($names, []);
@@ -128,7 +128,7 @@ trait MY_Foreign
      */
     public function parse_relation($name, array $rel = [])
     {
-        if (is_null($this->foreign_defs)) {
+        if (null === $this->foreign_defs) {
             //使用ArrayObject而不是array，克隆时保持对原始对象foreign_defs属性的引用
             $this->foreign_defs = new \ArrayObject();
         }
@@ -235,13 +235,12 @@ trait MY_Foreign
         $name,
         $frows = null,
         $columns = '*'
-    )
-    {
+    ) {
         if (!$model->foreign_data[$name]) {
             return []; //外键没有数据
         }
         $pkey = $another->primary_key();
-        if (is_null($frows)) {
+        if (null === $frows) {
             //查询关联表数据
             $ids = array_keys($model->foreign_data[$name]);
             if ($another->is_open_mixin('cacheable')) {
@@ -274,8 +273,7 @@ trait MY_Foreign
         $name,
         array $rel = [],
         $columns = '*'
-    )
-    {
+    ) {
         $fkey = $rel['fkey'];
         if (isset($rel['rev_name'])) {
             $rev_name = $rel['rev_name'];

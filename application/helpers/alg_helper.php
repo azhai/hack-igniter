@@ -11,7 +11,7 @@
  * @license http://opensource.org/licenses/MIT  MIT License
  */
 
-defined('BASEPATH') or exit('No direct script access allowed');
+defined('BASEPATH') || exit('No direct script access allowed');
 
 
 if (!function_exists('get_similar_len')) {
@@ -38,11 +38,11 @@ if (!function_exists('binary_search')) {
         assert(is_callable($compare));
         $left = 0;
         do {
-            $middle = $left + intval(($right - $left) / 2);
+            $middle = $left + (int) (($right - $left) / 2);
             $sign = $compare($target, $middle);
             if ($sign > 0) { //目标在右侧
                 $left = $middle;
-            } else if ($sign < 0) { //目标在左侧
+            } elseif ($sign < 0) { //目标在左侧
                 $right = $middle;
             } else {
                 break;
@@ -158,9 +158,9 @@ if (!function_exists('last_month_day')) {
      */
     function last_month_day($time)
     {
-        $day = intval(date('d', $time)); //当月第几天
+        $day = (int) (date('d', $time)); //当月第几天
         $time -= $day * 86400; //退回上月最后一天
-        $tail_day = intval(date('d', $time)); //上个月有多长
+        $tail_day = (int) (date('d', $time)); //上个月有多长
         if ($day > $tail_day) {
             //上个月较短，没有这几天，使用月末
         } else {

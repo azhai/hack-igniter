@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') or exit('No direct script access allowed');
+defined('BASEPATH') || exit('No direct script access allowed');
 
 require_once APPPATH . 'libraries/Txim.php';
 
@@ -69,7 +69,7 @@ class Sender extends MY_Service
         $userid = trim(escapeshellarg($identifier), "'");
         $command = sprintf('%s/tools/signature.py %s 2>&1', APPPATH, $userid);
         $ret = exec($command, $output, $status);
-        return ($status == -1) ? false : $ret;
+        return ($status === -1) ? false : $ret;
     }
 
     /**
@@ -78,11 +78,11 @@ class Sender extends MY_Service
     protected function get_query_string()
     {
         $usersig = trim(str_replace(["\n", "\r", "\t"], '', $this->tlssig_config['usersig']));
-        $account = http_build_query(array(
+        $account = http_build_query([
             'sdkappid' => $this->tlssig_config['appid'],
             'identifier' => $this->tlssig_config['adminname'],
             'usersig' => $usersig,
-        ));
+        ]);
         return '?contenttype=json&apn=1&' . $account;
     }
 
@@ -94,7 +94,7 @@ class Sender extends MY_Service
     public function get_request_url($push_type = 0)
     {
         $query_string = $this->get_query_string();
-        switch (intval($push_type)) {
+        switch ((int) $push_type) {
             case 2:
                 $url = $this->url_all . $query_string;
                 break;
@@ -115,7 +115,7 @@ class Sender extends MY_Service
      */
     public function get_queue_name($push_type = 0)
     {
-        switch (intval($push_type)) {
+        switch ((int) $push_type) {
             case 2:
                 $queue_name = self::IM_QUEUE_NAME . '-all';
                 break;
@@ -303,7 +303,7 @@ class Sender extends MY_Service
         if ($to > 0) {
             $detail['to_userid'] = $to;
         }
-        if (!is_null($isvideo)) {
+        if (null !== $isvideo) {
             $detail['isvideo'] = $isvideo ? '1' : '0';
         }
         $count = 0;

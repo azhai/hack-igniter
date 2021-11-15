@@ -33,7 +33,7 @@ trait MY_Senior
             if (isset($row[$key])) {
                 return array_column($rows, $col, $key);
             } else {
-                $is_whole = is_null($col) || !isset($row[$col]);
+                $is_whole = null === $col || !isset($row[$col]);
                 foreach ($rows as $row) {
                     $id = strtr($key, $row);
                     $value = $is_whole ? $row[$col] : $row;
@@ -86,7 +86,7 @@ trait MY_Senior
 
     public function before_insert($row, $escape = null)
     {
-        if (is_array($row)) {
+        if (\is_array($row)) {
             $now = date('Y-m-d H:i:s');
             if (false === $escape) {
                 $now = "'" . $now . "'";
@@ -137,12 +137,12 @@ trait MY_Senior
         if ($shares = array_intersect_key($exists, $newbies)) {
             $changes = $this->before_delete(true);
             $this->where_in('id', array_values($shares));
-            $this->update($changes, null, count($shares));
+            $this->update($changes, null, \count($shares));
         }
         //禁用其他部分
         if ($remains = array_diff_key($exists, $shares)) {
             $this->where_in('id', array_values($remains));
-            $this->delete(null, count($remains));
+            $this->delete(null, \count($remains));
         }
         //增加多出部分
         if ($additions = array_diff_key($newbies, $exists)) {

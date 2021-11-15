@@ -11,7 +11,7 @@
  * @license http://opensource.org/licenses/MIT  MIT License
  */
 
-defined('BASEPATH') or exit('No direct script access allowed');
+defined('BASEPATH') || exit('No direct script access allowed');
 
 
 if (!function_exists('get_numbers')) {
@@ -24,8 +24,8 @@ if (!function_exists('get_numbers')) {
         if ($times === 0 || $times === false) {
             return false;
         }
-        $number = implode(current($matches));
-        return $to_int ? intval($number) : $number;
+        $number = implode('', current($matches));
+        return $to_int ? (int) $number : $number;
     }
 }
 
@@ -50,7 +50,7 @@ if (!function_exists('format_date')) {
         if (empty($datetime)) {
             return '';
         } elseif (is_numeric($datetime)) {
-            return date('Y-m-d', intval($datetime));
+            return date('Y-m-d', (int) $datetime);
         } else {
             $date = substr($datetime, 0, 10);
             return ('0000-00-00' === $date) ? '' : $date;
@@ -65,7 +65,7 @@ if (!function_exists('format_stars')) {
      */
     function format_stars($number = 0, $is_white = false)
     {
-        $integer = intval($number);
+        $integer = (int) $number;
         if ($integer > 5) {
             $integer = 5;
         } elseif ($integer < 0) {
@@ -81,7 +81,7 @@ if (!function_exists('format_stars')) {
 
     function format_moons_half($number = 0)
     {
-        $integer = intval($number);
+        $integer = (int) $number;
         $stars = ($number - $integer) ? '🌑🌑🌑🌑🌑🌓🌕🌕🌕🌕' : '🌑🌑🌑🌑🌑🌕🌕🌕🌕🌕';
         return mb_substr($stars, 5 - $integer, 5);
     }

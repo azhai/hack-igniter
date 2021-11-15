@@ -11,7 +11,7 @@
  * @license http://opensource.org/licenses/MIT  MIT License
  */
 
-defined('BASEPATH') or exit('No direct script access allowed');
+defined('BASEPATH') || exit('No direct script access allowed');
 
 
 if (!function_exists('whereis')) {
@@ -117,4 +117,3 @@ if (!function_exists('xhprof_close')) {
         return $filename;
     }
 }
-

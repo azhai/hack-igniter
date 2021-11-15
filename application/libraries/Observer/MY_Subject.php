@@ -56,7 +56,7 @@ class MY_Subject implements SplSubject
      */
     public function observers()
     {
-        if (is_null($this->_observers)) {
+        if (null === $this->_observers) {
             $this->_observers = new SplObjectStorage();
         }
         return $this->_observers;
@@ -101,7 +101,7 @@ class MY_Subject implements SplSubject
     public function notify()
     {
         //检查参数
-        $num_args = func_num_args();
+        $num_args = \func_num_args();
         if (0 === $num_args) {
             return;
         }
@@ -109,11 +109,11 @@ class MY_Subject implements SplSubject
         $args = ($num_args > 1) ? func_get_arg(1) : [];
         $notify_type = self::TYPE_NOTIFY_ALL;
         if ($num_args > 2) {
-            $notify_type = intval(func_get_arg(2));
+            $notify_type = (int) (func_get_arg(2));
         }
-        if (!is_array($args)) {
+        if (!\is_array($args)) {
             throw new InvalidArgumentException();
         }
-        return $this->_notify($name, $args, intval($notify_type));
+        return $this->_notify($name, $args, (int) $notify_type);
     }
 }

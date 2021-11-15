@@ -11,8 +11,8 @@
  * @license http://opensource.org/licenses/MIT  MIT License
  */
 
-defined('BASEPATH') or exit('No direct script access allowed');
-defined('TABLE_NAME_TIMEOUT') or define('TABLE_NAME_TIMEOUT', 3600); //表名缓存时间
+defined('BASEPATH') || exit('No direct script access allowed');
+defined('TABLE_NAME_TIMEOUT') || define('TABLE_NAME_TIMEOUT', 3600); //表名缓存时间
 require_once BASEPATH . 'database/DB_driver.php';
 require_once BASEPATH . 'database/DB_query_builder.php';
 require_once APPPATH . 'helpers/my_helper.php';
@@ -133,19 +133,19 @@ class CI_DB extends CI_DB_query_builder
 
     public function reset_count()
     {
-        $this->_reset_run(array(
-            'qb_select' => array(),
-            'qb_from' => array(),
-            'qb_join' => array(),
-            'qb_aliased_tables' => array(),
-            'qb_no_escape' => array(),
-        ));
+        $this->_reset_run([
+            'qb_select' => [],
+            'qb_from' => [],
+            'qb_join' => [],
+            'qb_aliased_tables' => [],
+            'qb_no_escape' => [],
+        ]);
     }
 
     /**
      * Protect Identifiers
      */
-    public function protect_identifiers($item, $prefix_single = FALSE, $protect_identifiers = NULL, $field_exists = TRUE)
+    public function protect_identifiers($item, $prefix_single = false, $protect_identifiers = null, $field_exists = true)
     {
 //        $protect_identifiers = false;
         return parent::protect_identifiers($item, $prefix_single, $protect_identifiers, $field_exists);
@@ -157,20 +157,20 @@ class CI_DB extends CI_DB_query_builder
      * @param	bool/string	$constrain_by_prefix = FALSE
      * @return	array
      */
-    public function list_tables($constrain_by_prefix = FALSE)
+    public function list_tables($constrain_by_prefix = false)
     {
         if (!isset($this->data_cache['table_names_at'])
             || $this->data_cache['table_names_at'] < time() - TABLE_NAME_TIMEOUT) {
             $this->data_cache['table_names'] = null;
             $this->data_cache['table_names_at'] = time();
-            }
+        }
         $tables = parent::list_tables(false);
         if ($constrain_by_prefix === false || $constrain_by_prefix === '') {
             return $tables;
         }
         //当有表名缓存时，原CI代码不会检查前缀
         $prefix = (string)$constrain_by_prefix;
-        return array_filter($tables, function($table) use ($prefix) {
+        return array_filter($tables, function ($table) use ($prefix) {
             return starts_with($table, $prefix);
         });
     }

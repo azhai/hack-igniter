@@ -81,15 +81,15 @@ class Cache_lock
             $value = $this->redis->hIncrBy($name, self::CACHE_KEY_TAIL_VALUE, -1);
             if ($value >= 0) {
                 return 1;
-            } elseif ($value == -1) {
+            } elseif ($value === -1) {
                 $this->redis->hSet($name, self::CACHE_KEY_TAIL_EXPIRE, time() + $ttl);
                 return 0;
             }
-                usleep($sleep_msec);
+            usleep($sleep_msec);
             if ($this->redis->hGet($name, self::CACHE_KEY_TAIL_EXPIRE) < time()) {
                 $this->redis->hSet($name, self::CACHE_KEY_TAIL_VALUE, 0);  //释放锁
-                }
             }
+        }
         return -1;
     }
 

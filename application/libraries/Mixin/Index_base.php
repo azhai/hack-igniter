@@ -14,7 +14,8 @@
 namespace Mylib\Mixin;
 
 use \MY_Model;
-defined('INDEX_CACHE_KEY') or define('INDEX_CACHE_KEY', 'index'); //缓存配置名
+
+\defined('INDEX_CACHE_KEY') || \define('INDEX_CACHE_KEY', 'index'); //缓存配置名
 
 
 /**
@@ -92,7 +93,7 @@ abstract class Index_base extends MY_Model
             $stop = $start - $this->get_interval();
             $options = ['limit' => [0, 1]];
             $keys = $this->index_cache->zRevRangeByScore($cache_key, $start, $stop, $options);
-            if (count($keys) > 0) {
+            if (\count($keys) > 0) {
                 return $keys[0];
             }
         }
@@ -111,13 +112,13 @@ abstract class Index_base extends MY_Model
     public function _rewrite_where($where, $field, $pkey = 'id', $suffix = '')
     {
         $cond = $pkey . ' >=';
-        if (empty($where) || !is_array($where) || isset($where[$cond])) {
+        if (empty($where) || !\is_array($where) || isset($where[$cond])) {
             return $where;
         }
         $start = 0;
         foreach ($where as $key => $value) {
             $key = str_replace(['`', ' '], '', strtolower($key));
-            if ($key == $field.'>' || $key == $field.'>=') {
+            if ($key === $field.'>' || $key === $field.'>=') {
                 $start = $value;
                 break;
             }

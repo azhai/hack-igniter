@@ -72,7 +72,7 @@ class Geo_hilbert
 
     public function __construct($lng = 0, $lat = 0)
     {
-        if (is_array($lng)) {
+        if (\is_array($lng)) {
             $lat = isset($lng['lat']) ? $lng['lat'] : 0;
             $lng = isset($lng['lng']) ? $lng['lng'] : 0;
         }
@@ -81,23 +81,23 @@ class Geo_hilbert
 
     public function update($lng, $lat)
     {
-        assert($lng >= self::LNG_MIN && $lng <= self::LNG_MAX);
+        \assert($lng >= self::LNG_MIN && $lng <= self::LNG_MAX);
         $this->lng = $lng;
-        assert($lat >= self::LAT_MIN && $lat <= self::LAT_MAX);
+        \assert($lat >= self::LAT_MIN && $lat <= self::LAT_MAX);
         $this->lat = $lat;
     }
 
     public static function encode_int4($code)
     {
         $_BASE4 = '0123';
-        $code_size = intval(log($code, 2)) + 2;
+        $code_size = (int) (log($code, 2)) + 2;
         $code_len = floor($code_size / 2);
         $res = array_fill(0, $code_len, '0');
         for ($i = $code_len - 1; $i >= 0; $i--) {
             $res[$i] = $_BASE4[$code & 0b11];
             $code = $code >> 2;
         }
-        return implode($res);
+        return implode('', $res);
     }
 
     public static function rotate($n, $x, $y, $rx, $ry)
@@ -114,7 +114,7 @@ class Geo_hilbert
 
     public static function coord2int($lng, $lat, $dim)
     {
-        assert($dim >= 1);
+        \assert($dim >= 1);
         $lat_y = ($lat + self::LAT_MAX) / 180.0 * $dim; //[0 ... dim)
         $lng_x = ($lng + self::LNG_MAX) / 360.0 * $dim; //[0 ... dim)
         return [
@@ -128,8 +128,8 @@ class Geo_hilbert
         $d = 0;
         $lvl = $dim >> 1;
         while ($lvl > 0) {
-            $rx = intval(($x & $lvl) > 0);
-            $ry = intval(($y & $lvl) > 0);
+            $rx = (int) (($x & $lvl) > 0);
+            $ry = (int) (($y & $lvl) > 0);
             $d += $lvl * $lvl * ((3 * $rx) ^ $ry);
             @list($x, $y) = self::rotate($lvl, $x, $y, $rx, $ry);
             $lvl = $lvl >> 1;
@@ -142,7 +142,7 @@ class Geo_hilbert
      */
     public function encode($prec = 0)
     {
-        $max_index = count(self::$prec_errors) - 1;
+        $max_index = \count(self::$prec_errors) - 1;
         if ($prec <= 0 || $prec > $max_index) {
             $prec = $max_index;
         }
@@ -161,7 +161,7 @@ class Geo_hilbert
         $compare = function ($target, $middle) use ($errs) {
             return $errs[$middle] - $target;
         };
-        $right = count($errs) - 1;
+        $right = \count($errs) - 1;
         $idx = binary_search($distance, $right, $compare);
         if (empty($this->code) && $this->lat) {
             $this->encode();
@@ -178,7 +178,7 @@ class Geo_hilbert
             $this->encode();
         }
         $same = get_similar_len($this->code, $another_code);
-        $max_index = count(self::$prec_errors) - 1;
+        $max_index = \count(self::$prec_errors) - 1;
         if ($same > $max_index) {
             $same = $max_index;
         }
@@ -191,9 +191,9 @@ class Geo_hilbert
     public function get_accuracy_distance($lng, $lat)
     {
         //计算三个参数
-        $dx = $this->lng - floatval($lng);
-        $dy = $this->lat - floatval($lat);
-        $avg = ($this->lat + floatval($lat)) / 2.0; //平均维度
+        $dx = $this->lng - (float) $lng;
+        $dy = $this->lat - (float) $lat;
+        $avg = ($this->lat + (float) $lat) / 2.0; //平均维度
         //计算东西方向距离和南北方向距离(单位：米)，东西距离采用三阶多项式
         $lx = self::EARTH_RADIUS * deg2rad($dx) * cos(deg2rad($avg)); // 东西距离
         $ly = self::EARTH_RADIUS * deg2rad($dy); // 南北距离

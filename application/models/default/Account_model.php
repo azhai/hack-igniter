@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') or exit('No direct script access allowed');
+defined('BASEPATH') || exit('No direct script access allowed');
 
 
 /**
@@ -33,7 +33,7 @@ class Account_model extends MY_Model
 
     public function increase_amount($where, $amount)
     {
-        $amount = intval($amount);
+        $amount = (int) $amount;
         $changes = ['balance' => 'balance + ' . $amount];
         $this->trans_start();
         $result = $this->update($changes, $where, 1, false);

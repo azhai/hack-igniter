@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') or exit('No direct script access allowed');
+defined('BASEPATH') || exit('No direct script access allowed');
 
 /**
  * 扣费加款
@@ -86,11 +86,11 @@ class Credit extends MY_Service
             return [];
         }
         do {
-        if ($master) {
-            $this->user_credit_model->set_force_master(true);
-        }
-        $this->user_credit_model->where_in('userid', $userids);
-        $rows = $this->user_credit_model->all();
+            if ($master) {
+                $this->user_credit_model->set_force_master(true);
+            }
+            $this->user_credit_model->where_in('userid', $userids);
+            $rows = $this->user_credit_model->all();
         } while (empty($rows) && self::count_down(--$retry_times, 150));
         return array_column($rows, null, 'userid');
     }
@@ -141,7 +141,7 @@ class Credit extends MY_Service
             if (self::USING_TRANSCATION && !$this->user_credit_model->trans_start()) {
                 usleep(0.01 * self::SECOND_HAVE_MICRO * $retry_times);
                 continue;
-            } else if (self::USING_SPIN_LOCK && !$this->_acquire_spinlock($userid)) {
+            } elseif (self::USING_SPIN_LOCK && !$this->_acquire_spinlock($userid)) {
                 usleep(0.01 * self::SECOND_HAVE_MICRO * $retry_times);
                 continue;
             }
@@ -152,12 +152,12 @@ class Credit extends MY_Service
             }
             if (self::USING_TRANSCATION) {
                 $this->user_credit_model->trans_complete();
-            } else if (self::USING_SPIN_LOCK) {
+            } elseif (self::USING_SPIN_LOCK) {
                 $this->_release_spinlock($userid);
             }
-            if ($number >= 0 || intval($result[0]) === 0 || $result[2] <= 0) {
+            if ($number >= 0 || (int) ($result[0]) === 0 || $result[2] <= 0) {
                 break; //成功
-        }
+            }
         } while (self::count_down(--$retry_times, 200));
         return $result;
     }
@@ -221,7 +221,7 @@ class Credit extends MY_Service
         $ipaddr = get_real_client_ip();
         $data = array_replace($data, ['underling' => 0, 'dateline' => time(), 'ipaddr' => $ipaddr]);
         $insert_id = $this->user_credit_log_model->insert($data);
-        return intval($insert_id);
+        return (int) $insert_id;
     }
 
     /**
@@ -243,7 +243,7 @@ class Credit extends MY_Service
      */
     public function charge_with_logging($userid, $relatedid, $number, $coin_type = 'goldcoin', array $options = [])
     {
-        $discount = isset($options['discount']) ? floatval($options['discount']) : 0;
+        $discount = isset($options['discount']) ? (float) ($options['discount']) : 0;
         $force = isset($options['force']) ? $options['force'] : false;
         @list($errno, $paid, $balance) = $this->charge_balance($userid, $number, $discount, $coin_type, $force);
         $insert_id = 0;
@@ -275,7 +275,7 @@ class Credit extends MY_Service
     public function charge_and_reward($userid, $relatedid, $number, array $reward, array $options = [])
     {
         $result = [];
-        $discount = isset($options['discount']) ? floatval($options['discount']) : 0;
+        $discount = isset($options['discount']) ? (float) ($options['discount']) : 0;
         $prepay = isset($options['prepay']) ? $options['prepay'] : 0.0;
         $force = isset($options['force']) ? $options['force'] : false;
         @list($errno, $paid, $balance) = $this->charge_balance($userid, $number, $discount, 'goldcoin', $force);
@@ -288,8 +288,8 @@ class Credit extends MY_Service
         $result[] = [$insert_id, $total_paid, $balance];
 
         //返还
-        $ratio = isset($reward['ratio']) ? floatval($reward['ratio']) : 0;
-        if ($ratio == 0) {
+        $ratio = isset($reward['ratio']) ? (float) ($reward['ratio']) : 0;
+        if ($ratio === 0) {
             $number = reset($reward);
             $coin_type = key($reward);
         } else {
@@ -315,7 +315,7 @@ class Credit extends MY_Service
      */
     protected function _calc_discount($number, $discount = 0)
     {
-        if ($discount == 0 || $discount < -1 || $discount >= 1) {
+        if ($discount === 0 || $discount < -1 || $discount >= 1) {
             return $number; //无折扣
         }
         if ($discount <= 0) {
@@ -338,7 +338,7 @@ class Credit extends MY_Service
         if ($number < 0) {
             return [1, 0, 0]; // 失败
         }
-        if ($discount != 0) {
+        if ($discount !== 0) {
             $number = $this->_calc_discount($number, $discount);
         }
         $change = sprintf('+ %.2f', $number);
@@ -348,12 +348,12 @@ class Credit extends MY_Service
         $sql = sprintf($tpl, $table, time(), $coin_type, $coin_type, $change, $userid);
         $success = ($db->query($sql) && $db->affected_rows() > 0); //操作成功
         if (empty($success)) { //不存在记录，新写入一行
-            $count = floatval($number);
+            $count = (float) $number;
             $tpl = "INSERT IGNORE `%s` (userid, dateline, %s) VALUES ('%s', %d, %.2f)";
             $db->query(sprintf($tpl, $table, $coin_type, $userid, time(), $count));
         }
         $balances = $this->get_or_create_balance($userid, true);
-        $count = floatval($balances[$coin_type]);
+        $count = (float) ($balances[$coin_type]);
         debug_output("user %s result ok, add %.2f remain %.2f", $userid, $number, $count);
         return [0, $number, $count];
     }
@@ -370,13 +370,13 @@ class Credit extends MY_Service
      */
     protected function _charge_reduce($userid, $number, $discount = 0, $coin_type = 'goldcoin', $force = false)
     {
-        if ($discount != 0) {
+        if ($discount !== 0) {
             $number = $this->_calc_discount($number, $discount);
         }
         $db = $this->user_credit_model->reconnect();
         $table = $this->user_credit_model->table_name();
         $balances = $this->get_or_create_balance($userid, true);
-        $count = floatval($balances[$coin_type]);
+        $count = (float) ($balances[$coin_type]);
         $abs_number = abs($number);
         if ($count >= $abs_number) {
             $actually_paid = 0 - $abs_number;

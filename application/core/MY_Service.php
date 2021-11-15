@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') or exit('No direct script access allowed');
+defined('BASEPATH') || exit('No direct script access allowed');
 
 /**
  * 基础微服务
@@ -12,7 +12,7 @@ class MY_Service
     public function __construct()
     {
         $instance = get_instance();
-        if (is_null($instance)) {
+        if (null === $instance) {
             $instance = new CI_Controller();
         }
         if (!isset($instance->service)) {

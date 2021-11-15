@@ -11,7 +11,7 @@
  * @license http://opensource.org/licenses/MIT  MIT License
  */
 
-defined('BASEPATH') or exit('No direct script access allowed');
+defined('BASEPATH') || exit('No direct script access allowed');
 
 if (!class_exists('CI_Loader')) {
     require_once BASEPATH . 'core/Loader.php';
@@ -42,7 +42,7 @@ class MY_Loader extends CI_Loader
 
     public function set_alias($object, $class, $alias = '')
     {
-        if (!is_null($alias) && $alias !== false) {
+        if (null !== $alias && $alias !== false) {
             if (empty($alias) || !is_string($alias)) {
                 $alias = strtolower($class);
             }
@@ -249,8 +249,12 @@ class MY_Loader extends CI_Loader
      * @param null|string $object_name
      * @return object
      */
-    public function get_driver_library($lib_name, $params,
-                                       $driver_params = null, $object_name = null)
+    public function get_driver_library(
+        $lib_name,
+        $params,
+        $driver_params = null,
+        $object_name = null
+    )
     {
         @list($adapter, $params) = $this->_get_adapter_params($params);
         if (empty($object_name)) {

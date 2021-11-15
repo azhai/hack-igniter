@@ -13,7 +13,7 @@
 
 namespace Mylib\ORM;
 
-defined('BASEPATH') or exit('No direct script access allowed');
+\defined('BASEPATH') || exit('No direct script access allowed');
 require_once VENDPATH . 'php-handlersocket/src/HandlerSocket.php';
 
 /**
@@ -41,7 +41,7 @@ trait MY_Entity
         $prop = '_hs_conn' . $suffix;
         if (false !== $another) {
             $this->$prop = $another;
-        } elseif (is_null($this->$prop)) {
+        } elseif (null === $this->$prop) {
             $conf = $this->_get_hs_config();
             $host = $conf['host'];
             $port = $conf['port' . $suffix];
@@ -57,17 +57,17 @@ trait MY_Entity
     {
         $key = null;
         $op = '>=';
-        if (count($orders) > 0) {
+        if (\count($orders) > 0) {
             list($key, $direct) = each($orders);
             $op = ('DESC' === strtoupper($direct)) ? '<=' : '>=';
         }
         $hs = $this->hs_conn(false, false);
-        return $hs->all($key, $op, null, intval($limit), $offset);
+        return $hs->all($key, $op, null, (int) $limit, $offset);
     }
 
     public function hs_some($where)
     {
-        assert(is_array($where));
+        \assert(\is_array($where));
         list($key, $value) = each($where);
         $hs = $this->hs_conn(false, false);
         return $hs->in($key, to_array($value));
@@ -75,8 +75,8 @@ trait MY_Entity
 
     public function hs_one($where = null, $type = '')
     {
-        assert(is_array($where));
-        assert('array' === $type);
+        \assert(\is_array($where));
+        \assert('array' === $type);
         list($key, $value) = each($where);
         $hs = $this->hs_conn(false, false);
         return $hs->get($key, $value);
@@ -84,7 +84,7 @@ trait MY_Entity
 
     public function hs_insert($row, $replace = false, $escape = null)
     {
-        assert(false === $replace);
+        \assert(false === $replace);
         $row = to_array($row);
         $hs = $this->hs_conn(false, false);
         return $hs->insert($row);
@@ -92,7 +92,7 @@ trait MY_Entity
 
     public function hs_delete($where = '', $limit = null, $escape = null)
     {
-        assert(is_array($where));
+        \assert(\is_array($where));
         $value = reset($where);
         $hs = $this->hs_conn(false, false);
         return $hs->delete($value);
@@ -100,7 +100,7 @@ trait MY_Entity
 
     public function hs_update(array $set, $where = null, $limit = null, $escape = null)
     {
-        assert(is_array($where));
+        \assert(\is_array($where));
         list($key, $value) = each($where);
         $hs = $this->hs_conn(false, false);
         return $hs->update($set, $key, $value);

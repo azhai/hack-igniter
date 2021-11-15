@@ -11,7 +11,7 @@
  * @license http://opensource.org/licenses/MIT  MIT License
  */
 
-defined('BASEPATH') or exit('No direct script access allowed');
+defined('BASEPATH') || exit('No direct script access allowed');
 require_once dirname(__DIR__) . '/Event_page.php';
 
 $loader = load_class('Loader', 'core');

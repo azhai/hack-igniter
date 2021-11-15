@@ -1,5 +1,5 @@
 <?php
-defined('ShopNC_CLUB') or exit('Access Invalid!');
+defined('ShopNC_CLUB') || exit('Access Invalid!');
 
 $lang['stat_newmember'] = '新增会员';
 $lang['stat_memberanalyze'] = '会员分析';

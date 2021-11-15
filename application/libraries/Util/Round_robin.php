@@ -44,7 +44,9 @@ class Round_robin
     public function reset(array $data = null)
     {
         if (!empty($data)) {
-            $this->data = array_filter($data, function($v){ return $v>=0; });
+            $this->data = array_filter($data, function ($v) {
+                return $v>=0;
+            });
         }
         arsort($this->data, SORT_NUMERIC);
         $keys = array_keys($this->data);

@@ -46,8 +46,8 @@ switch (ENVIRONMENT) {
  * 设置项目根目录，结尾不带目录分隔符
  * --------------------------------------------------------------------
  */
-defined('PROJPATH') or define('PROJPATH', __DIR__ . '/');
-defined('VENDPATH') or define('VENDPATH', PROJPATH . 'vendor/');
+defined('PROJPATH') || define('PROJPATH', __DIR__ . '/');
+defined('VENDPATH') || define('VENDPATH', PROJPATH . 'vendor/');
 $application_folder = PROJPATH . 'application';
 $view_folder = VENDPATH . 'codeigniter/framework/application/views';
 $system_path = VENDPATH . 'codeigniter/framework/system/';
@@ -60,7 +60,7 @@ $system_path = VENDPATH . 'codeigniter/framework/system/';
  */
 // Set the current directory correctly for CLI requests
 if (defined('STDIN')) {
-    chdir(dirname(__FILE__));
+    chdir(__DIR__);
 }
 // Now that we know the path, set the main path constants
 define('APPPATH', $application_folder . DIRECTORY_SEPARATOR);
@@ -70,7 +70,7 @@ define('SELF', pathinfo(__FILE__, PATHINFO_BASENAME));
 // Path to the system directory
 define('BASEPATH', $system_path);
 // Path to the front controller (this file) directory
-define('FCPATH', dirname(__FILE__) . DIRECTORY_SEPARATOR);
+define('FCPATH', __DIR__ . DIRECTORY_SEPARATOR);
 // Name of the "system" directory
 define('SYSDIR', basename(BASEPATH));
 

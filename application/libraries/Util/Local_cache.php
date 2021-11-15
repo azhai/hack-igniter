@@ -13,11 +13,11 @@
 
 namespace Mylib\Util;
 
-defined('LOCAL_CACHE_APCU') or define('LOCAL_CACHE_APCU', 'apcu');
-defined('LOCAL_CACHE_YAC') or define('LOCAL_CACHE_YAC', 'yac');
-defined('LOCAL_CONFIG_NAME') or define('LOCAL_CONFIG_NAME', '_globals_');
-defined('LOCAL_CONFIG_KEY') or define('LOCAL_CONFIG_KEY', 'local_cache');
-defined('LOCAL_CONFIG_TTL') or define('LOCAL_CONFIG_TTL', 60);
+\defined('LOCAL_CACHE_APCU') || \define('LOCAL_CACHE_APCU', 'apcu');
+\defined('LOCAL_CACHE_YAC') || \define('LOCAL_CACHE_YAC', 'yac');
+\defined('LOCAL_CONFIG_NAME') || \define('LOCAL_CONFIG_NAME', '_globals_');
+\defined('LOCAL_CONFIG_KEY') || \define('LOCAL_CONFIG_KEY', 'local_cache');
+\defined('LOCAL_CONFIG_TTL') || \define('LOCAL_CONFIG_TTL', 60);
 
 /**
  * APCU或YAC本地缓存
@@ -84,7 +84,7 @@ class Local_cache
         if (!($result = @json_decode($content, true))) {
             return null;
         }
-        return is_array($result) ? $result : array();
+        return \is_array($result) ? $result : [];
     }
 
     /**
@@ -94,9 +94,9 @@ class Local_cache
     {
         switch (strtolower($cache_type)) {
             case LOCAL_CACHE_APCU:
-                return extension_loaded('apcu') && apcu_enabled();
+                return \extension_loaded('apcu') && apcu_enabled();
             case LOCAL_CACHE_YAC:
-                $result = extension_loaded('yac') && class_exists('Yac');
+                $result = \extension_loaded('yac') && class_exists('Yac');
                 if ($result && $create) {
                     $this->yac = new Yac();
                 }

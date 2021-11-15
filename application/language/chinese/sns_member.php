@@ -1,5 +1,5 @@
 <?php
-defined('ShopNC_CLUB') or exit('Access Invalid!');
+defined('ShopNC_CLUB') || exit('Access Invalid!');
 
 $lang['sns_member_tag_name_not_null'] = '会员标签名称不能为空';
 $lang['sns_member_tag_sort_is_number'] = '会员标签排序只能为数字';

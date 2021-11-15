@@ -102,9 +102,9 @@ trait MY_Cache_Hash
     public function save($row = null, $key = null, $escape = null)
     {
         $row = $row ? to_array($row) : $this->status();
-        if (is_string($key) && isset($row[$key])) {
+        if (\is_string($key) && isset($row[$key])) {
             $where = [$key => $row[$key]];
-        } elseif (is_array($key)) {
+        } elseif (\is_array($key)) {
             $where = $key;
         } else {
             $where = $this->condition();

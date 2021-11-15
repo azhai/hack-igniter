@@ -46,10 +46,10 @@ trait MY_Monthly
      */
     public static function get_begin_stamp($time = null)
     {
-        if (is_null($time)) {
+        if (null === $time) {
             return mktime(0, 0, 0, date('n'), 1);
         }
-        if (func_num_args() > 1) {
+        if (\func_num_args() > 1) {
             $year = func_get_arg(0);
             $month = func_get_arg(1);
         } else {
@@ -59,7 +59,7 @@ trait MY_Monthly
             $year = date('Y', $time);
             $month = date('n', $time);
         }
-        return mktime(0, 0, 0, intval($month), 1, intval($year));
+        return mktime(0, 0, 0, (int) $month, 1, (int) $year);
     }
 
     /**
@@ -70,8 +70,8 @@ trait MY_Monthly
         if ($start) {
             return self::get_begin_stamp($start);
         }
-        if (count($tables) > 0 && $min_table = min($tables)) { // 找出最早的表
-            $min_tail = substr($min_table, strlen($this->table_name()) + 1);
+        if (\count($tables) > 0 && $min_table = min($tables)) { // 找出最早的表
+            $min_tail = substr($min_table, \strlen($this->table_name()) + 1);
             $year = substr($min_tail, 0, 4);
             $month = substr($min_tail, 4, 2);
             return self::get_begin_stamp($year, $month);
@@ -105,7 +105,7 @@ trait MY_Monthly
      */
     public function table_name($another = false)
     {
-        if (is_null($this->beginning)) {
+        if (null === $this->beginning) {
             $this->init_calendar();
         }
         $tail = date('Ym', $this->beginning);
@@ -119,10 +119,10 @@ trait MY_Monthly
      */
     public function backward($offset = 1)
     {
-        if (is_null($this->beginning)) {
+        if (null === $this->beginning) {
             $this->init_calendar();
         }
-        $offset = intval($offset);
+        $offset = (int) $offset;
         if (0 !== $offset) {
             $year = date('Y', $this->beginning);
             $month = date('n', $this->beginning) - $offset;
@@ -153,7 +153,7 @@ trait MY_Monthly
         $result = 0;
         while ($this->beginning >= $start) {
             $table = $this->table_name();
-            if (in_array($table, $tables, true)) {
+            if (\in_array($table, $tables, true)) {
                 if ($where) {
                     $this->parse_where($where);
                 }
@@ -181,7 +181,7 @@ trait MY_Monthly
         $count = 0;
         while ($this->beginning >= $start) {
             $table = $this->table_name();
-            if (!in_array($table, $tables, true)) {
+            if (!\in_array($table, $tables, true)) {
                 $this->backward();
                 continue;
             }
@@ -202,7 +202,7 @@ trait MY_Monthly
             }
             $offset = ($offset < 0) ? $offset + $count : 0;
             $rows = $this->all($limit, $offset, $fields);
-            if (count($rows) > 0) {
+            if (\count($rows) > 0) {
                 $result = array_merge($result, $rows);
             }
             if (is_numeric($limit)) { //数量限制
@@ -228,7 +228,7 @@ trait MY_Monthly
         $result = [];
         while ($this->beginning >= $start) {
             $table = $this->table_name();
-            if (!in_array($table, $tables, true)) {
+            if (!\in_array($table, $tables, true)) {
                 $this->backward();
                 continue;
             }
@@ -239,7 +239,7 @@ trait MY_Monthly
                 $this->group_by($group);
             }
             $rows = $this->all(null, 0, $fields);
-            if (count($rows) > 0) {
+            if (\count($rows) > 0) {
                 $result = array_merge($result, $rows);
             }
             $this->backward();
@@ -262,7 +262,7 @@ trait MY_Monthly
         $count = 0;
         while ($this->beginning >= $start) {
             $table = $this->table_name();
-            if (!in_array($table, $tables, true)) {
+            if (!\in_array($table, $tables, true)) {
                 $this->backward();
                 continue;
             }

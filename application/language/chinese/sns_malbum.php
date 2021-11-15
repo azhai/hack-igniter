@@ -1,5 +1,5 @@
 <?php
-defined('ShopNC_CLUB') or exit('Access Invalid!');
+defined('ShopNC_CLUB') || exit('Access Invalid!');
 
 $lang['snsalbum_album_setting'] = '相册设置';
 $lang['snsalbum_allow_upload_max_count'] = '允许上传最大图片数量';

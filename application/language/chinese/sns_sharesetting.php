@@ -1,5 +1,5 @@
 <?php
-defined('ShopNC_CLUB') or exit('Access Invalid!');
+defined('ShopNC_CLUB') || exit('Access Invalid!');
 $lang['shareset_list_tip'] = '开启并设置以下接口配置信息后，SNS分享店铺和商品信息功能中将可以使用站外分享信息功能';
 $lang['shareset_list_appname'] = '应用名称';
 $lang['shareset_list_appurl'] = '网址';

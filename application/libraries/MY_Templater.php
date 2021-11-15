@@ -11,7 +11,7 @@
  * @license http://opensource.org/licenses/MIT  MIT License
  */
 
-defined('BASEPATH') or exit('No direct script access allowed');
+defined('BASEPATH') || exit('No direct script access allowed');
 
 /**
  * 内容输出，带一个简单的模板引擎.
@@ -70,7 +70,7 @@ class MY_Templater
      */
     public static function abort($code = 500)
     {
-        $code = is_numeric($code) ? intval($code) : 500;
+        $code = is_numeric($code) ? (int) $code : 500;
         http_response_code($code);
         if ($code >= 400) {
             return sprintf('<h1>%s</h1>', 'An Error Was Encountered');
@@ -98,8 +98,8 @@ class MY_Templater
     public static function header($name, $value, $replace = true, $code = 200)
     {
         if (!headers_sent()) {
-            $line = empty($name) ? '' : strval($name) . ': ';
-            $line .= is_array($value) ? implode(' ', $value) : strval($value);
+            $line = empty($name) ? '' : (string) $name . ': ';
+            $line .= is_array($value) ? implode(' ', $value) : (string) $value;
             @header($line, $replace, $code);
         }
     }
@@ -152,7 +152,7 @@ class MY_Templater
      */
     public function blockStart($name = 'content')
     {
-        array_push($this->stack, $name);
+        $this->stack[] = $name;
         ob_start();
     }
 
@@ -190,7 +190,7 @@ class MY_Templater
     {
         $line = self::$mime_types[$type];
         if ($charset) {
-            $this->charset = strval($charset);
+            $this->charset = (string) $charset;
             $line .= '; charset=' . $this->charset;
         }
         self::header('Content-Type', $line);

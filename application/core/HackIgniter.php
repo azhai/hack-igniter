@@ -128,7 +128,7 @@ function &get_instance()
 /**
  * Create object object of a subclass of CI_Controller
  */
-function create_instance($dir, $class, $base_class = FALSE)
+function create_instance($dir, $class, $base_class = false)
 {
     if ($base_class && file_exists(APPPATH . 'core/' . $base_class . '.php')) {
         require_once APPPATH . 'core/' . $base_class . '.php';
@@ -144,10 +144,10 @@ function create_instance($dir, $class, $base_class = FALSE)
 $class = $RTR->class ? ucfirst($RTR->class) : 'Index';
 $prefix = $CFG->config['subclass_prefix'];
 $CI = create_instance('services/' . $RTR->directory, $class, $prefix . 'Service');
-if (is_null($CI)) {
+if (null === $CI) {
     $base_class = $prefix . 'Controller';
     $CI = create_instance('controllers/' . $RTR->directory, $class, $base_class);
-    if (is_null($CI)) {
+    if (null === $CI) {
         $CI = new $base_class();
     }
 }

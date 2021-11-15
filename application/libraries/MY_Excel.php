@@ -11,7 +11,7 @@
  * @license http://opensource.org/licenses/MIT  MIT License
  */
 
-defined('BASEPATH') or exit('No direct script access allowed');
+defined('BASEPATH') || exit('No direct script access allowed');
 $loader = load_class('Loader', 'core');
 $loader->name_space('Psr\\SimpleCache', VENDPATH . 'psr/simple-cache/src');
 $loader->name_space('PhpOffice', VENDPATH . 'phpoffice/phpspreadsheet/src');
@@ -46,7 +46,7 @@ class MY_Excel
     {
         $this->ext_name = 'csv';
         $filename = sprintf('%s.%s', $this->file_name, $this->ext_name);
-        $writer = fopen('php://output', 'w') or die("can't open php://output");
+        $writer = fopen('php://output', 'w') || die("can't open php://output");
         header('Content-Encoding: UTF-8');
         header('Content-Type: application/csv; charset=UTF-8');
         header('Content-Disposition: attachment; filename=' . $filename);
@@ -92,21 +92,21 @@ class MY_Excel
             ->setVertical(Style\Alignment::VERTICAL_CENTER); //垂直居中
         if ($head_lines) {
             $head = sprintf('A1:%s%d', $col_right, $head_lines);
-            $sheet->getStyle($head)->applyFromArray(array(
-                'font' => array('bold' => true),
-                'alignment' => array(
+            $sheet->getStyle($head)->applyFromArray([
+                'font' => ['bold' => true],
+                'alignment' => [
                     'horizontal' => Style\Alignment::HORIZONTAL_CENTER,
-                ),
-                'borders' => array(
-                    'top' => array('style' => Style\Border::BORDER_THIN),
-                ),
-                'fill' => array(
+                ],
+                'borders' => [
+                    'top' => ['style' => Style\Border::BORDER_THIN],
+                ],
+                'fill' => [
                     'type' => Style\Fill::FILL_GRADIENT_LINEAR,
                     'rotation' => 90,
-                    'startcolor' => array('argb' => 'FFA0A0A0'),
-                    'endcolor' => array('argb' => 'FFFFFFFF'),
-                ),
-            ));
+                    'startcolor' => ['argb' => 'FFA0A0A0'],
+                    'endcolor' => ['argb' => 'FFFFFFFF'],
+                ],
+            ]);
         }
     }
 

@@ -1,6 +1,6 @@
 <?php
-defined('TESTDIR') or define('TESTDIR', __DIR__);
-defined('PROJPATH') or define('PROJPATH', dirname(TESTDIR) . '/');
+defined('TESTDIR') || define('TESTDIR', __DIR__);
+defined('PROJPATH') || define('PROJPATH', dirname(TESTDIR) . '/');
 
 $_SERVER['CI_ENV'] = 'development';
 $_SERVER['CI_APP'] = 'tests';

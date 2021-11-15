@@ -61,7 +61,7 @@ class Geo_hash
             }
         }
 
-        return join('', $hash);
+        return implode('', $hash);
     }
 
     public static function expand($hash)
@@ -107,7 +107,7 @@ class Geo_hash
         $minlat = -90;
         $maxlat = 90;
 
-        for ($i = 0, $c = strlen($hash); $i < $c; $i++) {
+        for ($i = 0, $c = \strlen($hash); $i < $c; $i++) {
             $v = strpos(self::$table, $hash[$i]);
             if (1 & $i) {
                 if (16 & $v) {

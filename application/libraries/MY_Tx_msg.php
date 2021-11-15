@@ -162,12 +162,12 @@ class MY_Tx_msg
      */
     public function build($item, array $params = [], $opt = 0, array $extra = [])
     {
-        $body = is_null($item) ? [] : [$item];
+        $body = null === $item ? [] : [$item];
         if (self::hasOpt($opt, self::OPT_IS_SYS)) { // 系统消息
             $body[] = self::createSysItem($extra);
         }
         $data = [
-            'MsgRandom' => intval(self::createRandNum() + 1e9),
+            'MsgRandom' => (int) (self::createRandNum() + 1e9),
             'MsgTimeStamp' => time(),
             'MsgBody' => $body,
         ];
@@ -297,9 +297,9 @@ class MY_Tx_msg
             'Type' => '1', //撤回类型0或空用户撤回1系统撤回
             'RevokeDesc' => '系统撤回了一条消息', //撤回消息描述
             'Targets' => (string)$from, //对方用户id
-            'MsgRandom' => isset($orig['msgid']) ? intval($orig['msgid']) : 0, //唯一标识哪路通话
-            'Timestamp' => isset($orig['msgtime']) ? intval($orig['msgtime']) : 0,
-            'MsgSeq' => isset($orig['msgseq']) ? intval($orig['msgseq']) : 0,
+            'MsgRandom' => isset($orig['msgid']) ? (int) ($orig['msgid']) : 0, //唯一标识哪路通话
+            'Timestamp' => isset($orig['msgtime']) ? (int) ($orig['msgtime']) : 0,
+            'MsgSeq' => isset($orig['msgseq']) ? (int) ($orig['msgseq']) : 0,
             'Ext' => 'RevokeMsg', //撤回消息命令
         ];
         $content = ['Data' => json_encode($data, self::JSON_OPTS)];
@@ -327,7 +327,7 @@ class MY_Tx_msg
             'UserAction' => 134, //134挂断
             'CallDate' => time(), //呼叫时间戳
             'CallSponsor' => (string)$from,
-            'CallType' => isset($call['isvideo']) && $call['isvideo'] == '0' ? 1 : 2,//1语音2视频
+            'CallType' => isset($call['isvideo']) && $call['isvideo'] === '0' ? 1 : 2,//1语音2视频
             'reason' => isset($call['reason']) ? $call['reason'] : '',
         ];
         $content = ['Ext' => 'CallNotification', 'Data' => json_encode($data, self::JSON_OPTS)];
@@ -353,9 +353,9 @@ class MY_Tx_msg
             $nickname = isset($from['nickname']) ? $from['nickname'] : '';
             if (isset($from['headphoto']) && $from['headphoto']) {
                 $headphoto = $from['headphoto'];
-            } else if (isset($from['smallheadpho']) && $from['smallheadpho']) {
+            } elseif (isset($from['smallheadpho']) && $from['smallheadpho']) {
                 $headphoto = $from['smallheadpho'];
-            } else if (isset($from['midleheadpho']) && $from['midleheadpho']) {
+            } elseif (isset($from['midleheadpho']) && $from['midleheadpho']) {
                 $headphoto = $from['midleheadpho'];
             }
             $from = $from['userid'];

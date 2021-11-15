@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') or exit('No direct script access allowed');
+defined('BASEPATH') || exit('No direct script access allowed');
 
 
 /**
@@ -7,8 +7,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
  */
 class User_model extends MY_Model
 {
-    use \Mylib\ORM\MY_Cacheable;
     use \Mylib\ORM\MY_Cache_Hash;
+    use \Mylib\ORM\MY_Cacheable;
 
     protected $_db_key = 'default';
     protected $_db_key_ro = 'default_ro';
