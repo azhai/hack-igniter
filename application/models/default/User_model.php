@@ -7,7 +7,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
  */
 class User_model extends MY_Model
 {
-    use \Mylib\ORM\MY_Cache_Hash;
+    use \Mylib\ORM\MY_Cache_hash;
     use \Mylib\ORM\MY_Cacheable;
 
     protected $_db_key = 'default';

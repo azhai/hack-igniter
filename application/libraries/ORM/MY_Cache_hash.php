@@ -16,7 +16,7 @@ namespace Mylib\ORM;
 /**
  * 扩展Model，缓存为hash
  */
-trait MY_Cache_Hash
+trait MY_Cache_hash
 {
     use MY_Cacheable;
 
