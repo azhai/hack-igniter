@@ -137,7 +137,7 @@ class Sender extends MY_Service
     public function add_message(array $msgdata, $push_type = 0)
     {
         $queue_name = $this->get_queue_name($push_type);
-        if ($json_data = json_encode($msgdata, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE)) {
+        if ($json_data = to_json($msgdata)) {
             $this->redisdb3->lPush($queue_name, $json_data);
             return true;
         }
@@ -286,15 +286,15 @@ class Sender extends MY_Service
     /**
      * 给双方发送134挂断信号
      *
-     * @param array/string $callid 话单ID或者话单信息（除挂断原因外）
+     * @param array/string $detail 话单ID或者话单信息（除挂断原因外）
      * @param string $reason 挂断原因
      * @param string/int $from  通话一方
      * @param string/int $to  通话另一方
      * @return int
      */
-    public function send_hang_up($callid, $reason = '', $from = 0, $to = 0, $isvideo = null)
+    public function send_hang_up($detail, $reason = '', $from = 0, $to = 0, $isvideo = null)
     {
-        $detail = is_array($callid) ? $callid : ['callid' => $callid];
+        $detail = is_array($detail) ? $detail : ['callid' => $detail];
         assert(isset($detail['callid']) && $detail['callid'] > 0);
         $detail['reason'] = $reason;
         if ($from > 0) {
@@ -326,7 +326,7 @@ class Sender extends MY_Service
         $sender = $this->get_sys_sender($appid);
         $this->txmsg->create('', 60); //有效时间
         $msgdata = $this->txmsg->buildAllMemberPush($sender, $content, 'bullet_chat');
-        debug_error('all_member_push data: %s', json_encode($msgdata, 320));
+        debug_error('all_member_push data: %s', to_json($msgdata));
         return $this->add_message($msgdata, 2) ? 1 : 0;
     }
 }

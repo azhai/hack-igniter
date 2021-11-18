@@ -136,6 +136,28 @@ if (!function_exists('convert_string')) {
 }
 
 
+if (!function_exists('from_json')) {
+    /**
+     * json反序列化
+     */
+    function from_json($data)
+    {
+        return json_decode($data, true, 512, JSON_ERROR_DEPTH);
+    }
+}
+
+
+if (!function_exists('to_json')) {
+    /**
+     * json序列化
+     */
+    function to_json($data)
+    {
+        return json_encode($data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+    }
+}
+
+
 if (!function_exists('to_array')) {
     /**
      * 主要用于将对象公开属性转为关联数组

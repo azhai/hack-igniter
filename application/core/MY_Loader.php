@@ -254,8 +254,7 @@ class MY_Loader extends CI_Loader
         $params,
         $driver_params = null,
         $object_name = null
-    )
-    {
+    ) {
         @list($adapter, $params) = $this->_get_adapter_params($params);
         if (empty($object_name)) {
             $object_name = $this->get_object_name($lib_name, $adapter, $driver_params);

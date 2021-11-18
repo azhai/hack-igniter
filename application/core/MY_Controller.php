@@ -56,7 +56,7 @@ class MY_Controller extends CI_Controller
         $this->finalize($action);
     }
 
-    public static function get_theme_path($theme_name = 'default')
+    protected static function get_theme_path($theme_name = 'default')
     {
         return APPPATH . rtrim('themes/' . $theme_name, '/') . '/';
     }
@@ -64,7 +64,7 @@ class MY_Controller extends CI_Controller
     /**
      * Get the directory of current
      */
-    public function get_current_path()
+    protected function get_current_path()
     {
         $dir = trim($this->router->directory, '/');
         return APPPATH . rtrim('controllers/' . $dir, '/') . '/';
@@ -87,7 +87,7 @@ class MY_Controller extends CI_Controller
         }
     }
 
-    public function get_page_url($action = '', array $args = [], $with_dir = false)
+    protected function get_page_url($action = '', array $args = [], $with_dir = false)
     {
         if (empty($action)) {
             $action = $this->curr_action;
@@ -146,7 +146,7 @@ class MY_Controller extends CI_Controller
     {
         $this->load->library('MY_Templater', [], 'tpl');
         $this->tpl->setContentType('json');
-        return die(json_encode($context, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE));
+        return die(to_json($context));
     }
 
     protected function render_html($template, array $context = [], array $globals = [])

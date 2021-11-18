@@ -110,7 +110,8 @@ if (!function_exists('xhprof_close')) {
             $base_name = 'xhprof-' . uniqid();
         }
         $filename = $out_dir . DIRECTORY_SEPARATOR . $base_name;
-        @file_put_contents($filename . '.json', json_encode($xhprof_data, 320));
+        $content = json_encode($xhprof_data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+        @file_put_contents($filename . '.json', $content);
         if ($tk_min >= 0) { //生成调用耗时图表
             toolkit_gen_files($filename, '.json', $tk_min);
         }

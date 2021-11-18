@@ -29,6 +29,19 @@ class MY_Cache_redis extends CI_Cache_redis
         return 'delete';
     }
 
+    public static function get_zadd_args($cache_key, array $data, array $options = null)
+    {
+        $args = [$cache_key, ];
+        if (!empty($options)) {
+            $args[] = $options;
+        }
+        foreach ($data as $value => $score) {
+            $args[] = $score;
+            $args[] = $value;
+        }
+        return $args;
+    }
+
     /**
      * 其他连接参数
      *
@@ -83,11 +96,6 @@ class MY_Cache_redis extends CI_Cache_redis
         $keys = is_array($keys) ? $keys : func_get_args();
         $method = self::get_delete_name();
         return $redis->$method($keys);
-//        if (method_exists($redis, 'unlink')) {
-//            return $redis->unlink($keys); //较高版本的扩展
-//        } else {
-//            return $redis->del($keys);
-//        }
     }
 
     /**
@@ -142,7 +150,7 @@ class MY_Cache_redis extends CI_Cache_redis
     public function get_json($id)
     {
         $json = $this->instance()->get($id);
-        return json_decode($json, true);
+        return from_json($json);
     }
 
     /**
@@ -153,7 +161,7 @@ class MY_Cache_redis extends CI_Cache_redis
      */
     public function put_json($id, $data, $ttl = 60)
     {
-        $json = json_encode($data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+        $json = to_json($data);
         return $this->instance()->set($id, $json, $ttl);
     }
 
