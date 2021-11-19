@@ -67,7 +67,7 @@ trait MY_Cache_recent
             if ($redis->sIsMember(self::$empty_set_keys, $save_key)) {
                 return [];
             }
-            $options = ['withscore' => true];
+            $options = ['withscores' => true];
             if ($user_data = $redis->zRevRangeByScore($save_key, '+inf', 0, $options)) {
                 return $user_data;
             }
