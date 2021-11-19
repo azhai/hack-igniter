@@ -4,6 +4,11 @@
  * https://mlocati.github.io/php-cs-fixer-configurator/#version:3.2.1|configurator
  * you can change this configuration by importing this file.
  */
+
+if (function_exists('xdebug_disable')) {
+    xdebug_disable();
+}
+
 $config = new PhpCsFixer\Config();
 return $config
     ->setRiskyAllowed(true)
