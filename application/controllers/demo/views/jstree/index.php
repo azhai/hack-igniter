@@ -13,11 +13,11 @@
     <meta name="description" content="">
 
     <link rel="shortcut icon" href="favicon.ico">
-    <link href="<?= $static_url ?>/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
-    <link href="<?= $static_url ?>/css/font-awesome.css?v=4.4.0" rel="stylesheet">
-    <link href="<?= $static_url ?>/css/plugins/jsTree/style.min.css" rel="stylesheet">
-    <link href="<?= $static_url ?>/css/animate.css" rel="stylesheet">
-    <link href="<?= $static_url ?>/css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="<?php echo $static_url; ?>/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="<?php echo $static_url; ?>/css/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="<?php echo $static_url; ?>/css/plugins/jsTree/style.min.css" rel="stylesheet">
+    <link href="<?php echo $static_url; ?>/css/animate.css" rel="stylesheet">
+    <link href="<?php echo $static_url; ?>/css/style.css?v=4.1.0" rel="stylesheet">
 
 </head>
 
@@ -148,16 +148,16 @@
 
 
 <!-- 全局js -->
-<script src="<?= $static_url ?>/js/jquery.min.js?v=2.1.4"></script>
-<script src="<?= $static_url ?>/js/bootstrap.min.js?v=3.3.6"></script>
+<script src="<?php echo $static_url; ?>/js/jquery.min.js?v=2.1.4"></script>
+<script src="<?php echo $static_url; ?>/js/bootstrap.min.js?v=3.3.6"></script>
 
 
 <!-- 自定义js -->
-<script src="<?= $static_url ?>/js/content.js?v=1.0.0"></script>
+<script src="<?php echo $static_url; ?>/js/content.js?v=1.0.0"></script>
 
 
 <!-- jsTree plugin javascript -->
-<script src="<?= $static_url ?>/js/plugins/jsTree/jstree.min.js"></script>
+<script src="<?php echo $static_url; ?>/js/plugins/jsTree/jstree.min.js"></script>
 
 <style>
     .jstree-open > .jstree-anchor > .fa-folder:before {

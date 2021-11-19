@@ -1,9 +1,9 @@
 <?php
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
-
 /**
- * 成绩
+ * 成绩.
  */
 class Score_model extends MY_Model
 {

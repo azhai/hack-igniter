@@ -1,4 +1,5 @@
 <?php
+
 defined('ShopNC_CLUB') || exit('Access Invalid!');
 
 $lang['sns_member_tag_name_not_null'] = '会员标签名称不能为空';

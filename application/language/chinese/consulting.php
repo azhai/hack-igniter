@@ -1,8 +1,7 @@
 <?php
+
 defined('ShopNC_CLUB') || exit('Access Invalid!');
-/**
- * index
- */
+// index
 $lang['consulting_index_manage'] = '咨询管理';
 $lang['consulting_index_manage_subhead'] = '设置店铺咨询类型及管理咨询/回复内容';
 $lang['consulting'] = '咨询';

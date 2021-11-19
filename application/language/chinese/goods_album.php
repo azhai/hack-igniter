@@ -1,8 +1,7 @@
 <?php
+
 defined('ShopNC_CLUB') || exit('Access Invalid!');
-/**
- * 图片空间
- */
+// 图片空间
 $lang['g_album_manage'] = '图片空间';
 $lang['g_album_manage_subhead'] = '商品图片及商家店铺相册管理';
 $lang['g_album_list'] = '相册列表';

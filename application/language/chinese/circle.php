@@ -1,8 +1,7 @@
 <?php
+
 defined('ShopNC_CLUB') || exit('Access Invalid!');
-/**
- * circle_class
- */
+// circle_class
 $lang['circle_please_choose_class'] = '请选择想要删除的分类。';
 $lang['circle_class_name_not_null'] = '请填写分类名称';
 $lang['circle_class_sort_is_number'] = '分类排序只能为数字';
@@ -27,9 +26,7 @@ $lang['nc_circle_pass_cerify'] = '圈子申请通过';
 $lang['nc_circle_open'] = '开启圈子';
 $lang['nc_circle_close'] = '关闭圈子';
 $lang['nc_pass'] = '通过';
-/**
- * circle_member
- */
+// circle_member
 $lang['circle_member_name'] = '成员名称';
 $lang['circle_name'] = '圈子名称';
 $lang['circle_member_prompts_one'] = '成员列表按照所加入的圈子显示，成员加入过不同的圈子，可能在列表中出现多次。';
@@ -51,9 +48,7 @@ $lang['circle_member_del_confirm'] = '请注意成员身份，圈主被删除圈
 $lang['circle_member_sort_theme_desc'] = '话题数由高到低';
 $lang['circle_member_sort_reply_desc'] = '回复数由高到低';
 
-/**
- * circle_manage
- */
+// circle_manage
 $lang['circle_choose_del_circle'] = '请选择你要删除的圈子';
 $lang['circle_name_not_null'] = '请填写圈子名称';
 $lang['circle_wait_verify'] = '待审核';
@@ -97,9 +92,7 @@ $lang['circle_del_confirm'] = '你确定要删除吗？选择确认后与其相�
 $lang['circle_verify_prompts_one'] = '创建圈子需要选择分类，用户可以根据分类搜索圈子。';
 $lang['circle_verify_prompts_two'] = '被推荐的圈子将会在圈子首页展示。';
 $lang['circle_verify_pass'] = '通过审核';
-/**
- * circle_setting
- */
+// circle_setting
 $lang['circle_setting_seo'] = 'SEO设置';
 $lang['circle_setting_sec'] = '防灌水设置';
 $lang['circle_setting_exp'] = '经验规则设置';
@@ -140,9 +133,7 @@ $lang['circle_setting_exp_replied'] = '被回复主题可获经验';
 $lang['circle_setting_exp_replied_max'] = '每天被回复主题可获最高经验';
 $lang['circle_setting_exp_tips'] = '0表示不限制';
 
-/**
- * circle_theme
- */
+// circle_theme
 $lang['circle_theme_list'] = '话题列表';
 $lang['circle_theme_info'] = '话题详细';
 $lang['circle_theme'] = '话题';
@@ -174,8 +165,6 @@ $lang['circle_poll_checkbox'] = '多选';
 $lang['circle_poll_option'] = '投票选项';
 $lang['circle_poll_option_count'] = '得票数';
 $lang['circle_poll_option_participant'] = '参与者';
-/**
- * experience log
- */
+// experience log
 $lang['circle_exp_theme_delete'] = '话题被删除失去经验';
 $lang['circle_exp_reply_delete'] = '回复被删除失去经验';

@@ -1,4 +1,5 @@
 <?php
+
 defined('ShopNC_CLUB') || exit('Access Invalid!');
 
 $lang['promotion_unavailable'] = '商品促销功能尚未开启';
@@ -24,7 +25,6 @@ $lang['mansong_detail'] = '活动详情';
 $lang['start_time'] = '开始时间';
 $lang['end_time'] = '结束时间';
 
-
 $lang['promotion_mansong'] = '店铺满即送';
 $lang['promotion_mansong_subhead'] = '店铺满即送活动相关设定及管理';
 $lang['mansong_list'] = '活动列表';
@@ -38,7 +38,6 @@ $lang['mansong_quota_end_time'] = '结束时间';
 $lang['level_price'] = '单笔订单满';
 $lang['level_discount'] = ' 立减现金';
 $lang['gift_name'] = '送礼品';
-
 
 $lang['mansong_apply_cancel_success'] = '申请取消成功';
 $lang['mansong_apply_cancel_fail'] = '申请取消失败';

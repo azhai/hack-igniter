@@ -1,6 +1,6 @@
 <?php
-defined('BASEPATH') || exit('No direct script access allowed');
 
+defined('BASEPATH') || exit('No direct script access allowed');
 
 /**
  * 定时任务

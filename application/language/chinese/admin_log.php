@@ -1,4 +1,5 @@
 <?php
+
 defined('ShopNC_CLUB') || exit('Access Invalid!');
 
 $lang['admin_log_man'] = '操作人';

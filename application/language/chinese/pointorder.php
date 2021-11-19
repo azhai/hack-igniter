@@ -1,8 +1,7 @@
 <?php
+
 defined('ShopNC_CLUB') || exit('Access Invalid!');
-/**
- * 兑换订单功能公用
- */
+// 兑换订单功能公用
 $lang['admin_pointorder_unavailable'] = '系统未开启积分或者积分兑换功能';
 $lang['admin_pointorder_parameter_error'] = '参数错误';
 $lang['admin_pointorderd_record_error'] = '记录信息错误';
@@ -21,9 +20,7 @@ $lang['admin_pointorder_addtime'] = '兑换时间';
 $lang['admin_pointorder_shipping_code'] = '物流单号';
 $lang['admin_pointorder_shipping_time'] = '发货时间';
 $lang['admin_pointorder_gobacklist'] = '返回列表';
-/**
- * 兑换信息状态
- */
+// 兑换信息状态
 $lang['admin_pointorder_state_submit'] = '已提交';
 $lang['admin_pointorder_state_waitpay'] = '待付款';
 $lang['admin_pointorder_state_canceled'] = '已取消';
@@ -36,9 +33,7 @@ $lang['admin_pointorder_state_shipped'] = '已发货';
 $lang['admin_pointorder_state_waitreceiving'] = '待收货';
 $lang['admin_pointorder_state_finished'] = '已完成';
 $lang['admin_pointorder_state_unknown'] = '未知';
-/**
- * 兑换信息列表
- */
+// 兑换信息列表
 $lang['admin_pointorder_changefee'] = '调整运费';
 $lang['admin_pointorder_changefee_success'] = '调整运费成功';
 $lang['admin_pointorder_changefee_freightpricenull'] = '请添加运费';
@@ -60,14 +55,10 @@ $lang['admin_pointorder_ship_success'] = '信息操作成功';
 $lang['admin_pointorder_ship_fail'] = '信息操作失败';
 $lang['admin_pointorder_shipping_timetip'] = '注：默认为当前时间';
 $lang['admin_pointorder_shipping_description'] = '描述';
-/**
- * 兑换信息删除
- */
+// 兑换信息删除
 $lang['admin_pointorder_del_success'] = '删除成功';
 $lang['admin_pointorder_del_fail'] = '删除失败';
-/**
- * 兑换信息详细
- */
+// 兑换信息详细
 $lang['admin_pointorder_info_title'] = '兑换信息详细';
 $lang['admin_pointorder_info_ordersimple'] = '兑换信息';
 $lang['admin_pointorder_info_orderdetail'] = '兑换详情';

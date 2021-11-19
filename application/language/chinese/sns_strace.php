@@ -1,4 +1,5 @@
 <?php
+
 defined('ShopNC_CLUB') || exit('Access Invalid!');
 
 $lang['admin_snsstrace_storename'] = '店铺名称';

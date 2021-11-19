@@ -1,8 +1,7 @@
 <?php
+
 defined('ShopNC_CLUB') || exit('Access Invalid!');
-/**
- * index
- */
+// index
 $lang['goods_class_index_choose_edit'] = '请选择要编辑的内容';
 $lang['goods_class_index_in_homepage'] = '首页内';
 $lang['goods_class_index_display'] = '显示';
@@ -23,9 +22,7 @@ $lang['goods_class_index_display_tip'] = '首页默认只显示到二级分类';
 $lang['goods_class_index_help1'] = '当店主添加商品时可选择商品分类，用户可根据分类查询商品列表';
 $lang['goods_class_index_help2'] = '点击分类名前“+”符号，显示当前分类的下级分类';
 $lang['goods_class_index_help3'] = '<a>对分类作任何更改后，都需要到 设置 -> 清理缓存 清理商品分类，新的设置才会生效</a>';
-/**
- * 批量编辑
- */
+// 批量编辑
 $lang['goods_class_batch_edit_succ'] = '批量编辑成功';
 $lang['goods_class_batch_edit_wrong_content'] = '批量修改内容不正确';
 $lang['goods_class_batch_edit_batch'] = '批量编辑';
@@ -35,9 +32,7 @@ $lang['goods_class_batch_edit_ok'] = '编辑分类成功。';
 $lang['goods_class_batch_edit_fail'] = '编辑分类失败。';
 $lang['goods_class_batch_edit_paramerror'] = '参数非法';
 $lang['goods_class_batch_order_empty_tip'] = '，留空则保持不变';
-/**
- * 添加分类
- */
+// 添加分类
 $lang['goods_class_add_name_null'] = '分类名称不能为空';
 $lang['goods_class_add_sort_int'] = '分类排序仅能为数字';
 $lang['goods_class_add_commis_rate_error'] = '请正确填写分佣比例';
@@ -56,9 +51,7 @@ $lang['goods_class_add_type_desc_two'] = '功能中添加新的类型';
 $lang['goods_class_edit_prompts_one'] = '"类型"关系到商品发布时商品规格的添加，没有类型的商品分类的将不能添加规格。';
 $lang['goods_class_edit_prompts_two'] = '默认勾选"关联到子分类"将商品类型附加到子分类，如子分类不同于上级分类的类型，可以取消勾选并单独对子分类的特定类型进行编辑选择。';
 $lang['goods_class_edit_related_to_subclass'] = '关联到子分类';
-/**
- * 分类导入
- */
+// 分类导入
 $lang['goods_class_import_csv_null'] = '导入的csv文件不能为空';
 $lang['goods_class_import_data'] = '导入数据';
 $lang['goods_class_import_choose_file'] = '请选择文件';
@@ -72,17 +65,13 @@ $lang['goods_class_import_third_class'] = '三级分类';
 $lang['goods_class_import_example_download'] = '例子文件下载';
 $lang['goods_class_import_example_tip'] = '点击下载导入例子文件';
 $lang['goods_class_import_import'] = '导入';
-/**
- * 分类导出
- */
+// 分类导出
 $lang['goods_class_export_data'] = '导出数据';
 $lang['goods_class_export_if_trans'] = '导出您的商品分类数据';
 $lang['goods_class_export_trans_tip'] = '';
 $lang['goods_class_export_export'] = '导出';
 $lang['goods_class_export_help1'] = '导出内容为商品分类信息的.csv文件';
-/**
- * TAG index
- */
+// TAG index
 $lang['goods_class_tag_name'] = 'TAG名称';
 $lang['goods_class_tag_value'] = 'TAG值';
 $lang['goods_class_tag_update'] = '更新TAG名称';
@@ -92,15 +81,9 @@ $lang['goods_class_tag_reset_confirm'] = '您确定要重新导入TAG吗？重�
 $lang['goods_class_tag_prompts_two'] = 'TAG值是分类搜索的关键字，请精确的填写TAG值。TAG值可以填写多个，每个值之间需要用逗号隔开。';
 $lang['goods_class_tag_prompts_three'] = '导入/重置TAG功能可以根据商品分类重新更新TAG，TAG值默认为各级商品分类值。';
 $lang['goods_class_tag_choose_data'] = '请选择要操作的数据项。';
-/**
- * 重置TAG
- */
+// 重置TAG
 $lang['goods_class_reset_tag_fail_no_class'] = '重置TAG失败，没查找到任何分类信息。';
-/**
- * 更新TAG名称
- */
+// 更新TAG名称
 $lang['goods_class_update_tag_fail_no_class'] = 'TAG名称更新失败，没查找到任何分类信息。';
-/**
- * 删除TAG
- */
+// 删除TAG
 $lang['goods_class_tag_del_confirm'] = '你确定要删除商品分类TAG吗?';

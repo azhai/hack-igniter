@@ -12,11 +12,11 @@
     <meta name="description" content="">
 
     <link rel="shortcut icon" href="favicon.ico">
-    <link href="<?= $static_url ?>/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
-    <link href="<?= $static_url ?>/css/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="<?php echo $static_url; ?>/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="<?php echo $static_url; ?>/css/font-awesome.css?v=4.4.0" rel="stylesheet">
 
-    <link href="<?= $static_url ?>/css/animate.css" rel="stylesheet">
-    <link href="<?= $static_url ?>/css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="<?php echo $static_url; ?>/css/animate.css" rel="stylesheet">
+    <link href="<?php echo $static_url; ?>/css/style.css?v=4.1.0" rel="stylesheet">
 
 </head>
 
@@ -49,13 +49,13 @@
                     <div class="carousel slide" id="carousel1">
                         <div class="carousel-inner">
                             <div class="item active">
-                                <img alt="image" class="img-responsive" src="<?= $static_url ?>/img/p_big3.jpg">
+                                <img alt="image" class="img-responsive" src="<?php echo $static_url; ?>/img/p_big3.jpg">
                             </div>
                             <div class="item">
-                                <img alt="image" class="img-responsive" src="<?= $static_url ?>/img/p_big1.jpg">
+                                <img alt="image" class="img-responsive" src="<?php echo $static_url; ?>/img/p_big1.jpg">
                             </div>
                             <div class="item ">
-                                <img alt="image" class="img-responsive" src="<?= $static_url ?>/img/p_big2.jpg">
+                                <img alt="image" class="img-responsive" src="<?php echo $static_url; ?>/img/p_big2.jpg">
                             </div>
 
                         </div>
@@ -100,19 +100,19 @@
                         </ol>
                         <div class="carousel-inner">
                             <div class="item active">
-                                <img alt="image" class="img-responsive" src="<?= $static_url ?>/img/p_big1.jpg">
+                                <img alt="image" class="img-responsive" src="<?php echo $static_url; ?>/img/p_big1.jpg">
                                 <div class="carousel-caption">
                                     <p>This is simple caption 1</p>
                                 </div>
                             </div>
                             <div class="item ">
-                                <img alt="image" class="img-responsive" src="<?= $static_url ?>/img/p_big3.jpg">
+                                <img alt="image" class="img-responsive" src="<?php echo $static_url; ?>/img/p_big3.jpg">
                                 <div class="carousel-caption">
                                     <p>This is simple caption 2</p>
                                 </div>
                             </div>
                             <div class="item">
-                                <img alt="image" class="img-responsive" src="<?= $static_url ?>/img/p_big2.jpg">
+                                <img alt="image" class="img-responsive" src="<?php echo $static_url; ?>/img/p_big2.jpg">
                                 <div class="carousel-caption">
                                     <p>This is simple caption 3</p>
                                 </div>
@@ -159,48 +159,48 @@
                             <div class="item gallery active left">
                                 <div class="row">
                                     <div class="col-sm-6">
-                                        <img alt="image" class="img-responsive" src="<?= $static_url ?>/img/p_big1.jpg">
+                                        <img alt="image" class="img-responsive" src="<?php echo $static_url; ?>/img/p_big1.jpg">
                                     </div>
                                     <div class="col-sm-6">
-                                        <img alt="image" class="img-responsive" src="<?= $static_url ?>/img/p_big2.jpg">
+                                        <img alt="image" class="img-responsive" src="<?php echo $static_url; ?>/img/p_big2.jpg">
                                     </div>
                                     <div class="col-sm-6">
-                                        <img alt="image" class="img-responsive" src="<?= $static_url ?>/img/p_big3.jpg">
+                                        <img alt="image" class="img-responsive" src="<?php echo $static_url; ?>/img/p_big3.jpg">
                                     </div>
                                     <div class="col-sm-6">
-                                        <img alt="image" class="img-responsive" src="<?= $static_url ?>/img/p_big1.jpg">
+                                        <img alt="image" class="img-responsive" src="<?php echo $static_url; ?>/img/p_big1.jpg">
                                     </div>
                                 </div>
                             </div>
                             <div class="item gallery next left">
                                 <div class="row">
                                     <div class="col-sm-6">
-                                        <img alt="image" class="img-responsive" src="<?= $static_url ?>/img/p_big3.jpg">
+                                        <img alt="image" class="img-responsive" src="<?php echo $static_url; ?>/img/p_big3.jpg">
                                     </div>
                                     <div class="col-sm-6">
-                                        <img alt="image" class="img-responsive" src="<?= $static_url ?>/img/p_big1.jpg">
+                                        <img alt="image" class="img-responsive" src="<?php echo $static_url; ?>/img/p_big1.jpg">
                                     </div>
                                     <div class="col-sm-6">
-                                        <img alt="image" class="img-responsive" src="<?= $static_url ?>/img/p_big2.jpg">
+                                        <img alt="image" class="img-responsive" src="<?php echo $static_url; ?>/img/p_big2.jpg">
                                     </div>
                                     <div class="col-sm-6">
-                                        <img alt="image" class="img-responsive" src="<?= $static_url ?>/img/p_big1.jpg">
+                                        <img alt="image" class="img-responsive" src="<?php echo $static_url; ?>/img/p_big1.jpg">
                                     </div>
                                 </div>
                             </div>
                             <div class="item gallery">
                                 <div class="row">
                                     <div class="col-sm-6">
-                                        <img alt="image" class="img-responsive" src="<?= $static_url ?>/img/p_big2.jpg">
+                                        <img alt="image" class="img-responsive" src="<?php echo $static_url; ?>/img/p_big2.jpg">
                                     </div>
                                     <div class="col-sm-6">
-                                        <img alt="image" class="img-responsive" src="<?= $static_url ?>/img/p_big3.jpg">
+                                        <img alt="image" class="img-responsive" src="<?php echo $static_url; ?>/img/p_big3.jpg">
                                     </div>
                                     <div class="col-sm-6">
-                                        <img alt="image" class="img-responsive" src="<?= $static_url ?>/img/p_big1.jpg">
+                                        <img alt="image" class="img-responsive" src="<?php echo $static_url; ?>/img/p_big1.jpg">
                                     </div>
                                     <div class="col-sm-6">
-                                        <img alt="image" class="img-responsive" src="<?= $static_url ?>/img/p_big2.jpg">
+                                        <img alt="image" class="img-responsive" src="<?php echo $static_url; ?>/img/p_big2.jpg">
                                     </div>
                                 </div>
                             </div>
@@ -219,12 +219,12 @@
 </div>
 
 <!-- 全局js -->
-<script src="<?= $static_url ?>/js/jquery.min.js?v=2.1.4"></script>
-<script src="<?= $static_url ?>/js/bootstrap.min.js?v=3.3.6"></script>
+<script src="<?php echo $static_url; ?>/js/jquery.min.js?v=2.1.4"></script>
+<script src="<?php echo $static_url; ?>/js/bootstrap.min.js?v=3.3.6"></script>
 
 
 <!-- 自定义js -->
-<script src="<?= $static_url ?>/js/content.js?v=1.0.0"></script>
+<script src="<?php echo $static_url; ?>/js/content.js?v=1.0.0"></script>
 
 
 </body>

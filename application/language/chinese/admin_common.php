@@ -1,4 +1,5 @@
 <?php
+
 defined('ShopNC_CLUB') || exit('Access Invalid!');
 
 //common.php 调用

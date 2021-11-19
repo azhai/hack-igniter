@@ -1,9 +1,9 @@
 <?php
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
-
 /**
- * 科目
+ * 科目.
  */
 class Subject_model extends MY_Model
 {
@@ -48,7 +48,7 @@ class Subject_model extends MY_Model
             'parent' => [
                 'model' => FOREIGN_SELF_MODEL,
                 'columns' => ['id', 'parent_id', 'name',
-                    'max_score', 'pass_score', 'is_removed']
+                    'max_score', 'pass_score', 'is_removed', ],
             ],
             'children' => [
                 'type' => FOREIGN_HAS_MANY,
@@ -56,7 +56,7 @@ class Subject_model extends MY_Model
                 'rev_name' => 'parent',
                 'fkey' => 'parent_id',
                 'columns' => ['id', 'parent_id', 'name',
-                    'max_score', 'pass_score', 'is_removed']
+                    'max_score', 'pass_score', 'is_removed', ],
             ],
             'students' => [
                 'type' => FOREIGN_MANY_TO_MANY,
@@ -88,6 +88,6 @@ class Subject_model extends MY_Model
 
     public function cache_key($condition)
     {
-        return 'subject:' . $condition['id'];
+        return 'subject:'.$condition['id'];
     }
 }

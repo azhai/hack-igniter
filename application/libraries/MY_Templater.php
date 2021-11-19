@@ -1,16 +1,16 @@
 <?php
 /**
- * hack-igniter
+ * hack-igniter.
  *
  * A example project extends of CodeIgniter v3.x
  *
- * @package hack-igniter
  * @author  Ryan Liu (azhai)
- * @link    http://azhai.surge.sh/
+ *
+ * @see    http://azhai.surge.sh/
+ *
  * @copyright   Copyright (c) 2013
  * @license http://opensource.org/licenses/MIT  MIT License
  */
-
 defined('BASEPATH') || exit('No direct script access allowed');
 
 /**
@@ -51,9 +51,10 @@ class MY_Templater
     /**
      * 添加一个或多个全局变量.
      *
-     * @param string|array $key 一个变量名或变量数组
-     * @param mixed $value 变量值
-     * @return this
+     * @param array|string $key   一个变量名或变量数组
+     * @param mixed        $value 变量值
+     *
+     * @return $this
      */
     public function addGlobal($key, $value = null)
     {
@@ -62,11 +63,14 @@ class MY_Templater
         } else {
             $this->globals[$key] = $value;
         }
+
         return $this;
     }
 
     /**
      * 发送HTTP错误.
+     *
+     * @param mixed $code
      */
     public static function abort($code = 500)
     {
@@ -80,8 +84,8 @@ class MY_Templater
     /**
      * 页面跳转，GET方式.
      *
-     * @param string $to_url 要跳转网址
-     * @param bool $permanent 是否永久跳转(HTTP 301)
+     * @param string $to_url    要跳转网址
+     * @param bool   $permanent 是否永久跳转(HTTP 301)
      *
      * @return 进入新页面
      */
@@ -89,16 +93,21 @@ class MY_Templater
     {
         $status_code = $permanent ? 301 : 302;
         self::header('Location', $to_url, true, $status_code);
-        return die(); //阻止运行后面的代码
+        return exit(); //阻止运行后面的代码
     }
 
     /**
      * 发送Header.
+     *
+     * @param mixed $name
+     * @param mixed $value
+     * @param mixed $replace
+     * @param mixed $code
      */
     public static function header($name, $value, $replace = true, $code = 200)
     {
-        if (!headers_sent()) {
-            $line = empty($name) ? '' : (string) $name . ': ';
+        if (! headers_sent()) {
+            $line = empty($name) ? '' : (string) $name.': ';
             $line .= is_array($value) ? implode(' ', $value) : (string) $value;
             @header($line, $replace, $code);
         }
@@ -108,13 +117,15 @@ class MY_Templater
      * 添加模板文件.
      *
      * @param string $frame_file 模板文件
-     * @return this
+     *
+     * @return $this
      */
     public function addFrameFile($frame_file)
     {
         if ($frame_file && is_readable($frame_file)) {
             $this->frame_files[] = $frame_file;
         }
+
         return $this;
     }
 
@@ -122,13 +133,15 @@ class MY_Templater
      * 设置布局文件.
      *
      * @param string $layout_file 布局文件
-     * @return this
+     *
+     * @return $this
      */
     public function extendTpl($layout_file)
     {
         if ($layout_file && is_readable($layout_file)) {
             array_unshift($this->frame_files, $layout_file);
         }
+
         return $this;
     }
 
@@ -141,6 +154,7 @@ class MY_Templater
     {
         if ($frame_file && is_readable($frame_file)) {
             extract($this->globals);
+
             include $frame_file;
         }
     }
@@ -180,20 +194,22 @@ class MY_Templater
     }
 
     /**
-     * 设置文档类型和字符集
+     * 设置文档类型和字符集.
      *
-     * @param string $type 文档类型
+     * @param string $type    文档类型
      * @param string $charset 字符集
-     * @return this
+     *
+     * @return $this
      */
     public function setContentType($type, $charset = 'utf-8')
     {
         $line = self::$mime_types[$type];
         if ($charset) {
             $this->charset = (string) $charset;
-            $line .= '; charset=' . $this->charset;
+            $line .= '; charset='.$this->charset;
         }
         self::header('Content-Type', $line);
+
         return $this;
     }
 
@@ -201,6 +217,7 @@ class MY_Templater
      * 获取输出内容.
      *
      * @param array $context 模板变量数组
+     *
      * @return string
      */
     public function render(array $context = [])
@@ -211,8 +228,10 @@ class MY_Templater
         //frame_files数组在动态增长，不能使用for循环
         while (count($this->frame_files)) {
             $frame_file = array_pop($this->frame_files);
+
             include $frame_file;
         }
+
         return trim(ob_get_clean());
     }
 }

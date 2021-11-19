@@ -12,35 +12,35 @@
     <meta name="description" content="">
 
     <link rel="shortcut icon" href="favicon.ico">
-    <link href="<?= $static_url ?>/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
-    <link href="<?= $static_url ?>/css/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="<?php echo $static_url; ?>/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="<?php echo $static_url; ?>/css/font-awesome.css?v=4.4.0" rel="stylesheet">
 
-    <link href="<?= $static_url ?>/css/plugins/iCheck/custom.css" rel="stylesheet">
+    <link href="<?php echo $static_url; ?>/css/plugins/iCheck/custom.css" rel="stylesheet">
 
-    <link href="<?= $static_url ?>/css/plugins/chosen/chosen.css" rel="stylesheet">
+    <link href="<?php echo $static_url; ?>/css/plugins/chosen/chosen.css" rel="stylesheet">
 
-    <link href="<?= $static_url ?>/css/plugins/colorpicker/css/bootstrap-colorpicker.min.css" rel="stylesheet">
+    <link href="<?php echo $static_url; ?>/css/plugins/colorpicker/css/bootstrap-colorpicker.min.css" rel="stylesheet">
 
-    <link href="<?= $static_url ?>/css/plugins/cropper/cropper.min.css" rel="stylesheet">
+    <link href="<?php echo $static_url; ?>/css/plugins/cropper/cropper.min.css" rel="stylesheet">
 
-    <link href="<?= $static_url ?>/css/plugins/switchery/switchery.css" rel="stylesheet">
+    <link href="<?php echo $static_url; ?>/css/plugins/switchery/switchery.css" rel="stylesheet">
 
-    <link href="<?= $static_url ?>/css/plugins/jasny/jasny-bootstrap.min.css" rel="stylesheet">
+    <link href="<?php echo $static_url; ?>/css/plugins/jasny/jasny-bootstrap.min.css" rel="stylesheet">
 
-    <link href="<?= $static_url ?>/css/plugins/nouslider/jquery.nouislider.css" rel="stylesheet">
+    <link href="<?php echo $static_url; ?>/css/plugins/nouslider/jquery.nouislider.css" rel="stylesheet">
 
-    <link href="<?= $static_url ?>/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
+    <link href="<?php echo $static_url; ?>/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
 
-    <link href="<?= $static_url ?>/css/plugins/ionRangeSlider/ion.rangeSlider.css" rel="stylesheet">
-    <link href="<?= $static_url ?>/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css" rel="stylesheet">
+    <link href="<?php echo $static_url; ?>/css/plugins/ionRangeSlider/ion.rangeSlider.css" rel="stylesheet">
+    <link href="<?php echo $static_url; ?>/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css" rel="stylesheet">
 
-    <link href="<?= $static_url ?>/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css"
+    <link href="<?php echo $static_url; ?>/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css"
           rel="stylesheet">
 
-    <link href="<?= $static_url ?>/css/plugins/clockpicker/clockpicker.css" rel="stylesheet">
+    <link href="<?php echo $static_url; ?>/css/plugins/clockpicker/clockpicker.css" rel="stylesheet">
 
-    <link href="<?= $static_url ?>/css/animate.css" rel="stylesheet">
-    <link href="<?= $static_url ?>/css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="<?php echo $static_url; ?>/css/animate.css" rel="stylesheet">
+    <link href="<?php echo $static_url; ?>/css/style.css?v=4.1.0" rel="stylesheet">
 
 </head>
 
@@ -941,7 +941,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="image-crop">
-                                <img src="<?= $static_url ?>/img/a3.jpg">
+                                <img src="<?php echo $static_url; ?>/img/a3.jpg">
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -998,52 +998,52 @@
 </div>
 
 <!-- 全局js -->
-<script src="<?= $static_url ?>/js/jquery.min.js?v=2.1.4"></script>
-<script src="<?= $static_url ?>/js/bootstrap.min.js?v=3.3.6"></script>
+<script src="<?php echo $static_url; ?>/js/jquery.min.js?v=2.1.4"></script>
+<script src="<?php echo $static_url; ?>/js/bootstrap.min.js?v=3.3.6"></script>
 
 <!-- 自定义js -->
-<script src="<?= $static_url ?>/js/content.js?v=1.0.0"></script>
+<script src="<?php echo $static_url; ?>/js/content.js?v=1.0.0"></script>
 
 <!-- Chosen -->
-<script src="<?= $static_url ?>/js/plugins/chosen/chosen.jquery.js"></script>
+<script src="<?php echo $static_url; ?>/js/plugins/chosen/chosen.jquery.js"></script>
 
 <!-- JSKnob -->
-<script src="<?= $static_url ?>/js/plugins/jsKnob/jquery.knob.js"></script>
+<script src="<?php echo $static_url; ?>/js/plugins/jsKnob/jquery.knob.js"></script>
 
 <!-- Input Mask-->
-<script src="<?= $static_url ?>/js/plugins/jasny/jasny-bootstrap.min.js"></script>
+<script src="<?php echo $static_url; ?>/js/plugins/jasny/jasny-bootstrap.min.js"></script>
 
 <!-- Data picker -->
-<script src="<?= $static_url ?>/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+<script src="<?php echo $static_url; ?>/js/plugins/datapicker/bootstrap-datepicker.js"></script>
 
 <!-- Prettyfile -->
-<script src="<?= $static_url ?>/js/plugins/prettyfile/bootstrap-prettyfile.js"></script>
+<script src="<?php echo $static_url; ?>/js/plugins/prettyfile/bootstrap-prettyfile.js"></script>
 
 <!-- NouSlider -->
-<script src="<?= $static_url ?>/js/plugins/nouslider/jquery.nouislider.min.js"></script>
+<script src="<?php echo $static_url; ?>/js/plugins/nouslider/jquery.nouislider.min.js"></script>
 
 <!-- Switchery -->
-<script src="<?= $static_url ?>/js/plugins/switchery/switchery.js"></script>
+<script src="<?php echo $static_url; ?>/js/plugins/switchery/switchery.js"></script>
 
 <!-- IonRangeSlider -->
-<script src="<?= $static_url ?>/js/plugins/ionRangeSlider/ion.rangeSlider.min.js"></script>
+<script src="<?php echo $static_url; ?>/js/plugins/ionRangeSlider/ion.rangeSlider.min.js"></script>
 
 <!-- iCheck -->
-<script src="<?= $static_url ?>/js/plugins/iCheck/icheck.min.js"></script>
+<script src="<?php echo $static_url; ?>/js/plugins/iCheck/icheck.min.js"></script>
 
 <!-- MENU -->
-<script src="<?= $static_url ?>/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+<script src="<?php echo $static_url; ?>/js/plugins/metisMenu/jquery.metisMenu.js"></script>
 
 <!-- Color picker -->
-<script src="<?= $static_url ?>/js/plugins/colorpicker/bootstrap-colorpicker.min.js"></script>
+<script src="<?php echo $static_url; ?>/js/plugins/colorpicker/bootstrap-colorpicker.min.js"></script>
 
 <!-- Clock picker -->
-<script src="<?= $static_url ?>/js/plugins/clockpicker/clockpicker.js"></script>
+<script src="<?php echo $static_url; ?>/js/plugins/clockpicker/clockpicker.js"></script>
 
 <!-- Image cropper -->
-<script src="<?= $static_url ?>/js/plugins/cropper/cropper.min.js"></script>
+<script src="<?php echo $static_url; ?>/js/plugins/cropper/cropper.min.js"></script>
 
-<script src="<?= $static_url ?>/js/demo/form-advanced-demo.js"></script>
+<script src="<?php echo $static_url; ?>/js/demo/form-advanced-demo.js"></script>
 
 
 </body>

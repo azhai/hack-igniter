@@ -1,16 +1,16 @@
 <?php
 /**
- * hack-igniter
+ * hack-igniter.
  *
  * A example project extends of CodeIgniter v3.x
  *
- * @package hack-igniter
  * @author  Ryan Liu (azhai)
- * @link    http://azhai.surge.sh/
+ *
+ * @see    http://azhai.surge.sh/
+ *
  * @copyright   Copyright (c) 2013
  * @license http://opensource.org/licenses/MIT  MIT License
  */
-
 defined('BASEPATH') || exit('No direct script access allowed');
 
 /**
@@ -18,20 +18,15 @@ defined('BASEPATH') || exit('No direct script access allowed');
  */
 class Apns_page extends MY_Controller
 {
-    protected $redis = null;
-
-    protected function initialize()
-    {
-        $cache = $this->load->cache('redis', 'apns');
-        $this->redis = $cache->redis->instance();
-    }
+    protected $redis;
 
     /**
-     * 向用户推送消息，以json格式写入redis队列
+     * 向用户推送消息，以json格式写入redis队列.
      *
      * @param $userid  用户
      * @param $message 消息文本
      * @param $data    其他消息属性
+     *
      * @return bool
      */
     public function pushmsg($userid, $message, array $data = [])
@@ -50,23 +45,26 @@ class Apns_page extends MY_Controller
         }
         $data['text'] = trim($message);
         $json = json_encode($data, JSON_UNESCAPED_UNICODE);
-        $queue_name = 'apns_' . $channel;
+        $queue_name = 'apns_'.$channel;
+
         return $this->redis->lPush($queue_name, $json);
     }
 
     /**
      * 单个证书的推送服务进程.
+     *
+     * @param mixed $channel
      */
     public function pushloop($channel = 'prod')
     {
         $this->config->load('apns', true, true);
         $params = $this->config->item($channel, 'apns');
-        $queue_name = 'apns_' . $channel;
+        $queue_name = 'apns_'.$channel;
         $this->load->library('MY_Apns', $params, $queue_name);
-        $apns = $this->$queue_name;
+        $apns = $this->{$queue_name};
         $server = $apns->getPushServer();
         $invalid_queue = $apns->getInvalidQueueName();
-        $queues = [$queue_name,];
+        $queues = [$queue_name];
 
         $server->start();
         while ($server->run()) { // Main loop...
@@ -74,12 +72,12 @@ class Apns_page extends MY_Controller
             $inv_tokens = $apns->getPushInvalidTokens();
             foreach ($inv_tokens as $inv_token) {
                 $this->redis->lPush($invalid_queue, $inv_token);
-                log_message('INFO', 'Invalid token: ' . $inv_token);
+                log_message('INFO', 'Invalid token: '.$inv_token);
             }
 
             if ($item = $this->redis->brPop($queues, 30)) {
                 list($queue, $data) = $item;
-                if (!is_array($data)) {
+                if (! is_array($data)) {
                     $data = json_decode($data, true);
                 }
                 // Instantiate a new Message with a single recipient
@@ -100,22 +98,28 @@ class Apns_page extends MY_Controller
         //初始化
         $apns_pool = [];
         foreach ($all_params as $channel => $params) {
-            $queue_name = 'apns_' . $channel;
+            $queue_name = 'apns_'.$channel;
             $this->load->library('MY_Apns', $params, $queue_name);
-            $apns_pool[$channel] = $this->$queue_name;
+            $apns_pool[$channel] = $this->{$queue_name};
         }
 
         //接收错误token
-        do {
-            foreach ($apns_pool as & $apns) {
+        while (true) {
+            foreach ($apns_pool as &$apns) {
                 $inv_tokens = $apns->getFeedInvalidTokens();
                 foreach ($inv_tokens as $inv_token) {
                     $this->redis->lPush(QUEUE_INVALID, $inv_token);
-                    log_message('INFO', 'Invalid token: ' . $inv_token);
+                    log_message('INFO', 'Invalid token: '.$inv_token);
                 }
                 sleep(20);
             }
             sleep(900);
-        } while (true);
+        }
+    }
+
+    protected function initialize()
+    {
+        $cache = $this->load->cache('redis', 'apns');
+        $this->redis = $cache->redis->instance();
     }
 }

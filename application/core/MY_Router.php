@@ -1,29 +1,56 @@
 <?php
 /**
- * hack-igniter
+ * hack-igniter.
  *
  * A example project extends of CodeIgniter v3.x
  *
- * @package hack-igniter
  * @author  Ryan Liu (azhai)
- * @link    http://azhai.surge.sh/
+ *
+ * @see    http://azhai.surge.sh/
+ *
  * @copyright   Copyright (c) 2013
  * @license http://opensource.org/licenses/MIT  MIT License
  */
-
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class MY_Router extends CI_Router
 {
     /**
-     * Set request route
+     * Set class name.
+     *
+     * @param string $class Class name
+     */
+    public function set_class($class)
+    {
+        if (! ends_with($class, '_page')) {
+            $class = ucfirst($class).'_page';
+        }
+
+        return parent::set_class($class);
+    }
+
+    /**
+     * Get the controller class of current.
+     */
+    public function get_class()
+    {
+        $class = lcfirst($this->class);
+        if (ends_with($class, '_page')) {
+            $class = substr($class, 0, 0 - strlen('_page'));
+        }
+
+        return $class;
+    }
+
+    /**
+     * Set request route.
      *
      * Takes an array of URI segments as input and sets the class/method
      * to be called.
      *
      * @used-by CI_Router::_parse_routes()
+     *
      * @param array $segments URI segments
-     * @return  void
      */
     protected function _set_request($segments = [])
     {
@@ -35,13 +62,12 @@ class MY_Router extends CI_Router
         if (empty($segments)) {
             $segments = ['index'];
         }
+
         return parent::_set_request($segments);
     }
 
     /**
-     * Set default controller
-     *
-     * @return    void
+     * Set default controller.
      */
     protected function _set_default_controller()
     {
@@ -49,32 +75,7 @@ class MY_Router extends CI_Router
             show_error('Unable to determine what should be displayed. A default route has not been specified in the routing file.');
         }
         $segments = explode('/', $this->default_controller);
+
         return $this->_set_request($segments);
-    }
-
-    /**
-     * Set class name
-     *
-     * @param string $class Class name
-     * @return  void
-     */
-    public function set_class($class)
-    {
-        if (!ends_with($class, '_page')) {
-            $class = ucfirst($class) . '_page';
-        }
-        return parent::set_class($class);
-    }
-
-    /**
-     * Get the controller class of current
-     */
-    public function get_class()
-    {
-        $class = lcfirst($this->class);
-        if (ends_with($class, '_page')) {
-            $class = substr($class, 0, 0 - strlen('_page'));
-        }
-        return $class;
     }
 }

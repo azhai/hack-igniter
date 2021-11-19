@@ -1,5 +1,5 @@
 <?php
-$this->extendTpl($theme_dir . '/layout.php'); ?>
+$this->extendTpl($theme_dir.'/layout.php'); ?>
 
 
 <?php $this->blockStart('content'); ?>
@@ -25,7 +25,7 @@ $this->extendTpl($theme_dir . '/layout.php'); ?>
                         <i class="fa fa-clone"></i>
                     </div>
                 </li>
-                <?php if ($user['is_super']): ?>
+                <?php if ($user['is_super']) { ?>
                     <li>
                         <a href="#">
                             <i class="fa fa-users"></i>
@@ -47,44 +47,46 @@ $this->extendTpl($theme_dir . '/layout.php'); ?>
                             </li>
                         </ul>
                     </li>
-                <?php endif; ?>
+                <?php } ?>
                 <li class="line dk"></li>
                 <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
                     <span class="ng-scope">分类</span>
                 </li>
-                <?php foreach ($menus as $menu): ?>
+                <?php foreach ($menus as $menu) { ?>
                     <li>
-                        <?php if ($menu['children']): ?>
+                        <?php if ($menu['children']) { ?>
                             <a href="#">
-                                <i class="<?= $menu['icon'] ?>"></i>
-                                <span class="nav-label"><?= $menu['title'] ?></span>
+                                <i class="<?php echo $menu['icon']; ?>"></i>
+                                <span class="nav-label"><?php echo $menu['title']; ?></span>
                                 <span class="fa arrow"></span>
                             </a>
                             <ul class="nav nav-second-level">
-                                <?php foreach ($menu['children'] as $submenu): ?>
+                                <?php foreach ($menu['children'] as $submenu) { ?>
                                     <li>
-                                        <?php if ('#' === $submenu['url']): ?>
-                                            <a href="#"><?= $submenu['title'] ?> <span class="fa arrow"></span></a>
+                                        <?php if ('#' === $submenu['url']) { ?>
+                                            <a href="#"><?php echo $submenu['title']; ?> <span class="fa arrow"></span></a>
                                             <ul class="nav nav-third-level">
                                                 <li>
-                                                    <?= implode("\n</li>\n<li>\n", $leaves[$submenu['id']]) ?>
+                                                    <?php echo implode("\n</li>\n<li>\n", $leaves[$submenu['id']]); ?>
                                                 </li>
                                             </ul>
-                                        <?php else:
-                                            echo to_menu_link($submenu);
-                                        endif; ?>
+                                        <?php } else {
+    echo to_menu_link($submenu);
+} ?>
                                     </li>
-                                <?php endforeach; ?>
+                                <?php } ?>
                             </ul>
-                        <?php else: ?>
-                            <a class="J_menuItem" href="<?= $menu['url'] ?>">
-                                <i class="<?= $menu['icon'] ?>"></i>
-                                <span class="nav-label"><?= $menu['title'] ?></span>
-                                <?php if ($menu['corner']): echo to_corner_span($menu['corner']); endif; ?>
+                        <?php } else { ?>
+                            <a class="J_menuItem" href="<?php echo $menu['url']; ?>">
+                                <i class="<?php echo $menu['icon']; ?>"></i>
+                                <span class="nav-label"><?php echo $menu['title']; ?></span>
+                                <?php if ($menu['corner']) {
+    echo to_corner_span($menu['corner']);
+} ?>
                             </a>
-                        <?php endif; ?>
+                        <?php } ?>
                     </li>
-                <?php endforeach; ?>
+                <?php } ?>
             </ul>
         </div>
     </nav>
@@ -113,7 +115,7 @@ $this->extendTpl($theme_dir . '/layout.php'); ?>
                             <li class="m-t-xs">
                                 <div class="dropdown-messages-box">
                                     <a href="/demo/profile/index/" class="pull-left">
-                                        <img alt="image" class="img-circle" src="<?= $static_url ?>/img/a7.jpg">
+                                        <img alt="image" class="img-circle" src="<?php echo $static_url; ?>/img/a7.jpg">
                                     </a>
                                     <div class="media-body">
                                         <small class="pull-right">46小时前</small>
@@ -127,7 +129,7 @@ $this->extendTpl($theme_dir . '/layout.php'); ?>
                             <li>
                                 <div class="dropdown-messages-box">
                                     <a href="/demo/profile/index/" class="pull-left">
-                                        <img alt="image" class="img-circle" src="<?= $static_url ?>/img/a4.jpg">
+                                        <img alt="image" class="img-circle" src="<?php echo $static_url; ?>/img/a4.jpg">
                                     </a>
                                     <div class="media-body ">
                                         <small class="pull-right text-navy">25小时前</small>
@@ -152,11 +154,11 @@ $this->extendTpl($theme_dir . '/layout.php'); ?>
                     <li class="dropdown">
                         <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
                             <i class="fa fa-user"></i>
-                            <strong> <?= $user['nickname'] ?></strong>
+                            <strong> <?php echo $user['nickname']; ?></strong>
                         </a>
                         <div class="dropdown-menu dropdown-settings">
                             <div class="text-center col-sm-12" style="margin-bottom:20px">
-                                <img alt="image" src="<?= $static_url ?>/img/a1.jpg"
+                                <img alt="image" src="<?php echo $static_url; ?>/img/a1.jpg"
                                      class="img-circle m-t-xs img-responsive">
                             </div>
                             <div class="divider" style="clear:both"></div>
@@ -173,7 +175,7 @@ $this->extendTpl($theme_dir . '/layout.php'); ?>
                             </div>
                             <div class="divider"></div>
                             <div>
-                                <a href="<?= $logout_url ?>">
+                                <a href="<?php echo $logout_url; ?>">
                                     退出 <i class="fa fa-angle-right"></i>
                                 </a>
                             </div>
@@ -193,16 +195,16 @@ $this->extendTpl($theme_dir . '/layout.php'); ?>
 
 
 <?php $this->blockStart('scripts'); ?>
-<script src="<?= $static_url ?>/js/plugins/metisMenu/jquery.metisMenu.js"></script>
-<script src="<?= $static_url ?>/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
-<script src="<?= $static_url ?>/js/plugins/layer/layer.min.js"></script>
-<script src="<?= $static_url ?>/js/plugins/pace/pace.min.js"></script>
-<script src="<?= $static_url ?>/js/js.cookie.min.js"></script>
-<script src="<?= $static_url ?>/js/hAdmin.js?v=4.1.0"></script>
+<script src="<?php echo $static_url; ?>/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+<script src="<?php echo $static_url; ?>/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+<script src="<?php echo $static_url; ?>/js/plugins/layer/layer.min.js"></script>
+<script src="<?php echo $static_url; ?>/js/plugins/pace/pace.min.js"></script>
+<script src="<?php echo $static_url; ?>/js/js.cookie.min.js"></script>
+<script src="<?php echo $static_url; ?>/js/hAdmin.js?v=4.1.0"></script>
 <script>
     $(function () {
         var url = Cookies ? Cookies.get('curr_url') : null;
-        if (url = url || '<?= $default_url ?>') {
+        if (url = url || '<?php echo $default_url; ?>') {
             var menu = $('a.J_menuItem[href="' + url + '"]');
             if (menu) {
                 menu.parents('li').addClass('active');

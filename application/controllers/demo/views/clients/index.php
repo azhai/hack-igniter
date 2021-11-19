@@ -12,11 +12,11 @@
     <meta name="description" content="">
 
     <link rel="shortcut icon" href="favicon.ico">
-    <link href="<?= $static_url ?>/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
-    <link href="<?= $static_url ?>/css/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="<?php echo $static_url; ?>/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="<?php echo $static_url; ?>/css/font-awesome.css?v=4.4.0" rel="stylesheet">
 
-    <link href="<?= $static_url ?>/css/animate.css" rel="stylesheet">
-    <link href="<?= $static_url ?>/css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="<?php echo $static_url; ?>/css/animate.css" rel="stylesheet">
+    <link href="<?php echo $static_url; ?>/css/style.css?v=4.1.0" rel="stylesheet">
 
 </head>
 
@@ -53,7 +53,7 @@
                                             <tbody>
                                             <tr>
                                                 <td class="client-avatar"><img alt="image"
-                                                                               src="<?= $static_url ?>/img/a2.jpg"></td>
+                                                                               src="<?php echo $static_url; ?>/img/a2.jpg"></td>
                                                 <td><a data-toggle="tab" href="#contact-1" class="client-link">袁岳</a>
                                                 </td>
                                                 <td> 瑞安市海诚机械有限公司</td>
@@ -65,7 +65,7 @@
                                             </tr>
                                             <tr>
                                                 <td class="client-avatar"><img alt="image"
-                                                                               src="<?= $static_url ?>/img/a3.jpg"></td>
+                                                                               src="<?php echo $static_url; ?>/img/a3.jpg"></td>
                                                 <td><a data-toggle="tab" href="#contact-2" class="client-link">王利锋</a>
                                                 </td>
                                                 <td>上海沃精机械制造有限公司</td>
@@ -77,7 +77,7 @@
                                             </tr>
                                             <tr>
                                                 <td class="client-avatar"><img alt="image"
-                                                                               src="<?= $static_url ?>/img/a4.jpg"></td>
+                                                                               src="<?php echo $static_url; ?>/img/a4.jpg"></td>
                                                 <td><a data-toggle="tab" href="#contact-3" class="client-link">张有为 </a>
                                                 </td>
                                                 <td>张家港同丰机械制造有限公司</td>
@@ -88,7 +88,7 @@
                                             </tr>
                                             <tr>
                                                 <td class="client-avatar">
-                                                    <a href=""><img alt="image" src="<?= $static_url ?>/img/a5.jpg">
+                                                    <a href=""><img alt="image" src="<?php echo $static_url; ?>/img/a5.jpg">
                                                     </a>
                                                 </td>
                                                 <td><a data-toggle="tab" href="#contact-4" class="client-link">李全福</a>
@@ -102,7 +102,7 @@
                                             </tr>
                                             <tr>
                                                 <td class="client-avatar">
-                                                    <a href=""><img alt="image" src="<?= $static_url ?>/img/a6.jpg">
+                                                    <a href=""><img alt="image" src="<?php echo $static_url; ?>/img/a6.jpg">
                                                     </a>
                                                 </td>
                                                 <td><a data-toggle="tab" href="#contact-2" class="client-link">吴俭俭</a>
@@ -115,7 +115,7 @@
                                             </tr>
                                             <tr>
                                                 <td class="client-avatar">
-                                                    <a href=""><img alt="image" src="<?= $static_url ?>/img/a7.jpg">
+                                                    <a href=""><img alt="image" src="<?php echo $static_url; ?>/img/a7.jpg">
                                                     </a>
                                                 </td>
                                                 <td><a data-toggle="tab" href="#contact-3" class="client-link">萧志林</a>
@@ -129,7 +129,7 @@
                                             </tr>
                                             <tr>
                                                 <td class="client-avatar">
-                                                    <a href=""><img alt="image" src="<?= $static_url ?>/img/a1.jpg">
+                                                    <a href=""><img alt="image" src="<?php echo $static_url; ?>/img/a1.jpg">
                                                     </a>
                                                 </td>
                                                 <td><a data-toggle="tab" href="#contact-1" class="client-link">沈家华</a>
@@ -143,7 +143,7 @@
                                             </tr>
                                             <tr>
                                                 <td class="client-avatar">
-                                                    <a href=""><img alt="image" src="<?= $static_url ?>/img/a3.jpg">
+                                                    <a href=""><img alt="image" src="<?php echo $static_url; ?>/img/a3.jpg">
                                                     </a>
                                                 </td>
                                                 <td><a data-toggle="tab" href="#contact-2" class="client-link">王利锋</a>
@@ -157,7 +157,7 @@
                                             </tr>
                                             <tr>
                                                 <td class="client-avatar">
-                                                    <a href=""><img alt="image" src="<?= $static_url ?>/img/a4.jpg">
+                                                    <a href=""><img alt="image" src="<?php echo $static_url; ?>/img/a4.jpg">
                                                     </a>
                                                 </td>
                                                 <td><a data-toggle="tab" href="#contact-3" class="client-link">张有为 </a>
@@ -170,7 +170,7 @@
                                             </tr>
                                             <tr>
                                                 <td class="client-avatar">
-                                                    <a href=""><img alt="image" src="<?= $static_url ?>/img/a5.jpg">
+                                                    <a href=""><img alt="image" src="<?php echo $static_url; ?>/img/a5.jpg">
                                                     </a>
                                                 </td>
                                                 <td><a data-toggle="tab" href="#contact-4" class="client-link">李全福</a>
@@ -183,7 +183,7 @@
                                             </tr>
                                             <tr>
                                                 <td class="client-avatar">
-                                                    <a href=""><img alt="image" src="<?= $static_url ?>/img/a2.jpg">
+                                                    <a href=""><img alt="image" src="<?php echo $static_url; ?>/img/a2.jpg">
                                                     </a>
                                                 </td>
                                                 <td><a data-toggle="tab" href="#contact-1" class="client-link">袁岳</a>
@@ -197,7 +197,7 @@
                                             </tr>
                                             <tr>
                                                 <td class="client-avatar">
-                                                    <a href=""><img alt="image" src="<?= $static_url ?>/img/a7.jpg">
+                                                    <a href=""><img alt="image" src="<?php echo $static_url; ?>/img/a7.jpg">
                                                     </a>
                                                 </td>
                                                 <td><a data-toggle="tab" href="#contact-2" class="client-link">萧志林</a>
@@ -211,7 +211,7 @@
                                             </tr>
                                             <tr>
                                                 <td class="client-avatar">
-                                                    <a href=""><img alt="image" src="<?= $static_url ?>/img/a5.jpg">
+                                                    <a href=""><img alt="image" src="<?php echo $static_url; ?>/img/a5.jpg">
                                                     </a>
                                                 </td>
                                                 <td><a data-toggle="tab" href="#contact-3" class="client-link">李全福</a>
@@ -225,7 +225,7 @@
                                             </tr>
                                             <tr>
                                                 <td class="client-avatar">
-                                                    <a href=""><img alt="image" src="<?= $static_url ?>/img/a6.jpg">
+                                                    <a href=""><img alt="image" src="<?php echo $static_url; ?>/img/a6.jpg">
                                                     </a>
                                                 </td>
                                                 <td><a data-toggle="tab" href="#contact-4" class="client-link">吴俭俭</a>
@@ -239,7 +239,7 @@
                                             </tr>
                                             <tr>
                                                 <td class="client-avatar">
-                                                    <a href=""><img alt="image" src="<?= $static_url ?>/img/a7.jpg">
+                                                    <a href=""><img alt="image" src="<?php echo $static_url; ?>/img/a7.jpg">
                                                     </a>
                                                 </td>
                                                 <td><a data-toggle="tab" href="#contact-2" class="client-link">萧志林</a>
@@ -253,7 +253,7 @@
                                             </tr>
                                             <tr>
                                                 <td class="client-avatar">
-                                                    <a href=""><img alt="image" src="<?= $static_url ?>/img/a1.jpg">
+                                                    <a href=""><img alt="image" src="<?php echo $static_url; ?>/img/a1.jpg">
                                                     </a>
                                                 </td>
                                                 <td><a data-toggle="tab" href="#contact-1" class="client-link">沈家华</a>
@@ -266,7 +266,7 @@
                                             </tr>
                                             <tr>
                                                 <td class="client-avatar">
-                                                    <a href=""><img alt="image" src="<?= $static_url ?>/img/a3.jpg">
+                                                    <a href=""><img alt="image" src="<?php echo $static_url; ?>/img/a3.jpg">
                                                     </a>
                                                 </td>
                                                 <td><a data-toggle="tab" href="#contact-3" class="client-link">王利锋</a>
@@ -279,7 +279,7 @@
                                             </tr>
                                             <tr>
                                                 <td class="client-avatar">
-                                                    <a href=""><img alt="image" src="<?= $static_url ?>/img/a4.jpg">
+                                                    <a href=""><img alt="image" src="<?php echo $static_url; ?>/img/a4.jpg">
                                                     </a>
                                                 </td>
                                                 <td><a data-toggle="tab" href="#contact-4" class="client-link">张有为 </a>
@@ -293,7 +293,7 @@
                                             </tr>
                                             <tr>
                                                 <td class="client-avatar">
-                                                    <a href=""><img alt="image" src="<?= $static_url ?>/img/a5.jpg">
+                                                    <a href=""><img alt="image" src="<?php echo $static_url; ?>/img/a5.jpg">
                                                     </a>
                                                 </td>
                                                 <td><a data-toggle="tab" href="#contact-1" class="client-link">李全福</a>
@@ -307,7 +307,7 @@
                                             </tr>
                                             <tr>
                                                 <td class="client-avatar">
-                                                    <a href=""><img alt="image" src="<?= $static_url ?>/img/a2.jpg">
+                                                    <a href=""><img alt="image" src="<?php echo $static_url; ?>/img/a2.jpg">
                                                     </a>
                                                 </td>
                                                 <td><a data-toggle="tab" href="#contact-2" class="client-link">袁岳</a>
@@ -321,7 +321,7 @@
                                             </tr>
                                             <tr>
                                                 <td class="client-avatar">
-                                                    <a href=""><img alt="image" src="<?= $static_url ?>/img/a7.jpg">
+                                                    <a href=""><img alt="image" src="<?php echo $static_url; ?>/img/a7.jpg">
                                                     </a>
                                                 </td>
                                                 <td><a data-toggle="tab" href="#contact-4" class="client-link">萧志林</a>
@@ -527,7 +527,7 @@
                                     <h2>张有为</h2>
 
                                     <div class="m-b-sm">
-                                        <img alt="image" class="img-circle" src="<?= $static_url ?>/img/a2.jpg"
+                                        <img alt="image" class="img-circle" src="<?php echo $static_url; ?>/img/a2.jpg"
                                              style="width: 62px">
                                     </div>
                                 </div>
@@ -656,13 +656,13 @@
 </div>
 
 <!-- 全局js -->
-<script src="<?= $static_url ?>/js/jquery.min.js?v=2.1.4"></script>
-<script src="<?= $static_url ?>/js/bootstrap.min.js?v=3.3.6"></script>
+<script src="<?php echo $static_url; ?>/js/jquery.min.js?v=2.1.4"></script>
+<script src="<?php echo $static_url; ?>/js/bootstrap.min.js?v=3.3.6"></script>
 
-<script src="<?= $static_url ?>/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+<script src="<?php echo $static_url; ?>/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
 
 <!-- 自定义js -->
-<script src="<?= $static_url ?>/js/content.js?v=1.0.0"></script>
+<script src="<?php echo $static_url; ?>/js/content.js?v=1.0.0"></script>
 
 <script>
     $(function () {

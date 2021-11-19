@@ -1,8 +1,7 @@
 <?php
+
 defined('ShopNC_CLUB') || exit('Access Invalid!');
-/**
- * 欢迎页面
- */
+// 欢迎页面
 $lang['dashboard_wel_welcome'] = '您好';
 $lang['dashboard_wel_lase_login'] = '上次登录的时间';
 $lang['dashboard_wel_system_info'] = '系统信息';
@@ -43,10 +42,7 @@ $lang['dashboard_wel_count_store_add'] = '新增店铺数';
 //$lang['dashboard_wel_count_store_applay']	= '申请数';
 //$lang['dashboard_wel_total_price'] = '订单总金额';
 
-
-/**
- * 关于我们
- */
+// 关于我们
 $lang['dashboard_aboutus_idea'] = '致产品用户';
 $lang['dashboard_aboutus_idea_content'] = '非常感谢您们对运维舫产品的大力支持和信任，我们将一如既往地站在用户立场去开发产品，为用户的利益尽职尽责。运维舫用户的完全满意就是我们奋斗的目标；您们所提出的任何有价值产意见和建议都是本公司的宝贵财富，并将激励我们更加努力地工作，不断改进提高，最终为贵方提供更优质的的产品与服务。';
 

@@ -1,9 +1,8 @@
 <?php
+
 defined('ShopNC_CLUB') || exit('Access Invalid!');
 
-/**
- * 页面需要的语言
- */
+// 页面需要的语言
 $lang['inform_page_title'] = '举报商品';
 $lang['inform_manage_title'] = '举报管理';
 $lang['inform_manage_subhead'] = '商城设置举报类型及处理被举报商品';
@@ -38,9 +37,7 @@ $lang['inform_text_none'] = '无';
 $lang['inform_text_handle'] = '处理';
 $lang['inform_text_select'] = '请选择...';
 
-/**
- * 提示信息
- */
+// 提示信息
 $lang['inform_content_null'] = '举报内容不能为空且不能大于100个字符';
 $lang['inform_subject_add_null'] = '举报主题不能为空且不能大于100个字符';
 $lang['inform_handle_message_null'] = '处理信息不能为空且不能大于100个字符';

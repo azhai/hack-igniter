@@ -12,11 +12,11 @@
     <meta name="description" content="">
 
     <link rel="shortcut icon" href="favicon.ico">
-    <link href="<?= $static_url ?>/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
-    <link href="<?= $static_url ?>/css/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="<?php echo $static_url; ?>/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="<?php echo $static_url; ?>/css/font-awesome.css?v=4.4.0" rel="stylesheet">
 
-    <link href="<?= $static_url ?>/css/animate.css" rel="stylesheet">
-    <link href="<?= $static_url ?>/css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="<?php echo $static_url; ?>/css/animate.css" rel="stylesheet">
+    <link href="<?php echo $static_url; ?>/css/style.css?v=4.1.0" rel="stylesheet">
 
 </head>
 
@@ -29,7 +29,7 @@
                     <div class="col-sm-4">
                         <div class="text-center">
                             <img alt="image" class="img-circle m-t-xs img-responsive"
-                                 src="<?= $static_url ?>/img/a2.jpg">
+                                 src="<?php echo $static_url; ?>/img/a2.jpg">
                             <div class="m-t-xs font-bold">CTO</div>
                         </div>
                     </div>
@@ -53,7 +53,7 @@
                     <div class="col-sm-4">
                         <div class="text-center">
                             <img alt="image" class="img-circle m-t-xs img-responsive"
-                                 src="<?= $static_url ?>/img/a1.jpg">
+                                 src="<?php echo $static_url; ?>/img/a1.jpg">
                             <div class="m-t-xs font-bold">营销总监</div>
                         </div>
                     </div>
@@ -77,7 +77,7 @@
                     <div class="col-sm-4">
                         <div class="text-center">
                             <img alt="image" class="img-circle m-t-xs img-responsive"
-                                 src="<?= $static_url ?>/img/a3.jpg">
+                                 src="<?php echo $static_url; ?>/img/a3.jpg">
                             <div class="m-t-xs font-bold">Marketing manager</div>
                         </div>
                     </div>
@@ -101,7 +101,7 @@
                     <div class="col-sm-4">
                         <div class="text-center">
                             <img alt="image" class="img-circle m-t-xs img-responsive"
-                                 src="<?= $static_url ?>/img/a4.jpg">
+                                 src="<?php echo $static_url; ?>/img/a4.jpg">
                             <div class="m-t-xs font-bold">攻城师</div>
                         </div>
                     </div>
@@ -125,7 +125,7 @@
                     <div class="col-sm-4">
                         <div class="text-center">
                             <img alt="image" class="img-circle m-t-xs img-responsive"
-                                 src="<?= $static_url ?>/img/a5.jpg">
+                                 src="<?php echo $static_url; ?>/img/a5.jpg">
                             <div class="m-t-xs font-bold">射鸡师</div>
                         </div>
                     </div>
@@ -149,7 +149,7 @@
                     <div class="col-sm-4">
                         <div class="text-center">
                             <img alt="image" class="img-circle m-t-xs img-responsive"
-                                 src="<?= $static_url ?>/img/a6.jpg">
+                                 src="<?php echo $static_url; ?>/img/a6.jpg">
                             <div class="m-t-xs font-bold">射鸡师</div>
                         </div>
                     </div>
@@ -173,7 +173,7 @@
                     <div class="col-sm-4">
                         <div class="text-center">
                             <img alt="image" class="img-circle m-t-xs img-responsive"
-                                 src="<?= $static_url ?>/img/a1.jpg">
+                                 src="<?php echo $static_url; ?>/img/a1.jpg">
                             <div class="m-t-xs font-bold">CEO</div>
                         </div>
                     </div>
@@ -197,7 +197,7 @@
                     <div class="col-sm-4">
                         <div class="text-center">
                             <img alt="image" class="img-circle m-t-xs img-responsive"
-                                 src="<?= $static_url ?>/img/a2.jpg">
+                                 src="<?php echo $static_url; ?>/img/a2.jpg">
                             <div class="m-t-xs font-bold">射鸡师</div>
                         </div>
                     </div>
@@ -221,7 +221,7 @@
                     <div class="col-sm-4">
                         <div class="text-center">
                             <img alt="image" class="img-circle m-t-xs img-responsive"
-                                 src="<?= $static_url ?>/img/a3.jpg">
+                                 src="<?php echo $static_url; ?>/img/a3.jpg">
                             <div class="m-t-xs font-bold">市场总监</div>
                         </div>
                     </div>
@@ -245,7 +245,7 @@
                     <div class="col-sm-4">
                         <div class="text-center">
                             <img alt="image" class="img-circle m-t-xs img-responsive"
-                                 src="<?= $static_url ?>/img/a4.jpg">
+                                 src="<?php echo $static_url; ?>/img/a4.jpg">
                             <div class="m-t-xs font-bold">攻城师</div>
                         </div>
                     </div>
@@ -269,7 +269,7 @@
                     <div class="col-sm-4">
                         <div class="text-center">
                             <img alt="image" class="img-circle m-t-xs img-responsive"
-                                 src="<?= $static_url ?>/img/a5.jpg">
+                                 src="<?php echo $static_url; ?>/img/a5.jpg">
                             <div class="m-t-xs font-bold">射鸡师</div>
                         </div>
                     </div>
@@ -293,7 +293,7 @@
                     <div class="col-sm-4">
                         <div class="text-center">
                             <img alt="image" class="img-circle m-t-xs img-responsive"
-                                 src="<?= $static_url ?>/img/a6.jpg">
+                                 src="<?php echo $static_url; ?>/img/a6.jpg">
                             <div class="m-t-xs font-bold">射鸡师</div>
                         </div>
                     </div>
@@ -318,7 +318,7 @@
                     <div class="col-sm-4">
                         <div class="text-center">
                             <img alt="image" class="img-circle m-t-xs img-responsive"
-                                 src="<?= $static_url ?>/img/a1.jpg">
+                                 src="<?php echo $static_url; ?>/img/a1.jpg">
                             <div class="m-t-xs font-bold">CEO</div>
                         </div>
                     </div>
@@ -342,7 +342,7 @@
                     <div class="col-sm-4">
                         <div class="text-center">
                             <img alt="image" class="img-circle m-t-xs img-responsive"
-                                 src="<?= $static_url ?>/img/a2.jpg">
+                                 src="<?php echo $static_url; ?>/img/a2.jpg">
                             <div class="m-t-xs font-bold">射鸡师</div>
                         </div>
                     </div>
@@ -364,12 +364,12 @@
 </div>
 
 <!-- 全局js -->
-<script src="<?= $static_url ?>/js/jquery.min.js?v=2.1.4"></script>
-<script src="<?= $static_url ?>/js/bootstrap.min.js?v=3.3.6"></script>
+<script src="<?php echo $static_url; ?>/js/jquery.min.js?v=2.1.4"></script>
+<script src="<?php echo $static_url; ?>/js/bootstrap.min.js?v=3.3.6"></script>
 
 
 <!-- 自定义js -->
-<script src="<?= $static_url ?>/js/content.js?v=1.0.0"></script>
+<script src="<?php echo $static_url; ?>/js/content.js?v=1.0.0"></script>
 
 
 <script>

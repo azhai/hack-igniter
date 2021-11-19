@@ -1,4 +1,5 @@
 <?php
+
 defined('ShopNC_CLUB') || exit('Access Invalid!');
 
 // index
@@ -21,7 +22,6 @@ $lang['bundling_update_fail'] = '更新失败';
 $lang['bundling_state_all'] = '全部状态';
 $lang['bundling_state_1'] = '开启';
 $lang['bundling_state_0'] = '关闭';
-
 
 // 活动列表
 $lang['bundling_quota_list_prompts'] = '商家购买优惠套装活动的列表。';

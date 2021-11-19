@@ -1,12 +1,13 @@
 <?php
 /**
- * hack-igniter
+ * hack-igniter.
  *
  * A example project extends of CodeIgniter v3.x
  *
- * @package hack-igniter
  * @author  Ryan Liu (azhai)
- * @link    http://azhai.surge.sh/
+ *
+ * @see    http://azhai.surge.sh/
+ *
  * @copyright   Copyright (c) 2013
  * @license http://opensource.org/licenses/MIT  MIT License
  */
@@ -22,13 +23,12 @@ $loader->helper('inflector');
 \defined('FOREIGN_MANY_TO_MANY') || \define('FOREIGN_MANY_TO_MANY', 3);
 \defined('FOREIGN_SELF_MODEL') || \define('FOREIGN_SELF_MODEL', '**SELF**');
 
-
 /**
- * 扩展Model，定义四种外键关联
+ * 扩展Model，定义四种外键关联.
  */
 trait MY_Foreign
 {
-    public $foreign_defs = null;    //关联定义
+    public $foreign_defs;    //关联定义
     public $foreign_names = [];     //关联名
     public $foreign_data = [];      //关联表数据
     public $result_ids = [];        //当前表ID
@@ -48,7 +48,10 @@ trait MY_Foreign
     }
 
     /**
-     * 根据外键猜测名称
+     * 根据外键猜测名称.
+     *
+     * @param mixed $fkey
+     * @param mixed $many_to_many
      */
     public static function get_foreign_name($fkey, $many_to_many = false)
     {
@@ -57,37 +60,47 @@ trait MY_Foreign
             if ($many_to_many) {
                 $rev_name = plural($rev_name);
             }
+
             return $rev_name;
         }
     }
 
     /**
-     * 决定要查询的字段
+     * 决定要查询的字段.
+     *
+     * @param mixed $model
      */
     public static function get_foreign_columns($model, array $rel = [])
     {
         if (isset($rel['columns'])) {
             return $rel['columns'];
-        } elseif ($model->is_open_mixin('cacheable')) {
-            return array_keys($model->cache_fields());
-        } else {
-            return '*';
         }
+        if ($model->is_open_mixin('cacheable')) {
+            return array_keys($model->cache_fields());
+        }
+
+        return '*';
     }
 
     /**
-     * 设置fetch()第三个参数
+     * 设置fetch()第三个参数.
+     *
+     * @param mixed $name
+     * @param mixed $third_param
      */
     public function set_foreign_third_param($name, &$third_param)
     {
         if ($rel = $this->parse_relation($name)) {
             $this->foreign_defs[$name]['third_param'] = &$third_param;
+
             return $this->foreign_defs[$name];
         }
     }
 
     /**
-     * 设置要读取的关联数据
+     * 设置要读取的关联数据.
+     *
+     * @param mixed $name
      */
     public function with_foreign($name = '*')
     {
@@ -103,28 +116,34 @@ trait MY_Foreign
             $this->foreign_data = array_fill_keys($names, []);
             $this->_mixin_switches['foreign'] = true;
         }
+
         return $this;
     }
 
     /**
-     * 从关联表中查询数据，填充到外链
+     * 从关联表中查询数据，填充到外链.
+     *
+     * @param mixed $name
      */
     public function fetch_foreign($name, array $rel = [])
     {
-        if (!$this->result_data) {
+        if (! $this->result_data) {
             return []; //本身没有数据
         }
-        if (!$rel) {
+        if (! $rel) {
             $rel = $this->parse_relation($name, $rel);
         }
         if ($rel && $another = $rel['another_model']) {
             $method = $rel['fetch_method'];
-            return $this->$method($another, $name, $rel);
+
+            return $this->{$method}($another, $name, $rel);
         }
     }
 
     /**
-     * 初始化关系
+     * 初始化关系.
+     *
+     * @param mixed $name
      */
     public function parse_relation($name, array $rel = [])
     {
@@ -132,32 +151,33 @@ trait MY_Foreign
             //使用ArrayObject而不是array，克隆时保持对原始对象foreign_defs属性的引用
             $this->foreign_defs = new \ArrayObject();
         }
-        if (!$rel && isset($this->foreign_defs[$name])) {
+        if (! $rel && isset($this->foreign_defs[$name])) {
             return $this->foreign_defs[$name];
         }
-        if (!$rel) {
+        if (! $rel) {
             $relations = $this->get_relations();
-            if (!isset($relations[$name])) {
+            if (! isset($relations[$name])) {
                 return [];
             }
             $rel = $relations[$name];
         }
         $rel = $this->fill_relation($rel);
         if (FOREIGN_BELONGS_TO === $rel['type']) {
-            if (!isset($rel['fkey'])) {
-                $rel['fkey'] = $name . '_id';
+            if (! isset($rel['fkey'])) {
+                $rel['fkey'] = $name.'_id';
             }
         }
         $this->foreign_defs[$name] = $rel;
+
         return $rel;
     }
 
     /**
-     * 补充关系字段
+     * 补充关系字段.
      */
     public function fill_relation(array $rel)
     {
-        if (!isset($rel['type']) || !$rel['type']) {
+        if (! isset($rel['type']) || ! $rel['type']) {
             $rel['type'] = FOREIGN_BELONGS_TO;
         }
         if (FOREIGN_HAS_ONE === $rel['type']) {
@@ -178,16 +198,17 @@ trait MY_Foreign
                 $rel['middle_model'] = $this->another_model($rel['middle_model']);
             }
         }
+
         return $rel;
     }
 
     /**
-     * 从结果集中逐行提取外键
+     * 从结果集中逐行提取外键.
      */
     public function fetch_result()
     {
         //已处理过，或查询失败
-        if (!$this->result) {
+        if (! $this->result) {
             return [];
         }
         $this->result_ids = [];
@@ -202,9 +223,10 @@ trait MY_Foreign
                 $relations[$name] = $this->parse_relation($name);
                 if (FOREIGN_BELONGS_TO === $relations[$name]['type']) {
                     $fkey = $relations[$name]['fkey'];
-                    if (!$fkey || !isset($row[$fkey])) {
+                    if (! $fkey || ! isset($row[$fkey])) {
                         continue;
-                    } elseif ($this->except_empty && !$row[$fkey]) {
+                    }
+                    if ($this->except_empty && ! $row[$fkey]) {
                         continue;
                     }
                     $fval = $row[$fkey];
@@ -223,11 +245,18 @@ trait MY_Foreign
                 $this->fetch_foreign($name, $rel);
             }
         }
+
         return $this->result_data;
     }
 
     /**
-     * 从关联表中查询BELONGS_TO数据
+     * 从关联表中查询BELONGS_TO数据.
+     *
+     * @param mixed      $model
+     * @param mixed      $another
+     * @param mixed      $name
+     * @param null|mixed $frows
+     * @param mixed      $columns
      */
     public static function fetch_belongs(
         $model,
@@ -236,7 +265,7 @@ trait MY_Foreign
         $frows = null,
         $columns = '*'
     ) {
-        if (!$model->foreign_data[$name]) {
+        if (! $model->foreign_data[$name]) {
             return []; //外键没有数据
         }
         $pkey = $another->primary_key();
@@ -261,11 +290,17 @@ trait MY_Foreign
                 }
             }
         }
+
         return $frows;
     }
 
     /**
-     * 从关联表中查询HAS_ONE/HAS_MANY数据
+     * 从关联表中查询HAS_ONE/HAS_MANY数据.
+     *
+     * @param mixed $model
+     * @param mixed $another
+     * @param mixed $name
+     * @param mixed $columns
      */
     public static function fetch_contains(
         $model,
@@ -291,7 +326,7 @@ trait MY_Foreign
         $foreigns = &$model->foreign_data[$name];
         $an_fkey = isset($rel['another_fkey']) ? $rel['another_fkey'] : null;
         if ($an_fkey) {
-            if (!property_exists($another, 'foreign_data')) {
+            if (! property_exists($another, 'foreign_data')) {
                 $another->foreign_data = [];
             }
             $another->foreign_data[$rev_name] = [];
@@ -311,30 +346,42 @@ trait MY_Foreign
                 }
             }
         }
+
         return $frows;
     }
 
     /**
-     * 从关联表中查询BELONGS_TO数据
+     * 从关联表中查询BELONGS_TO数据.
+     *
+     * @param mixed $another
+     * @param mixed $name
      */
     public function fetch_belongs_to($another, $name, array $rel = [])
     {
         $frows = isset($rel['third_param']) ? $rel['third_param'] : null;
         $columns = self::get_foreign_columns($another, $rel);
+
         return self::fetch_belongs($this, $another, $name, $frows, $columns);
     }
 
     /**
-     * 从关联表中查询HAS_ONE/HAS_MANY数据
+     * 从关联表中查询HAS_ONE/HAS_MANY数据.
+     *
+     * @param mixed $another
+     * @param mixed $name
      */
     public function fetch_has_many($another, $name, array $rel = [])
     {
         $columns = self::get_foreign_columns($another, $rel);
+
         return self::fetch_contains($this, $another, $name, $rel, $columns);
     }
 
     /**
-     * 从关联表中查询HAS_MANY中最后一行
+     * 从关联表中查询HAS_MANY中最后一行.
+     *
+     * @param mixed $another
+     * @param mixed $name
      */
     public function fetch_last_foreign($another, $name, array $rel = [])
     {
@@ -342,12 +389,14 @@ trait MY_Foreign
         $another->group_order_by($fkey, '', 'DESC')->order_by($fkey);
         $columns = self::get_foreign_columns($another, $rel);
         // $result = yield self::fetch_contains($this, $another, $name, $rel, $columns);
-        $result = self::fetch_contains($this, $another, $name, $rel, $columns);
-        return $result;
+        return self::fetch_contains($this, $another, $name, $rel, $columns);
     }
 
     /**
-     * 从关联表中查询MANY_TO_MANY数据
+     * 从关联表中查询MANY_TO_MANY数据.
+     *
+     * @param mixed $another
+     * @param mixed $name
      */
     public function fetch_many_to_many($another, $name, array $rel = [])
     {
@@ -359,6 +408,7 @@ trait MY_Foreign
         }
         $frows = self::fetch_contains($this, $middle_model, $name, $rel, '*');
         $columns = self::get_foreign_columns($another, $rel);
+
         return self::fetch_belongs($middle_model, $another, $rev_name, null, $columns);
     }
 }

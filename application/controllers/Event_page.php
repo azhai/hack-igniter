@@ -1,18 +1,19 @@
 <?php
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 /**
- * 事件槽
+ * 事件槽.
  */
 class Event_page extends MY_Controller
 {
-    const SLOT_PREFIX = 'slot_';
+    public const SLOT_PREFIX = 'slot_';
 
-    protected $event = null;
-    protected $client = null;
+    protected $event;
+    protected $client;
 
     /**
-     * 注册已有的事件
+     * 注册已有的事件.
      */
     public function initialize()
     {
@@ -23,7 +24,7 @@ class Event_page extends MY_Controller
         $prelen = strlen(self::SLOT_PREFIX);
         foreach ($methods as $name) {
             $name = strtolower($name);
-            if (!starts_with($name, self::SLOT_PREFIX)) {
+            if (! starts_with($name, self::SLOT_PREFIX)) {
                 continue;
             }
             $event_name = str_replace('_', '.', substr($name, $prelen));

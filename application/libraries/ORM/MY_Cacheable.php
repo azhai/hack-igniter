@@ -1,12 +1,13 @@
 <?php
 /**
- * hack-igniter
+ * hack-igniter.
  *
  * A example project extends of CodeIgniter v3.x
  *
- * @package hack-igniter
  * @author  Ryan Liu (azhai)
- * @link    http://azhai.surge.sh/
+ *
+ * @see    http://azhai.surge.sh/
+ *
  * @copyright   Copyright (c) 2013
  * @license http://opensource.org/licenses/MIT  MIT License
  */
@@ -16,7 +17,7 @@ namespace Mylib\ORM;
 use Mylib\Observer\MY_Subject_cache;
 
 /**
- * 扩展Model，优先从缓存中读取
+ * 扩展Model，优先从缓存中读取.
  *
  * 临时使用，在加载model后
  *  $this->load->model('default/user_model');
@@ -31,20 +32,23 @@ use Mylib\Observer\MY_Subject_cache;
  */
 trait MY_Cacheable
 {
-    protected $_cache_subject = null;
+    protected $_cache_subject;
 
     /**
-     * @param string|object $cache 缓存对象或缓存参数
-     * @param string $class 缓存类名
+     * @param object|string $cache  缓存对象或缓存参数
+     * @param string        $class  缓存类名
+     * @param null|mixed    $params
+     *
      * @return mixed
      */
     public function add_cache($cache, $params = null)
     {
-        if (!\is_object($cache) && $params) {
+        if (! \is_object($cache) && $params) {
             $cache = $this->load->cache($cache, $params);
         }
         if ($cache) {
             $this->_mixin_switches['cacheable'] = true;
+
             return $this->cache_subject()->attach($cache);
         }
     }
@@ -54,6 +58,7 @@ trait MY_Cacheable
         if (empty($this->_cache_subject)) {
             $this->_cache_subject = new MY_Subject_cache($this);
         }
+
         return $this->_cache_subject;
     }
 
@@ -65,23 +70,27 @@ trait MY_Cacheable
     }
 
     /**
+     * @param null|mixed $data
+     *
      * @return array
      */
     public function states($data = null)
     {
         if (empty($data)) {
             $data = to_array($this);
-        } elseif (!\is_array($data)) {
+        } elseif (! \is_array($data)) {
             $data = to_array($data);
         }
         if ($fields = $this->cache_fields()) {
             $data = array_intersect_key($data, $fields);
         }
+
         return $data;
     }
 
     /**
      * @param mixed $value
+     *
      * @return mixed
      */
     public function condition($value = null)
@@ -97,6 +106,7 @@ trait MY_Cacheable
         } else {
             $result = array_combine($indexes, to_array($value));
         }
+
         return $result ? $result : [];
     }
 }

@@ -1,5 +1,5 @@
 <?php
-$this->extendTpl($theme_dir . '/layout.php'); ?>
+$this->extendTpl($theme_dir.'/layout.php'); ?>
 
 
 <?php $this->blockStart('content'); ?>
@@ -25,7 +25,7 @@ $this->extendTpl($theme_dir . '/layout.php'); ?>
 
 
 <?php $this->blockStart('styles'); ?>
-<link href="<?= $static_url ?>/css/login.css" rel="stylesheet">
+<link href="<?php echo $static_url; ?>/css/login.css" rel="stylesheet">
 <?php $this->blockEnd(); ?>
 
 

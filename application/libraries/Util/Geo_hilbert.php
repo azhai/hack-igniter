@@ -1,12 +1,13 @@
 <?php
 /**
- * hack-igniter
+ * hack-igniter.
  *
  * A example project extends of CodeIgniter v3.x
  *
- * @package hack-igniter
  * @author  Ryan Liu (azhai)
- * @link    http://azhai.surge.sh/
+ *
+ * @see    http://azhai.surge.sh/
+ *
  * @copyright   Copyright (c) 2013
  * @license http://opensource.org/licenses/MIT  MIT License
  */
@@ -16,9 +17,8 @@ namespace Mylib\Util;
 $loader = load_class('Loader', 'core');
 $loader->helper('alg');
 
-
 /**
- * Geohash，使用Hilbert空间算法
+ * Geohash，使用Hilbert空间算法.
  *
  * $point = ['lng' => 113.95196, 'lat' => 22.541497];
  * $gh = new Geo_hilbert($point);
@@ -31,13 +31,13 @@ $loader->helper('alg');
  */
 class Geo_hilbert
 {
-    const BITS_PER_CHAR = 2;
-    const EARTH_RADIUS = 6367000.0; //地球半径
+    public const BITS_PER_CHAR = 2;
+    public const EARTH_RADIUS = 6367000.0; //地球半径
     //经纬度范围
-    const LAT_MIN = -90.0;
-    const LAT_MAX = 90.0;
-    const LNG_MIN = -180.0;
-    const LNG_MAX = 180.0;
+    public const LAT_MIN = -90.0;
+    public const LAT_MAX = 90.0;
+    public const LNG_MIN = -180.0;
+    public const LNG_MAX = 180.0;
 
     //误差表，单位：m
     public static $prec_errors = [
@@ -93,10 +93,11 @@ class Geo_hilbert
         $code_size = (int) (log($code, 2)) + 2;
         $code_len = floor($code_size / 2);
         $res = array_fill(0, $code_len, '0');
-        for ($i = $code_len - 1; $i >= 0; $i--) {
+        for ($i = $code_len - 1; $i >= 0; --$i) {
             $res[$i] = $_BASE4[$code & 0b11];
             $code = $code >> 2;
         }
+
         return implode('', $res);
     }
 
@@ -107,8 +108,10 @@ class Geo_hilbert
                 $x = $n - 1 - $x;
                 $y = $n - 1 - $y;
             }
+
             return [$y, $x];
         }
+
         return [$x, $y];
     }
 
@@ -117,6 +120,7 @@ class Geo_hilbert
         \assert($dim >= 1);
         $lat_y = ($lat + self::LAT_MAX) / 180.0 * $dim; //[0 ... dim)
         $lng_x = ($lng + self::LNG_MAX) / 360.0 * $dim; //[0 ... dim)
+
         return [
             min($dim - 1, floor($lng_x)),
             min($dim - 1, floor($lat_y)),
@@ -134,11 +138,14 @@ class Geo_hilbert
             @list($x, $y) = self::rotate($lvl, $x, $y, $rx, $ry);
             $lvl = $lvl >> 1;
         }
+
         return $d;
     }
 
     /**
      * 计算哈希值
+     *
+     * @param mixed $prec
      */
     public function encode($prec = 0)
     {
@@ -149,11 +156,14 @@ class Geo_hilbert
         $dim = 1 << (($prec * self::BITS_PER_CHAR) >> 1);
         @list($x, $y) = self::coord2int($this->lng, $this->lat, $dim);
         $code = self::encode_int4(self::xy2hash($x, $y, $dim));
-        return $this->code = sprintf('%0' . $prec . 's', $code);
+
+        return $this->code = sprintf('%0'.$prec.'s', $code);
     }
 
     /**
      * 获取满足条件的相同前缀
+     *
+     * @param mixed $distance
      */
     public function get_prefix($distance = 5000)
     {
@@ -166,11 +176,14 @@ class Geo_hilbert
         if (empty($this->code) && $this->lat) {
             $this->encode();
         }
+
         return substr($this->code, 0, $idx);
     }
 
     /**
-     * 计算大致距离，单位：米
+     * 计算大致距离，单位：米.
+     *
+     * @param mixed $another_code
      */
     public function get_around_distance($another_code)
     {
@@ -182,11 +195,15 @@ class Geo_hilbert
         if ($same > $max_index) {
             $same = $max_index;
         }
+
         return self::$prec_errors[$same];
     }
 
     /**
-     * 计算准确距离，单位：米
+     * 计算准确距离，单位：米.
+     *
+     * @param mixed $lng
+     * @param mixed $lat
      */
     public function get_accuracy_distance($lng, $lat)
     {

@@ -1,8 +1,7 @@
 <?php
+
 defined('ShopNC_CLUB') || exit('Access Invalid!');
-/**
- * 交易管理 语言包
- */
+// 交易管理 语言包
 
 //订单管理
 $lang['order_manage'] = '商品订单';
@@ -24,7 +23,7 @@ $lang['order_state_send'] = '待收货';
 $lang['order_state_success'] = '已完成';
 $lang['order_state_cancel'] = '已取消';
 $lang['type'] = '类型';
-$lang['pended_payment'] = '已提交，待确认';//增加
+$lang['pended_payment'] = '已提交，待确认'; //增加
 $lang['order_time_from'] = '下单时间';
 $lang['order_price_from'] = '订单金额';
 $lang['cancel_search'] = '撤销检索';
@@ -79,7 +78,6 @@ $lang['nc_xianshi_flag'] = '折';
 $lang['nc_xianshi'] = '限时折扣';
 $lang['nc_bundling_flag'] = '组';
 $lang['nc_bundling'] = '优惠套装';
-
 
 $lang['pay_bank_user'] = '汇款人姓名';
 $lang['pay_bank_bank'] = '汇入银行';

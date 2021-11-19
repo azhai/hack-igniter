@@ -1,8 +1,7 @@
 <?php
+
 defined('ShopNC_CLUB') || exit('Access Invalid!');
-/**
- * 设置 语言包
- */
+// 设置 语言包
 $lang['hao_set'] = '基本设置';
 $lang['hao_set_subhead'] = '基本选项设置';
 $lang['hao_phone'] = '平台客服电话';

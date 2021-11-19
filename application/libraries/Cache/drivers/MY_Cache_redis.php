@@ -1,58 +1,76 @@
 <?php
 /**
- * hack-igniter
+ * hack-igniter.
  *
  * A example project extends of CodeIgniter v3.x
  *
- * @package hack-igniter
  * @author  Ryan Liu (azhai)
- * @link    http://azhai.surge.sh/
+ *
+ * @see    http://azhai.surge.sh/
+ *
  * @copyright   Copyright (c) 2013
  * @license http://opensource.org/licenses/MIT  MIT License
  */
 
 /**
- * Redis缓存
+ * Redis缓存.
  */
 class MY_Cache_redis extends CI_Cache_redis
 {
+    /**
+     * Class destructor.
+     *
+     * Closes the connection to Redis if present.
+     */
+    public function __destruct()
+    {
+        if ($this->_redis) {
+            try {
+                // Closing a persistent connection requires PhpRedis >= 4.2.0
+                $this->_redis->close();
+            } catch (Exception $e) {
+            }
+        }
+    }
+
     public static function get_delete_name()
     {
         if (in_array(static::$_delete_name, ['del', 'unlink'], true)) {
             return static::$_delete_name; //phpredis or redis >= v5.0
         }
         $version = phpversion('redis');
-        if ($version !== false && version_compare($version, '5', '>=')) {
+        if (false !== $version && version_compare($version, '5', '>=')) {
             static::$_delete_name = 'unlink';
+
             return 'unlink';
         }
+
         return 'delete';
     }
 
     public static function get_zadd_args($cache_key, array $data, array $options = null)
     {
-        $args = [$cache_key, ];
-        if (!empty($options)) {
+        $args = [$cache_key];
+        if (! empty($options)) {
             $args[] = $options;
         }
         foreach ($data as $value => $score) {
             $args[] = $score;
             $args[] = $value;
         }
+
         return $args;
     }
 
     /**
-     * 其他连接参数
-     *
-     * @param array $config
+     * 其他连接参数.
      */
     public function set_options(array &$config)
     {
         if (isset($config['password']) && $config['password']) {
             $password = $config['password'];
             if (isset($config['username']) && $config['username']) {
-                $password = $config['username'] . ':' . $password;
+                $password = $config['username'].':'.$password;
             }
             if (is_string($password) && $password) {
                 $this->_redis->auth($password);
@@ -74,6 +92,7 @@ class MY_Cache_redis extends CI_Cache_redis
      * 读取或设置内部的redis对象
      *
      * @param bool $another
+     *
      * @return object
      */
     public function instance($another = false)
@@ -81,13 +100,15 @@ class MY_Cache_redis extends CI_Cache_redis
         if (false !== $another) {
             $this->_redis = $another;
         }
+
         return $this->_redis;
     }
 
     /**
-     * 删除操作，redis5已废弃
+     * 删除操作，redis5已废弃.
      *
      * @param string/array $keys （多个）缓存键
+     *
      * @return int 实际删除数量
      */
     public function delete($keys)
@@ -95,14 +116,16 @@ class MY_Cache_redis extends CI_Cache_redis
         $redis = $this->instance();
         $keys = is_array($keys) ? $keys : func_get_args();
         $method = self::get_delete_name();
-        return $redis->$method($keys);
+
+        return $redis->{$method}($keys);
     }
 
     /**
-     * 检查锁是否已存在，不存在时加锁一定时间
+     * 检查锁是否已存在，不存在时加锁一定时间.
      *
      * @param string $cache_key 锁名
-     * @param int $ttl 新的时效
+     * @param int    $ttl       新的时效
+     *
      * @return bool 是否成功
      */
     public function add_lock($cache_key, $ttl = 3600)
@@ -110,16 +133,18 @@ class MY_Cache_redis extends CI_Cache_redis
         $redis = $this->instance();
         if ($redis->setnx($cache_key, time() + $ttl)) { //原先不存在
             $redis->expire($cache_key, $ttl);
+
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**
-     * 检查是否占位符
+     * 检查是否占位符.
      *
      * @param string $key 缓存键
+     *
      * @return null|bool 是空值时返回true
      */
     public function is_none($key)
@@ -131,57 +156,65 @@ class MY_Cache_redis extends CI_Cache_redis
     }
 
     /**
-     * 保存占位符，防止缓存穿透
+     * 保存占位符，防止缓存穿透.
      *
      * @param string $key 缓存键
-     * @param int $ttl 失效时间，单位：秒
+     * @param int    $ttl 失效时间，单位：秒
+     *
      * @return bool 成功返回true
      */
     public function save_none($key, $ttl = 60)
     {
         $redis = $this->instance();
+
         return $redis->set($key, MY_Cache::CACHE_NONE, $ttl);
     }
 
     /**
      * @param string $id
+     *
      * @return mixed
      */
     public function get_json($id)
     {
         $json = $this->instance()->get($id);
+
         return from_json($json);
     }
 
     /**
      * @param string $id
-     * @param mixed $data
-     * @param int $ttl
+     * @param mixed  $data
+     * @param int    $ttl
+     *
      * @return mixed
      */
     public function put_json($id, $data, $ttl = 60)
     {
         $json = to_json($data);
+
         return $this->instance()->set($id, $json, $ttl);
     }
 
     /**
      * @param string $id
+     *
      * @return mixed
      */
     public function get_hash($id, array $fields = null)
     {
         if (empty($fields)) {
             return $this->instance()->hGetAll($id);
-        } else {
-            return $this->instance()->hmGet($id, $fields);
         }
+
+        return $this->instance()->hmGet($id, $fields);
     }
 
     /**
      * @param string $id
-     * @param mixed $data
-     * @param int $ttl
+     * @param mixed  $data
+     * @param int    $ttl
+     *
      * @return mixed
      */
     public function put_hash($id, $data, $ttl = 60)
@@ -189,11 +222,13 @@ class MY_Cache_redis extends CI_Cache_redis
         $redis = $this->instance();
         $result = $redis->hmSet($id, $data);
         $redis->expire($id, $ttl);
+
         return $result;
     }
 
     /**
      * @param string $id
+     *
      * @return mixed
      */
     public function get_zset($id)
@@ -208,8 +243,9 @@ class MY_Cache_redis extends CI_Cache_redis
 
     /**
      * @param string $id
-     * @param mixed $data
-     * @param int $ttl
+     * @param mixed  $data
+     * @param int    $ttl
+     *
      * @return mixed
      */
     public function put_zset($id, $data, $ttl = 60)
@@ -219,24 +255,7 @@ class MY_Cache_redis extends CI_Cache_redis
             $result = $redis->zAdd($id, $score, $key);
         }
         $redis->expire($id, $ttl);
-        return $result;
-    }
 
-    /**
-     * Class destructor
-     *
-     * Closes the connection to Redis if present.
-     *
-     * @return	void
-     */
-    public function __destruct()
-    {
-        if ($this->_redis) {
-            try {
-                // Closing a persistent connection requires PhpRedis >= 4.2.0
-                $this->_redis->close();
-            } catch (Exception $e) {
-            }
-        }
+        return $result;
     }
 }

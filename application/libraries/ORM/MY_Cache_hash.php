@@ -1,12 +1,13 @@
 <?php
 /**
- * hack-igniter
+ * hack-igniter.
  *
  * A example project extends of CodeIgniter v3.x
  *
- * @package hack-igniter
  * @author  Ryan Liu (azhai)
- * @link    http://azhai.surge.sh/
+ *
+ * @see    http://azhai.surge.sh/
+ *
  * @copyright   Copyright (c) 2013
  * @license http://opensource.org/licenses/MIT  MIT License
  */
@@ -14,7 +15,7 @@
 namespace Mylib\ORM;
 
 /**
- * 扩展Model，缓存为hash
+ * 扩展Model，缓存为hash.
  */
 trait MY_Cache_hash
 {
@@ -47,6 +48,7 @@ trait MY_Cache_hash
                 $result[$key] = $value;
             }
         }
+
         return $result;
     }
 
@@ -96,6 +98,7 @@ trait MY_Cache_hash
                 $this->cache_subject()->write_cache($where, $data);
             }
         }
+
         return $result;
     }
 
@@ -115,6 +118,7 @@ trait MY_Cache_hash
                 return $result;
             }
         }
+
         return $this->insert($row, true, $escape);
     }
 }

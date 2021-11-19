@@ -12,12 +12,12 @@
     <meta name="description" content="">
 
     <link rel="shortcut icon" href="favicon.ico">
-    <link href="<?= $static_url ?>/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
-    <link href="<?= $static_url ?>/css/font-awesome.css?v=4.4.0" rel="stylesheet">
-    <link href="<?= $static_url ?>/css/plugins/iCheck/custom.css" rel="stylesheet">
-    <link href="<?= $static_url ?>/css/plugins/steps/jquery.steps.css" rel="stylesheet">
-    <link href="<?= $static_url ?>/css/animate.css" rel="stylesheet">
-    <link href="<?= $static_url ?>/css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="<?php echo $static_url; ?>/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="<?php echo $static_url; ?>/css/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="<?php echo $static_url; ?>/css/plugins/iCheck/custom.css" rel="stylesheet">
+    <link href="<?php echo $static_url; ?>/css/plugins/steps/jquery.steps.css" rel="stylesheet">
+    <link href="<?php echo $static_url; ?>/css/animate.css" rel="stylesheet">
+    <link href="<?php echo $static_url; ?>/css/style.css?v=4.1.0" rel="stylesheet">
 
 </head>
 
@@ -200,20 +200,20 @@
 </div>
 
 <!-- 全局js -->
-<script src="<?= $static_url ?>/js/jquery.min.js?v=2.1.4"></script>
-<script src="<?= $static_url ?>/js/bootstrap.min.js?v=3.3.6"></script>
+<script src="<?php echo $static_url; ?>/js/jquery.min.js?v=2.1.4"></script>
+<script src="<?php echo $static_url; ?>/js/bootstrap.min.js?v=3.3.6"></script>
 
 
 <!-- 自定义js -->
-<script src="<?= $static_url ?>/js/content.js?v=1.0.0"></script>
+<script src="<?php echo $static_url; ?>/js/content.js?v=1.0.0"></script>
 
 
 <!-- Steps -->
-<script src="<?= $static_url ?>/js/plugins/staps/jquery.steps.min.js"></script>
+<script src="<?php echo $static_url; ?>/js/plugins/staps/jquery.steps.min.js"></script>
 
 <!-- Jquery Validate -->
-<script src="<?= $static_url ?>/js/plugins/validate/jquery.validate.min.js"></script>
-<script src="<?= $static_url ?>/js/plugins/validate/messages_zh.min.js"></script>
+<script src="<?php echo $static_url; ?>/js/plugins/validate/jquery.validate.min.js"></script>
+<script src="<?php echo $static_url; ?>/js/plugins/validate/messages_zh.min.js"></script>
 
 
 <script>

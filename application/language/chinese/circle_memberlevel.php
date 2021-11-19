@@ -1,12 +1,9 @@
 <?php
+
 defined('ShopNC_CLUB') || exit('Access Invalid!');
-/**
- * control
- */
+// control
 $lang['circle_continue_add'] = '继续添加';
-/**
- * setting
- */
+// setting
 $lang['circle_defaultlevel'] = '默认头衔';
 $lang['circle_memberlevel'] = '成员头衔';
 $lang['circle_memberlevelref'] = '头衔参考';
@@ -19,20 +16,14 @@ $lang['circle_rank_not_null'] = '请填写内容';
 $lang['circle_rank_maxlength'] = '不能超过4个字符';
 $lang['circle_experience_error'] = '请填写数字';
 $lang['circle_memberlevelprompts'] = '修改默认头衔后请<a href="index.php?act=circle_memberlevel&op=update_cache">更新圈子缓存</a>。';
-/**
- * add
- */
+// add
 $lang['circle_memberlevelgroup'] = '头衔组名称';
 $lang['circle_is_use'] = '是否开启';
 $lang['circle_rankname'] = '头衔名称';
 $lang['circle_memberlevelgroupname_not_null'] = '请填写头衔组名称';
 
-/**
- * edit
- */
+// edit
 $lang['circle_memberleveledit'] = '编辑参考';
 
-/**
- * ref
- */
+// ref
 $lang['circle_addtime'] = '添加时间';

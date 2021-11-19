@@ -1,12 +1,13 @@
 <?php
 /**
- * hack-igniter
+ * hack-igniter.
  *
  * A example project extends of CodeIgniter v3.x
  *
- * @package hack-igniter
  * @author  Ryan Liu (azhai)
- * @link    http://azhai.surge.sh/
+ *
+ * @see    http://azhai.surge.sh/
+ *
  * @copyright   Copyright (c) 2013
  * @license http://opensource.org/licenses/MIT  MIT License
  */
@@ -39,10 +40,12 @@ namespace Mylib\ORM;
  */
 trait MY_Monthly
 {
-    public $beginning = null;
+    public $beginning;
 
     /**
-     * 获取月初的时间戳
+     * 获取月初的时间戳.
+     *
+     * @param null|mixed $time
      */
     public static function get_begin_stamp($time = null)
     {
@@ -53,17 +56,20 @@ trait MY_Monthly
             $year = func_get_arg(0);
             $month = func_get_arg(1);
         } else {
-            if (!is_numeric($time)) {
+            if (! is_numeric($time)) {
                 $time = strtotime($time);
             }
             $year = date('Y', $time);
             $month = date('n', $time);
         }
+
         return mktime(0, 0, 0, (int) $month, 1, (int) $year);
     }
 
     /**
-     * 获取执行的终点时间戳
+     * 获取执行的终点时间戳.
+     *
+     * @param null|mixed $start
      */
     public function get_finishing($start = null, array &$tables = [])
     {
@@ -74,16 +80,17 @@ trait MY_Monthly
             $min_tail = substr($min_table, \strlen($this->table_name()) + 1);
             $year = substr($min_tail, 0, 4);
             $month = substr($min_tail, 4, 2);
+
             return self::get_begin_stamp($year, $month);
-        } else {
-            return self::get_begin_stamp($start);
         }
+
+        return self::get_begin_stamp($start);
     }
 
     /**
      * 用于排序的字段，一般是倒序排列
      * 如果想按名称正序排列，使用下面的代码：
-     * return 'name ASC';
+     * return 'name ASC';.
      */
     public function get_sort_field()
     {
@@ -91,7 +98,8 @@ trait MY_Monthly
     }
 
     /**
-     * 初始化日历为当前时间，指向当前月份的数据表
+     * 初始化日历为当前时间，指向当前月份的数据表.
+     *
      * @param int/string/null $time
      */
     public function init_calendar($time = null)
@@ -100,7 +108,10 @@ trait MY_Monthly
     }
 
     /**
-     * 当前指向的数据表完整名称
+     * 当前指向的数据表完整名称.
+     *
+     * @param mixed $another
+     *
      * @return string 表完整名称
      */
     public function table_name($another = false)
@@ -109,12 +120,15 @@ trait MY_Monthly
             $this->init_calendar();
         }
         $tail = date('Ym', $this->beginning);
-        return $this->base_table_name() . '_' . $tail;
+
+        return $this->base_table_name().'_'.$tail;
     }
 
     /**
-     * 向过去移动几个月
+     * 向过去移动几个月.
+     *
      * @param int $offset
+     *
      * @return $this
      */
     public function backward($offset = 1)
@@ -128,12 +142,15 @@ trait MY_Monthly
             $month = date('n', $this->beginning) - $offset;
             $this->beginning = self::get_begin_stamp($year, $month);
         }
+
         return $this;
     }
 
     /**
-     * 向未来移动几个月
+     * 向未来移动几个月.
+     *
      * @param int $offset
+     *
      * @return $this
      */
     public function forward($offset = 1)
@@ -142,12 +159,16 @@ trait MY_Monthly
     }
 
     /**
-     * 跨表统计行数，可以定义时间范围
+     * 跨表统计行数，可以定义时间范围.
+     *
+     * @param mixed      $where
+     * @param null|mixed $start
+     * @param null|mixed $stop
      */
     public function count_more($where = [], $start = null, $stop = null)
     {
         $base_name = $this->base_table_name();
-        $tables = $this->list_tables($base_name . '_');
+        $tables = $this->list_tables($base_name.'_');
         $start = $this->get_finishing($start);
         $this->init_calendar($stop);
         $result = 0;
@@ -162,11 +183,19 @@ trait MY_Monthly
             }
             $this->backward();
         }
+
         return $result;
     }
 
     /**
-     * 跨表查询，可以定义时间范围
+     * 跨表查询，可以定义时间范围.
+     *
+     * @param mixed      $where
+     * @param null|mixed $start
+     * @param null|mixed $stop
+     * @param null|mixed $limit
+     * @param mixed      $offset
+     * @param mixed      $fields
      */
     public function all_more($where, $start = null, $stop = null, $limit = null, $offset = 0, $fields = '*')
     {
@@ -174,7 +203,7 @@ trait MY_Monthly
             $offset = 0;
         }
         $base_name = $this->base_table_name();
-        $tables = $this->list_tables($base_name . '_');
+        $tables = $this->list_tables($base_name.'_');
         $start = $this->get_finishing($start, $tables);
         $this->init_calendar($stop);
         $order = [$this->get_sort_field() => 'DESC'];
@@ -183,8 +212,9 @@ trait MY_Monthly
         while ($this->beginning >= $start) {
             $table = $this->table_name();
             //中间有表不存在，并不连续
-            if (!\in_array($table, $tables, true)) {
+            if (! \in_array($table, $tables, true)) {
                 $this->backward();
+
                 continue;
             }
             //未达到偏移位置，先消耗偏移量
@@ -196,6 +226,7 @@ trait MY_Monthly
                 $offset -= $remain;
                 if ($offset >= 0) {
                     $this->backward();
+
                     continue;
                 }
             }
@@ -220,23 +251,32 @@ trait MY_Monthly
             }
             $this->backward();
         }
+
         return $result;
     }
 
     /**
-     * 在所有分表中查询数据
+     * 在所有分表中查询数据.
+     *
+     * @param mixed      $where
+     * @param mixed      $group
+     * @param null|mixed $start
+     * @param null|mixed $stop
+     * @param null|mixed $order
+     * @param mixed      $fields
      */
     public function group_more($where, $group, $start = null, $stop = null, $order = null, $fields = '*')
     {
         $base_name = $this->base_table_name();
-        $tables = $this->list_tables($base_name . '_');
+        $tables = $this->list_tables($base_name.'_');
         $start = $this->get_finishing($start, $tables);
         $this->init_calendar($stop);
         $result = [];
         while ($this->beginning >= $start) {
             $table = $this->table_name();
-            if (!\in_array($table, $tables, true)) {
+            if (! \in_array($table, $tables, true)) {
                 $this->backward();
+
                 continue;
             }
             if ($where) {
@@ -254,26 +294,32 @@ trait MY_Monthly
             }
             $this->backward();
         }
+
         return $result;
     }
 
     /**
-     * 更新记录
-     * @param array $set
+     * 更新记录.
+     *
      * @param array/string/null $where
+     * @param null|mixed $start
+     * @param null|mixed $limit
+     * @param null|mixed $escape
+     *
      * @return int
      */
     public function update_more(array $set, $where, $start = null, $limit = null, $escape = null)
     {
         $base_name = $this->base_table_name();
-        $tables = $this->list_tables($base_name . '_');
+        $tables = $this->list_tables($base_name.'_');
         $start = $this->get_finishing($start, $tables);
         $this->init_calendar();
         $total = 0;
         while ($this->beginning >= $start) {
             $table = $this->table_name();
-            if (!\in_array($table, $tables, true)) {
+            if (! \in_array($table, $tables, true)) {
                 $this->backward();
+
                 continue;
             }
             $count = $this->update_unsafe($set, $where, $limit, $escape);
@@ -286,32 +332,42 @@ trait MY_Monthly
             }
             $this->backward();
         }
+
         return $total;
     }
 
     /**
-     * 创建当前月份的数据表
+     * 创建当前月份的数据表.
+     *
      * @return bool
      */
     public function create_current_table()
     {
-        $tpl = "CREATE TABLE IF NOT EXISTS `%s` LIKE `%s`";
+        $tpl = 'CREATE TABLE IF NOT EXISTS `%s` LIKE `%s`';
         $sql = sprintf($tpl, $this->table_name(), $this->base_table_name());
         $db = $this->reconnect();
+
         return $db->simple_query($sql);
     }
 
     /**
-     * 写入一行
+     * 写入一行.
+     *
+     * @param mixed      $row
+     * @param mixed      $is_replace
+     * @param null|mixed $escape
+     *
      * @return int/null
      */
     public function insert($row, $is_replace = false, $escape = null)
     {
         $this->init_calendar();
+
         try {
             return $this->insert_unsafe($row, $is_replace, $escape);
         } catch (\Exception $e) {
             $this->create_current_table();
+
             return $this->insert_unsafe($row, $is_replace, $escape);
         }
     }

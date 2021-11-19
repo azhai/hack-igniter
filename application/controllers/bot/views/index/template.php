@@ -3,9 +3,9 @@ require_once dirname(__DIR__) . '/Base_page.php';
 
 
 /**
-* <?= $title . "\n" ?>
+* <?php echo $title."\n"; ?>
 */
-class <?= $name ?> extends Base_page
+class <?php echo $name; ?> extends Base_page
 {
 public function __call($method, $args)
 {
@@ -16,7 +16,7 @@ return $obj->index();
 
 public function index()
 {
-$result = <?= var_export($result, true) ?>;
+$result = <?php echo var_export($result, true); ?>;
 return $this->lb_output(0, 'success', $result);
 }
 }

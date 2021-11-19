@@ -1,6 +1,8 @@
 <?php
+
 defined('BASEPATH') || exit('No direct script access allowed');
-require_once dirname(__DIR__) . '/Admin_page.php';
+
+require_once dirname(__DIR__).'/Admin_page.php';
 
 class Toastr_page extends Admin_page
 {

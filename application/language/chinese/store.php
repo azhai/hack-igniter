@@ -1,8 +1,7 @@
 <?php
+
 defined('ShopNC_CLUB') || exit('Access Invalid!');
-/**
- * 店铺管理 语言包
- */
+// 店铺管理 语言包
 
 $lang['sel_del_store'] = '请选择要删除的内容';
 $lang['open'] = '开启';

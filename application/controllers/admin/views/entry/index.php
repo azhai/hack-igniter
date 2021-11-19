@@ -1,4 +1,4 @@
-<?php $this->extendTpl($theme_dir . '/layout.php'); ?>
+<?php $this->extendTpl($theme_dir.'/layout.php'); ?>
 
 
 <?php $this->blockStart('content'); ?>
@@ -24,40 +24,40 @@
                 </tr>
                 </thead>
                 <tbody>
-                <?php foreach ($page_rows as $row): ?>
-                    <tr class="table-row<?= $row['is_removed'] ? ' removed' : '' ?>" data-id="<?= $row['id'] ?>">
-                        <td><input type="checkbox" class="i-checks" name="id[]" value="<?= $row['id'] ?>"></td>
-                        <td><span style="color:<?= $row['city_color'] ?>"><?= $row['city_name'] ?></span></td>
-                        <td><a href="<?= $edit_url . '?id=' . $row['id'] ?>"><?= $row['name'] ?></a></td>
+                <?php foreach ($page_rows as $row) { ?>
+                    <tr class="table-row<?php echo $row['is_removed'] ? ' removed' : ''; ?>" data-id="<?php echo $row['id']; ?>">
+                        <td><input type="checkbox" class="i-checks" name="id[]" value="<?php echo $row['id']; ?>"></td>
+                        <td><span style="color:<?php echo $row['city_color']; ?>"><?php echo $row['city_name']; ?></span></td>
+                        <td><a href="<?php echo $edit_url.'?id='.$row['id']; ?>"><?php echo $row['name']; ?></a></td>
                         <td>
-                            <span class="pie"><?= $row['s1_percent'] . ',' . (100 - $row['s1_percent']) ?></span>
-                            <span><?= sprintf('%.2f', $row['s1_percent']) ?>%</span>
+                            <span class="pie"><?php echo $row['s1_percent'].','.(100 - $row['s1_percent']); ?></span>
+                            <span><?php echo sprintf('%.2f', $row['s1_percent']); ?>%</span>
                         </td>
                         <td>
-                            <span class="pie"><?= $row['s2_percent'] . ',' . (100 - $row['s2_percent']) ?></span>
-                            <span><?= sprintf('%.2f', $row['s2_percent']) ?>%</span>
+                            <span class="pie"><?php echo $row['s2_percent'].','.(100 - $row['s2_percent']); ?></span>
+                            <span><?php echo sprintf('%.2f', $row['s2_percent']); ?>%</span>
                         </td>
-                        <td><?= $row['created_at'] ?></td>
+                        <td><?php echo $row['created_at']; ?></td>
                         <td class="operations">
                             <a class="btn btn-default btn-rounded">
                                 <i class="fa fa-edit" title="编辑"></i>
                             </a>
-                            <?php if ($row['is_removed']): ?>
+                            <?php if ($row['is_removed']) { ?>
                                 <a class="btn btn-default btn-rounded">
                                     <i class="fa fa-recycle" title="恢复"></i>
                                 </a>
-                            <?php else: ?>
+                            <?php } else { ?>
                                 <a class="btn btn-default btn-rounded">
                                     <i class="fa fa-remove" title="删除"></i>
                                 </a>
-                            <?php endif; ?>
+                            <?php } ?>
                         </td>
                     </tr>
-                <?php endforeach; ?>
+                <?php } ?>
                 </tbody>
                 <tfoot>
                 <tr class="table-row" data-id="CHECKS">
-                    <td colspan="<?= $spans['left'] ?>">
+                    <td colspan="<?php echo $spans['left']; ?>">
                         <a class="btn btn-default btn-rounded">
                             <i class="fa fa-remove" title="删除"> 删除 </i>
                         </a>
@@ -68,7 +68,7 @@
                             <i class="fa fa-share-square" title="全部导出"> 全部导出 </i>
                         </a>
                     </td>
-                    <td colspan="<?= $spans['right'] ?>">
+                    <td colspan="<?php echo $spans['right']; ?>">
                         <div id="pagination" class="pull-right"></div>
                     </td>
                 </tr>
@@ -82,16 +82,16 @@
 
 
 <?php $this->blockStart('styles'); ?>
-<link href="<?= $static_url ?>/layui/css/layui.css" rel="stylesheet">
-<link href="<?= $static_url ?>/css/plugins/iCheck/custom.css" rel="stylesheet">
+<link href="<?php echo $static_url; ?>/layui/css/layui.css" rel="stylesheet">
+<link href="<?php echo $static_url; ?>/css/plugins/iCheck/custom.css" rel="stylesheet">
 <?php $this->blockEnd(); ?>
 
 
 <?php $this->blockStart('scripts'); ?>
-<script src="<?= $static_url ?>/layui/layui.js"></script>
-<script src="<?= $static_url ?>/js/plugins/iCheck/icheck.min.js"></script>
-<script src="<?= $static_url ?>/js/plugins/peity/jquery.peity.min.js"></script>
-<script src="<?= $static_url ?>/js/demo/peity-demo.js"></script>
+<script src="<?php echo $static_url; ?>/layui/layui.js"></script>
+<script src="<?php echo $static_url; ?>/js/plugins/iCheck/icheck.min.js"></script>
+<script src="<?php echo $static_url; ?>/js/plugins/peity/jquery.peity.min.js"></script>
+<script src="<?php echo $static_url; ?>/js/demo/peity-demo.js"></script>
 <script>
     $(function () {
         //复选框
@@ -125,12 +125,12 @@
                 prev: '<i class="fa fa-chevron-left"></i>',
                 next: '<i class="fa fa-chevron-right"></i>',
                 elem: 'pagination',
-                curr: <?=$pager['page_no']?>,
-                limit: <?=$pager['per_page']?>,
-                count: <?=$pager['total_rows']?>,
+                curr: <?php echo $pager['page_no']; ?>,
+                limit: <?php echo $pager['per_page']; ?>,
+                count: <?php echo $pager['total_rows']; ?>,
                 jump: function (obj, first) {
                     if (!first) {
-                        var url = "<?=$pager['base_url']?>";
+                        var url = "<?php echo $pager['base_url']; ?>";
                         window.location.href = url + '&page_no=' + obj.curr;
                     }
                 }
@@ -138,7 +138,7 @@
             //编辑
             $('i.fa-edit').parent('a.btn').on('click', function () {
                 var id = $(this).parents('tr.table-row').data('id');
-                window.location.href = "<?=$edit_url . '?id='?>" + id;
+                window.location.href = "<?php echo $edit_url.'?id='; ?>" + id;
             });
             //删除
             $('i.fa-remove').parent('a.btn').on('click', function () {
@@ -150,7 +150,7 @@
                     layer.msg('请选择一行或多行！', {icon: 0});
                 } else {
                     layer.confirm('确定要删除？', {icon: 0}, function (idx) {
-                        window.location.href = "<?=$remove_url . '?id='?>" + id;
+                        window.location.href = "<?php echo $remove_url.'?id='; ?>" + id;
                         layer.close(idx);
                     });
                 }
@@ -166,7 +166,7 @@
                     layer.msg('请选择一行或多行！', {icon: 0});
                 } else {
                     layer.confirm('确定要恢复？', {icon: 0}, function (idx) {
-                        window.location.href = "<?=$remove_url . '?recycle=1&id='?>" + id;
+                        window.location.href = "<?php echo $remove_url.'?recycle=1&id='; ?>" + id;
                         layer.close(idx);
                     });
                 }

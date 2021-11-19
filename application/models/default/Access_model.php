@@ -1,9 +1,9 @@
 <?php
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
-
 /**
- * 权限控制
+ * 权限控制.
  */
 class Access_model extends MY_Model
 {

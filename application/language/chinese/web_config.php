@@ -1,14 +1,11 @@
 <?php
+
 defined('ShopNC_CLUB') || exit('Access Invalid!');
 
-/**
- * 模板页
- */
+// 模板页
 $lang['index_index_store_goods_price'] = '商城价';
 
-/**
- * 列表页和编辑页
- */
+// 列表页和编辑页
 $lang['web_config_index'] = '首页管理';
 $lang['web_config_index_help1'] = '排序越小越靠前，可以控制板块显示先后。';
 $lang['web_config_index_help2'] = '色彩风格和前台的样式一致，在设置中选择更换。';
@@ -32,9 +29,7 @@ $lang['web_config_add_name_null'] = '板块名称不能为空';
 $lang['web_config_sort_int'] = '排序仅可以为数字';
 $lang['web_config_sort_tips'] = '数字范围为0~255，数字越小越靠前';
 
-/**
- * 板块编辑页
- */
+// 板块编辑页
 $lang['web_config_save'] = '保存';
 $lang['web_config_web_html'] = '更新板块内容';
 $lang['web_config_edit_help1'] = '所有相关设置完成，使用底部的“更新板块内容”前台展示页面才会变化。';

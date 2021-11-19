@@ -1,4 +1,5 @@
 <?php
+
 defined('ShopNC_CLUB') || exit('Access Invalid!');
 
 $lang['promotion_unavailable'] = '商品促销功能尚未开启';
@@ -12,7 +13,6 @@ $lang['xianshi_state_unpublished'] = '未发布';
 $lang['xianshi_state_published'] = '已发布';
 $lang['xianshi_state_cancel'] = '已取消';
 $lang['all_state'] = '全部状态';
-
 
 $lang['promotion_xianshi'] = '限时折扣';
 $lang['promotion_xianshi_subhead'] = '店铺商品限时折扣促销活动设置及管理';
@@ -28,7 +28,6 @@ $lang['xianshi_quota_times_limit'] = '活动次数限制';
 $lang['xianshi_quota_times_published'] = '已发布活动次数';
 $lang['xianshi_quota_times_publish'] = '剩余活动次数';
 $lang['xianshi_quota_goods_limit'] = '活动商品数限制';
-
 
 $lang['goods_name'] = '商品名称';
 $lang['goods_store_price'] = '商品价格';

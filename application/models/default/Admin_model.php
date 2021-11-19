@@ -1,9 +1,9 @@
 <?php
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
-
 /**
- * 管理员
+ * 管理员.
  */
 class Admin_model extends MY_Model
 {
@@ -68,7 +68,7 @@ class Admin_model extends MY_Model
 
     public function cache_key($condition)
     {
-        return 'user:' . $condition['id'];
+        return 'user:'.$condition['id'];
     }
 
     public function get_relations()
@@ -92,9 +92,11 @@ class Admin_model extends MY_Model
             $ok = $this->hasher->check_password($password, $row['password']);
             if ($ok) {
                 $fields = ['id', 'role_id', 'username', 'nickname', 'gender'];
+
                 return array_intersect_key($row, array_fill_keys($fields, null));
             }
         }
+
         return false; //密码不正确
     }
 }

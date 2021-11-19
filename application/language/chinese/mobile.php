@@ -1,10 +1,8 @@
 <?php
+
 defined('ShopNC_CLUB') || exit('Access Invalid!');
 
-
-/**
- * index
- */
+// index
 $lang['link_index_del_succ'] = '删除成功。';
 $lang['link_index_choose_del'] = '请选择要删除的内容!';
 $lang['link_index_mb_ad'] = '广告管理';
@@ -13,9 +11,7 @@ $lang['link_index_category'] = '分类';
 $lang['link_index_pic_sign'] = '展示图片';
 $lang['link_all'] = '全部';
 $lang['link_help1'] = '设置的广告信息将显示在手机端首页';
-/**
- * 添加
- */
+// 添加
 $lang['link_add_count_limit'] = '最多只可同时发布4条有效广告';
 $lang['link_add_title_null'] = '标题不能为空';
 $lang['link_add_sort_int'] = '排序仅能为数字';
@@ -32,22 +28,16 @@ $lang['link_add_category_null'] = '请选择分类';
 $lang['link_add_pic_null'] = '请选择广告图片';
 $lang['link_add_pic_sign_error'] = '只接受图片文件gif, jpg, jpeg, png';
 
-/**
- * index
- */
+// index
 $lang['link_index_mb_category'] = '分类图片';
 $lang['link_index_mb_category_subhead'] = '手机客户端商品分类图标/图片设置';
 $lang['link_index_category'] = '分类';
 $lang['link_help1'] = '设置的广告信息将显示在手机端首页';
-/**
- * 添加
- */
+// 添加
 $lang['link_add_category_exist'] = '该分类已添加，请编辑或删除该分类信息';
 $lang['link_add_category_null'] = '请选择分类';
 
-/**
- * index
- */
+// index
 $lang['home_index_del_succ'] = '删除成功。';
 $lang['home_index_choose_del'] = '请选择要删除的内容!';
 $lang['home_index_mb_ad'] = '广告管理';
@@ -58,9 +48,7 @@ $lang['home_index_category'] = '分类';
 $lang['home_index_pic_sign'] = '展示图片';
 $lang['home_all'] = '全部';
 $lang['home_help1'] = '设置手机端首页内容';
-/**
- * 添加
- */
+// 添加
 $lang['home_add_count_limit'] = '最多只可同时发布6条有效广告';
 $lang['home_add_null'] = '请填写内容';
 $lang['home_add_maxlength'] = '不能超过6个字符';
@@ -82,16 +70,12 @@ $lang['home_add_pic_sign_error'] = '只接受图片文件gif, jpg, jpeg, png';
 $lang['home_edit_again'] = '重新编辑';
 $lang['home_edit_succ'] = '保存成功';
 $lang['home_edit_fail'] = '保存失败';
-/**
- * 编辑
- */
+// 编辑
 $lang['link_edit_again'] = '重新编辑';
 $lang['link_edit_succ'] = '保存成功';
 $lang['link_edit_fail'] = '保存失败';
 
-/**
- * 意见反馈
- */
+// 意见反馈
 $lang['feedback_mange_title'] = '意见反馈';
 $lang['feedback_mange_title_subhead'] = '显示手机客户端使用者提出的反馈建议';
 $lang['feedback_del_succ'] = '删除成功';

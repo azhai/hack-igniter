@@ -1,47 +1,19 @@
 <?php
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 /**
- * 管理后台基础控制器
+ * 管理后台基础控制器.
  */
 class Admin_page extends MY_Controller
 {
     protected $per_page = 10;   //每页显示多少条
 
-    protected function get_globals()
-    {
-        $globals = parent::get_globals();
-        $globals['layout_class'] = 'fixed-sidebar full-height-layout gray-bg';
-        $globals['site_title'] = '测试网站';
-        $globals['user'] = $globals['menus'] = $globals['leaves'] = [];
-        if ($this->is_authed()) {
-            $globals['user'] = $this->session->userdata();
-            $role_id = $this->session->userdata('role_id');
-            $is_super = $this->session->userdata('is_super');
-            $menus = $this->get_menus($role_id, $is_super);
-            @list($globals['menus'], $globals['leaves']) = $menus;
-        }
-        return $globals;
-    }
-
-    protected function initialize()
-    {
-        parent::initialize();
-        $this->load->helper('admin_ui');
-        $this->load->library('session');
-        $login_url = defined('SITE_LOGIN_URL') ? SITE_LOGIN_URL : '';
-        $logout_url = str_replace('login', 'logout', $login_url);
-        $login_action = $this->get_page_url('login', [], true);
-        $username = $this->is_authed();
-        if (empty($username) && $login_action !== $login_url) {
-            return redirect($this->base_url . $logout_url);
-        }
-    }
-
     public function goto_action($action = 'index')
     {
         $page_url = $this->get_page_url($action, [], true);
-        return redirect($this->base_url . $page_url);
+
+        return redirect($this->base_url.$page_url);
     }
 
     public function is_authed()
@@ -56,7 +28,39 @@ class Admin_page extends MY_Controller
         if ($this->is_authed()) {
             $role_id = $this->session->userdata('role_id');
             $is_super = $this->session->userdata('is_super');
+
             return $this->role_has_privilege($role_id, $is_super, $menu_id, $operation);
+        }
+    }
+
+    protected function get_globals()
+    {
+        $globals = parent::get_globals();
+        $globals['layout_class'] = 'fixed-sidebar full-height-layout gray-bg';
+        $globals['site_title'] = '测试网站';
+        $globals['user'] = $globals['menus'] = $globals['leaves'] = [];
+        if ($this->is_authed()) {
+            $globals['user'] = $this->session->userdata();
+            $role_id = $this->session->userdata('role_id');
+            $is_super = $this->session->userdata('is_super');
+            $menus = $this->get_menus($role_id, $is_super);
+            @list($globals['menus'], $globals['leaves']) = $menus;
+        }
+
+        return $globals;
+    }
+
+    protected function initialize()
+    {
+        parent::initialize();
+        $this->load->helper('admin_ui');
+        $this->load->library('session');
+        $login_url = defined('SITE_LOGIN_URL') ? SITE_LOGIN_URL : '';
+        $logout_url = str_replace('login', 'logout', $login_url);
+        $login_action = $this->get_page_url('login', [], true);
+        $username = $this->is_authed();
+        if (empty($username) && $login_action !== $login_url) {
+            return redirect($this->base_url.$logout_url);
         }
     }
 
@@ -67,7 +71,7 @@ class Admin_page extends MY_Controller
         $rows = $this->role_privilege_model->get_role_privs($role_id, $is_revoked);
         $menu_ids = array_column($rows, 'menu_id');
         $method = $is_revoked ? 'get_remain_menus' : 'get_grant_menus';
-        list($menus, $branch_ids) = $this->menu_model->$method($menu_ids);
+        list($menus, $branch_ids) = $this->menu_model->{$method}($menu_ids);
         $where = ['parent_id' => $branch_ids, 'is_removed' => 0];
         $rows = $this->menu_model->parse_where($where)->all();
         $leaves = array_fill_keys($branch_ids, []);
@@ -76,6 +80,7 @@ class Admin_page extends MY_Controller
                 $leaves[$branch_id][] = to_menu_link($row);
             }
         }
+
         return [$menus, $leaves];
     }
 
@@ -85,7 +90,7 @@ class Admin_page extends MY_Controller
         $this->load->model('default/privilege_model');
         $this->load->model('default/role_privilege_model');
 
-        $rows = $this->menu_model->get_menu_rows([$menu_id,]);
+        $rows = $this->menu_model->get_menu_rows([$menu_id]);
         $menu_ids = array_column($rows, 'id');
         array_unshift($menu_ids, 0);
         $priv_ids = [];
@@ -105,12 +110,14 @@ class Admin_page extends MY_Controller
             $rows = $this->role_privilege_model->parse_where($where)->all();
         }
         $has_priv = (count($rows) > 0) ? 1 : 0;
+
         return $is_revoked ^ $has_priv;
     }
 
     protected function filter_where(&$model)
     {
         $conds = [];
+
         return $conds;
     }
 
@@ -143,6 +150,7 @@ class Admin_page extends MY_Controller
             $spans['left'] = ceil($col_num * 0.3);
             $spans['right'] = $col_num - $spans['left'];
         }
+
         return [
             'conds' => $conds, 'pager' => $pager, 'spans' => $spans,
             'page_rows' => $this->join_foreigns($page_rows),

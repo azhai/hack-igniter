@@ -1,9 +1,8 @@
 <?php
+
 defined('ShopNC_CLUB') || exit('Access Invalid!');
 
-/**
- * 导航菜单
- */
+// 导航菜单
 $lang['complain_new_list'] = '新投诉';
 $lang['complain_handle_list'] = '待仲裁';
 $lang['complain_appeal_list'] = '待申诉';
@@ -11,9 +10,7 @@ $lang['complain_talk_list'] = '对话中';
 $lang['complain_finish_list'] = '已关闭';
 $lang['complain_subject_list'] = '投诉主题';
 
-/**
- * 导航菜单
- */
+// 导航菜单
 $lang['complain_manage_title'] = '投诉管理';
 $lang['complain_manage_subhead'] = '商城对商品交易投诉管理及仲裁';
 $lang['complain_submit'] = '投诉处理';
@@ -85,9 +82,7 @@ $lang['complain_time_limit_desc'] = '单位为天，订单完成后开始计算�
 $lang['refund_message'] = '退款信息';
 $lang['refund_order_refund'] = '已确认退款金额';
 
-/**
- * 提示信息
- */
+// 提示信息
 $lang['confirm_delete'] = '您确定要删除吗?';
 $lang['complain_content_error'] = '投诉内容不能为空且必须小于100个字符';
 $lang['appeal_message_error'] = '投诉内容不能为空且必须小于100个字符';
@@ -127,10 +122,7 @@ $lang['handle_submit'] = '提交仲裁';
 $lang['complain_repeat'] = '您已经投诉了该订单请等待处理';
 $lang['verify_submit_message'] = '确认审核此投诉';
 
-
-/**
- * 文本
- */
+// 文本
 $lang['complain_text_select'] = '请选择...';
 $lang['complain_text_handle'] = '操作';
 $lang['complain_text_detail'] = '详细';

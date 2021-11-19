@@ -1,37 +1,43 @@
 <?php
 /**
- * hack-igniter
+ * hack-igniter.
  *
  * A example project extends of CodeIgniter v3.x
  *
- * @package hack-igniter
  * @author  Ryan Liu (azhai)
- * @link    http://azhai.surge.sh/
+ *
+ * @see    http://azhai.surge.sh/
+ *
  * @copyright   Copyright (c) 2013
  * @license http://opensource.org/licenses/MIT  MIT License
  */
-
 defined('BASEPATH') || exit('No direct script access allowed');
 
-
-if (!function_exists('get_similar_len')) {
+if (! function_exists('get_similar_len')) {
     /**
-     * 开头相同部分的长度
+     * 开头相同部分的长度.
+     *
+     * @param mixed $haystack
+     * @param mixed $needle
      */
     function get_similar_len($haystack, $needle)
     {
         $len = min(strlen($haystack), strlen($needle));
         while (0 !== strncmp($haystack, $needle, $len)) {
-            $len--;
+            --$len;
         }
+
         return $len;
     }
 }
 
-
-if (!function_exists('binary_search')) {
+if (! function_exists('binary_search')) {
     /**
-     * 二分（折半）查找算法
+     * 二分（折半）查找算法.
+     *
+     * @param mixed $target
+     * @param mixed $right
+     * @param mixed $compare
      */
     function binary_search($target, $right, $compare)
     {
@@ -48,35 +54,38 @@ if (!function_exists('binary_search')) {
                 break;
             }
         } while ($right - $left > 1);
+
         return $middle;
     }
 }
 
-
-if (!function_exists('array_flatten')) {
+if (! function_exists('array_flatten')) {
     /**
-     * 将多维折叠数组变为一维
+     * 将多维折叠数组变为一维.
      *
-     * @param array $values 多维数组
-     * @param bool $drop_empty 去掉为空的值
+     * @param array $values     多维数组
+     * @param bool  $drop_empty 去掉为空的值
+     *
      * @return array
      */
     function array_flatten(array $values, $drop_empty = false)
     {
         $result = [];
         array_walk_recursive($values, function ($value) use (&$result, $drop_empty) {
-            if (!$drop_empty || !empty($value)) {
+            if (! $drop_empty || ! empty($value)) {
                 $result[] = $value;
             }
         });
+
         return $result;
     }
 }
 
-
-if (!function_exists('array_export')) {
+if (! function_exists('array_export')) {
     /**
-     * 格式化数组的输出，采用短语法
+     * 格式化数组的输出，采用短语法.
+     *
+     * @param mixed $indent
      */
     function array_export(array $data, $indent = 0)
     {
@@ -86,18 +95,22 @@ if (!function_exists('array_export')) {
             if (0 === $i) {
                 $line = '[';
             } elseif ($max === $i) {
-                $line = str_repeat(' ', $indent) . ']';
+                $line = str_repeat(' ', $indent).']';
             } else {
-                $line = str_repeat(' ', $indent + 4) . ltrim($line);
+                $line = str_repeat(' ', $indent + 4).ltrim($line);
             }
         }
+
         return implode("\n", $lines);
     }
 }
 
-if (!function_exists('array_part')) {
+if (! function_exists('array_part')) {
     /**
-     * 只获取数组的一部分
+     * 只获取数组的一部分.
+     *
+     * @param mixed      $data
+     * @param null|mixed $keys
      */
     function array_part($data, $keys = null)
     {
@@ -108,15 +121,18 @@ if (!function_exists('array_part')) {
             $keys = array_map('trim', explode(',', $keys));
         }
         $refer = array_fill_keys($keys, null);
+
         return array_intersect_key($data, $refer);
     }
 }
 
-if (!function_exists('rand_num')) {
+if (! function_exists('rand_num')) {
     /**
      * 随机整数.
+     *
      * @param int $min 最小值
      * @param int $max 最大值
+     *
      * @return int
      */
     function rand_num($min, $max)
@@ -125,10 +141,13 @@ if (!function_exists('rand_num')) {
     }
 }
 
-
-if (!function_exists('rand_string')) {
+if (! function_exists('rand_string')) {
     /**
-     * 产生可识别的随机字符串
+     * 产生可识别的随机字符串.
+     *
+     * @param mixed $length
+     * @param mixed $shuffles
+     * @param mixed $good_letters
      */
     function rand_string($length = 8, $shuffles = 2, $good_letters = '')
     {
@@ -136,7 +155,7 @@ if (!function_exists('rand_string')) {
             // 字符池，去掉了难以分辨的0,1,o,O,l,I
             $good_letters = 'abcdefghijkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789';
         }
-        srand((float)microtime() * 1000000);
+        srand((float) microtime() * 1000000);
         // 每次可以产生的字符串最大长度
         $gen_length = ceil($length / $shuffles);
         $buffer = '';
@@ -146,15 +165,17 @@ if (!function_exists('rand_string')) {
             $length -= $gen_length;
             $gen_length = min($length, $gen_length);
         }
+
         return $buffer;
     }
 }
 
-
-if (!function_exists('last_month_day')) {
+if (! function_exists('last_month_day')) {
     /**
      * 找出上个月的这一天，没有这一天时使用月末
-     * （使用时间戳计算，避免判断跨年）
+     * （使用时间戳计算，避免判断跨年）.
+     *
+     * @param mixed $time
      */
     function last_month_day($time)
     {
@@ -166,6 +187,7 @@ if (!function_exists('last_month_day')) {
         } else {
             $time -= ($tail_day - $day) * 86400;
         }
+
         return date('Y-m-d', $time);
     }
 }

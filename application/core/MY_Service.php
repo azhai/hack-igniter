@@ -1,4 +1,5 @@
 <?php
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 /**
@@ -7,7 +8,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 class MY_Service
 {
     /**
-     * 构造函数
+     * 构造函数.
      */
     public function __construct()
     {
@@ -15,20 +16,20 @@ class MY_Service
         if (null === $instance) {
             $instance = new CI_Controller();
         }
-        if (!isset($instance->service)) {
-            $instance->service =& $this;
+        if (! isset($instance->service)) {
+            $instance->service = &$this;
         }
         $this->load->helper('my');
         $this->load->helper('env');
     }
 
     /**
-     * __get magic
+     * __get magic.
      *
      * Allows models to access CI's loaded classes using the same
      * syntax as controllers.
      *
-     * @param	string	$key
+     * @param string $key
      */
     public function __get($key)
     {
@@ -36,6 +37,6 @@ class MY_Service
         //	If you're here because you're getting an error message
         //	saying 'Undefined Property: system/core/Model.php', it's
         //	most likely a typo in your model code.
-        return get_instance()->$key;
+        return get_instance()->{$key};
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 defined('ShopNC_CLUB') || exit('Access Invalid!');
 $lang['cms_isuse'] = 'CMS开关';
 $lang['cms_url'] = 'CMS地址';
@@ -183,7 +184,6 @@ $lang['tag_add_success'] = '标签保存成功';
 $lang['tag_add_fail'] = '标签保存失败';
 $lang['tag_drop_success'] = '标签删除成功';
 $lang['tag_drop_fail'] = '标签删除失败';
-
 
 $lang['cms_ensure_verify'] = '您确认审核？';
 $lang['cms_ensure_callback'] = '您确认收回？';

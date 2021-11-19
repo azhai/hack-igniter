@@ -1,9 +1,8 @@
 <?php
+
 defined('ShopNC_CLUB') || exit('Access Invalid!');
 
-/**
- * core简体语言包
- */
+// core简体语言包
 $lang['please_check_your_url_arg'] = '请检查您URL地址栏输入的参数信息！！ 错误编码：';
 
 $lang['error_info'] = '错误信息';
@@ -19,7 +18,6 @@ $lang['please_check_your_cache_type'] = '该方法不存在，请确定缓存类
 $lang['please_check_your_system_chmod_goods'] = '商品类别缓存文件不能写入，请检查文件以及文件夹权限是否正确!';
 $lang['please_check_your_system_chmod_ad'] = '广告信息缓存文件不能写入，请检查文件以及文件夹权限是否正确!';
 $lang['please_check_your_system_chmod_adv'] = '广告位信息缓存文件不能写入，请检查文件以及文件夹权限是否正确!';
-
 
 $lang['first_page'] = '首页';
 $lang['last_page'] = '末页';

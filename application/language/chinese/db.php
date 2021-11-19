@@ -1,8 +1,7 @@
 <?php
+
 defined('ShopNC_CLUB') || exit('Access Invalid!');
-/**
- * index
- */
+// index
 $lang['db_index_min_size'] = '分卷大小至少为10K';
 $lang['db_index_name_exists'] = '备份名已存在，请填写其他名称';
 $lang['db_index_choose'] = '请选择要备份的数据库表';
@@ -25,9 +24,7 @@ $lang['db_index_name_tip'] = '备份名字由1到20位数字、字母或下划�
 $lang['db_index_backup_tip'] = '为保证数据完整性请确保您的站点处于关闭状态，您确定要马上执行当前操作吗';
 $lang['db_index_help1'] = '数据备份功能根据你的选择备份全部数据或指定数据，导出的数据文件可用“数据恢复”功能或 phpMyAdmin 导入';
 $lang['db_index_help2'] = '建议定期备份数据库';
-/**
- * 恢复
- */
+// 恢复
 $lang['db_restore_file_not_exists'] = '删除的文件不存在';
 $lang['db_restore_del_succ'] = '删除备份成功';
 $lang['db_restore_choose_file_to_del'] = '请选择要删除的内容';
@@ -35,9 +32,7 @@ $lang['db_restore_backup_time'] = '备份时间';
 $lang['db_restore_backup_size'] = '备份大小';
 $lang['db_restore_volumn'] = '卷数';
 $lang['db_restore_import'] = '导入';
-/**
- * 导入
- */
+// 导入
 $lang['db_import_back_to_list'] = '返回数据库备份';
 $lang['db_import_succ'] = '导入成功';
 $lang['db_import_going'] = '正在导入';
@@ -45,7 +40,5 @@ $lang['db_import_succ2'] = '成功导入，程序将自动继续';
 $lang['db_import_fail'] = '数据导入失败';
 $lang['db_import_file_not_exists'] = '导入的文件不存在';
 $lang['db_import_help1'] = '点击导入选项进行数据库恢复';
-/**
- * 删除
- */
+// 删除
 $lang['db_del_succ'] = '删除备份成功';

@@ -1,8 +1,7 @@
 <?php
+
 defined('ShopNC_CLUB') || exit('Access Invalid!');
-/**
- * index
- */
+// index
 $lang['notice_index_member_list_null'] = '会员列表不能为空';
 $lang['notice_index_store_grade_null'] = '店铺等级不能为空';
 $lang['notice_index_title_null'] = '通知标题不能为空';

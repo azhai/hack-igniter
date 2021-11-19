@@ -1,12 +1,13 @@
 <?php
 /**
- * hack-igniter
+ * hack-igniter.
  *
  * A example project extends of CodeIgniter v3.x
  *
- * @package hack-igniter
  * @author  Ryan Liu (azhai)
- * @link    http://azhai.surge.sh/
+ *
+ * @see    http://azhai.surge.sh/
+ *
  * @copyright   Copyright (c) 2013
  * @license http://opensource.org/licenses/MIT  MIT License
  */
@@ -14,7 +15,7 @@
 namespace Mylib\ORM;
 
 /**
- * 分段缓存最近数据
+ * 分段缓存最近数据.
  */
 trait MY_Cache_recent
 {
@@ -37,7 +38,7 @@ trait MY_Cache_recent
     }
 
     /**
-     * 时间字段
+     * 时间字段.
      */
     public function get_recent_time_field()
     {
@@ -45,7 +46,7 @@ trait MY_Cache_recent
     }
 
     /**
-     * 其他条件
+     * 其他条件.
      */
     public function get_recent_extra_where()
     {
@@ -53,7 +54,12 @@ trait MY_Cache_recent
     }
 
     /**
-     * 时间段内有活动的用户，先从缓存中读取
+     * 时间段内有活动的用户，先从缓存中读取.
+     *
+     * @param mixed      $redis
+     * @param mixed      $start
+     * @param null|mixed $stop
+     * @param mixed      $save_key
      */
     public function load_users_range($redis, $start, $stop = null, $save_key = '')
     {
@@ -68,12 +74,13 @@ trait MY_Cache_recent
         }
         $time_field = $this->get_recent_time_field();
         $stop = empty($stop) ? time() : (int) $stop;
-        $where = [$time_field . ' >=' => $start, $time_field . ' <=' => $stop];
+        $where = [$time_field.' >=' => $start, $time_field.' <=' => $stop];
         $where = array_replace($this->get_recent_extra_where(), $where); //次序不可颠倒
         $user_data = $this->get_users_where($where, $start, $stop);
         if ($save_key && $redis) { //保存到缓存
             if (empty($user_data)) {
                 $redis->sAdd(self::$empty_set_keys, $save_key);
+
                 return [];
             }
             $chunk_data = array_chunk($user_data, 10, true);
@@ -88,20 +95,25 @@ trait MY_Cache_recent
             }
             $redis->expire($save_key, $ttl);
         }
+
         return $user_data;
     }
 
     /**
-     * 时间段内有活动的人数
+     * 时间段内有活动的人数.
+     *
+     * @param mixed      $redis
+     * @param mixed      $where
+     * @param null|mixed $stop
      */
     public function count_users($redis, $where, $stop = null)
     {
         $time_field = $this->get_recent_time_field();
         $today = strtotime('midnight');
-        $start = isset($where[$time_field . ' >=']) ? $where[$time_field . ' >='] : $today;
-        $stop = isset($where[$time_field . ' <=']) ? $where[$time_field . ' <='] : $stop;
+        $start = isset($where[$time_field.' >=']) ? $where[$time_field.' >='] : $today;
+        $stop = isset($where[$time_field.' <=']) ? $where[$time_field.' <='] : $stop;
         $stop = (empty($stop) || $stop > time()) ? time() : (int) $stop;
-        $where_keys = ['id', $time_field . ' >=', $time_field . ' <='];
+        $where_keys = ['id', $time_field.' >=', $time_field.' <='];
         if ($extra_where = $this->get_recent_extra_where()) {
             $where_keys = array_merge($where_keys, array_keys($extra_where));
         }
@@ -109,6 +121,7 @@ trait MY_Cache_recent
         //当前小时以后没有缓存，或有其他条件不能使用缓存
         if ($start >= $curr_hour || array_diff(array_keys($where), $where_keys)) {
             $user_data = $this->get_users_where($where, $start, $stop);
+
             return \count($user_data);
         }
         //数据量太大而且缓存覆盖不到，拒绝查询
@@ -118,7 +131,7 @@ trait MY_Cache_recent
 
         $prefix = $this->get_recent_prefix();
         if ($extra_where && $extra_where = array_intersect_key($extra_where, $where)) {
-            $prefix .= '_' . base64_encode(http_build_query($extra_where));
+            $prefix .= '_'.base64_encode(http_build_query($extra_where));
         }
         $all_data = [];
         //分段循环，尽量使用缓存
@@ -128,13 +141,13 @@ trait MY_Cache_recent
                 $prev = strtotime(date('Y-m-d', $start));
                 $next = $prev + 86400 - 1;
                 if ($start === $prev) { //整天查询，用得到缓存
-                    $save_key = $prefix . sprintf('_%s_day', date('Y-m-d', $prev));
+                    $save_key = $prefix.sprintf('_%s_day', date('Y-m-d', $prev));
                 }
             } else { //按小时查
                 $prev = $start - $start % 3600;
                 $next = $prev + 3600 - 1;
                 if ($start === $prev && $start < $curr_hour) { //整小时查询，用得到缓存
-                    $save_key = $prefix . sprintf('_%s_h%s', date('Y-m-d', $prev), date('H', $prev));
+                    $save_key = $prefix.sprintf('_%s_h%s', date('Y-m-d', $prev), date('H', $prev));
                 }
             }
             if ($next > $stop) { //结束时间不足一天或一小时，不能使用缓存
@@ -144,6 +157,7 @@ trait MY_Cache_recent
             $all_data[] = $this->load_users_range($redis, $start, $next, $save_key);
             $start = $next + 1;
         }
+
         return \count(exec_function_array('array_replace', $all_data));
     }
 }

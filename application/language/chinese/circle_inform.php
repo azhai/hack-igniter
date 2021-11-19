@@ -1,8 +1,7 @@
 <?php
+
 defined('ShopNC_CLUB') || exit('Access Invalid!');
-/**
- * control
- */
+// control
 $lang['circle_inform_untreated'] = '未处理';
 $lang['circle_inform_treated'] = '已处理';
 $lang['circle_inform_reply_title'] = '的回复';

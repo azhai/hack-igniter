@@ -1,8 +1,7 @@
 <?php
+
 defined('ShopNC_CLUB') || exit('Access Invalid!');
-/**
- * 共有语言
- */
+// 共有语言
 
 $lang['refund_manage'] = '退款管理';
 $lang['refund_manage_subhead'] = '商品订单退款申请及审核处理';

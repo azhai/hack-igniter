@@ -1,4 +1,5 @@
 <?php
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 /*
@@ -14,7 +15,7 @@ if (defined('SITE_BASE_URL')) {
     $base_url = constant('SITE_BASE_URL');
     //子域名适配
     if (isset($_SERVER['CI_DIR']) && strpos($base_url, '.')) {
-        $sub = '://' . strtolower($_SERVER['CI_DIR']) . '.';
+        $sub = '://'.strtolower($_SERVER['CI_DIR']).'.';
         if ('://www.' !== $sub) {
             $base_url = str_ireplace('://www.', $sub, $base_url);
         }
@@ -129,4 +130,4 @@ $config['compress_output'] = true;
 | the visitor's IP address.
 |
 */
-$config['proxy_ips'] = ['192.168.0.0/24',];
+$config['proxy_ips'] = ['192.168.0.0/24'];

@@ -1,8 +1,7 @@
 <?php
+
 defined('ShopNC_CLUB') || exit('Access Invalid!');
-/**
- * 页面文字
- */
+// 页面文字
 $lang['nc_admincp'] = '管理中心';
 $lang['nc_loca'] = '您的位置';
 $lang['nc_skin_peeler'] = '换肤';
@@ -28,9 +27,7 @@ $lang['nc_auto_redirect'] = '页面如不能自动跳转，选择手动操作...
 $lang['nc_back_to_pre_page'] = '返回上一页';
 $lang['nc_assign_right'] = '<br/><br/>您不具备进行该操作的权限';
 $lang['nc_quickly_targeted'] = '（快捷定位）';
-/**
- * 导航文字
- */
+// 导航文字
 $lang['nc_console'] = '控制台';
 $lang['nc_normal_handle'] = '常用操作';
 $lang['nc_welcome_page'] = '欢迎页面';
@@ -165,10 +162,10 @@ $lang['nc_web_index'] = '首页管理';
 $lang['nc_web_index_subhead'] = '商城首页模板及广告设计';
 $lang['nc_product_recd'] = '商品推荐类型';
 $lang['nc_microshop'] = '微商城设置';
-$lang['nc_microshop_goods'] = "随心看";
-$lang['nc_microshop_album'] = "爱专辑";
-$lang['nc_microshop_personal'] = "个人秀";
-$lang['nc_microshop_store'] = "店铺街";
+$lang['nc_microshop_goods'] = '随心看';
+$lang['nc_microshop_album'] = '爱专辑';
+$lang['nc_microshop_personal'] = '个人秀';
+$lang['nc_microshop_store'] = '店铺街';
 $lang['nc_microshop_manage'] = '微商城设置';
 $lang['nc_microshop_manage_subhead'] = '微商城相关基础信息及功能设置选项';
 $lang['nc_microshop_goods_manage'] = '随心看管理';
@@ -231,9 +228,7 @@ $lang['nc_circle_cache'] = '更新缓存';
 $lang['nc_circle_informnamage'] = '举报管理';
 $lang['nc_circle_informnamage_subhead'] = '圈内成员对话题提出的举报进行处理';
 
-/**
- * 页面中的常用文字
- */
+// 页面中的常用文字
 $lang['nc_select_all'] = '全选';
 $lang['nc_ensure_del'] = '您确定要删除吗?';
 $lang['nc_ensure_cancel'] = '您确定要取消吗?';
@@ -290,16 +285,14 @@ $lang['nc_normal'] = '正常';
 $lang['nc_invalidation'] = '失效';
 $lang['nc_export'] = '导出';
 
-/**
- * footer中的文字
- */
-$lang['nc_index'] = "首页";
-$lang['nc_page_execute'] = "页面执行";
-$lang['nc_second'] = "秒";
-$lang['nc_query'] = "查询";
-$lang['nc_times'] = "次";
-$lang['nc_online'] = "在线";
-$lang['nc_person'] = "人";
-$lang['nc_enabled'] = "已启用";
-$lang['nc_disabled'] = "已禁用";
-$lang['nc_memory_cost'] = "占用内存";
+// footer中的文字
+$lang['nc_index'] = '首页';
+$lang['nc_page_execute'] = '页面执行';
+$lang['nc_second'] = '秒';
+$lang['nc_query'] = '查询';
+$lang['nc_times'] = '次';
+$lang['nc_online'] = '在线';
+$lang['nc_person'] = '人';
+$lang['nc_enabled'] = '已启用';
+$lang['nc_disabled'] = '已禁用';
+$lang['nc_memory_cost'] = '占用内存';

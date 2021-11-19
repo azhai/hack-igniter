@@ -1,9 +1,9 @@
 <?php
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
-
 /**
- * Entry_model
+ * Entry_model.
  */
 class Entry_model extends MY_Model
 {

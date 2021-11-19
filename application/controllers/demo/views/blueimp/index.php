@@ -12,12 +12,12 @@
     <meta name="description" content="">
 
     <link rel="shortcut icon" href="favicon.ico">
-    <link href="<?= $static_url ?>/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
-    <link href="<?= $static_url ?>/css/font-awesome.css?v=4.4.0" rel="stylesheet">
-    <link href="<?= $static_url ?>/css/plugins/blueimp/css/blueimp-gallery.min.css" rel="stylesheet">
+    <link href="<?php echo $static_url; ?>/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="<?php echo $static_url; ?>/css/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="<?php echo $static_url; ?>/css/plugins/blueimp/css/blueimp-gallery.min.css" rel="stylesheet">
 
-    <link href="<?= $static_url ?>/css/animate.css" rel="stylesheet">
-    <link href="<?= $static_url ?>/css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="<?php echo $static_url; ?>/css/animate.css" rel="stylesheet">
+    <link href="<?php echo $static_url; ?>/css/style.css?v=4.1.0" rel="stylesheet">
 
     <style>
         .lightBoxGallery img {
@@ -43,78 +43,78 @@
                     </p>
 
                     <div class="lightBoxGallery">
-                        <a href="<?= $static_url ?>/img/p_big1.jpg" title="图片" data-gallery=""><img
-                                    src="<?= $static_url ?>/img/p1.jpg"></a>
-                        <a href="<?= $static_url ?>/img/p_big2.jpg" title="图片" data-gallery=""><img
-                                    src="<?= $static_url ?>/img/p2.jpg"></a>
-                        <a href="<?= $static_url ?>/img/p_big3.jpg" title="图片" data-gallery=""><img
-                                    src="<?= $static_url ?>/img/p3.jpg"></a>
-                        <a href="<?= $static_url ?>/img/p_big1.jpg" title="图片" data-gallery=""><img
-                                    src="<?= $static_url ?>/img/p1.jpg"></a>
-                        <a href="<?= $static_url ?>/img/p_big2.jpg" title="图片" data-gallery=""><img
-                                    src="<?= $static_url ?>/img/p2.jpg"></a>
-                        <a href="<?= $static_url ?>/img/p_big3.jpg" title="图片" data-gallery=""><img
-                                    src="<?= $static_url ?>/img/p3.jpg"></a>
-                        <a href="<?= $static_url ?>/img/p_big1.jpg" title="图片" data-gallery=""><img
-                                    src="<?= $static_url ?>/img/p1.jpg"></a>
-                        <a href="<?= $static_url ?>/img/p_big2.jpg" title="图片" data-gallery=""><img
-                                    src="<?= $static_url ?>/img/p2.jpg"></a>
-                        <a href="<?= $static_url ?>/img/p_big3.jpg" title="图片" data-gallery=""><img
-                                    src="<?= $static_url ?>/img/p3.jpg"></a>
-                        <a href="<?= $static_url ?>/img/p_big1.jpg" title="图片" data-gallery=""><img
-                                    src="<?= $static_url ?>/img/p1.jpg"></a>
-                        <a href="<?= $static_url ?>/img/p_big2.jpg" title="图片" data-gallery=""><img
-                                    src="<?= $static_url ?>/img/p2.jpg"></a>
-                        <a href="<?= $static_url ?>/img/p_big3.jpg" title="图片" data-gallery=""><img
-                                    src="<?= $static_url ?>/img/p3.jpg"></a>
-                        <a href="<?= $static_url ?>/img/p_big1.jpg" title="图片" data-gallery=""><img
-                                    src="<?= $static_url ?>/img/p1.jpg"></a>
-                        <a href="<?= $static_url ?>/img/p_big2.jpg" title="图片" data-gallery=""><img
-                                    src="<?= $static_url ?>/img/p2.jpg"></a>
-                        <a href="<?= $static_url ?>/img/p_big3.jpg" title="图片" data-gallery=""><img
-                                    src="<?= $static_url ?>/img/p3.jpg"></a>
-                        <a href="<?= $static_url ?>/img/p_big1.jpg" title="图片" data-gallery=""><img
-                                    src="<?= $static_url ?>/img/p1.jpg"></a>
-                        <a href="<?= $static_url ?>/img/p_big2.jpg" title="图片" data-gallery=""><img
-                                    src="<?= $static_url ?>/img/p2.jpg"></a>
-                        <a href="<?= $static_url ?>/img/p_big3.jpg" title="图片" data-gallery=""><img
-                                    src="<?= $static_url ?>/img/p3.jpg"></a>
-                        <a href="<?= $static_url ?>/img/p_big1.jpg" title="图片" data-gallery=""><img
-                                    src="<?= $static_url ?>/img/p1.jpg"></a>
-                        <a href="<?= $static_url ?>/img/p_big2.jpg" title="图片" data-gallery=""><img
-                                    src="<?= $static_url ?>/img/p2.jpg"></a>
-                        <a href="<?= $static_url ?>/img/p_big3.jpg" title="图片" data-gallery=""><img
-                                    src="<?= $static_url ?>/img/p3.jpg"></a>
-                        <a href="<?= $static_url ?>/img/p_big1.jpg" title="图片" data-gallery=""><img
-                                    src="<?= $static_url ?>/img/p1.jpg"></a>
-                        <a href="<?= $static_url ?>/img/p_big2.jpg" title="图片" data-gallery=""><img
-                                    src="<?= $static_url ?>/img/p2.jpg"></a>
-                        <a href="<?= $static_url ?>/img/p_big3.jpg" title="图片" data-gallery=""><img
-                                    src="<?= $static_url ?>/img/p3.jpg"></a>
-                        <a href="<?= $static_url ?>/img/p_big1.jpg" title="图片" data-gallery=""><img
-                                    src="<?= $static_url ?>/img/p1.jpg"></a>
-                        <a href="<?= $static_url ?>/img/p_big2.jpg" title="图片" data-gallery=""><img
-                                    src="<?= $static_url ?>/img/p2.jpg"></a>
-                        <a href="<?= $static_url ?>/img/p_big3.jpg" title="图片" data-gallery=""><img
-                                    src="<?= $static_url ?>/img/p3.jpg"></a>
-                        <a href="<?= $static_url ?>/img/p_big1.jpg" title="图片" data-gallery=""><img
-                                    src="<?= $static_url ?>/img/p1.jpg"></a>
-                        <a href="<?= $static_url ?>/img/p_big2.jpg" title="图片" data-gallery=""><img
-                                    src="<?= $static_url ?>/img/p2.jpg"></a>
-                        <a href="<?= $static_url ?>/img/p_big3.jpg" title="图片" data-gallery=""><img
-                                    src="<?= $static_url ?>/img/p3.jpg"></a>
-                        <a href="<?= $static_url ?>/img/p_big1.jpg" title="图片" data-gallery=""><img
-                                    src="<?= $static_url ?>/img/p1.jpg"></a>
-                        <a href="<?= $static_url ?>/img/p_big2.jpg" title="图片" data-gallery=""><img
-                                    src="<?= $static_url ?>/img/p2.jpg"></a>
-                        <a href="<?= $static_url ?>/img/p_big3.jpg" title="图片" data-gallery=""><img
-                                    src="<?= $static_url ?>/img/p3.jpg"></a>
-                        <a href="<?= $static_url ?>/img/p_big1.jpg" title="图片" data-gallery=""><img
-                                    src="<?= $static_url ?>/img/p1.jpg"></a>
-                        <a href="<?= $static_url ?>/img/p_big2.jpg" title="图片" data-gallery=""><img
-                                    src="<?= $static_url ?>/img/p2.jpg"></a>
-                        <a href="<?= $static_url ?>/img/p_big3.jpg" title="图片" data-gallery=""><img
-                                    src="<?= $static_url ?>/img/p3.jpg"></a>
+                        <a href="<?php echo $static_url; ?>/img/p_big1.jpg" title="图片" data-gallery=""><img
+                                    src="<?php echo $static_url; ?>/img/p1.jpg"></a>
+                        <a href="<?php echo $static_url; ?>/img/p_big2.jpg" title="图片" data-gallery=""><img
+                                    src="<?php echo $static_url; ?>/img/p2.jpg"></a>
+                        <a href="<?php echo $static_url; ?>/img/p_big3.jpg" title="图片" data-gallery=""><img
+                                    src="<?php echo $static_url; ?>/img/p3.jpg"></a>
+                        <a href="<?php echo $static_url; ?>/img/p_big1.jpg" title="图片" data-gallery=""><img
+                                    src="<?php echo $static_url; ?>/img/p1.jpg"></a>
+                        <a href="<?php echo $static_url; ?>/img/p_big2.jpg" title="图片" data-gallery=""><img
+                                    src="<?php echo $static_url; ?>/img/p2.jpg"></a>
+                        <a href="<?php echo $static_url; ?>/img/p_big3.jpg" title="图片" data-gallery=""><img
+                                    src="<?php echo $static_url; ?>/img/p3.jpg"></a>
+                        <a href="<?php echo $static_url; ?>/img/p_big1.jpg" title="图片" data-gallery=""><img
+                                    src="<?php echo $static_url; ?>/img/p1.jpg"></a>
+                        <a href="<?php echo $static_url; ?>/img/p_big2.jpg" title="图片" data-gallery=""><img
+                                    src="<?php echo $static_url; ?>/img/p2.jpg"></a>
+                        <a href="<?php echo $static_url; ?>/img/p_big3.jpg" title="图片" data-gallery=""><img
+                                    src="<?php echo $static_url; ?>/img/p3.jpg"></a>
+                        <a href="<?php echo $static_url; ?>/img/p_big1.jpg" title="图片" data-gallery=""><img
+                                    src="<?php echo $static_url; ?>/img/p1.jpg"></a>
+                        <a href="<?php echo $static_url; ?>/img/p_big2.jpg" title="图片" data-gallery=""><img
+                                    src="<?php echo $static_url; ?>/img/p2.jpg"></a>
+                        <a href="<?php echo $static_url; ?>/img/p_big3.jpg" title="图片" data-gallery=""><img
+                                    src="<?php echo $static_url; ?>/img/p3.jpg"></a>
+                        <a href="<?php echo $static_url; ?>/img/p_big1.jpg" title="图片" data-gallery=""><img
+                                    src="<?php echo $static_url; ?>/img/p1.jpg"></a>
+                        <a href="<?php echo $static_url; ?>/img/p_big2.jpg" title="图片" data-gallery=""><img
+                                    src="<?php echo $static_url; ?>/img/p2.jpg"></a>
+                        <a href="<?php echo $static_url; ?>/img/p_big3.jpg" title="图片" data-gallery=""><img
+                                    src="<?php echo $static_url; ?>/img/p3.jpg"></a>
+                        <a href="<?php echo $static_url; ?>/img/p_big1.jpg" title="图片" data-gallery=""><img
+                                    src="<?php echo $static_url; ?>/img/p1.jpg"></a>
+                        <a href="<?php echo $static_url; ?>/img/p_big2.jpg" title="图片" data-gallery=""><img
+                                    src="<?php echo $static_url; ?>/img/p2.jpg"></a>
+                        <a href="<?php echo $static_url; ?>/img/p_big3.jpg" title="图片" data-gallery=""><img
+                                    src="<?php echo $static_url; ?>/img/p3.jpg"></a>
+                        <a href="<?php echo $static_url; ?>/img/p_big1.jpg" title="图片" data-gallery=""><img
+                                    src="<?php echo $static_url; ?>/img/p1.jpg"></a>
+                        <a href="<?php echo $static_url; ?>/img/p_big2.jpg" title="图片" data-gallery=""><img
+                                    src="<?php echo $static_url; ?>/img/p2.jpg"></a>
+                        <a href="<?php echo $static_url; ?>/img/p_big3.jpg" title="图片" data-gallery=""><img
+                                    src="<?php echo $static_url; ?>/img/p3.jpg"></a>
+                        <a href="<?php echo $static_url; ?>/img/p_big1.jpg" title="图片" data-gallery=""><img
+                                    src="<?php echo $static_url; ?>/img/p1.jpg"></a>
+                        <a href="<?php echo $static_url; ?>/img/p_big2.jpg" title="图片" data-gallery=""><img
+                                    src="<?php echo $static_url; ?>/img/p2.jpg"></a>
+                        <a href="<?php echo $static_url; ?>/img/p_big3.jpg" title="图片" data-gallery=""><img
+                                    src="<?php echo $static_url; ?>/img/p3.jpg"></a>
+                        <a href="<?php echo $static_url; ?>/img/p_big1.jpg" title="图片" data-gallery=""><img
+                                    src="<?php echo $static_url; ?>/img/p1.jpg"></a>
+                        <a href="<?php echo $static_url; ?>/img/p_big2.jpg" title="图片" data-gallery=""><img
+                                    src="<?php echo $static_url; ?>/img/p2.jpg"></a>
+                        <a href="<?php echo $static_url; ?>/img/p_big3.jpg" title="图片" data-gallery=""><img
+                                    src="<?php echo $static_url; ?>/img/p3.jpg"></a>
+                        <a href="<?php echo $static_url; ?>/img/p_big1.jpg" title="图片" data-gallery=""><img
+                                    src="<?php echo $static_url; ?>/img/p1.jpg"></a>
+                        <a href="<?php echo $static_url; ?>/img/p_big2.jpg" title="图片" data-gallery=""><img
+                                    src="<?php echo $static_url; ?>/img/p2.jpg"></a>
+                        <a href="<?php echo $static_url; ?>/img/p_big3.jpg" title="图片" data-gallery=""><img
+                                    src="<?php echo $static_url; ?>/img/p3.jpg"></a>
+                        <a href="<?php echo $static_url; ?>/img/p_big1.jpg" title="图片" data-gallery=""><img
+                                    src="<?php echo $static_url; ?>/img/p1.jpg"></a>
+                        <a href="<?php echo $static_url; ?>/img/p_big2.jpg" title="图片" data-gallery=""><img
+                                    src="<?php echo $static_url; ?>/img/p2.jpg"></a>
+                        <a href="<?php echo $static_url; ?>/img/p_big3.jpg" title="图片" data-gallery=""><img
+                                    src="<?php echo $static_url; ?>/img/p3.jpg"></a>
+                        <a href="<?php echo $static_url; ?>/img/p_big1.jpg" title="图片" data-gallery=""><img
+                                    src="<?php echo $static_url; ?>/img/p1.jpg"></a>
+                        <a href="<?php echo $static_url; ?>/img/p_big2.jpg" title="图片" data-gallery=""><img
+                                    src="<?php echo $static_url; ?>/img/p2.jpg"></a>
+                        <a href="<?php echo $static_url; ?>/img/p_big3.jpg" title="图片" data-gallery=""><img
+                                    src="<?php echo $static_url; ?>/img/p3.jpg"></a>
 
                         <div id="blueimp-gallery" class="blueimp-gallery">
                             <div class="slides"></div>
@@ -133,14 +133,14 @@
 </div>
 
 <!-- 全局js -->
-<script src="<?= $static_url ?>/js/jquery.min.js?v=2.1.4"></script>
-<script src="<?= $static_url ?>/js/bootstrap.min.js?v=3.3.6"></script>
+<script src="<?php echo $static_url; ?>/js/jquery.min.js?v=2.1.4"></script>
+<script src="<?php echo $static_url; ?>/js/bootstrap.min.js?v=3.3.6"></script>
 
 <!-- 自定义js -->
-<script src="<?= $static_url ?>/js/content.js?v=1.0.0"></script>
+<script src="<?php echo $static_url; ?>/js/content.js?v=1.0.0"></script>
 
 <!-- blueimp gallery -->
-<script src="<?= $static_url ?>/js/plugins/blueimp/jquery.blueimp-gallery.min.js"></script>
+<script src="<?php echo $static_url; ?>/js/plugins/blueimp/jquery.blueimp-gallery.min.js"></script>
 
 
 </body>

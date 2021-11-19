@@ -1,14 +1,14 @@
 <?php
 
 /**
- * 腾讯云消息
+ * 腾讯云消息.
  */
 class MY_Tx_msg
 {
     //等于 JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE
-    const JSON_OPTS = 320; //5.4及以下不允许常量使用表达式
-    const OPT_IS_SYS = 1;
-    const OPT_IS_SYNC = 2;
+    public const JSON_OPTS = 320; //5.4及以下不允许常量使用表达式
+    public const OPT_IS_SYS = 1;
+    public const OPT_IS_SYNC = 2;
 
     public $text = '';
     public $life_time = 604800;
@@ -17,8 +17,12 @@ class MY_Tx_msg
     {
         $this->create($text, $life_time);
     }
+
     /**
      * 检查是否包含选项.
+     *
+     * @param mixed $opt
+     * @param mixed $val
      */
     public static function hasOpt($opt, $val)
     {
@@ -27,6 +31,10 @@ class MY_Tx_msg
 
     /**
      * 将内容字符串中的变量替换掉.
+     *
+     * @param mixed $content
+     * @param mixed $prefix
+     * @param mixed $subfix
      */
     public static function replaceWith($content, array $context = [], $prefix = '{{', $subfix = '}}')
     {
@@ -38,24 +46,29 @@ class MY_Tx_msg
         } else {
             $replacers = [];
             foreach ($context as $key => $value) {
-                $replacers[$prefix . $key . $subfix] = $value;
+                $replacers[$prefix.$key.$subfix] = $value;
             }
         }
-        $content = strtr($content, $replacers);
-        return $content;
+
+        return strtr($content, $replacers);
     }
 
     /**
-     * 创建随机整数
+     * 创建随机整数.
+     *
+     * @param mixed $size
      */
     public static function createRandNum($size = 9)
     {
         $num = mt_rand(100000000, 999999999);
+
         return ($size > 0 && $size < 9) ? substr($num, 0, $size) : $num;
     }
 
     /**
-     * APNs推送配置
+     * APNs推送配置.
+     *
+     * @param mixed $title
      */
     public static function createApnsInfo($title = '标题')
     {
@@ -67,7 +80,11 @@ class MY_Tx_msg
     }
 
     /**
-     * 推送内容
+     * 推送内容.
+     *
+     * @param mixed $text
+     * @param mixed $extjson
+     * @param mixed $apns_title
      */
     public static function createPushInfo($text, $extjson, $apns_title = '')
     {
@@ -79,15 +96,17 @@ class MY_Tx_msg
         if ($apns_title) {
             $data['ApnsInfo'] = self::createApnsInfo($apns_title);
         }
+
         return $data;
     }
 
     /**
-     * 系统消息项
+     * 系统消息项.
      */
     public static function createSysItem(array $extra = [])
     {
         $extra['MsgOper'] = 1;
+
         return [
             'MsgType' => 'TIMCustomElem',
             'MsgContent' => [
@@ -97,11 +116,14 @@ class MY_Tx_msg
     }
 
     /**
-     * 自定义消息项
+     * 自定义消息项.
+     *
+     * @param mixed $text
      */
     public static function createCustomDescItem($text, array $content = [])
     {
         $content['Desc'] = trim($text);
+
         return [
             'MsgType' => 'TIMCustomElem',
             'MsgContent' => $content,
@@ -109,7 +131,10 @@ class MY_Tx_msg
     }
 
     /**
-     * 自定义消息项
+     * 自定义消息项.
+     *
+     * @param mixed $type
+     * @param mixed $data
      */
     public static function createCustomTypeItem($type, $data)
     {
@@ -118,6 +143,7 @@ class MY_Tx_msg
             'data' => json_encode($data, self::JSON_OPTS),
             'id' => uniqid('w_'),
         ];
+
         return [
             'MsgType' => 'TIMCustomElem',
             'MsgContent' => [
@@ -129,7 +155,9 @@ class MY_Tx_msg
     }
 
     /**
-     * 文本消息项
+     * 文本消息项.
+     *
+     * @param mixed $text
      */
     public static function createTextItem($text)
     {
@@ -142,7 +170,9 @@ class MY_Tx_msg
     }
 
     /**
-     * 修改文本消息内容
+     * 修改文本消息内容.
+     *
+     * @param mixed $text
      */
     public static function setDataText(array &$data, $text)
     {
@@ -158,7 +188,10 @@ class MY_Tx_msg
     }
 
     /**
-     * 组装消息
+     * 组装消息.
+     *
+     * @param mixed $item
+     * @param mixed $opt
      */
     public function build($item, array $params = [], $opt = 0, array $extra = [])
     {
@@ -174,11 +207,16 @@ class MY_Tx_msg
         if (self::hasOpt($opt, self::OPT_IS_SYNC)) { // 系统消息
             $data['SyncOtherMachine'] = 2;
         }
+
         return array_merge($params, $data);
     }
 
     /**
-     * 文本消息
+     * 文本消息.
+     *
+     * @param mixed $from
+     * @param mixed $to
+     * @param mixed $is_system
      */
     public function buildText($from, $to = 0, $is_system = false, array $extra = [])
     {
@@ -188,15 +226,20 @@ class MY_Tx_msg
         $text_elem = self::createTextItem($this->text);
         $params = [
             'MsgLifeTime' => $this->life_time,
-            'From_Account' => (string)$from,
-            'To_Account' => (string)$to,
+            'From_Account' => (string) $from,
+            'To_Account' => (string) $to,
         ];
         $opt = self::OPT_IS_SYNC | ($is_system ? self::OPT_IS_SYS : 0);
+
         return $this->build($text_elem, $params, $opt, $extra);
     }
 
     /**
-     * 提醒消息
+     * 提醒消息.
+     *
+     * @param mixed $from
+     * @param mixed $to
+     * @param mixed $is_system
      */
     public function buildTips($from, $to = 0, $is_system = false, array $extra = [])
     {
@@ -216,15 +259,21 @@ class MY_Tx_msg
         $cust_elem = self::createCustomDescItem($this->text, $content);
         $params = [
             'MsgLifeTime' => $this->life_time,
-            'From_Account' => (string)$from,
-            'To_Account' => (string)$to,
+            'From_Account' => (string) $from,
+            'To_Account' => (string) $to,
         ];
         $opt = self::OPT_IS_SYNC | ($is_system ? self::OPT_IS_SYS : 0);
+
         return $this->build($cust_elem, $params, $opt, $extra);
     }
 
     /**
-     * 自定义类型消息
+     * 自定义类型消息.
+     *
+     * @param mixed $from
+     * @param mixed $to
+     * @param mixed $type
+     * @param mixed $data
      */
     public function buildCustomData($from, $to, $type, $data)
     {
@@ -234,14 +283,19 @@ class MY_Tx_msg
         $cust_elem = self::createCustomTypeItem($type, $data);
         $params = [
             'MsgLifeTime' => $this->life_time,
-            'From_Account' => (string)$from,
-            'To_Account' => (string)$to,
+            'From_Account' => (string) $from,
+            'To_Account' => (string) $to,
         ];
+
         return $this->build($cust_elem, $params, self::OPT_IS_SYNC);
     }
 
     /**
-     * 推送消息
+     * 推送消息.
+     *
+     * @param mixed $from
+     * @param mixed $to
+     * @param mixed $is_system
      */
     public function buildPushInfo($from, $to = 0, $is_system = false, array $extra = [])
     {
@@ -256,16 +310,21 @@ class MY_Tx_msg
         $cust_elem = self::createCustomDescItem($this->text, $content);
         $params = [
             'MsgLifeTime' => $this->life_time,
-            'From_Account' => (string)$from,
-            'To_Account' => (string)$to,
+            'From_Account' => (string) $from,
+            'To_Account' => (string) $to,
             'OfflinePushInfo' => self::createPushInfo($this->text, $extjson, '标题'),
         ];
         $opt = self::OPT_IS_SYNC | ($is_system ? self::OPT_IS_SYS : 0);
+
         return $this->build($cust_elem, $params, $opt, $extra);
     }
 
     /**
      * 全员推送
+     *
+     * @param mixed $from
+     * @param mixed $content
+     * @param mixed $type
      */
     public function buildAllMemberPush($from, $content, $type = 'bullet_chat')
     {
@@ -276,17 +335,21 @@ class MY_Tx_msg
         $push_info = self::createPushInfo('', '');
         $params = [
             'MsgLifeTime' => $this->life_time,
-            'From_Account' => (string)$from,
+            'From_Account' => (string) $from,
         ];
-        if (!empty($to)) {
-            $params['To_Account'] = (string)$to;
+        if (! empty($to)) {
+            $params['To_Account'] = (string) $to;
         }
         $params['OfflinePushInfo'] = $push_info;
+
         return $this->build($cust_elem, $params);
     }
 
     /**
-     * 撤回消息
+     * 撤回消息.
+     *
+     * @param mixed $from
+     * @param mixed $to
      */
     public function buildRevoke($from, $to, array $orig = [])
     {
@@ -296,7 +359,7 @@ class MY_Tx_msg
         $data = [
             'Type' => '1', //撤回类型0或空用户撤回1系统撤回
             'RevokeDesc' => '系统撤回了一条消息', //撤回消息描述
-            'Targets' => (string)$from, //对方用户id
+            'Targets' => (string) $from, //对方用户id
             'MsgRandom' => isset($orig['msgid']) ? (int) ($orig['msgid']) : 0, //唯一标识哪路通话
             'Timestamp' => isset($orig['msgtime']) ? (int) ($orig['msgtime']) : 0,
             'MsgSeq' => isset($orig['msgseq']) ? (int) ($orig['msgseq']) : 0,
@@ -306,14 +369,18 @@ class MY_Tx_msg
         $cust_elem = self::createCustomDescItem('', $content);
         $params = [
             'MsgLifeTime' => $this->life_time,
-            'From_Account' => (string)$from,
-            'To_Account' => (string)$to,
+            'From_Account' => (string) $from,
+            'To_Account' => (string) $to,
         ];
+
         return $this->build($cust_elem, $params, self::OPT_IS_SYNC);
     }
 
     /**
-     * 挂断信号
+     * 挂断信号.
+     *
+     * @param mixed $from
+     * @param mixed $to
      */
     public function buildHangUp($from, $to, array $call = [])
     {
@@ -321,27 +388,31 @@ class MY_Tx_msg
             return;
         }
         $data = [
-            'Sender' => (string)$from, //挂断方
-            'Targets' => [(string)$to],
+            'Sender' => (string) $from, //挂断方
+            'Targets' => [(string) $to],
             'AVRoomID' => isset($call['callid']) ? $call['callid'] : '', //唯一标识哪路通话
             'UserAction' => 134, //134挂断
             'CallDate' => time(), //呼叫时间戳
-            'CallSponsor' => (string)$from,
-            'CallType' => isset($call['isvideo']) && $call['isvideo'] === '0' ? 1 : 2,//1语音2视频
+            'CallSponsor' => (string) $from,
+            'CallType' => isset($call['isvideo']) && '0' === $call['isvideo'] ? 1 : 2, //1语音2视频
             'reason' => isset($call['reason']) ? $call['reason'] : '',
         ];
         $content = ['Ext' => 'CallNotification', 'Data' => json_encode($data, self::JSON_OPTS)];
         $cust_elem = self::createCustomDescItem('', $content);
         $params = [
             'MsgLifeTime' => $this->life_time,
-            'From_Account' => (string)$from,
-            'To_Account' => (string)$to,
+            'From_Account' => (string) $from,
+            'To_Account' => (string) $to,
         ];
+
         return $this->build($cust_elem, $params, self::OPT_IS_SYNC);
     }
 
     /**
-     * 弹框信息
+     * 弹框信息.
+     *
+     * @param mixed $from
+     * @param mixed $to
      */
     public function buildPopUp($from, $to = 0, array $buttons = [])
     {
@@ -369,9 +440,10 @@ class MY_Tx_msg
         $cust_elem = self::createCustomDescItem($this->text, $content);
         $params = [
             'MsgLifeTime' => $this->life_time,
-            'From_Account' => (string)$from,
-            'To_Account' => (string)$to,
+            'From_Account' => (string) $from,
+            'To_Account' => (string) $to,
         ];
+
         return $this->build($cust_elem, $params, self::OPT_IS_SYNC);
     }
 }

@@ -1,8 +1,7 @@
 <?php
+
 defined('ShopNC_CLUB') || exit('Access Invalid!');
-/**
- * index
- */
+// index
 $lang['express_name'] = '快递公司';
 $lang['express_order'] = '常用';
 $lang['express_state'] = '状态';

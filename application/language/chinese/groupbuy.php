@@ -1,8 +1,7 @@
 <?php
+
 defined('ShopNC_CLUB') || exit('Access Invalid!');
-/**
- * 抢购状态
- */
+// 抢购状态
 $lang['groupbuy_state_all'] = '全部抢购';
 $lang['groupbuy_state_verify'] = '未审核';
 $lang['groupbuy_state_cancel'] = '已取消';
@@ -10,9 +9,7 @@ $lang['groupbuy_state_progress'] = '已通过';
 $lang['groupbuy_state_fail'] = '审核失败';
 $lang['groupbuy_state_close'] = '已结束';
 
-/**
- * index
- */
+// index
 $lang['groupbuy_index_manage'] = '抢购管理';
 $lang['groupbuy_index_manage_subhead'] = '实物商品抢购促销活动相关设定及管理';
 $lang['groupbuy_verify'] = '待审核';
@@ -88,10 +85,7 @@ $lang['buyer_count'] = '已购买人数';
 $lang['def_quantity'] = '已购商品数量';
 $lang['base_info'] = '基本信息';
 
-
-/**
- * 页面说明
- **/
+// 页面说明
 $lang['groupbuy_template_help1'] = '点击活动的管理按钮查看活动详细信息，对抢购申请进行审批管理';
 $lang['groupbuy_template_help2'] = '未开始的活动可以直接删除，删除后该活动下的所有抢购信息将被同时删除';
 $lang['groupbuy_template_help3'] = '活动开始后可以点击关闭按钮手动关闭该活动';
@@ -116,23 +110,16 @@ $lang['state_text_notstarted'] = '未开始';
 $lang['state_text_in_progress'] = '进行中';
 $lang['state_text_closed'] = '已关闭';
 
-/**
- * 抢购删除
- */
+// 抢购删除
 $lang['groupbuy_del_choose'] = '请选择要删除的内容';
 $lang['groupbuy_del_succ'] = '删除成功';
 $lang['groupbuy_del_fail'] = '删除失败';
-/**
- * 抢购推荐
- */
+// 抢购推荐
 $lang['groupbuy_recommend_choose'] = '请选择要推荐的内容';
 $lang['groupbuy_recommend_succ'] = '推荐成功';
 $lang['groupbuy_recommend_fail'] = '推荐失败';
 
-
-/**
- * 提示信息
- */
+// 提示信息
 $lang['class_name_error'] = '分类名称不能为空';
 $lang['sort_error'] = '排序必须是数字';
 $lang['area_name_error'] = '地区名称不能为空';
@@ -150,9 +137,7 @@ $lang['range_name_error'] = '价格区间名称不能为空';
 $lang['range_start_error'] = '价格区间上限不能为空且必须位数字';
 $lang['range_end_error'] = '价格区间下限不能为空且必须位数字';
 $lang['start_time_overlap'] = '抢购活动时间有重叠请您重新选择抢购开始时间';
-/**
- * 提示信息
- */
+// 提示信息
 
 $lang['admin_groupbuy_unavailable'] = '抢购功能尚未开启，是否自动开启';
 $lang['groupbuy_template_add_success'] = '抢购活动添加成功';

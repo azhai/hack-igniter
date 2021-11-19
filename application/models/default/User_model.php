@@ -1,9 +1,9 @@
 <?php
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
-
 /**
- * 用户
+ * 用户.
  */
 class User_model extends MY_Model
 {

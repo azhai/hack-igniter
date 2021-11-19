@@ -1,33 +1,34 @@
 <?php
 /**
- * hack-igniter
+ * hack-igniter.
  *
  * A example project extends of CodeIgniter v3.x
  *
- * @package hack-igniter
  * @author  Ryan Liu (azhai)
- * @link    http://azhai.surge.sh/
+ *
+ * @see    http://azhai.surge.sh/
+ *
  * @copyright   Copyright (c) 2013
  * @license http://opensource.org/licenses/MIT  MIT License
  */
-
 defined('BASEPATH') || exit('No direct script access allowed');
-require_once dirname(__DIR__) . '/Event_page.php';
+
+require_once dirname(__DIR__).'/Event_page.php';
 
 $loader = load_class('Loader', 'core');
-$loader->name_space('CodeRefactor', VENDPATH . 'azhai/code-refactor/src/CodeRefactor/');
-$loader->name_space('PhpParser', VENDPATH . 'nikic/php-parser/lib/PhpParser/');
+$loader->name_space('CodeRefactor', VENDPATH.'azhai/code-refactor/src/CodeRefactor/');
+$loader->name_space('PhpParser', VENDPATH.'nikic/php-parser/lib/PhpParser/');
 
 use CodeRefactor\Refactor;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 
 /**
- * 模拟请求接口并记录数据
+ * 模拟请求接口并记录数据.
  */
 class Index_page extends Event_page
 {
-    const PATH_INFO_INDEX = '/bot/index';
+    public const PATH_INFO_INDEX = '/bot/index';
     protected $response_type = 'json';
 
     public function index()
@@ -38,7 +39,7 @@ class Index_page extends Event_page
         if (starts_with($path_info, self::PATH_INFO_INDEX)) {
             $path_info = substr($path_info, strlen(self::PATH_INFO_INDEX));
         }
-        $url = '/' . trim($path_info, '/') . '.php';
+        $url = '/'.trim($path_info, '/').'.php';
         //发送请求到真实的网址
         $headers = $this->input->request_headers();
         foreach ($headers as $key => $value) {
@@ -56,32 +57,33 @@ class Index_page extends Event_page
         //创建对应的控制器和方法
         $pieces = explode('/', trim($path_info, '/'));
         if (2 === count($pieces)) {
-            $name = ucfirst($pieces[0]) . '_page';
+            $name = ucfirst($pieces[0]).'_page';
             $this->create_file($name, false);
             $this->add_method($name, $pieces[1], $result);
         }
+
         return $result;
     }
 
     public function create_file($name, $override = false)
     {
-        $filename = APPPATH . 'controllers/api/' . $name . '.php';
-        if ($override || !file_exists($filename) || filesize($filename) < 300) {
+        $filename = APPPATH.'controllers/api/'.$name.'.php';
+        if ($override || ! file_exists($filename) || filesize($filename) < 300) {
             $context = ['name' => $name, 'title' => '控制器'];
             $context['result'] = [
-                "errno" => 0,
-                "content" => "success",
+                'errno' => 0,
+                'content' => 'success',
             ];
             $tpl_file = $this->get_template('template');
             $content = $this->render_html($tpl_file, $context);
-            $content = "<?php\n" . trim($content);
+            $content = "<?php\n".trim($content);
             file_put_contents($filename, $content);
         }
     }
 
     public function add_method($name, $method, $result)
     {
-        $filename = APPPATH . 'controllers/api/' . $name . '.php';
+        $filename = APPPATH.'controllers/api/'.$name.'.php';
         $ref = new Refactor([
             'phpVersion' => 'PREFER_PHP5',
             'shortArraySyntax' => true,

@@ -14,11 +14,11 @@
 
 
     <link rel="shortcut icon" href="favicon.ico">
-    <link href="<?= $static_url ?>/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
-    <link href="<?= $static_url ?>/css/font-awesome.css?v=4.4.0" rel="stylesheet">
-    <link href="<?= $static_url ?>/css/plugins/iCheck/custom.css" rel="stylesheet">
-    <link href="<?= $static_url ?>/css/animate.css" rel="stylesheet">
-    <link href="<?= $static_url ?>/css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="<?php echo $static_url; ?>/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="<?php echo $static_url; ?>/css/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="<?php echo $static_url; ?>/css/plugins/iCheck/custom.css" rel="stylesheet">
+    <link href="<?php echo $static_url; ?>/css/animate.css" rel="stylesheet">
+    <link href="<?php echo $static_url; ?>/css/style.css?v=4.1.0" rel="stylesheet">
 
 </head>
 
@@ -208,7 +208,7 @@
                     </h2>
                     <small>项目经理</small>
                 </div>
-                <img src="<?= $static_url ?>/img/a4.jpg" class="img-circle circle-border m-b-md" alt="profile">
+                <img src="<?php echo $static_url; ?>/img/a4.jpg" class="img-circle circle-border m-b-md" alt="profile">
                 <div>
                     <span>100 动态</span> |
                     <span>350 关注</span> |
@@ -315,7 +315,7 @@
 
                             <div class="chat-element">
                                 <a href="widgets.html#" class="pull-left">
-                                    <img alt="image" class="img-circle" src="<?= $static_url ?>/img/a2.jpg">
+                                    <img alt="image" class="img-circle" src="<?php echo $static_url; ?>/img/a2.jpg">
                                 </a>
                                 <div class="media-body ">
                                     <small class="pull-right text-navy">1分钟前</small>
@@ -329,7 +329,7 @@
 
                             <div class="chat-element right">
                                 <a href="widgets.html#" class="pull-right">
-                                    <img alt="image" class="img-circle" src="<?= $static_url ?>/img/a4.jpg">
+                                    <img alt="image" class="img-circle" src="<?php echo $static_url; ?>/img/a4.jpg">
                                 </a>
                                 <div class="media-body text-right ">
                                     <small class="pull-left">5分钟前</small>
@@ -343,7 +343,7 @@
 
                             <div class="chat-element ">
                                 <a href="widgets.html#" class="pull-left">
-                                    <img alt="image" class="img-circle" src="<?= $static_url ?>/img/a2.jpg">
+                                    <img alt="image" class="img-circle" src="<?php echo $static_url; ?>/img/a2.jpg">
                                 </a>
                                 <div class="media-body ">
                                     <small class="pull-right">2小时前</small>
@@ -425,7 +425,7 @@
                         <div class="ibox-content text-center">
                             <h1>奔波儿灞</h1>
                             <div class="m-b-sm">
-                                <img alt="image" class="img-circle" src="<?= $static_url ?>/img/a8.jpg">
+                                <img alt="image" class="img-circle" src="<?php echo $static_url; ?>/img/a8.jpg">
                             </div>
                             <p class="font-bold">CEO</p>
 
@@ -539,26 +539,26 @@
 </div>
 
 <!-- 全局js -->
-<script src="<?= $static_url ?>/js/jquery.min.js?v=2.1.4"></script>
-<script src="<?= $static_url ?>/js/jquery-ui-1.10.4.min.js"></script>
-<script src="<?= $static_url ?>/js/bootstrap.min.js?v=3.3.6"></script>
+<script src="<?php echo $static_url; ?>/js/jquery.min.js?v=2.1.4"></script>
+<script src="<?php echo $static_url; ?>/js/jquery-ui-1.10.4.min.js"></script>
+<script src="<?php echo $static_url; ?>/js/bootstrap.min.js?v=3.3.6"></script>
 
 
 <!-- 自定义js -->
-<script src="<?= $static_url ?>/js/content.js?v=1.0.0"></script>
+<script src="<?php echo $static_url; ?>/js/content.js?v=1.0.0"></script>
 
 
 <!-- iCheck -->
-<script src="<?= $static_url ?>/js/plugins/iCheck/icheck.min.js"></script>
+<script src="<?php echo $static_url; ?>/js/plugins/iCheck/icheck.min.js"></script>
 
 <!-- Jvectormap -->
-<script src="<?= $static_url ?>/js/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js"></script>
-<script src="<?= $static_url ?>/js/plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
+<script src="<?php echo $static_url; ?>/js/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js"></script>
+<script src="<?php echo $static_url; ?>/js/plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
 
 <!-- Flot -->
-<script src="<?= $static_url ?>/js/plugins/flot/jquery.flot.js"></script>
-<script src="<?= $static_url ?>/js/plugins/flot/jquery.flot.tooltip.min.js"></script>
-<script src="<?= $static_url ?>/js/plugins/flot/jquery.flot.resize.js"></script>
+<script src="<?php echo $static_url; ?>/js/plugins/flot/jquery.flot.js"></script>
+<script src="<?php echo $static_url; ?>/js/plugins/flot/jquery.flot.tooltip.min.js"></script>
+<script src="<?php echo $static_url; ?>/js/plugins/flot/jquery.flot.resize.js"></script>
 <script>
     $(document).ready(function () {
         var d1 = [[1262304000000, 6], [1264982400000, 3057], [1267401600000, 20434], [1270080000000, 31982], [1272672000000, 26602], [1275350400000, 27826], [1277942400000, 24302], [1280620800000, 24237], [1283299200000, 21004], [1285891200000, 12144], [1288569600000, 10577], [1291161600000, 10295]];

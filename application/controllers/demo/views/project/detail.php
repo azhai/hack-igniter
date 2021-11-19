@@ -12,11 +12,11 @@
     <meta name="description" content="">
 
     <link rel="shortcut icon" href="favicon.ico">
-    <link href="<?= $static_url ?>/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
-    <link href="<?= $static_url ?>/css/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="<?php echo $static_url; ?>/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="<?php echo $static_url; ?>/css/font-awesome.css?v=4.4.0" rel="stylesheet">
 
-    <link href="<?= $static_url ?>/css/animate.css" rel="stylesheet">
-    <link href="<?= $static_url ?>/css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="<?php echo $static_url; ?>/css/animate.css" rel="stylesheet">
+    <link href="<?php echo $static_url; ?>/css/style.css?v=4.1.0" rel="stylesheet">
 
 </head>
 
@@ -64,19 +64,19 @@
                                 <dt>团队成员：</dt>
                                 <dd class="project-people">
                                     <a href="project_detail.html">
-                                        <img alt="image" class="img-circle" src="<?= $static_url ?>/img/a3.jpg">
+                                        <img alt="image" class="img-circle" src="<?php echo $static_url; ?>/img/a3.jpg">
                                     </a>
                                     <a href="project_detail.html">
-                                        <img alt="image" class="img-circle" src="<?= $static_url ?>/img/a1.jpg">
+                                        <img alt="image" class="img-circle" src="<?php echo $static_url; ?>/img/a1.jpg">
                                     </a>
                                     <a href="project_detail.html">
-                                        <img alt="image" class="img-circle" src="<?= $static_url ?>/img/a2.jpg">
+                                        <img alt="image" class="img-circle" src="<?php echo $static_url; ?>/img/a2.jpg">
                                     </a>
                                     <a href="project_detail.html">
-                                        <img alt="image" class="img-circle" src="<?= $static_url ?>/img/a4.jpg">
+                                        <img alt="image" class="img-circle" src="<?php echo $static_url; ?>/img/a4.jpg">
                                     </a>
                                     <a href="project_detail.html">
-                                        <img alt="image" class="img-circle" src="<?= $static_url ?>/img/a5.jpg">
+                                        <img alt="image" class="img-circle" src="<?php echo $static_url; ?>/img/a5.jpg">
                                     </a>
                                 </dd>
                             </dl>
@@ -117,7 +117,7 @@
                                                 <div class="feed-element">
                                                     <a href="profile.html#" class="pull-left">
                                                         <img alt="image" class="img-circle"
-                                                             src="<?= $static_url ?>/img/a1.jpg">
+                                                             src="<?php echo $static_url; ?>/img/a1.jpg">
                                                     </a>
                                                     <div class="media-body ">
                                                         <small class="pull-right text-navy">1天前</small>
@@ -136,7 +136,7 @@
                                                 <div class="feed-element">
                                                     <a href="profile.html#" class="pull-left">
                                                         <img alt="image" class="img-circle"
-                                                             src="<?= $static_url ?>/img/profile.jpg">
+                                                             src="<?php echo $static_url; ?>/img/profile.jpg">
                                                     </a>
                                                     <div class="media-body ">
                                                         <small class="pull-right">5分钟前</small>
@@ -150,7 +150,7 @@
                                                 <div class="feed-element">
                                                     <a href="profile.html#" class="pull-left">
                                                         <img alt="image" class="img-circle"
-                                                             src="<?= $static_url ?>/img/a2.jpg">
+                                                             src="<?php echo $static_url; ?>/img/a2.jpg">
                                                     </a>
                                                     <div class="media-body ">
                                                         <small class="pull-right">2小时前</small>
@@ -173,7 +173,7 @@
                                                 <div class="feed-element">
                                                     <a href="profile.html#" class="pull-left">
                                                         <img alt="image" class="img-circle"
-                                                             src="<?= $static_url ?>/img/a3.jpg">
+                                                             src="<?php echo $static_url; ?>/img/a3.jpg">
                                                     </a>
                                                     <div class="media-body ">
                                                         <small class="pull-right">2天前</small>
@@ -184,12 +184,12 @@
                                                             <a target="_blank"
                                                                href="http://24.media.tumblr.com/20a9c501846f50c1271210639987000f/tumblr_n4vje69pJm1st5lhmo1_1280.jpg">
                                                                 <img alt="image" class="feed-photo"
-                                                                     src="<?= $static_url ?>/img/p1.jpg">
+                                                                     src="<?php echo $static_url; ?>/img/p1.jpg">
                                                             </a>
                                                             <a target="_blank"
                                                                href="http://37.media.tumblr.com/9afe602b3e624aff6681b0b51f5a062b/tumblr_n4ef69szs71st5lhmo1_1280.jpg">
                                                                 <img alt="image" class="feed-photo"
-                                                                     src="<?= $static_url ?>/img/p3.jpg">
+                                                                     src="<?php echo $static_url; ?>/img/p3.jpg">
                                                             </a>
                                                         </div>
                                                     </div>
@@ -197,7 +197,7 @@
                                                 <div class="feed-element">
                                                     <a href="profile.html#" class="pull-left">
                                                         <img alt="image" class="img-circle"
-                                                             src="<?= $static_url ?>/img/a4.jpg">
+                                                             src="<?php echo $static_url; ?>/img/a4.jpg">
                                                     </a>
                                                     <div class="media-body ">
                                                         <small class="pull-right text-navy">5小时前</small>
@@ -308,7 +308,7 @@
     <div class="col-sm-3">
         <div class="wrapper wrapper-content project-manager">
             <h4>项目描述</h4>
-            <img src="<?= $static_url ?>/img/wenku_logo.png" class="img-responsive">
+            <img src="<?php echo $static_url; ?>/img/wenku_logo.png" class="img-responsive">
             <p class="small">
                 <br>在线互动式文档分享平台，在这里，您可以和千万网友分享自己手中的文档，全文阅读其他用户的文档，同时，也可以利用分享文档获取的积分下载文档
             </p>
@@ -344,12 +344,12 @@
 </div>
 
 <!-- 全局js -->
-<script src="<?= $static_url ?>/js/jquery.min.js?v=2.1.4"></script>
-<script src="<?= $static_url ?>/js/bootstrap.min.js?v=3.3.6"></script>
+<script src="<?php echo $static_url; ?>/js/jquery.min.js?v=2.1.4"></script>
+<script src="<?php echo $static_url; ?>/js/bootstrap.min.js?v=3.3.6"></script>
 
 
 <!-- 自定义js -->
-<script src="<?= $static_url ?>/js/content.js?v=1.0.0"></script>
+<script src="<?php echo $static_url; ?>/js/content.js?v=1.0.0"></script>
 
 
 <script>

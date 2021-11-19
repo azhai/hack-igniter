@@ -1,12 +1,13 @@
 <?php
 /**
- * hack-igniter
+ * hack-igniter.
  *
  * A example project extends of CodeIgniter v3.x
  *
- * @package hack-igniter
  * @author  Ryan Liu (azhai)
- * @link    http://azhai.surge.sh/
+ *
+ * @see    http://azhai.surge.sh/
+ *
  * @copyright   Copyright (c) 2013
  * @license http://opensource.org/licenses/MIT  MIT License
  */
@@ -32,19 +33,24 @@ trait MY_Senior
         if ($row = reset($rows)) {
             if (isset($row[$key])) {
                 return array_column($rows, $col, $key);
-            } else {
-                $is_whole = null === $col || !isset($row[$col]);
-                foreach ($rows as $row) {
-                    $id = strtr($key, $row);
-                    $value = $is_whole ? $row[$col] : $row;
-                }
+            }
+            $is_whole = null === $col || ! isset($row[$col]);
+            foreach ($rows as $row) {
+                $id = strtr($key, $row);
+                $value = $is_whole ? $row[$col] : $row;
             }
         }
+
         return $result;
     }
 
     /**
-     * group by然后order by
+     * group by然后order by.
+     *
+     * @param mixed $group
+     * @param mixed $order
+     * @param mixed $direction
+     *
      * @return $this
      */
     public function group_order_by($group, $order = '', $direction = 'ASC')
@@ -57,30 +63,37 @@ trait MY_Senior
             $this->protect_identifiers($order),
             $direction,
         ];
+
         return $this;
     }
 
     /**
      * MySQL的GROUP BY查询之后，ORDER BY不再起作用
-     * 必须使用RIGHT JOIN自身的方法，这里自动实现此功能
+     * 必须使用RIGHT JOIN自身的方法，这里自动实现此功能.
+     *
+     * @param mixed $db
+     * @param mixed $table
+     * @param mixed $reset
+     *
      * @return $this
      */
     public function get_group_order_sql(&$db, $table = '', $reset = true)
     {
         @list($group, $order, $direction) = $this->_group_order;
-        $db->where($group . ' IS NOT NULL', null, false);
+        $db->where($group.' IS NOT NULL', null, false);
         $db->group_by('_grp_idx', false);
         $sql = $db->get_compiled_select($table, $reset);
 
         $min_or_max = ('ASC' === $direction) ? 'MIN' : 'MAX';
         $tpl = 'SELECT %s as _grp_idx, %s(%s) as _max_val';
         $select = sprintf($tpl, $group, $min_or_max, $order);
-        $from = 'FROM ' . $this->protect_identifiers($table);
-        $join = $from . "\nRIGHT JOIN (\n" . $select . "\n" . $from;
+        $from = 'FROM '.$this->protect_identifiers($table);
+        $join = $from."\nRIGHT JOIN (\n".$select."\n".$from;
         $tpl = ') SELF ON %s=SELF._grp_idx AND %s=SELF._max_val';
-        $tail = "\n" . sprintf($tpl, $group, $order) . "\n"
-            . sprintf('ORDER BY %s %s', $order, $direction);
-        $sql = str_replace($from, $join, $sql) . $tail;
+        $tail = "\n".sprintf($tpl, $group, $order)."\n"
+            .sprintf('ORDER BY %s %s', $order, $direction);
+        $sql = str_replace($from, $join, $sql).$tail;
+
         return $sql;
     }
 
@@ -89,7 +102,7 @@ trait MY_Senior
         if (\is_array($row)) {
             $now = date('Y-m-d H:i:s');
             if (false === $escape) {
-                $now = "'" . $now . "'";
+                $now = "'".$now."'";
             }
             if ($this->_created_field) {
                 $row[$this->_created_field] = $now;
@@ -98,6 +111,7 @@ trait MY_Senior
                 $row[$this->_changed_field] = $now;
             }
         }
+
         return $row;
     }
 
@@ -106,10 +120,11 @@ trait MY_Senior
         if ($this->_changed_field) {
             $now = date('Y-m-d H:i:s');
             if (false === $escape) {
-                $now = "'" . $now . "'";
+                $now = "'".$now."'";
             }
             $set[$this->_changed_field] = $now;
         }
+
         return $set;
     }
 
@@ -146,7 +161,7 @@ trait MY_Senior
         }
         //增加多出部分
         if ($additions = array_diff_key($newbies, $exists)) {
-            foreach ($additions as & $row) {
+            foreach ($additions as &$row) {
                 if ($where) {
                     $row = array_merge($row, $where);
                 }

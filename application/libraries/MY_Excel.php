@@ -1,36 +1,36 @@
 <?php
 /**
- * hack-igniter
+ * hack-igniter.
  *
  * A example project extends of CodeIgniter v3.x
  *
- * @package hack-igniter
  * @author  Ryan Liu (azhai)
- * @link    http://azhai.surge.sh/
+ *
+ * @see    http://azhai.surge.sh/
+ *
  * @copyright   Copyright (c) 2013
  * @license http://opensource.org/licenses/MIT  MIT License
  */
-
 defined('BASEPATH') || exit('No direct script access allowed');
 $loader = load_class('Loader', 'core');
-$loader->name_space('Psr\\SimpleCache', VENDPATH . 'psr/simple-cache/src');
-$loader->name_space('PhpOffice', VENDPATH . 'phpoffice/phpspreadsheet/src');
+$loader->name_space('Psr\\SimpleCache', VENDPATH.'psr/simple-cache/src');
+$loader->name_space('PhpOffice', VENDPATH.'phpoffice/phpspreadsheet/src');
 
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Style;
 use PhpOffice\PhpSpreadsheet\Writer;
 
 /**
- * MS Excel or csv
+ * MS Excel or csv.
  */
 class MY_Excel
 {
     //行数过多，强制使用CSV
-    const TOO_MANY_ROWS = 50000;
+    public const TOO_MANY_ROWS = 50000;
 
     protected $file_name = '';
     protected $ext_name = 'xls';
-    protected $excel = null;
+    protected $excel;
     protected $data = [];
     protected $fields = [];
     protected $row_count = 0;
@@ -46,11 +46,12 @@ class MY_Excel
     {
         $this->ext_name = 'csv';
         $filename = sprintf('%s.%s', $this->file_name, $this->ext_name);
-        $writer = fopen('php://output', 'w') || die("can't open php://output");
+        $writer = fopen('php://output', 'wb') || exit("can't open php://output");
         header('Content-Encoding: UTF-8');
         header('Content-Type: application/csv; charset=UTF-8');
-        header('Content-Disposition: attachment; filename=' . $filename);
-        echo chr(0xEF) . chr(0xBB) . chr(0xBF);
+        header('Content-Disposition: attachment; filename='.$filename);
+        echo chr(0xEF).chr(0xBB).chr(0xBF);
+
         return $writer;
     }
 
@@ -65,9 +66,10 @@ class MY_Excel
         $filename = sprintf('%s.%s', $this->file_name, $this->ext_name);
         ob_end_clean();
         header('Content-Type: application/vnd.ms-excel');
-        header('Content-Disposition: attachment; filename=' . $filename);
+        header('Content-Disposition: attachment; filename='.$filename);
         header('Cache-Control: max-age=1');
         $writer->save('php://output');
+
         return $writer;
     }
 
@@ -79,6 +81,7 @@ class MY_Excel
             $col_right = chr(floor($col_count / 26) + 64);
         }
         $col_right .= chr($col_count % 26 + 64);
+
         return $col_right;
     }
 
@@ -87,9 +90,11 @@ class MY_Excel
         $col_right = $this->get_col_right();
         $rect = sprintf('A1:%s%d', $col_right, $this->row_count + $head_lines);
         $sheet->getStyle($rect)->getAlignment()
-            ->setHorizontal(Style\Alignment::HORIZONTAL_CENTER);//水平居中
+            ->setHorizontal(Style\Alignment::HORIZONTAL_CENTER)//水平居中
+        ;
         $sheet->getStyle($rect)->getAlignment()
-            ->setVertical(Style\Alignment::VERTICAL_CENTER); //垂直居中
+            ->setVertical(Style\Alignment::VERTICAL_CENTER) //垂直居中
+        ;
         if ($head_lines) {
             $head = sprintf('A1:%s%d', $col_right, $head_lines);
             $sheet->getStyle($head)->applyFromArray([
@@ -140,22 +145,22 @@ class MY_Excel
             $gap = 1; //空行
             $chead = create_function('$c', 'return $c<26?chr($c+65):chr(floor($c/26)+64).chr($c%26+65);');
             if ($col_titles) {
-                $gap++;
+                ++$gap;
                 foreach ($col_titles as $c => $title) {
-                    $sheet->setCellValue($chead($c) . '1', $title);
+                    $sheet->setCellValue($chead($c).'1', $title);
                 }
             }
             foreach ($this->data as $i => $row) {
                 foreach ($this->fields as $c => $field) {
                     $value = $row[$field];
                     if (is_numeric($value)) {
-                        $value = " " . $value;
+                        $value = ' '.$value;
                     }
-                    $sheet->setCellValue($chead($c) . ($i + $gap), $value);
+                    $sheet->setCellValue($chead($c).($i + $gap), $value);
                 }
             }
             $writer = $this->save_xls();
         }
-        return die();
+        return exit();
     }
 }

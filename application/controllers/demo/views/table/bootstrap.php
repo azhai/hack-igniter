@@ -12,11 +12,11 @@
     <meta name="description" content="">
 
     <link rel="shortcut icon" href="favicon.ico">
-    <link href="<?= $static_url ?>/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
-    <link href="<?= $static_url ?>/css/font-awesome.css?v=4.4.0" rel="stylesheet">
-    <link href="<?= $static_url ?>/css/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
-    <link href="<?= $static_url ?>/css/animate.css" rel="stylesheet">
-    <link href="<?= $static_url ?>/css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="<?php echo $static_url; ?>/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="<?php echo $static_url; ?>/css/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="<?php echo $static_url; ?>/css/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
+    <link href="<?php echo $static_url; ?>/css/animate.css" rel="stylesheet">
+    <link href="<?php echo $static_url; ?>/css/style.css?v=4.1.0" rel="stylesheet">
 
 
 </head>
@@ -94,7 +94,7 @@
                 <div class="col-sm-6">
                     <h4 class="example-title">从URL加载</h4>
                     <div class="example">
-                        <table data-toggle="table" data-url="<?= $static_url ?>/js/demo/table_base.json"
+                        <table data-toggle="table" data-url="<?php echo $static_url; ?>/js/demo/table_base.json"
                                data-height="250" data-mobile-responsive="true">
                             <thead>
                             <tr>
@@ -158,7 +158,7 @@
                         <h4 class="example-title">类名称</h4>
                         <div class="example">
                             <table data-toggle="table" data-classes="table table-hover table-condensed"
-                                   data-url="<?= $static_url ?>/js/demo/table_base.json" data-striped="true"
+                                   data-url="<?php echo $static_url; ?>/js/demo/table_base.json" data-striped="true"
                                    data-height="250" data-mobile-responsive="true">
                                 <thead>
                                 <tr>
@@ -179,7 +179,7 @@
                     <div class="example-wrap">
                         <h4 class="example-title">对齐</h4>
                         <div class="example">
-                            <table data-toggle="table" data-url="<?= $static_url ?>/js/demo/bootstrap_table_test2.json"
+                            <table data-toggle="table" data-url="<?php echo $static_url; ?>/js/demo/bootstrap_table_test2.json"
                                    data-mobile-responsive="true">
                                 <thead>
                                 <tr>
@@ -201,7 +201,7 @@
                     <div class="example-wrap margin-sm-0">
                         <h4 class="example-title">行样式</h4>
                         <div class="example">
-                            <table data-toggle="table" data-url="<?= $static_url ?>/js/demo/table_base.json"
+                            <table data-toggle="table" data-url="<?php echo $static_url; ?>/js/demo/table_base.json"
                                    data-mobile-responsive="true" data-row-style="rowStyle" data-height="250">
                                 <thead>
                                 <tr>
@@ -222,7 +222,7 @@
                     <div class="example-wrap">
                         <h4 class="example-title">列样式</h4>
                         <div class="example">
-                            <table data-toggle="table" data-url="<?= $static_url ?>/js/demo/bootstrap_table_test2.json"
+                            <table data-toggle="table" data-url="<?php echo $static_url; ?>/js/demo/bootstrap_table_test2.json"
                                    data-mobile-responsive="true">
                                 <thead>
                                 <tr>
@@ -270,7 +270,7 @@
                     <div class="example-wrap">
                         <h4 class="example-title">基本排序</h4>
                         <div class="example">
-                            <table data-toggle="table" data-url="<?= $static_url ?>/js/demo/table_base.json"
+                            <table data-toggle="table" data-url="<?php echo $static_url; ?>/js/demo/table_base.json"
                                    data-height="250" data-sort-name="First" data-sort-order="desc"
                                    data-mobile-responsive="true">
                                 <thead>
@@ -291,7 +291,7 @@
                     <div class="example-wrap margin-sm-0">
                         <h4 class="example-title">格式排序</h4>
                         <div class="example">
-                            <table data-toggle="table" data-url="<?= $static_url ?>/js/demo/bootstrap_table_test2.json"
+                            <table data-toggle="table" data-url="<?php echo $static_url; ?>/js/demo/bootstrap_table_test2.json"
                                    data-mobile-responsive="true">
                                 <thead>
                                 <tr>
@@ -314,7 +314,7 @@
                     <div class="example-wrap">
                         <h4 class="example-title">自定义排序</h4>
                         <div class="example">
-                            <table data-toggle="table" data-url="<?= $static_url ?>/js/demo/table_base.json"
+                            <table data-toggle="table" data-url="<?php echo $static_url; ?>/js/demo/table_base.json"
                                    data-height="250" data-sort-name="Score" data-sort-order="desc"
                                    data-mobile-responsive="true">
                                 <thead>
@@ -335,7 +335,7 @@
                     <div class="example-wrap">
                         <h4 class="example-title">隐藏头部</h4>
                         <div class="example">
-                            <table data-toggle="table" data-url="<?= $static_url ?>/js/demo/table_base.json"
+                            <table data-toggle="table" data-url="<?php echo $static_url; ?>/js/demo/table_base.json"
                                    data-height="250" data-show-header="false" data-mobile-responsive="true">
                                 <thead>
                                 <tr>
@@ -422,7 +422,7 @@
                     <div class="example-wrap margin-sm-0">
                         <h4 class="example-title">单选框</h4>
                         <div class="example">
-                            <table data-toggle="table" data-url="<?= $static_url ?>/js/demo/bootstrap_table_test.json"
+                            <table data-toggle="table" data-url="<?php echo $static_url; ?>/js/demo/bootstrap_table_test.json"
                                    data-height="299" data-click-to-select="true" data-select-item-name="myRadioName"
                                    data-mobile-responsive="true">
                                 <thead>
@@ -444,7 +444,7 @@
                     <div class="example-wrap">
                         <h4 class="example-title">复选框</h4>
                         <div class="example">
-                            <table data-toggle="table" data-url="<?= $static_url ?>/js/demo/bootstrap_table_test.json"
+                            <table data-toggle="table" data-url="<?php echo $static_url; ?>/js/demo/bootstrap_table_test.json"
                                    data-height="299" data-click-to-select="true" data-mobile-responsive="true">
                                 <thead>
                                 <tr>
@@ -493,7 +493,7 @@
                     <div class="example-wrap">
                         <h4 class="example-title">卡片视图</h4>
                         <div class="example">
-                            <table data-toggle="table" data-url="<?= $static_url ?>/js/demo/bootstrap_table_test2.json"
+                            <table data-toggle="table" data-url="<?php echo $static_url; ?>/js/demo/bootstrap_table_test2.json"
                                    data-card-view="true" data-mobile-responsive="true">
                                 <thead>
                                 <tr>
@@ -548,7 +548,7 @@
                         <h4 class="example-title">分页：客户端</h4>
                         <div class="example">
                             <table id="exampleTablePagination" data-toggle="table"
-                                   data-url="<?= $static_url ?>/js/demo/bootstrap_table_test.json"
+                                   data-url="<?php echo $static_url; ?>/js/demo/bootstrap_table_test.json"
                                    data-query-params="queryParams" data-mobile-responsive="true" data-height="400"
                                    data-pagination="true" data-icon-size="outline" data-search="true">
                                 <thead>
@@ -605,19 +605,19 @@
 </div>
 
 <!-- 全局js -->
-<script src="<?= $static_url ?>/js/jquery.min.js?v=2.1.4"></script>
-<script src="<?= $static_url ?>/js/bootstrap.min.js?v=3.3.6"></script>
+<script src="<?php echo $static_url; ?>/js/jquery.min.js?v=2.1.4"></script>
+<script src="<?php echo $static_url; ?>/js/bootstrap.min.js?v=3.3.6"></script>
 
 <!-- 自定义js -->
-<script src="<?= $static_url ?>/js/content.js?v=1.0.0"></script>
+<script src="<?php echo $static_url; ?>/js/content.js?v=1.0.0"></script>
 
 
 <!-- Bootstrap table -->
-<script src="<?= $static_url ?>/js/plugins/bootstrap-table/bootstrap-table.min.js"></script>
-<script src="<?= $static_url ?>/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+<script src="<?php echo $static_url; ?>/js/plugins/bootstrap-table/bootstrap-table.min.js"></script>
+<script src="<?php echo $static_url; ?>/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
 
 <!-- Peity -->
-<script src="<?= $static_url ?>/js/demo/bootstrap-table-demo.js"></script>
+<script src="<?php echo $static_url; ?>/js/demo/bootstrap-table-demo.js"></script>
 
 
 </body>

@@ -1,8 +1,7 @@
 <?php
+
 defined('ShopNC_CLUB') || exit('Access Invalid!');
-/**
- * index
- */
+// index
 $lang['article_index_del_succ'] = '删除文章成功。';
 $lang['article_index_choose'] = '请选择要删除的内容!';
 $lang['article_index_manage'] = '文章管理';
@@ -12,9 +11,7 @@ $lang['article_index_class'] = '文章分类';
 $lang['article_index_show'] = '显示';
 $lang['article_index_addtime'] = '添加时间';
 $lang['article_index_help1'] = '区别于会员协议，可在文章列表页点击查看';
-/**
- * 添加文章
- */
+// 添加文章
 $lang['article_add_url'] = '链接';
 $lang['article_add_url_tip'] = '当填写&quot;链接&quot;后点击文章标题将直接跳转至链接地址，不显示文章内容。链接格式请以http://开头';
 $lang['article_add_show'] = '显示';
@@ -36,15 +33,11 @@ $lang['article_add_tolist'] = '返回文章列表';
 $lang['article_add_continueadd'] = '继续新增文章';
 $lang['article_add_ok'] = '新增文章成功。';
 $lang['article_add_fail'] = '新增文章失败。';
-/**
- * 文章编辑
- */
+// 文章编辑
 $lang['article_edit_back_to_list'] = '返回文章列表';
 $lang['article_edit_edit_again'] = '重新编辑该文章';
 $lang['article_edit_succ'] = '编辑文章成功';
 $lang['article_edit_fail'] = '编辑文章失败';
-/**
- * iframe上传
- */
+// iframe上传
 $lang['article_iframe_upload'] = '上传';
 $lang['article_iframe_uploadfail'] = '上传失败';

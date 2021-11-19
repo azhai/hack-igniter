@@ -12,11 +12,11 @@
     <meta name="description" content="">
 
     <link rel="shortcut icon" href="favicon.ico">
-    <link href="<?= $static_url ?>/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
-    <link href="<?= $static_url ?>/css/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="<?php echo $static_url; ?>/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="<?php echo $static_url; ?>/css/font-awesome.css?v=4.4.0" rel="stylesheet">
 
-    <link href="<?= $static_url ?>/css/animate.css" rel="stylesheet">
-    <link href="<?= $static_url ?>/css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="<?php echo $static_url; ?>/css/animate.css" rel="stylesheet">
+    <link href="<?php echo $static_url; ?>/css/style.css?v=4.1.0" rel="stylesheet">
 
 </head>
 
@@ -31,15 +31,15 @@
                 </div>
                 <div class="ibox-content">
                     <div class="team-members">
-                        <a href="#"><img alt="member" class="img-circle" src="<?= $static_url ?>/img/a1.jpg">
+                        <a href="#"><img alt="member" class="img-circle" src="<?php echo $static_url; ?>/img/a1.jpg">
                         </a>
-                        <a href="#"><img alt="member" class="img-circle" src="<?= $static_url ?>/img/a2.jpg">
+                        <a href="#"><img alt="member" class="img-circle" src="<?php echo $static_url; ?>/img/a2.jpg">
                         </a>
-                        <a href="#"><img alt="member" class="img-circle" src="<?= $static_url ?>/img/a3.jpg">
+                        <a href="#"><img alt="member" class="img-circle" src="<?php echo $static_url; ?>/img/a3.jpg">
                         </a>
-                        <a href="#"><img alt="member" class="img-circle" src="<?= $static_url ?>/img/a5.jpg">
+                        <a href="#"><img alt="member" class="img-circle" src="<?php echo $static_url; ?>/img/a5.jpg">
                         </a>
-                        <a href="#"><img alt="member" class="img-circle" src="<?= $static_url ?>/img/a6.jpg">
+                        <a href="#"><img alt="member" class="img-circle" src="<?php echo $static_url; ?>/img/a6.jpg">
                         </a>
                     </div>
                     <h4>部门简介</h4>
@@ -76,15 +76,15 @@
                 </div>
                 <div class="ibox-content">
                     <div class="team-members">
-                        <a href="#"><img alt="member" class="img-circle" src="<?= $static_url ?>/img/a4.jpg">
+                        <a href="#"><img alt="member" class="img-circle" src="<?php echo $static_url; ?>/img/a4.jpg">
                         </a>
-                        <a href="#"><img alt="member" class="img-circle" src="<?= $static_url ?>/img/a5.jpg">
+                        <a href="#"><img alt="member" class="img-circle" src="<?php echo $static_url; ?>/img/a5.jpg">
                         </a>
-                        <a href="#"><img alt="member" class="img-circle" src="<?= $static_url ?>/img/a6.jpg">
+                        <a href="#"><img alt="member" class="img-circle" src="<?php echo $static_url; ?>/img/a6.jpg">
                         </a>
-                        <a href="#"><img alt="member" class="img-circle" src="<?= $static_url ?>/img/a8.jpg">
+                        <a href="#"><img alt="member" class="img-circle" src="<?php echo $static_url; ?>/img/a8.jpg">
                         </a>
-                        <a href="#"><img alt="member" class="img-circle" src="<?= $static_url ?>/img/a7.jpg">
+                        <a href="#"><img alt="member" class="img-circle" src="<?php echo $static_url; ?>/img/a7.jpg">
                         </a>
                     </div>
                     <h4>部门简介</h4>
@@ -121,11 +121,11 @@
                 </div>
                 <div class="ibox-content">
                     <div class="team-members">
-                        <a href="#"><img alt="member" class="img-circle" src="<?= $static_url ?>/img/a4.jpg">
+                        <a href="#"><img alt="member" class="img-circle" src="<?php echo $static_url; ?>/img/a4.jpg">
                         </a>
-                        <a href="#"><img alt="member" class="img-circle" src="<?= $static_url ?>/img/a8.jpg">
+                        <a href="#"><img alt="member" class="img-circle" src="<?php echo $static_url; ?>/img/a8.jpg">
                         </a>
-                        <a href="#"><img alt="member" class="img-circle" src="<?= $static_url ?>/img/a7.jpg">
+                        <a href="#"><img alt="member" class="img-circle" src="<?php echo $static_url; ?>/img/a7.jpg">
                         </a>
                     </div>
                     <h4>部门简介</h4>
@@ -164,11 +164,11 @@
                 </div>
                 <div class="ibox-content">
                     <div class="team-members">
-                        <a href="#"><img alt="member" class="img-circle" src="<?= $static_url ?>/img/a8.jpg">
+                        <a href="#"><img alt="member" class="img-circle" src="<?php echo $static_url; ?>/img/a8.jpg">
                         </a>
-                        <a href="#"><img alt="member" class="img-circle" src="<?= $static_url ?>/img/a4.jpg">
+                        <a href="#"><img alt="member" class="img-circle" src="<?php echo $static_url; ?>/img/a4.jpg">
                         </a>
-                        <a href="#"><img alt="member" class="img-circle" src="<?= $static_url ?>/img/a1.jpg">
+                        <a href="#"><img alt="member" class="img-circle" src="<?php echo $static_url; ?>/img/a1.jpg">
                         </a>
                     </div>
                     <h4>部门简介</h4>
@@ -206,17 +206,17 @@
                 </div>
                 <div class="ibox-content">
                     <div class="team-members">
-                        <a href="#"><img alt="member" class="img-circle" src="<?= $static_url ?>/img/a1.jpg">
+                        <a href="#"><img alt="member" class="img-circle" src="<?php echo $static_url; ?>/img/a1.jpg">
                         </a>
-                        <a href="#"><img alt="member" class="img-circle" src="<?= $static_url ?>/img/a2.jpg">
+                        <a href="#"><img alt="member" class="img-circle" src="<?php echo $static_url; ?>/img/a2.jpg">
                         </a>
-                        <a href="#"><img alt="member" class="img-circle" src="<?= $static_url ?>/img/a6.jpg">
+                        <a href="#"><img alt="member" class="img-circle" src="<?php echo $static_url; ?>/img/a6.jpg">
                         </a>
-                        <a href="#"><img alt="member" class="img-circle" src="<?= $static_url ?>/img/a3.jpg">
+                        <a href="#"><img alt="member" class="img-circle" src="<?php echo $static_url; ?>/img/a3.jpg">
                         </a>
-                        <a href="#"><img alt="member" class="img-circle" src="<?= $static_url ?>/img/a4.jpg">
+                        <a href="#"><img alt="member" class="img-circle" src="<?php echo $static_url; ?>/img/a4.jpg">
                         </a>
-                        <a href="#"><img alt="member" class="img-circle" src="<?= $static_url ?>/img/a7.jpg">
+                        <a href="#"><img alt="member" class="img-circle" src="<?php echo $static_url; ?>/img/a7.jpg">
                         </a>
                     </div>
                     <h4>部门简介</h4>
@@ -253,13 +253,13 @@
                 </div>
                 <div class="ibox-content">
                     <div class="team-members">
-                        <a href="#"><img alt="member" class="img-circle" src="<?= $static_url ?>/img/a1.jpg">
+                        <a href="#"><img alt="member" class="img-circle" src="<?php echo $static_url; ?>/img/a1.jpg">
                         </a>
-                        <a href="#"><img alt="member" class="img-circle" src="<?= $static_url ?>/img/a8.jpg">
+                        <a href="#"><img alt="member" class="img-circle" src="<?php echo $static_url; ?>/img/a8.jpg">
                         </a>
-                        <a href="#"><img alt="member" class="img-circle" src="<?= $static_url ?>/img/a3.jpg">
+                        <a href="#"><img alt="member" class="img-circle" src="<?php echo $static_url; ?>/img/a3.jpg">
                         </a>
-                        <a href="#"><img alt="member" class="img-circle" src="<?= $static_url ?>/img/a7.jpg">
+                        <a href="#"><img alt="member" class="img-circle" src="<?php echo $static_url; ?>/img/a7.jpg">
                         </a>
                     </div>
                     <h4>部门简介</h4>
@@ -299,13 +299,13 @@
                 </div>
                 <div class="ibox-content">
                     <div class="team-members">
-                        <a href="#"><img alt="member" class="img-circle" src="<?= $static_url ?>/img/a3.jpg">
+                        <a href="#"><img alt="member" class="img-circle" src="<?php echo $static_url; ?>/img/a3.jpg">
                         </a>
-                        <a href="#"><img alt="member" class="img-circle" src="<?= $static_url ?>/img/a4.jpg">
+                        <a href="#"><img alt="member" class="img-circle" src="<?php echo $static_url; ?>/img/a4.jpg">
                         </a>
-                        <a href="#"><img alt="member" class="img-circle" src="<?= $static_url ?>/img/a7.jpg">
+                        <a href="#"><img alt="member" class="img-circle" src="<?php echo $static_url; ?>/img/a7.jpg">
                         </a>
-                        <a href="#"><img alt="member" class="img-circle" src="<?= $static_url ?>/img/a2.jpg">
+                        <a href="#"><img alt="member" class="img-circle" src="<?php echo $static_url; ?>/img/a2.jpg">
                         </a>
                     </div>
                     <h4>部门简介</h4>
@@ -342,15 +342,15 @@
                 </div>
                 <div class="ibox-content">
                     <div class="team-members">
-                        <a href="#"><img alt="member" class="img-circle" src="<?= $static_url ?>/img/a1.jpg">
+                        <a href="#"><img alt="member" class="img-circle" src="<?php echo $static_url; ?>/img/a1.jpg">
                         </a>
-                        <a href="#"><img alt="member" class="img-circle" src="<?= $static_url ?>/img/a2.jpg">
+                        <a href="#"><img alt="member" class="img-circle" src="<?php echo $static_url; ?>/img/a2.jpg">
                         </a>
-                        <a href="#"><img alt="member" class="img-circle" src="<?= $static_url ?>/img/a4.jpg">
+                        <a href="#"><img alt="member" class="img-circle" src="<?php echo $static_url; ?>/img/a4.jpg">
                         </a>
-                        <a href="#"><img alt="member" class="img-circle" src="<?= $static_url ?>/img/a7.jpg">
+                        <a href="#"><img alt="member" class="img-circle" src="<?php echo $static_url; ?>/img/a7.jpg">
                         </a>
-                        <a href="#"><img alt="member" class="img-circle" src="<?= $static_url ?>/img/a8.jpg">
+                        <a href="#"><img alt="member" class="img-circle" src="<?php echo $static_url; ?>/img/a8.jpg">
                         </a>
                     </div>
                     <h4>部门简介</h4>
@@ -387,15 +387,15 @@
                 </div>
                 <div class="ibox-content">
                     <div class="team-members">
-                        <a href="#"><img alt="member" class="img-circle" src="<?= $static_url ?>/img/a2.jpg">
+                        <a href="#"><img alt="member" class="img-circle" src="<?php echo $static_url; ?>/img/a2.jpg">
                         </a>
-                        <a href="#"><img alt="member" class="img-circle" src="<?= $static_url ?>/img/a3.jpg">
+                        <a href="#"><img alt="member" class="img-circle" src="<?php echo $static_url; ?>/img/a3.jpg">
                         </a>
-                        <a href="#"><img alt="member" class="img-circle" src="<?= $static_url ?>/img/a8.jpg">
+                        <a href="#"><img alt="member" class="img-circle" src="<?php echo $static_url; ?>/img/a8.jpg">
                         </a>
-                        <a href="#"><img alt="member" class="img-circle" src="<?= $static_url ?>/img/a6.jpg">
+                        <a href="#"><img alt="member" class="img-circle" src="<?php echo $static_url; ?>/img/a6.jpg">
                         </a>
-                        <a href="#"><img alt="member" class="img-circle" src="<?= $static_url ?>/img/a7.jpg">
+                        <a href="#"><img alt="member" class="img-circle" src="<?php echo $static_url; ?>/img/a7.jpg">
                         </a>
                     </div>
                     <h4>部门简介</h4>
@@ -432,12 +432,12 @@
 
 </div>
 <!-- 全局js -->
-<script src="<?= $static_url ?>/js/jquery.min.js?v=2.1.4"></script>
-<script src="<?= $static_url ?>/js/bootstrap.min.js?v=3.3.6"></script>
+<script src="<?php echo $static_url; ?>/js/jquery.min.js?v=2.1.4"></script>
+<script src="<?php echo $static_url; ?>/js/bootstrap.min.js?v=3.3.6"></script>
 
 
 <!-- 自定义js -->
-<script src="<?= $static_url ?>/js/content.js?v=1.0.0"></script>
+<script src="<?php echo $static_url; ?>/js/content.js?v=1.0.0"></script>
 
 
 </body>

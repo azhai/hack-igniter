@@ -1,8 +1,7 @@
 <?php
+
 defined('ShopNC_CLUB') || exit('Access Invalid!');
-/**
- * 信息文字
- */
+// 信息文字
 $lang['error'] = '在处理您的请求时出现了问题:<br />';
 $lang['homepage'] = '首页';
 $lang['cur_location'] = '当前位置';
@@ -23,19 +22,19 @@ $lang['nc_no'] = '否';
 $lang['nc_more'] = '更多';
 $lang['nc_default'] = '默认';
 //调试模式语言包
-$lang['nc_debug_current_page'] = "当前页面";
-$lang['nc_debug_request_time'] = "请求时间";
-$lang['nc_debug_execution_time'] = "页面执行时间";
-$lang['nc_debug_memory_consumption'] = "占用内存";
-$lang['nc_debug_request_method'] = "请求方法";
-$lang['nc_debug_communication_protocol'] = "通信协议";
-$lang['nc_debug_user_agent'] = "用户代理";
-$lang['nc_debug_session_id'] = "会话ID";
-$lang['nc_debug_logging'] = "日志记录";
-$lang['nc_debug_logging_1'] = "条日志";
-$lang['nc_debug_logging_2'] = "无日志记录";
-$lang['nc_debug_load_files'] = "加载文件";
-$lang['nc_debug_trace_title'] = "页面Trace信息";
+$lang['nc_debug_current_page'] = '当前页面';
+$lang['nc_debug_request_time'] = '请求时间';
+$lang['nc_debug_execution_time'] = '页面执行时间';
+$lang['nc_debug_memory_consumption'] = '占用内存';
+$lang['nc_debug_request_method'] = '请求方法';
+$lang['nc_debug_communication_protocol'] = '通信协议';
+$lang['nc_debug_user_agent'] = '用户代理';
+$lang['nc_debug_session_id'] = '会话ID';
+$lang['nc_debug_logging'] = '日志记录';
+$lang['nc_debug_logging_1'] = '条日志';
+$lang['nc_debug_logging_2'] = '无日志记录';
+$lang['nc_debug_load_files'] = '加载文件';
+$lang['nc_debug_trace_title'] = '页面Trace信息';
 
 //操作提示
 $lang['nc_common_op_succ'] = '操作成功';
@@ -51,10 +50,8 @@ $lang['nc_fail'] = '失败';
 $lang['nc_shareset_qqweibo'] = '腾讯微博';
 $lang['nc_shareset_sinaweibo'] = '新浪微博';
 
-$lang['nc_login'] = "登录";
-/**
- * 翻页
- **/
+$lang['nc_login'] = '登录';
+// 翻页
 $lang['first_page'] = '首页';
 $lang['last_page'] = '末页';
 $lang['pre_page'] = '上一页';

@@ -1,32 +1,32 @@
 <?php
 
 /**
- * hack-igniter
+ * hack-igniter.
  *
  * A example project extends of CodeIgniter v3.x
  *
- * @package hack-igniter
  * @author  Ryan Liu (azhai)
- * @link    http://azhai.surge.sh/
+ *
+ * @see    http://azhai.surge.sh/
+ *
  * @copyright   Copyright (c) 2013
  * @license http://opensource.org/licenses/MIT  MIT License
  */
-
 $loader = load_class('Loader', 'core');
 $loader->helper('env');
-$loader->name_space('Psr\\Log', VENDPATH . 'psr/log/Psr/Log');
+$loader->name_space('Psr\\Log', VENDPATH.'psr/log/Psr/Log');
 
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
 
 /**
- * 日志
+ * 日志.
  */
 class MY_Logger extends CI_Driver_Library implements LoggerInterface
 {
     use \Psr\Log\LoggerTrait;
 
-    protected $valid_drivers = ['file',];
+    protected $valid_drivers = ['file'];
     protected $lib_name = 'Logger';
     protected $adapter = 'file';
     protected $name = 'access';
@@ -46,12 +46,14 @@ class MY_Logger extends CI_Driver_Library implements LoggerInterface
     }
 
     /**
-     * Load driver
+     * Load driver.
      *
      * Separate load_driver call to support explicit driver load by library or user
      *
      * @param string    Driver name (w/o parent prefix)
-     * @return    object    Child class
+     * @param mixed $child
+     *
+     * @return object Child class
      */
     public function load_driver($child)
     {
@@ -62,6 +64,7 @@ class MY_Logger extends CI_Driver_Library implements LoggerInterface
         $obj = parent::load_driver($child);
         $obj->prepare($this->getLogName());
         $this->adapter = $child;
+
         return $obj;
     }
 
@@ -69,10 +72,11 @@ class MY_Logger extends CI_Driver_Library implements LoggerInterface
     {
         $replace = [];
         foreach ($context as $key => $val) {
-            if (!is_array($val) && (!is_object($val) || method_exists($val, '__toString'))) {
-                $replace['{' . $key . '}'] = $val;
+            if (! is_array($val) && (! is_object($val) || method_exists($val, '__toString'))) {
+                $replace['{'.$key.'}'] = $val;
             }
         }
+
         return strtr($message, $replace);
     }
 
@@ -109,11 +113,13 @@ class MY_Logger extends CI_Driver_Library implements LoggerInterface
      * 设置日志名称.
      *
      * @param string $name 日志名称
-     * @return this
+     *
+     * @return $this
      */
     public function setLogName($name)
     {
         $this->name = $name;
+
         return $this;
     }
 
@@ -121,7 +127,8 @@ class MY_Logger extends CI_Driver_Library implements LoggerInterface
      * 设置过滤级别.
      *
      * @param string $threshold 过滤级别（低于本级别的不记录）
-     * @return this
+     *
+     * @return $this
      */
     public function setLogLevel($threshold = 'DEBUG')
     {
@@ -134,6 +141,7 @@ class MY_Logger extends CI_Driver_Library implements LoggerInterface
         if (false !== $offset) {
             array_splice($this->allow_levels, $offset + 1);
         }
+
         return $this;
     }
 }

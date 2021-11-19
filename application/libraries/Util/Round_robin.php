@@ -1,12 +1,13 @@
 <?php
 /**
- * hack-igniter
+ * hack-igniter.
  *
  * A example project extends of CodeIgniter v3.x
  *
- * @package hack-igniter
  * @author  Ryan Liu (azhai)
- * @link    http://azhai.surge.sh/
+ *
+ * @see    http://azhai.surge.sh/
+ *
  * @copyright   Copyright (c) 2013
  * @license http://opensource.org/licenses/MIT  MIT License
  */
@@ -14,7 +15,7 @@
 namespace Mylib\Util;
 
 /**
- * 权重轮询
+ * 权重轮询.
  */
 class Round_robin
 {
@@ -25,13 +26,13 @@ class Round_robin
 
     public function __construct(array $data = null)
     {
-        if (!empty($data)) {
+        if (! empty($data)) {
             $this->reset($data);
         }
     }
 
     /**
-     * 返回空的结果
+     * 返回空的结果.
      */
     public function empty_result()
     {
@@ -39,29 +40,32 @@ class Round_robin
     }
 
     /**
-     * 初始化权重
+     * 初始化权重.
      */
     public function reset(array $data = null)
     {
-        if (!empty($data)) {
+        if (! empty($data)) {
             $this->data = array_filter($data, function ($v) {
-                return $v>=0;
+                return $v >= 0;
             });
         }
         arsort($this->data, SORT_NUMERIC);
         $keys = array_keys($this->data);
         $this->currents = array_fill_keys($keys, 0); //PHP5.2+
         $this->total = array_sum($this->data);
+
         return $this->total;
     }
 
     /**
-     * 更新部分权重
+     * 更新部分权重.
+     *
+     * @param mixed $is_offset
      */
     public function update(array $changes, $is_offset = false)
     {
         foreach ($changes as $key => $value) {
-            if (!isset($this->data[$key])) {
+            if (! isset($this->data[$key])) {
                 $this->data[$key] = 0;
             }
             if ($is_offset) {
@@ -73,11 +77,14 @@ class Round_robin
                 $this->data[$key] = 0;
             }
         }
+
         return $this->reset();
     }
 
     /**
-     * 自动分配库存
+     * 自动分配库存.
+     *
+     * @param mixed $eggs
      */
     public function allocate($eggs, array $stocks = [])
     {
@@ -95,6 +102,7 @@ class Round_robin
             $eggs -= $stocks[$key];
         }
         $stocks[$first_key] += $eggs; // 补给最低奖
+
         return $stocks;
     }
 
@@ -114,21 +122,25 @@ class Round_robin
             }
         }
         $this->currents[$best] -= $this->total;
+
         return $best;
     }
 
     /**
      * 强制选中一次
+     *
+     * @param mixed $best
      */
     public function setNext($best)
     {
-        if (!isset($this->data[$best]) || $this->data[$best] <= 0) {
+        if (! isset($this->data[$best]) || $this->data[$best] <= 0) {
             return 0;
         }
         foreach ($this->data as $key => $weight) {
             $this->currents[$key] += $weight;
         }
         $this->currents[$best] -= $this->total;
+
         return $best;
     }
 
@@ -152,6 +164,7 @@ class Round_robin
             $total += $weight;
         }
         $this->currents[$best] -= $this->total;
+
         return $best;
     }
 }

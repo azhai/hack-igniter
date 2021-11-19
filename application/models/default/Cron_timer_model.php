@@ -1,9 +1,9 @@
 <?php
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
-
 /**
- * 定时执行
+ * 定时执行.
  */
 class Cron_timer_model extends MY_Model
 {

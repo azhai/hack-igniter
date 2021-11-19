@@ -1,9 +1,9 @@
 <?php
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
-
 /**
- * 角色
+ * 角色.
  */
 class Role_model extends MY_Model
 {
@@ -57,6 +57,6 @@ class Role_model extends MY_Model
 
     public function cache_key($condition)
     {
-        return 'role:' . $condition['id'];
+        return 'role:'.$condition['id'];
     }
 }

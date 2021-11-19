@@ -1,9 +1,8 @@
 <?php
+
 defined('ShopNC_CLUB') || exit('Access Invalid!');
 
-/**
- * 修改密码
- */
+// 修改密码
 $lang['index_modifypw_repeat_error'] = '两次输入的密码不一致，请重新输入';
 $lang['index_modifypw_admin_error'] = '管理员信息错误';
 $lang['index_modifypw_oldpw_error'] = '原密码错误';

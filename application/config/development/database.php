@@ -1,4 +1,5 @@
 <?php
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 /*
@@ -13,7 +14,6 @@ if (defined('DB_DEFAULT_GROUP')) {
 }
 $query_builder = true;
 
-
 $db['default'] = [
     'dbdriver' => 'pdo',
     'subdriver' => 'mysql',
@@ -27,7 +27,6 @@ $db['default'] = [
     'char_set' => 'utf8mb4',
     'dbcollat' => 'utf8mb4_general_ci',
 ];
-
 
 $db['default_ro'] = [
     'dbdriver' => 'pdo',

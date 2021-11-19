@@ -1,8 +1,7 @@
 <?php
+
 defined('ShopNC_CLUB') || exit('Access Invalid!');
-/**
- *
- */
+
 $lang['cache_cls_operate'] = '清理缓存';
 $lang['cache_cls_operate_subhead'] = '清理网站缓存使设置类操作生效';
 $lang['cache_cls_all'] = '全部';

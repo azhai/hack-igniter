@@ -1,9 +1,9 @@
 <?php
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
-
 /**
- * 账户
+ * 账户.
  */
 class Account_model extends MY_Model
 {
@@ -34,7 +34,7 @@ class Account_model extends MY_Model
     public function increase_amount($where, $amount)
     {
         $amount = (int) $amount;
-        $changes = ['balance' => 'balance + ' . $amount];
+        $changes = ['balance' => 'balance + '.$amount];
         $this->trans_start();
         $result = $this->update($changes, $where, 1, false);
         if ($result) {
@@ -49,18 +49,21 @@ class Account_model extends MY_Model
             $this->account_history_model->insert($data);
         }
         $this->trans_complete();
+
         return $result;
     }
 
     public function increase_by_id($id, $amount)
     {
         $where = ['id' => $id];
+
         return $this->increase_amount($where, $amount);
     }
 
     public function increase_by_user($user_id, $amount, $currency = 'COIN')
     {
         $where = ['user_id' => $user_id, 'currency' => $currency];
+
         return $this->increase_amount($where, $amount);
     }
 }

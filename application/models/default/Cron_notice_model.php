@@ -1,9 +1,9 @@
 <?php
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
-
 /**
- * 消息提醒
+ * 消息提醒.
  */
 class Cron_notice_model extends MY_Model
 {

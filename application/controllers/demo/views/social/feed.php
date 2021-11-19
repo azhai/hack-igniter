@@ -12,11 +12,11 @@
     <meta name="description" content="">
 
     <link rel="shortcut icon" href="favicon.ico">
-    <link href="<?= $static_url ?>/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
-    <link href="<?= $static_url ?>/css/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="<?php echo $static_url; ?>/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="<?php echo $static_url; ?>/css/font-awesome.css?v=4.4.0" rel="stylesheet">
 
-    <link href="<?= $static_url ?>/css/animate.css" rel="stylesheet">
-    <link href="<?= $static_url ?>/css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="<?php echo $static_url; ?>/css/animate.css" rel="stylesheet">
+    <link href="<?php echo $static_url; ?>/css/style.css?v=4.1.0" rel="stylesheet">
 
 </head>
 
@@ -45,7 +45,7 @@
                 </div>
                 <div class="social-avatar">
                     <a href="" class="pull-left">
-                        <img alt="image" src="<?= $static_url ?>/img/a1.jpg">
+                        <img alt="image" src="<?php echo $static_url; ?>/img/a1.jpg">
                     </a>
                     <div class="media-body">
                         <a href="#">
@@ -68,7 +68,7 @@
                 <div class="social-footer">
                     <div class="social-comment">
                         <a href="" class="pull-left">
-                            <img alt="image" src="<?= $static_url ?>/img/a1.jpg">
+                            <img alt="image" src="<?php echo $static_url; ?>/img/a1.jpg">
                         </a>
                         <div class="media-body">
                             <a href="#">
@@ -82,7 +82,7 @@
 
                     <div class="social-comment">
                         <a href="" class="pull-left">
-                            <img alt="image" src="<?= $static_url ?>/img/a2.jpg">
+                            <img alt="image" src="<?php echo $static_url; ?>/img/a2.jpg">
                         </a>
                         <div class="media-body">
                             <a href="#">
@@ -96,7 +96,7 @@
 
                     <div class="social-comment">
                         <a href="" class="pull-left">
-                            <img alt="image" src="<?= $static_url ?>/img/a3.jpg">
+                            <img alt="image" src="<?php echo $static_url; ?>/img/a3.jpg">
                         </a>
                         <div class="media-body">
                             <textarea class="form-control" placeholder="填写评论..."></textarea>
@@ -119,7 +119,7 @@
                 </div>
                 <div class="social-avatar">
                     <a href="" class="pull-left">
-                        <img alt="image" src="<?= $static_url ?>/img/a6.jpg">
+                        <img alt="image" src="<?php echo $static_url; ?>/img/a6.jpg">
                     </a>
                     <div class="media-body">
                         <a href="#">
@@ -136,7 +136,7 @@
                     <p>
                         介绍25个用来做新手引导的jQuery插件：
                     </p>
-                    <img src="<?= $static_url ?>/img/p1.jpg" class="img-responsive">
+                    <img src="<?php echo $static_url; ?>/img/p1.jpg" class="img-responsive">
                     <div class="btn-group">
                         <button class="btn btn-white btn-xs"><i class="fa fa-thumbs-up"></i> 赞</button>
                         <button class="btn btn-white btn-xs"><i class="fa fa-comments"></i> 评论</button>
@@ -146,7 +146,7 @@
                 <div class="social-footer">
                     <div class="social-comment">
                         <a href="" class="pull-left">
-                            <img alt="image" src="<?= $static_url ?>/img/a1.jpg">
+                            <img alt="image" src="<?php echo $static_url; ?>/img/a1.jpg">
                         </a>
                         <div class="media-body">
                             <a href="#">
@@ -160,7 +160,7 @@
 
                     <div class="social-comment">
                         <a href="" class="pull-left">
-                            <img alt="image" src="<?= $static_url ?>/img/a2.jpg">
+                            <img alt="image" src="<?php echo $static_url; ?>/img/a2.jpg">
                         </a>
                         <div class="media-body">
                             <a href="#">
@@ -174,7 +174,7 @@
 
                     <div class="social-comment">
                         <a href="" class="pull-left">
-                            <img alt="image" src="<?= $static_url ?>/img/a8.jpg">
+                            <img alt="image" src="<?php echo $static_url; ?>/img/a8.jpg">
                         </a>
                         <div class="media-body">
                             <a href="#">
@@ -188,7 +188,7 @@
 
                     <div class="social-comment">
                         <a href="" class="pull-left">
-                            <img alt="image" src="<?= $static_url ?>/img/a3.jpg">
+                            <img alt="image" src="<?php echo $static_url; ?>/img/a3.jpg">
                         </a>
                         <div class="media-body">
                             <textarea class="form-control" placeholder="填写评论..."></textarea>
@@ -211,7 +211,7 @@
                 </div>
                 <div class="social-avatar">
                     <a href="" class="pull-left">
-                        <img alt="image" src="<?= $static_url ?>/img/a4.jpg">
+                        <img alt="image" src="<?php echo $static_url; ?>/img/a4.jpg">
                     </a>
                     <div class="media-body">
                         <a href="#">
@@ -236,7 +236,7 @@
 
                     <div class="social-comment">
                         <a href="" class="pull-left">
-                            <img alt="image" src="<?= $static_url ?>/img/a8.jpg">
+                            <img alt="image" src="<?php echo $static_url; ?>/img/a8.jpg">
                         </a>
                         <div class="media-body">
                             <a href="#">
@@ -250,7 +250,7 @@
 
                     <div class="social-comment">
                         <a href="" class="pull-left">
-                            <img alt="image" src="<?= $static_url ?>/img/a3.jpg">
+                            <img alt="image" src="<?php echo $static_url; ?>/img/a3.jpg">
                         </a>
                         <div class="media-body">
                             <textarea class="form-control" placeholder="填写评论..."></textarea>
@@ -270,7 +270,7 @@
 
                 <div class="social-avatar">
                     <a href="">
-                        <img alt="image" src="<?= $static_url ?>/img/a5.jpg">
+                        <img alt="image" src="<?php echo $static_url; ?>/img/a5.jpg">
                     </a>
                 </div>
 
@@ -294,7 +294,7 @@
                         <p>
                             新技术新概念很多，而且有了新定律：前端开发每18月会难一倍
                         </p>
-                        <img src="<?= $static_url ?>/img/p2.jpg" class="img-responsive">
+                        <img src="<?php echo $static_url; ?>/img/p2.jpg" class="img-responsive">
                         <div class="btn-group">
                             <button class="btn btn-white btn-xs"><i class="fa fa-thumbs-up"></i> 赞</button>
                             <button class="btn btn-white btn-xs"><i class="fa fa-comments"></i> 评论</button>
@@ -304,7 +304,7 @@
                     <div class="social-footer">
                         <div class="social-comment">
                             <a href="" class="pull-left">
-                                <img alt="image" src="<?= $static_url ?>/img/a3.jpg">
+                                <img alt="image" src="<?php echo $static_url; ?>/img/a3.jpg">
                             </a>
                             <div class="media-body">
                                 <a href="#">
@@ -318,7 +318,7 @@
 
                         <div class="social-comment">
                             <a href="" class="pull-left">
-                                <img alt="image" src="<?= $static_url ?>/img/a4.jpg">
+                                <img alt="image" src="<?php echo $static_url; ?>/img/a4.jpg">
                             </a>
                             <div class="media-body">
                                 <a href="#">
@@ -331,7 +331,7 @@
 
                             <div class="social-comment">
                                 <a href="" class="pull-left">
-                                    <img alt="image" src="<?= $static_url ?>/img/a7.jpg">
+                                    <img alt="image" src="<?php echo $static_url; ?>/img/a7.jpg">
                                 </a>
                                 <div class="media-body">
                                     <a href="#">
@@ -345,7 +345,7 @@
 
                             <div class="social-comment">
                                 <a href="" class="pull-left">
-                                    <img alt="image" src="<?= $static_url ?>/img/a8.jpg">
+                                    <img alt="image" src="<?php echo $static_url; ?>/img/a8.jpg">
                                 </a>
                                 <div class="media-body">
                                     <textarea class="form-control" placeholder="填写评论..."></textarea>
@@ -356,7 +356,7 @@
 
                         <div class="social-comment">
                             <a href="" class="pull-left">
-                                <img alt="image" src="<?= $static_url ?>/img/a6.jpg">
+                                <img alt="image" src="<?php echo $static_url; ?>/img/a6.jpg">
                             </a>
                             <div class="media-body">
                                 <a href="#">
@@ -370,7 +370,7 @@
 
                         <div class="social-comment">
                             <a href="" class="pull-left">
-                                <img alt="image" src="<?= $static_url ?>/img/a7.jpg">
+                                <img alt="image" src="<?php echo $static_url; ?>/img/a7.jpg">
                             </a>
                             <div class="media-body">
                                 <a href="#">
@@ -384,7 +384,7 @@
 
                         <div class="social-comment">
                             <a href="" class="pull-left">
-                                <img alt="image" src="<?= $static_url ?>/img/a3.jpg">
+                                <img alt="image" src="<?php echo $static_url; ?>/img/a3.jpg">
                             </a>
                             <div class="media-body">
                                 <textarea class="form-control" placeholder="填写评论..."></textarea>
@@ -401,7 +401,7 @@
 
                 <div class="social-avatar">
                     <a href="">
-                        <img alt="image" src="<?= $static_url ?>/img/a8.jpg">
+                        <img alt="image" src="<?php echo $static_url; ?>/img/a8.jpg">
                     </a>
                 </div>
 
@@ -435,7 +435,7 @@
                     <div class="social-footer">
                         <div class="social-comment">
                             <a href="" class="pull-left">
-                                <img alt="image" src="<?= $static_url ?>/img/a3.jpg">
+                                <img alt="image" src="<?php echo $static_url; ?>/img/a3.jpg">
                             </a>
                             <div class="media-body">
                                 <a href="#">
@@ -449,7 +449,7 @@
 
                         <div class="social-comment">
                             <a href="" class="pull-left">
-                                <img alt="image" src="<?= $static_url ?>/img/a1.jpg">
+                                <img alt="image" src="<?php echo $static_url; ?>/img/a1.jpg">
                             </a>
                             <div class="media-body">
                                 <a href="#">
@@ -465,7 +465,7 @@
 
                         <div class="social-comment">
                             <a href="" class="pull-left">
-                                <img alt="image" src="<?= $static_url ?>/img/a4.jpg">
+                                <img alt="image" src="<?php echo $static_url; ?>/img/a4.jpg">
                             </a>
                             <div class="media-body">
                                 <textarea class="form-control" placeholder="填写评论..."></textarea>
@@ -482,7 +482,7 @@
 
                 <div class="social-avatar">
                     <a href="">
-                        <img alt="image" src="<?= $static_url ?>/img/a2.jpg">
+                        <img alt="image" src="<?php echo $static_url; ?>/img/a2.jpg">
                     </a>
                 </div>
 
@@ -516,7 +516,7 @@
 
                         <div class="social-comment">
                             <a href="" class="pull-left">
-                                <img alt="image" src="<?= $static_url ?>/img/a4.jpg">
+                                <img alt="image" src="<?php echo $static_url; ?>/img/a4.jpg">
                             </a>
                             <div class="media-body">
                                 <textarea class="form-control" placeholder="填写评论..."></textarea>
@@ -535,12 +535,12 @@
 </div>
 
 <!-- 全局js -->
-<script src="<?= $static_url ?>/js/jquery.min.js?v=2.1.4"></script>
-<script src="<?= $static_url ?>/js/bootstrap.min.js?v=3.3.6"></script>
+<script src="<?php echo $static_url; ?>/js/jquery.min.js?v=2.1.4"></script>
+<script src="<?php echo $static_url; ?>/js/bootstrap.min.js?v=3.3.6"></script>
 
 
 <!-- 自定义js -->
-<script src="<?= $static_url ?>/js/content.js?v=1.0.0"></script>
+<script src="<?php echo $static_url; ?>/js/content.js?v=1.0.0"></script>
 
 
 </body>

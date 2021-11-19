@@ -2,18 +2,18 @@
 
 namespace Mylib\Util;
 
-# GeoHash
-# Simple php geohash class like python-geohash.
-# Author:  吕海涛
-# License: The MIT License (MIT)
-# Link:    https://github.com/lvht/geohash
+// GeoHash
+// Simple php geohash class like python-geohash.
+// Author:  吕海涛
+// License: The MIT License (MIT)
+// Link:    https://github.com/lvht/geohash
 
 /**
- * 经典Geo哈希
+ * 经典Geo哈希.
  */
 class Geo_hash
 {
-    private static $table = "0123456789bcdefghjkmnpqrstuvwxyz";
+    private static $table = '0123456789bcdefghjkmnpqrstuvwxyz';
     private static $bits = [
         0b10000, 0b01000, 0b00100, 0b00010, 0b00001,
     ];
@@ -49,10 +49,10 @@ class Geo_hash
                     $maxlat = $next;
                 }
             }
-            $isEven = !$isEven;
+            $isEven = ! $isEven;
 
             if ($b < 4) {
-                $b++;
+                ++$b;
             } else {
                 $hash[] = self::$table[$chr];
                 $error = max($maxlng - $minlng, $maxlat - $minlat);
@@ -95,10 +95,13 @@ class Geo_hash
     }
 
     /**
-     * decode a geohash string to a geographical area
+     * decode a geohash string to a geographical area.
+     *
+     * @var string geohash
+     *
+     * @param mixed $hash
      *
      * @return array array($minlng, $maxlng, $minlat, $maxlat);
-     * @var $hash string geohash
      */
     public static function decode($hash)
     {
@@ -107,7 +110,7 @@ class Geo_hash
         $minlat = -90;
         $maxlat = 90;
 
-        for ($i = 0, $c = \strlen($hash); $i < $c; $i++) {
+        for ($i = 0, $c = \strlen($hash); $i < $c; ++$i) {
             $v = strpos(self::$table, $hash[$i]);
             if (1 & $i) {
                 if (16 & $v) {

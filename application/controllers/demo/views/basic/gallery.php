@@ -12,11 +12,11 @@
     <meta name="description" content="">
 
     <link rel="shortcut icon" href="favicon.ico">
-    <link href="<?= $static_url ?>/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
-    <link href="<?= $static_url ?>/css/font-awesome.css?v=4.4.0" rel="stylesheet">
-    <link href="<?= $static_url ?>/js/plugins/fancybox/jquery.fancybox.css" rel="stylesheet">
-    <link href="<?= $static_url ?>/css/animate.css" rel="stylesheet">
-    <link href="<?= $static_url ?>/css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="<?php echo $static_url; ?>/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="<?php echo $static_url; ?>/css/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="<?php echo $static_url; ?>/js/plugins/fancybox/jquery.fancybox.css" rel="stylesheet">
+    <link href="<?php echo $static_url; ?>/css/animate.css" rel="stylesheet">
+    <link href="<?php echo $static_url; ?>/css/style.css?v=4.1.0" rel="stylesheet">
 
 </head>
 
@@ -47,53 +47,53 @@
                 </div>
                 <div class="ibox-content">
 
-                    <a class="fancybox" href="<?= $static_url ?>/img/p1.jpg" title="图片1">
-                        <img alt="image" src="<?= $static_url ?>/img/p_big1.jpg"/>
+                    <a class="fancybox" href="<?php echo $static_url; ?>/img/p1.jpg" title="图片1">
+                        <img alt="image" src="<?php echo $static_url; ?>/img/p_big1.jpg"/>
                     </a>
-                    <a class="fancybox" href="<?= $static_url ?>/img/p2.jpg" title="图片2">
-                        <img alt="image" src="<?= $static_url ?>/img/p_big2.jpg"/>
+                    <a class="fancybox" href="<?php echo $static_url; ?>/img/p2.jpg" title="图片2">
+                        <img alt="image" src="<?php echo $static_url; ?>/img/p_big2.jpg"/>
                     </a>
-                    <a class="fancybox" href="<?= $static_url ?>/img/p3.jpg" title="图片3">
-                        <img alt="image" src="<?= $static_url ?>/img/p_big3.jpg"/>
+                    <a class="fancybox" href="<?php echo $static_url; ?>/img/p3.jpg" title="图片3">
+                        <img alt="image" src="<?php echo $static_url; ?>/img/p_big3.jpg"/>
                     </a>
-                    <a class="fancybox" href="<?= $static_url ?>/img/p1.jpg" title="图片4">
-                        <img alt="image" src="<?= $static_url ?>/img/p_big1.jpg"/>
+                    <a class="fancybox" href="<?php echo $static_url; ?>/img/p1.jpg" title="图片4">
+                        <img alt="image" src="<?php echo $static_url; ?>/img/p_big1.jpg"/>
                     </a>
-                    <a class="fancybox" href="<?= $static_url ?>/img/p2.jpg" title="图片5">
-                        <img alt="image" src="<?= $static_url ?>/img/p_big2.jpg"/>
+                    <a class="fancybox" href="<?php echo $static_url; ?>/img/p2.jpg" title="图片5">
+                        <img alt="image" src="<?php echo $static_url; ?>/img/p_big2.jpg"/>
                     </a>
-                    <a class="fancybox" href="<?= $static_url ?>/img/p3.jpg" title="图片6">
-                        <img alt="image" src="<?= $static_url ?>/img/p_big3.jpg"/>
+                    <a class="fancybox" href="<?php echo $static_url; ?>/img/p3.jpg" title="图片6">
+                        <img alt="image" src="<?php echo $static_url; ?>/img/p_big3.jpg"/>
                     </a>
-                    <a class="fancybox" href="<?= $static_url ?>/img/p1.jpg" title="图片7">
-                        <img alt="image" src="<?= $static_url ?>/img/p_big1.jpg"/>
+                    <a class="fancybox" href="<?php echo $static_url; ?>/img/p1.jpg" title="图片7">
+                        <img alt="image" src="<?php echo $static_url; ?>/img/p_big1.jpg"/>
                     </a>
-                    <a class="fancybox" href="<?= $static_url ?>/img/p2.jpg" title="图片8">
-                        <img alt="image" src="<?= $static_url ?>/img/p_big2.jpg"/>
+                    <a class="fancybox" href="<?php echo $static_url; ?>/img/p2.jpg" title="图片8">
+                        <img alt="image" src="<?php echo $static_url; ?>/img/p_big2.jpg"/>
                     </a>
-                    <a class="fancybox" href="<?= $static_url ?>/img/p1.jpg" title="图片9">
-                        <img alt="image" src="<?= $static_url ?>/img/p_big1.jpg"/>
+                    <a class="fancybox" href="<?php echo $static_url; ?>/img/p1.jpg" title="图片9">
+                        <img alt="image" src="<?php echo $static_url; ?>/img/p_big1.jpg"/>
                     </a>
-                    <a class="fancybox" href="<?= $static_url ?>/img/p2.jpg" title="图片10">
-                        <img alt="image" src="<?= $static_url ?>/img/p_big2.jpg"/>
+                    <a class="fancybox" href="<?php echo $static_url; ?>/img/p2.jpg" title="图片10">
+                        <img alt="image" src="<?php echo $static_url; ?>/img/p_big2.jpg"/>
                     </a>
-                    <a class="fancybox" href="<?= $static_url ?>/img/p3.jpg" title="图片11">
-                        <img alt="image" src="<?= $static_url ?>/img/p_big3.jpg"/>
+                    <a class="fancybox" href="<?php echo $static_url; ?>/img/p3.jpg" title="图片11">
+                        <img alt="image" src="<?php echo $static_url; ?>/img/p_big3.jpg"/>
                     </a>
-                    <a class="fancybox" href="<?= $static_url ?>/img/p1.jpg" title="图片12">
-                        <img alt="image" src="<?= $static_url ?>/img/p_big1.jpg"/>
+                    <a class="fancybox" href="<?php echo $static_url; ?>/img/p1.jpg" title="图片12">
+                        <img alt="image" src="<?php echo $static_url; ?>/img/p_big1.jpg"/>
                     </a>
-                    <a class="fancybox" href="<?= $static_url ?>/img/p2.jpg" title="图片13">
-                        <img alt="image" src="<?= $static_url ?>/img/p_big2.jpg"/>
+                    <a class="fancybox" href="<?php echo $static_url; ?>/img/p2.jpg" title="图片13">
+                        <img alt="image" src="<?php echo $static_url; ?>/img/p_big2.jpg"/>
                     </a>
-                    <a class="fancybox" href="<?= $static_url ?>/img/p3.jpg" title="图片14">
-                        <img alt="image" src="<?= $static_url ?>/img/p_big3.jpg"/>
+                    <a class="fancybox" href="<?php echo $static_url; ?>/img/p3.jpg" title="图片14">
+                        <img alt="image" src="<?php echo $static_url; ?>/img/p_big3.jpg"/>
                     </a>
-                    <a class="fancybox" href="<?= $static_url ?>/img/p1.jpg" title="图片15">
-                        <img alt="image" src="<?= $static_url ?>/img/p_big1.jpg"/>
+                    <a class="fancybox" href="<?php echo $static_url; ?>/img/p1.jpg" title="图片15">
+                        <img alt="image" src="<?php echo $static_url; ?>/img/p_big1.jpg"/>
                     </a>
-                    <a class="fancybox" href="<?= $static_url ?>/img/p2.jpg" title="图片16">
-                        <img alt="image" src="<?= $static_url ?>/img/p_big2.jpg"/>
+                    <a class="fancybox" href="<?php echo $static_url; ?>/img/p2.jpg" title="图片16">
+                        <img alt="image" src="<?php echo $static_url; ?>/img/p_big2.jpg"/>
                     </a>
 
 
@@ -106,19 +106,19 @@
 
 
 <!-- 全局js -->
-<script src="<?= $static_url ?>/js/jquery.min.js?v=2.1.4"></script>
-<script src="<?= $static_url ?>/js/bootstrap.min.js?v=3.3.6"></script>
+<script src="<?php echo $static_url; ?>/js/jquery.min.js?v=2.1.4"></script>
+<script src="<?php echo $static_url; ?>/js/bootstrap.min.js?v=3.3.6"></script>
 
 
 <!-- Peity -->
-<script src="<?= $static_url ?>/js/plugins/peity/jquery.peity.min.js"></script>
+<script src="<?php echo $static_url; ?>/js/plugins/peity/jquery.peity.min.js"></script>
 
 <!-- 自定义js -->
-<script src="<?= $static_url ?>/js/content.js?v=1.0.0"></script>
+<script src="<?php echo $static_url; ?>/js/content.js?v=1.0.0"></script>
 
 
 <!-- Fancy box -->
-<script src="<?= $static_url ?>/js/plugins/fancybox/jquery.fancybox.js"></script>
+<script src="<?php echo $static_url; ?>/js/plugins/fancybox/jquery.fancybox.js"></script>
 
 
 <script>

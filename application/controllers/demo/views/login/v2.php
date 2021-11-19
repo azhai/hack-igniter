@@ -8,11 +8,11 @@
     <title> - 登录</title>
     <meta name="keywords" content="">
     <meta name="description" content="">
-    <link href="<?= $static_url ?>/css/bootstrap.min.css" rel="stylesheet">
-    <link href="<?= $static_url ?>/css/font-awesome.css?v=4.4.0" rel="stylesheet">
-    <link href="<?= $static_url ?>/css/animate.css" rel="stylesheet">
-    <link href="<?= $static_url ?>/css/style.css" rel="stylesheet">
-    <link href="<?= $static_url ?>/css/login.css" rel="stylesheet">
+    <link href="<?php echo $static_url; ?>/css/bootstrap.min.css" rel="stylesheet">
+    <link href="<?php echo $static_url; ?>/css/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="<?php echo $static_url; ?>/css/animate.css" rel="stylesheet">
+    <link href="<?php echo $static_url; ?>/css/style.css" rel="stylesheet">
+    <link href="<?php echo $static_url; ?>/css/login.css" rel="stylesheet">
     <!--[if lt IE 9]>
     <meta http-equiv="refresh" content="0;ie.html"/>
     <![endif]-->

@@ -1,9 +1,9 @@
 <?php
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
-
 /**
- * 菜单
+ * 菜单.
  */
 class Menu_model extends MY_Model
 {
@@ -50,7 +50,7 @@ class Menu_model extends MY_Model
             'parent' => [
                 'model' => FOREIGN_SELF_MODEL,
                 'columns' => ['id', 'parent_id', 'title',
-                    'url', 'icon', 'corner', 'is_removed']
+                    'url', 'icon', 'corner', 'is_removed', ],
             ],
             'children' => [
                 'type' => FOREIGN_HAS_MANY,
@@ -58,7 +58,7 @@ class Menu_model extends MY_Model
                 'rev_name' => 'parent',
                 'fkey' => 'parent_id',
                 'columns' => ['id', 'parent_id', 'title',
-                    'url', 'icon', 'corner', 'is_removed']
+                    'url', 'icon', 'corner', 'is_removed', ],
             ],
         ];
     }
@@ -83,11 +83,12 @@ class Menu_model extends MY_Model
 
     public function cache_key($condition)
     {
-        return 'menu:' . $condition['id'];
+        return 'menu:'.$condition['id'];
     }
 
     /**
-     * 根据parent_id分组设置排序号
+     * 根据parent_id分组设置排序号.
+     *
      * @return [type] [description]
      */
     public function auto_set_seqno()
@@ -104,20 +105,21 @@ class Menu_model extends MY_Model
     }
 
     /**
-     * 读取菜单和子菜单
+     * 读取菜单和子菜单.
      */
     public function get_menu_rows(array $menu_ids)
     {
-        $menu_ids = $menu_ids ?: [-1,];
+        $menu_ids = $menu_ids ?: [-1];
         $this->with_foreign('parent');
         $this->order_by('parent_id', 'ASC')->order_by('seqno', 'ASC');
         $this->where_in('id', $menu_ids)->where('is_removed', 0);
         $this->or_where_in('parent_id', $menu_ids)->where('is_removed', 0);
+
         return $this->all();
     }
 
     /**
-     * 读取最上两层菜单
+     * 读取最上两层菜单.
      */
     public function get_all_menus()
     {
@@ -133,11 +135,12 @@ class Menu_model extends MY_Model
             $menus[$row['id']] = $row;
         }
         ksort($menus);
+
         return [$menus, $branch_ids];
     }
 
     /**
-     * 读取授权菜单和子菜单
+     * 读取授权菜单和子菜单.
      */
     public function get_grant_menus(array $menu_ids)
     {
@@ -145,7 +148,7 @@ class Menu_model extends MY_Model
         $rows = $this->get_menu_rows($menu_ids);
         foreach ($rows as $row) {
             if ($pid = $row['parent_id']) {
-                if (!isset($menus[$pid])) {
+                if (! isset($menus[$pid])) {
                     $row['parent']['children'] = [];
                     $menus[$pid] = $row['parent'];
                 }
@@ -159,11 +162,12 @@ class Menu_model extends MY_Model
             }
         }
         ksort($menus);
+
         return [$menus, $branch_ids];
     }
 
     /**
-     * 去除未授权菜单和子菜单
+     * 去除未授权菜单和子菜单.
      */
     public function get_remain_menus(array $menu_ids)
     {
@@ -183,6 +187,7 @@ class Menu_model extends MY_Model
             }
         }
         $branch_ids = array_diff($branch_ids, $unbranch_ids);
+
         return [$menus, $branch_ids];
     }
 }

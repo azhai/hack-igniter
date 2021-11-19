@@ -1,9 +1,8 @@
 <?php
+
 defined('ShopNC_CLUB') || exit('Access Invalid!');
 
-/**
- * model简体语言包
- */
+// model简体语言包
 $lang['month_jan'] = '一月';
 $lang['month_feb'] = '二月';
 $lang['month_mar'] = '三月';

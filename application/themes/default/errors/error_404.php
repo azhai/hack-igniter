@@ -1,5 +1,5 @@
 <?php
-$this->extendTpl(dirname(__DIR__) . '/layout.php'); ?>
+$this->extendTpl(dirname(__DIR__).'/layout.php'); ?>
 
 
 <?php $this->blockStart('content'); ?>

@@ -1,8 +1,7 @@
 <?php
+
 defined('ShopNC_CLUB') || exit('Access Invalid!');
-/**
- * 积分礼品功能公用
- */
+// 积分礼品功能公用
 $lang['admin_pointprodp'] = '礼品';
 $lang['admin_pointprod_unavailable'] = '系统未开启积分中心，是否自动开启';
 $lang['admin_pointprod_parameter_error'] = '参数错误';
@@ -27,9 +26,7 @@ $lang['admin_pointprod_yes'] = '是';
 $lang['admin_pointprod_no'] = '否';
 $lang['admin_pointprod_delfail'] = '删除失败';
 $lang['admin_pointorder_list_title'] = '兑换列表';
-/**
- * 添加
- */
+// 添加
 $lang['admin_pointprod_baseinfo'] = '礼品基本信息';
 $lang['admin_pointprod_goods_image'] = '礼品图片';
 $lang['admin_pointprod_goods_tag'] = '礼品标签';
@@ -87,15 +84,11 @@ $lang['admin_pointprod_add_upload'] = '上传';
 $lang['admin_pointprod_add_upload_img_error'] = '图片限于png,gif,jpeg,jpg格式';
 $lang['admin_pointprod_add_iframe_uploadfail'] = '上传失败';
 $lang['admin_pointprod_add_success'] = '礼品添加成功';
-/**
- * 更新
- */
+// 更新
 $lang['admin_pointprod_edit_success'] = '礼品更新成功';
 $lang['admin_pointprod_edit_addtime'] = '添加时间';
 $lang['admin_pointprod_edit_viewnum'] = '浏览次数';
 $lang['admin_pointprod_edit_salenum'] = '售出数量';
-/**
- * 删除
- */
+// 删除
 $lang['admin_pointprod_del_success'] = '删除成功';
 $lang['admin_pointprod_del_fail'] = '删除失败';

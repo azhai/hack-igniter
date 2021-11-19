@@ -1,4 +1,4 @@
-<?php $this->extendTpl($theme_dir . '/layout.php'); ?>
+<?php $this->extendTpl($theme_dir.'/layout.php'); ?>
 
 
 <?php $this->blockStart('content'); ?>
@@ -95,7 +95,7 @@
 
 <?php $this->blockStart('scripts'); ?>
 <!-- Nestable List -->
-<script src="<?= $static_url ?>/js/plugins/nestable/jquery.nestable.min.js"></script>
+<script src="<?php echo $static_url; ?>/js/plugins/nestable/jquery.nestable.min.js"></script>
 
 <script>
     $(document).ready(function () {

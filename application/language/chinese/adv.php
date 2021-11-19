@@ -1,8 +1,7 @@
 <?php
+
 defined('ShopNC_CLUB') || exit('Access Invalid!');
-/**
- * 导航及全局
- */
+// 导航及全局
 $lang['adv_index_manage'] = '广告管理';
 $lang['adv_index_manage_subhead'] = '网站广告位及广告内容管理';
 $lang['adv_manage'] = '广告';
@@ -20,9 +19,7 @@ $lang['adv_pix'] = '像素';
 $lang['adv_edit_support'] = '系统支持的图片格式为:';
 $lang['adv_cache_refresh'] = '清理缓存';
 $lang['adv_cache_refresh_done'] = '广告缓存清理完毕';
-/**
- * 广告
- */
+// 广告
 $lang['adv_name'] = '广告名称';
 $lang['adv_ap_id'] = '所属广告位';
 $lang['adv_class'] = '类别';
@@ -55,9 +52,7 @@ $lang['adv_help3'] = '店主可使用金币购买广告';
 $lang['adv_help4'] = '审核店主购买的广告';
 $lang['adv_help5'] = '点击查看，在详细页可进行审核操作';
 
-/**
- * 广告位
- */
+// 广告位
 $lang['ap_name'] = '名称';
 $lang['ap_class'] = '类别';
 $lang['ap_show_style'] = '展示方式';
@@ -85,9 +80,7 @@ $lang['ap_word_num'] = '字数';
 $lang['ap_select_showstyle'] = '选择此广告位广告的形式';
 $lang['ap_click_num'] = '点击数';
 $lang['ap_help1'] = '广告位添加完成后可以选择是否启用广告位';
-/**
- * 提示信息
- */
+// 提示信息
 $lang['adv_can_not_null'] = '名称不能为空';
 $lang['must_select_ap'] = '必须选择一个广告位';
 $lang['must_select_start_time'] = '必须选择开始时间';

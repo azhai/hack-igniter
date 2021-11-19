@@ -1,8 +1,7 @@
 <?php
+
 defined('ShopNC_CLUB') || exit('Access Invalid!');
-/**
- * index
- */
+// index
 $lang['payment_index_name'] = '支付方式';
 $lang['payment_index_enable_ing'] = '开启中';
 $lang['payment_index_disable_ing'] = '关闭中';
@@ -10,9 +9,7 @@ $lang['payment_index_enable'] = '启用';
 $lang['payment_index_disable'] = '禁用';
 $lang['payment_index_ensure_disable'] = '您确定要禁用它吗';
 $lang['payment_help1'] = '此处列出了系统支持的支付方式，点击“设置”按钮可以编辑支付参数及开关状态';
-/**
- * 设置
- */
+// 设置
 $lang['payment_info'] = '账号信息';
 $lang['payment_notice'] = '填写支付银行账号及注意事项';
 $lang['payment_chinabank_account'] = '网银在线商户号';

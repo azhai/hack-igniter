@@ -1,9 +1,9 @@
 <?php
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
-
 /**
- * 账户流水
+ * 账户流水.
  */
 class Account_history_model extends MY_Model
 {

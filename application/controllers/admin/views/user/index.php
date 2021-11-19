@@ -1,4 +1,4 @@
-<?php $this->extendTpl($theme_dir . '/layout.php'); ?>
+<?php $this->extendTpl($theme_dir.'/layout.php'); ?>
 
 
 <?php $this->blockStart('content'); ?>
@@ -23,14 +23,14 @@
 
 
 <?php $this->blockStart('styles'); ?>
-<link href="<?= $static_url ?>/css/plugins/jqgrid/ui.jqgrid.css?0820" rel="stylesheet">
+<link href="<?php echo $static_url; ?>/css/plugins/jqgrid/ui.jqgrid.css?0820" rel="stylesheet">
 <?php $this->blockEnd(); ?>
 
 
 <?php $this->blockStart('scripts'); ?>
 <!-- jqGrid -->
-<script src="<?= $static_url ?>/js/plugins/jqgrid/i18n/grid.locale-cn.js?0820"></script>
-<script src="<?= $static_url ?>/js/plugins/jqgrid/jquery.jqGrid.min.js?0820"></script>
+<script src="<?php echo $static_url; ?>/js/plugins/jqgrid/i18n/grid.locale-cn.js?0820"></script>
+<script src="<?php echo $static_url; ?>/js/plugins/jqgrid/jquery.jqGrid.min.js?0820"></script>
 <!-- Page-Level Scripts -->
 <script>
     $(document).ready(function () {
@@ -45,8 +45,8 @@
             autowidth: true,
             shrinkToFit: true,
             rowNum: 15,
-            colNames: <?= json_encode($col_names) ?>,
-            colModel: <?= json_encode($col_model) ?>,
+            colNames: <?php echo json_encode($col_names); ?>,
+            colModel: <?php echo json_encode($col_model); ?>,
             pager: "#pager_list",
             viewrecords: true,
             add: true,

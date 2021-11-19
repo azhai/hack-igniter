@@ -1,4 +1,4 @@
-<?php $this->extendTpl($theme_dir . '/layout.php'); ?>
+<?php $this->extendTpl($theme_dir.'/layout.php'); ?>
 
 
 <?php $this->blockStart('content'); ?>
@@ -50,15 +50,15 @@
                                 </td>
                                 <td class="project-people">
                                     <a href="projects.html"><img alt="image" class="img-circle"
-                                                                 src="<?= $static_url ?>/img/a3.jpg"></a>
+                                                                 src="<?php echo $static_url; ?>/img/a3.jpg"></a>
                                     <a href="projects.html"><img alt="image" class="img-circle"
-                                                                 src="<?= $static_url ?>/img/a1.jpg"></a>
+                                                                 src="<?php echo $static_url; ?>/img/a1.jpg"></a>
                                     <a href="projects.html"><img alt="image" class="img-circle"
-                                                                 src="<?= $static_url ?>/img/a2.jpg"></a>
+                                                                 src="<?php echo $static_url; ?>/img/a2.jpg"></a>
                                     <a href="projects.html"><img alt="image" class="img-circle"
-                                                                 src="<?= $static_url ?>/img/a4.jpg"></a>
+                                                                 src="<?php echo $static_url; ?>/img/a4.jpg"></a>
                                     <a href="projects.html"><img alt="image" class="img-circle"
-                                                                 src="<?= $static_url ?>/img/a5.jpg"></a>
+                                                                 src="<?php echo $static_url; ?>/img/a5.jpg"></a>
                                 </td>
                                 <td class="project-actions">
                                     <a href="projects.html#" class="btn btn-white btn-sm"><i class="fa fa-folder"></i>
@@ -84,11 +84,11 @@
                                 </td>
                                 <td class="project-people">
                                     <a href="projects.html"><img alt="image" class="img-circle"
-                                                                 src="<?= $static_url ?>/img/a7.jpg"></a>
+                                                                 src="<?php echo $static_url; ?>/img/a7.jpg"></a>
                                     <a href="projects.html"><img alt="image" class="img-circle"
-                                                                 src="<?= $static_url ?>/img/a6.jpg"></a>
+                                                                 src="<?php echo $static_url; ?>/img/a6.jpg"></a>
                                     <a href="projects.html"><img alt="image" class="img-circle"
-                                                                 src="<?= $static_url ?>/img/a3.jpg"></a>
+                                                                 src="<?php echo $static_url; ?>/img/a3.jpg"></a>
                                 </td>
                                 <td class="project-actions">
                                     <a href="projects.html#" class="btn btn-white btn-sm"><i class="fa fa-folder"></i>
@@ -114,9 +114,9 @@
                                 </td>
                                 <td class="project-people">
                                     <a href="projects.html"><img alt="image" class="img-circle"
-                                                                 src="<?= $static_url ?>/img/a5.jpg"></a>
+                                                                 src="<?php echo $static_url; ?>/img/a5.jpg"></a>
                                     <a href="projects.html"><img alt="image" class="img-circle"
-                                                                 src="<?= $static_url ?>/img/a3.jpg"></a>
+                                                                 src="<?php echo $static_url; ?>/img/a3.jpg"></a>
                                 </td>
                                 <td class="project-actions">
                                     <a href="projects.html#" class="btn btn-white btn-sm"><i class="fa fa-folder"></i>
@@ -142,13 +142,13 @@
                                 </td>
                                 <td class="project-people">
                                     <a href="projects.html"><img alt="image" class="img-circle"
-                                                                 src="<?= $static_url ?>/img/a2.jpg"></a>
+                                                                 src="<?php echo $static_url; ?>/img/a2.jpg"></a>
                                     <a href="projects.html"><img alt="image" class="img-circle"
-                                                                 src="<?= $static_url ?>/img/a3.jpg"></a>
+                                                                 src="<?php echo $static_url; ?>/img/a3.jpg"></a>
                                     <a href="projects.html"><img alt="image" class="img-circle"
-                                                                 src="<?= $static_url ?>/img/a1.jpg"></a>
+                                                                 src="<?php echo $static_url; ?>/img/a1.jpg"></a>
                                     <a href="projects.html"><img alt="image" class="img-circle"
-                                                                 src="<?= $static_url ?>/img/a7.jpg"></a>
+                                                                 src="<?php echo $static_url; ?>/img/a7.jpg"></a>
                                 </td>
                                 <td class="project-actions">
                                     <a href="projects.html#" class="btn btn-white btn-sm"><i class="fa fa-folder"></i>
@@ -174,7 +174,7 @@
                                 </td>
                                 <td class="project-people">
                                     <a href="projects.html"><img alt="image" class="img-circle"
-                                                                 src="<?= $static_url ?>/img/a4.jpg"></a>
+                                                                 src="<?php echo $static_url; ?>/img/a4.jpg"></a>
                                 </td>
                                 <td class="project-actions">
                                     <a href="projects.html#" class="btn btn-white btn-sm"><i class="fa fa-folder"></i>
@@ -200,13 +200,13 @@
                                 </td>
                                 <td class="project-people">
                                     <a href="projects.html"><img alt="image" class="img-circle"
-                                                                 src="<?= $static_url ?>/img/a1.jpg"></a>
+                                                                 src="<?php echo $static_url; ?>/img/a1.jpg"></a>
                                     <a href="projects.html"><img alt="image" class="img-circle"
-                                                                 src="<?= $static_url ?>/img/a2.jpg"></a>
+                                                                 src="<?php echo $static_url; ?>/img/a2.jpg"></a>
                                     <a href="projects.html"><img alt="image" class="img-circle"
-                                                                 src="<?= $static_url ?>/img/a4.jpg"></a>
+                                                                 src="<?php echo $static_url; ?>/img/a4.jpg"></a>
                                     <a href="projects.html"><img alt="image" class="img-circle"
-                                                                 src="<?= $static_url ?>/img/a5.jpg"></a>
+                                                                 src="<?php echo $static_url; ?>/img/a5.jpg"></a>
                                 </td>
                                 <td class="project-actions">
                                     <a href="projects.html#" class="btn btn-white btn-sm"><i class="fa fa-folder"></i>
@@ -232,11 +232,11 @@
                                 </td>
                                 <td class="project-people">
                                     <a href="projects.html"><img alt="image" class="img-circle"
-                                                                 src="<?= $static_url ?>/img/a7.jpg"></a>
+                                                                 src="<?php echo $static_url; ?>/img/a7.jpg"></a>
                                     <a href="projects.html"><img alt="image" class="img-circle"
-                                                                 src="<?= $static_url ?>/img/a6.jpg"></a>
+                                                                 src="<?php echo $static_url; ?>/img/a6.jpg"></a>
                                     <a href="projects.html"><img alt="image" class="img-circle"
-                                                                 src="<?= $static_url ?>/img/a3.jpg"></a>
+                                                                 src="<?php echo $static_url; ?>/img/a3.jpg"></a>
                                 </td>
                                 <td class="project-actions">
                                     <a href="projects.html#" class="btn btn-white btn-sm"><i class="fa fa-folder"></i>
@@ -262,9 +262,9 @@
                                 </td>
                                 <td class="project-people">
                                     <a href="projects.html"><img alt="image" class="img-circle"
-                                                                 src="<?= $static_url ?>/img/a5.jpg"></a>
+                                                                 src="<?php echo $static_url; ?>/img/a5.jpg"></a>
                                     <a href="projects.html"><img alt="image" class="img-circle"
-                                                                 src="<?= $static_url ?>/img/a3.jpg"></a>
+                                                                 src="<?php echo $static_url; ?>/img/a3.jpg"></a>
                                 </td>
                                 <td class="project-actions">
                                     <a href="projects.html#" class="btn btn-white btn-sm"><i class="fa fa-folder"></i>
@@ -290,11 +290,11 @@
                                 </td>
                                 <td class="project-people">
                                     <a href="projects.html"><img alt="image" class="img-circle"
-                                                                 src="<?= $static_url ?>/img/a2.jpg"></a>
+                                                                 src="<?php echo $static_url; ?>/img/a2.jpg"></a>
                                     <a href="projects.html"><img alt="image" class="img-circle"
-                                                                 src="<?= $static_url ?>/img/a3.jpg"></a>
+                                                                 src="<?php echo $static_url; ?>/img/a3.jpg"></a>
                                     <a href="projects.html"><img alt="image" class="img-circle"
-                                                                 src="<?= $static_url ?>/img/a1.jpg"></a>
+                                                                 src="<?php echo $static_url; ?>/img/a1.jpg"></a>
                                 </td>
                                 <td class="project-actions">
                                     <a href="projects.html#" class="btn btn-white btn-sm"><i class="fa fa-folder"></i>
@@ -320,7 +320,7 @@
                                 </td>
                                 <td class="project-people">
                                     <a href="projects.html"><img alt="image" class="img-circle"
-                                                                 src="<?= $static_url ?>/img/a4.jpg"></a>
+                                                                 src="<?php echo $static_url; ?>/img/a4.jpg"></a>
                                 </td>
                                 <td class="project-actions">
                                     <a href="projects.html#" class="btn btn-white btn-sm"><i class="fa fa-folder"></i>
@@ -346,11 +346,11 @@
                                 </td>
                                 <td class="project-people">
                                     <a href="projects.html"><img alt="image" class="img-circle"
-                                                                 src="<?= $static_url ?>/img/a7.jpg"></a>
+                                                                 src="<?php echo $static_url; ?>/img/a7.jpg"></a>
                                     <a href="projects.html"><img alt="image" class="img-circle"
-                                                                 src="<?= $static_url ?>/img/a6.jpg"></a>
+                                                                 src="<?php echo $static_url; ?>/img/a6.jpg"></a>
                                     <a href="projects.html"><img alt="image" class="img-circle"
-                                                                 src="<?= $static_url ?>/img/a3.jpg"></a>
+                                                                 src="<?php echo $static_url; ?>/img/a3.jpg"></a>
                                 </td>
                                 <td class="project-actions">
                                     <a href="projects.html#" class="btn btn-white btn-sm"><i class="fa fa-folder"></i>

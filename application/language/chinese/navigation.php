@@ -1,8 +1,7 @@
 <?php
+
 defined('ShopNC_CLUB') || exit('Access Invalid!');
-/**
- * index
- */
+// index
 $lang['navigation_index_del_succ'] = '删除页面导航成功';
 $lang['navigation_index_choose_del'] = '请选择要删除的内容';
 $lang['navigation_index_top'] = '头部';
@@ -14,9 +13,7 @@ $lang['navigation_index_title'] = '标题';
 $lang['navigation_index_location'] = '所在位置';
 $lang['navigation_index_url'] = '链接';
 $lang['navigation_index_open_new'] = '新窗口打开';
-/**
- * 添加导航
- */
+// 添加导航
 $lang['navigation_add_partner_null'] = '标题不能为空';
 $lang['navigation_add_sort_int'] = '分类排序仅能为数字';
 $lang['navigation_add_url_wrong'] = '链接格式不正确';
@@ -32,9 +29,7 @@ $lang['navigation_add_goods_class'] = '商品分类';
 $lang['navigation_add_custom'] = '自定义导航';
 $lang['navigation_add_type'] = '导航类型';
 $lang['navigation_add_activity'] = '活动';
-/**
- * 编辑导航
- */
+// 编辑导航
 $lang['navigation_edit_again'] = '重新编辑该页面导航';
 $lang['navigation_edit_succ'] = '编辑页面导航成功';
 $lang['navigation_edit_fail'] = '编辑页面导航失败';

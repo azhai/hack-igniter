@@ -16,11 +16,11 @@
     <![endif]-->
 
     <link rel="shortcut icon" href="favicon.ico">
-    <link href="<?= $static_url ?>/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
-    <link href="<?= $static_url ?>/css/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="<?php echo $static_url; ?>/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="<?php echo $static_url; ?>/css/font-awesome.css?v=4.4.0" rel="stylesheet">
 
-    <link href="<?= $static_url ?>/css/animate.css" rel="stylesheet">
-    <link href="<?= $static_url ?>/css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="<?php echo $static_url; ?>/css/animate.css" rel="stylesheet">
+    <link href="<?php echo $static_url; ?>/css/style.css?v=4.1.0" rel="stylesheet">
     <script>if (window.top !== window.self) {
             window.top.location = window.location;
         }</script>
@@ -34,7 +34,7 @@
 <div class="middle-box text-center lockscreen animated fadeInDown">
     <div>
         <div class="m-b-md">
-            <img alt="image" class="img-circle circle-border" src="<?= $static_url ?>/img/a1.jpg">
+            <img alt="image" class="img-circle circle-border" src="<?php echo $static_url; ?>/img/a1.jpg">
         </div>
         <h3>Beaut-zihan</h3>
         <p>您需要再次输入密码</p>
@@ -48,8 +48,8 @@
 </div>
 
 <!-- 全局js -->
-<script src="<?= $static_url ?>/js/jquery.min.js?v=2.1.4"></script>
-<script src="<?= $static_url ?>/js/bootstrap.min.js?v=3.3.6"></script>
+<script src="<?php echo $static_url; ?>/js/jquery.min.js?v=2.1.4"></script>
+<script src="<?php echo $static_url; ?>/js/bootstrap.min.js?v=3.3.6"></script>
 
 
 </body>

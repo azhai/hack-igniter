@@ -1,14 +1,11 @@
 <?php
+
 defined('ShopNC_CLUB') || exit('Access Invalid!');
-/**
- * 公用
- */
+// 公用
 $lang['activity_openstate'] = '状态';
 $lang['activity_openstate_open'] = '开启';
 $lang['activity_openstate_close'] = '关闭';
-/**
- * 活动列表
- */
+// 活动列表
 $lang['activity_index'] = '活动';
 $lang['activity_index_content'] = '活动内容';
 $lang['activity_index_manage'] = '活动管理';
@@ -29,9 +26,7 @@ $lang['activity_index_help2'] = '在“页面导航”模块处可选择添加�
 $lang['activity_index_help3'] = '只有关闭或者过期的活动才能删除';
 $lang['activity_index_help4'] = '活动列表排序越小越靠前显示';
 $lang['activity_index_periodofvalidity'] = '有效期';
-/**
- * 添加活动
- */
+// 添加活动
 $lang['activity_new_title_null'] = '活动标题不能为空';
 $lang['activity_new_style_null'] = '必须选择页面风格';
 $lang['activity_new_type_null'] = '必须选择活动类别';
@@ -55,13 +50,9 @@ $lang['activity_new_ing_wrong'] = '图片限于png,gif,jpeg,jpg格式';
 $lang['activity_new_startdate_null'] = '开始时间不能为空';
 $lang['activity_new_enddate_null'] = '结束时间不能为空';
 
-/**
- * 删除活动
- */
+// 删除活动
 $lang['activity_del_choose_activity'] = '请选择活动';
-/**
- * 活动内容
- */
+// 活动内容
 $lang['activity_detail_index_goods_name'] = '商品名称';
 $lang['activity_detail_index_store'] = '所属店铺';
 $lang['activity_detail_index_auditstate'] = '审核状态';
@@ -77,7 +68,5 @@ $lang['activity_detail_index_tip1'] = '申请商品在没有审核或者审核�
 $lang['activity_detail_index_tip2'] = '本页申请商品的显示规则是未审核先显示，排序越小越靠前显示';
 $lang['activity_detail_index_tip3'] = '下架、违规下架商品或者所属店铺已经关闭的商品将不会在活动页面显示，请慎重审核';
 
-/**
- * 活动内容删除
- */
+// 活动内容删除
 $lang['activity_detail_del_choose_detail'] = '请选择活动内容(比如商品或抢购等)';

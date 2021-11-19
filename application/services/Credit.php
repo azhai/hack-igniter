@@ -1,18 +1,19 @@
 <?php
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 /**
- * 扣费加款
+ * 扣费加款.
  */
 class Credit extends MY_Service
 {
-    const SECOND_HAVE_MICRO = 1e6;   // 1秒是多少微妙
-    const MAX_RETRY_TIMES   = 3;     // 最大重试次数
-    const USING_TRANSCATION = true;  // 是否使用事务
-    const USING_SPIN_LOCK   = false; // 是否使用自旋锁
+    public const SECOND_HAVE_MICRO = 1e6;   // 1秒是多少微妙
+    public const MAX_RETRY_TIMES = 3;     // 最大重试次数
+    public const USING_TRANSCATION = true;  // 是否使用事务
+    public const USING_SPIN_LOCK = false; // 是否使用自旋锁
 
     /**
-     * 构造函数
+     * 构造函数.
      */
     public function __construct()
     {
@@ -22,9 +23,9 @@ class Credit extends MY_Service
     }
 
     /**
-     * 倒数重试次数
+     * 倒数重试次数.
      *
-     * @param int $retries 重试次数
+     * @param int $retries  重试次数
      * @param int $sleep_ms = 0 休眠时间，单位：毫秒
      */
     public static function count_down($retries, $sleep_ms = 0)
@@ -35,17 +36,19 @@ class Credit extends MY_Service
         if ($sleep_ms > 0) {
             usleep($sleep_ms * 1000);
         }
+
         return true;
     }
 
     /**
-     * 按月读取消费记录
+     * 按月读取消费记录.
      *
-     * @param int $userid 用户的userid
-     * @param string $month 月份
+     * @param int    $userid   用户的userid
+     * @param string $month    月份
      * @param string $category = 'all'  操作类型 call/gift/payment/other/all
-     * @param int $offset = 0 偏移量
-     * @param int $limit = -1 限量，小于0表示无限
+     * @param int    $offset   = 0 偏移量
+     * @param int    $limit    = -1 限量，小于0表示无限
+     *
      * @return array
      */
     public function get_bill_list($userid, $month, $category = 'all', $offset = 0, $limit = -1)
@@ -72,11 +75,12 @@ class Credit extends MY_Service
     }
 
     /**
-     * 读取余额。可选择从主库读
+     * 读取余额。可选择从主库读.
      *
      * @param $userids 单个或多个用户的userid
-     * @param bool $master = false  是否强制读取主库
-     * @param int $retry_times = 3  重试次数
+     * @param bool $master      = false  是否强制读取主库
+     * @param int  $retry_times = 3  重试次数
+     *
      * @return array 用户的userid和账户的关联数组
      */
     public function read_balances($userids, $master = false, $retry_times = 3)
@@ -92,15 +96,17 @@ class Credit extends MY_Service
             $this->user_credit_model->where_in('userid', $userids);
             $rows = $this->user_credit_model->all();
         } while (empty($rows) && self::count_down(--$retry_times, 150));
+
         return array_column($rows, null, 'userid');
     }
 
     /**
-     * 读取或创建余额。可选择从主库读
+     * 读取或创建余额。可选择从主库读.
      *
-     * @param string $userid 用户的userid
-     * @param bool $master = false  是否强制读取主库
-     * @param int $retry_times = 3  重试次数
+     * @param string $userid      用户的userid
+     * @param bool   $master      = false  是否强制读取主库
+     * @param int    $retry_times = 3  重试次数
+     *
      * @return array 账户关联数组
      */
     public function get_or_create_balance($userid, $master = false, $retry_times = 3)
@@ -118,17 +124,19 @@ class Credit extends MY_Service
                 $db->query(sprintf($tpl, $table, $userid, time()));
             }
         } while ($is_failure && self::count_down(--$retry_times, 150));
+
         return $row;
     }
 
     /**
-     * 余额变动操作
+     * 余额变动操作.
      *
-     * @param int $userid 用户的userid
-     * @param float $number 变动金额，正数为加款，负数为扣费
-     * @param float $discount = 0  折扣，九五折可以是0.95或者-0.05
+     * @param int    $userid    用户的userid
+     * @param float  $number    变动金额，正数为加款，负数为扣费
+     * @param float  $discount  = 0  折扣，九五折可以是0.95或者-0.05
      * @param string $coin_type = 'goldcoin' 货币名称
-     * @param bool $force = false 是否强制扣费
+     * @param bool   $force     = false 是否强制扣费
+     *
      * @return array 错误码、实付、余额
      */
     public function charge_balance($userid, $number, $discount = 0, $coin_type = 'goldcoin', $force = false)
@@ -137,12 +145,15 @@ class Credit extends MY_Service
         $result = [1, 0, 0];
         $retry_times = self::MAX_RETRY_TIMES;
         do {
-            debug_output("user %s change %.2f %s discount %.2f retry x%d", $userid, $number, $coin_type, $discount, $retry_times);
-            if (self::USING_TRANSCATION && !$this->user_credit_model->trans_start()) {
+            debug_output('user %s change %.2f %s discount %.2f retry x%d', $userid, $number, $coin_type, $discount, $retry_times);
+            if (self::USING_TRANSCATION && ! $this->user_credit_model->trans_start()) {
                 usleep(0.01 * self::SECOND_HAVE_MICRO * $retry_times);
+
                 continue;
-            } elseif (self::USING_SPIN_LOCK && !$this->_acquire_spinlock($userid)) {
+            }
+            if (self::USING_SPIN_LOCK && ! $this->_acquire_spinlock($userid)) {
                 usleep(0.01 * self::SECOND_HAVE_MICRO * $retry_times);
+
                 continue;
             }
             if ($number >= 0) {
@@ -155,51 +166,56 @@ class Credit extends MY_Service
             } elseif (self::USING_SPIN_LOCK) {
                 $this->_release_spinlock($userid);
             }
-            if ($number >= 0 || (int) ($result[0]) === 0 || $result[2] <= 0) {
+            if ($number >= 0 || 0 === (int) ($result[0]) || $result[2] <= 0) {
                 break; //成功
             }
         } while (self::count_down(--$retry_times, 200));
+
         return $result;
     }
 
     /**
-     * 强制扣费
+     * 强制扣费.
      *
-     * @param int $userid 用户的userid
-     * @param float $number 变动金额，正数为加款，负数为扣费
-     * @param float $discount = 0  折扣，九五折可以是0.95或者-0.05
+     * @param int    $userid    用户的userid
+     * @param float  $number    变动金额，正数为加款，负数为扣费
+     * @param float  $discount  = 0  折扣，九五折可以是0.95或者-0.05
      * @param string $coin_type = 'goldcoin' 货币名称
+     *
      * @return array 错误码、实付、余额
      */
     public function force_charge_balance($userid, $number, $discount = 0, $coin_type = 'goldcoin')
     {
         $number = 0 - abs($number);
+
         return $this->charge_balance($userid, $number, $discount, $coin_type, true);
     }
 
     /**
-     * 记录余额变动日志
+     * 记录余额变动日志.
      *
-     * @param int $userid 用户的userid
-     * @param int $relatedid 关联用户的userid
-     * @param array $data 必填参数集
-     *              float  number  变动金额，正数为加款，负数为扣费
-     *              float  count 账户余额
-     *              string credittype  货币名称
-     * @param array $options = [] 备选参数集
-     *              float  prepay = 0  预付金额，正数为加款，负数为扣费
-     *              string only_proof = null  唯一凭证
-     *              string operation = null  操作类型
-     *              string description = null 操作描述
+     * @param int   $userid    用户的userid
+     * @param int   $relatedid 关联用户的userid
+     * @param array $data      必填参数集
+     *                         float  number  变动金额，正数为加款，负数为扣费
+     *                         float  count 账户余额
+     *                         string credittype  货币名称
+     * @param array $options   = [] 备选参数集
+     *                         float  prepay = 0  预付金额，正数为加款，负数为扣费
+     *                         string only_proof = null  唯一凭证
+     *                         string operation = null  操作类型
+     *                         string description = null 操作描述
+     * @param mixed $another
+     *
      * @return int 日志ID
      */
     public function logging_operation($userid, $relatedid, array $data, array $options = [], $another = false)
     {
         $data['prepay'] = isset($options['prepay']) ? $options['prepay'] : 0.0;
         $data['operation'] = isset($options['operation']) ? $options['operation'] : '';
-        if (!isset($data['credittype'])) {
+        if (! isset($data['credittype'])) {
             $data['credittype'] = 'gold';
-        } elseif (substr($data['credittype'], -4) === 'coin') { //资产和流水中货币名称有出入
+        } elseif ('coin' === substr($data['credittype'], -4)) { //资产和流水中货币名称有出入
             $data['credittype'] = substr($data['credittype'], 0, -4);
         }
         if (isset($options['only_proof'])) {
@@ -221,24 +237,26 @@ class Credit extends MY_Service
         $ipaddr = get_real_client_ip();
         $data = array_replace($data, ['underling' => 0, 'dateline' => time(), 'ipaddr' => $ipaddr]);
         $insert_id = $this->user_credit_log_model->insert($data);
+
         return (int) $insert_id;
     }
 
     /**
-     * 改变余额并记录日志
+     * 改变余额并记录日志.
      *
-     * @param int $userid 用户的userid
-     * @param int $relatedid 关联用户的userid
-     * @param float $number 变动金额，正数为加款，负数为扣费
+     * @param int    $userid    用户的userid
+     * @param int    $relatedid 关联用户的userid
+     * @param float  $number    变动金额，正数为加款，负数为扣费
      * @param string $coin_type = 'goldcoin' 货币名称
-     * @param array $options = [] 备选参数集
-     *              float  discount = 0  折扣，九五折可以是0.95或者-0.05
-     *              float  prepay = 0  预付金额，正数为加款，负数为扣费
-     *              float  remain = 0  预留金额，仅用于强制扣费
-     *              bool   force = false 是否强制扣费
-     *              string only_proof = ''  唯一凭证
-     *              string operation = ''   操作类型
-     *              string description = '' 操作描述
+     * @param array  $options   = [] 备选参数集
+     *                          float  discount = 0  折扣，九五折可以是0.95或者-0.05
+     *                          float  prepay = 0  预付金额，正数为加款，负数为扣费
+     *                          float  remain = 0  预留金额，仅用于强制扣费
+     *                          bool   force = false 是否强制扣费
+     *                          string only_proof = ''  唯一凭证
+     *                          string operation = ''   操作类型
+     *                          string description = '' 操作描述
+     *
      * @return array 日志ID、实付、余额
      */
     public function charge_with_logging($userid, $relatedid, $number, $coin_type = 'goldcoin', array $options = [])
@@ -252,24 +270,26 @@ class Credit extends MY_Service
             $data = ['credittype' => $coin_type, 'count' => $balance, 'number' => $paid + $prepay];
             $insert_id = $this->logging_operation($userid, $relatedid, $data, $options);
         }
+
         return [$insert_id, $paid, $balance];
     }
 
     /**
-     * 扣款当前账户并奖励对方
+     * 扣款当前账户并奖励对方.
      *
-     * @param int $userid 用户的userid
-     * @param int $relatedid 关联用户的userid
-     * @param float $number 变动金额，正数为加款，负数为扣费
-     * @param array $reward 返还，可能为ratio比例，值为0-1之间的小数，或者jifen与对应的数量
-     * @param array $options = [] 备选参数集
-     *              float  discount = 0  折扣，九五折可以是0.95或者-0.05
-     *              float  prepay = 0  预付金额，正数为加款，负数为扣费
-     *              bool   force = false 是否强制扣费
-     *              string operation = ''  操作类型
-     *              string only_proof = ''  唯一凭证
-     *              string description = '' 操作描述
-     *              string another_description = '' 对方的操作描述
+     * @param int   $userid    用户的userid
+     * @param int   $relatedid 关联用户的userid
+     * @param float $number    变动金额，正数为加款，负数为扣费
+     * @param array $reward    返还，可能为ratio比例，值为0-1之间的小数，或者jifen与对应的数量
+     * @param array $options   = [] 备选参数集
+     *                         float  discount = 0  折扣，九五折可以是0.95或者-0.05
+     *                         float  prepay = 0  预付金额，正数为加款，负数为扣费
+     *                         bool   force = false 是否强制扣费
+     *                         string operation = ''  操作类型
+     *                         string only_proof = ''  唯一凭证
+     *                         string description = '' 操作描述
+     *                         string another_description = '' 对方的操作描述
+     *
      * @return array 日志ID、实付、余额
      */
     public function charge_and_reward($userid, $relatedid, $number, array $reward, array $options = [])
@@ -289,7 +309,7 @@ class Credit extends MY_Service
 
         //返还
         $ratio = isset($reward['ratio']) ? (float) ($reward['ratio']) : 0;
-        if ($ratio === 0) {
+        if (0 === $ratio) {
             $number = reset($reward);
             $coin_type = key($reward);
         } else {
@@ -303,34 +323,38 @@ class Credit extends MY_Service
             $insert_id = $this->logging_operation($userid, $relatedid, $data, $options, true);
             $result[] = [$insert_id, $gained, $balance];
         }
+
         return $result;
     }
 
     /**
-     * 计算折扣
+     * 计算折扣.
      *
-     * @param float $number 原始金额，正数为加款，负数为扣费
+     * @param float $number   原始金额，正数为加款，负数为扣费
      * @param float $discount = 0  折扣，九五折可以是0.95或者-0.05
+     *
      * @return float 折后金额，与原始金额符号相同
      */
     protected function _calc_discount($number, $discount = 0)
     {
-        if ($discount === 0 || $discount < -1 || $discount >= 1) {
+        if (0 === $discount || $discount < -1 || $discount >= 1) {
             return $number; //无折扣
         }
         if ($discount <= 0) {
             $discount += 1.0;
         }
+
         return bcmul($discount, $number, 1);
     }
 
     /**
      * 加款，不存在记录时新加一条
      *
-     * @param int $userid 用户的userid
-     * @param float $number 变动金额，正数为加款，负数为扣费
-     * @param float $discount = 0  折扣，九五折可以是0.95或者-0.05
+     * @param int    $userid    用户的userid
+     * @param float  $number    变动金额，正数为加款，负数为扣费
+     * @param float  $discount  = 0  折扣，九五折可以是0.95或者-0.05
      * @param string $coin_type = 'jifen' 货币名称
+     *
      * @return array 错误码、实付、余额
      */
     protected function _charge_raise($userid, $number, $discount = 0, $coin_type = 'jifen')
@@ -338,7 +362,7 @@ class Credit extends MY_Service
         if ($number < 0) {
             return [1, 0, 0]; // 失败
         }
-        if ($discount !== 0) {
+        if (0 !== $discount) {
             $number = $this->_calc_discount($number, $discount);
         }
         $change = sprintf('+ %.2f', $number);
@@ -354,23 +378,25 @@ class Credit extends MY_Service
         }
         $balances = $this->get_or_create_balance($userid, true);
         $count = (float) ($balances[$coin_type]);
-        debug_output("user %s result ok, add %.2f remain %.2f", $userid, $number, $count);
+        debug_output('user %s result ok, add %.2f remain %.2f', $userid, $number, $count);
+
         return [0, $number, $count];
     }
 
     /**
-     * 扣费，强制扣费直到0为止
+     * 扣费，强制扣费直到0为止.
      *
-     * @param int $userid 用户的userid
-     * @param float $number 变动金额，正数为加款，负数为扣费
-     * @param float $discount = 0  折扣，九五折可以是0.95或者-0.05
+     * @param int    $userid    用户的userid
+     * @param float  $number    变动金额，正数为加款，负数为扣费
+     * @param float  $discount  = 0  折扣，九五折可以是0.95或者-0.05
      * @param string $coin_type = 'goldcoin' 货币名称
-     * @param bool $force = false 是否强制扣费
+     * @param bool   $force     = false 是否强制扣费
+     *
      * @return array 错误码、实付、余额
      */
     protected function _charge_reduce($userid, $number, $discount = 0, $coin_type = 'goldcoin', $force = false)
     {
-        if ($discount !== 0) {
+        if (0 !== $discount) {
             $number = $this->_calc_discount($number, $discount);
         }
         $db = $this->user_credit_model->reconnect();
@@ -390,31 +416,34 @@ class Credit extends MY_Service
         $sql = sprintf($tpl, $table, time(), $coin_type, $amount, $userid, $coin_type, $count);
         $success = ($db->query($sql) && $db->affected_rows() > 0); //操作成功，包括强制扣费为负数
         if ($success) {
-            debug_output("user %s result ok, spent %.2f remain %.2f", $userid, $actually_paid, $amount);
+            debug_output('user %s result ok, spent %.2f remain %.2f', $userid, $actually_paid, $amount);
+
             return [0, $actually_paid, $amount];
-        } else {
-            debug_output("user %s result fail, spent 0.0 remain %.2f", $userid, $count);
-            return [1, 0, $count];
         }
+        debug_output('user %s result fail, spent 0.0 remain %.2f', $userid, $count);
+
+        return [1, 0, $count];
     }
 
     /**
      * 请求自旋锁
      *
-     * @param int $userid 用户的userid
+     * @param int  $userid   用户的userid
      * @param bool $blocking = false 是否阻塞，为false时立即返回，为true时等到得到锁才返回
+     *
      * @return bool
      */
     protected function _acquire_spinlock($userid, $blocking = false)
     {
-        if (!function_exists('apcu_add')) {
+        if (! function_exists('apcu_add')) {
             return true;
         }
-        $key = 'lock-balance:' . $userid;
+        $key = 'lock-balance:'.$userid;
         $value = time();
         if (apcu_add($key, $value, 300)) {
             return false; //已存在
         }
+
         return apcu_store($key, $value, 300);
     }
 
@@ -422,14 +451,16 @@ class Credit extends MY_Service
      * 释放自旋锁
      *
      * @param int $userid 用户的userid
+     *
      * @return bool
      */
     protected function _release_spinlock($userid)
     {
-        if (!function_exists('apcu_delete')) {
+        if (! function_exists('apcu_delete')) {
             return true;
         }
-        $key = 'lock-balance:' . $userid;
+        $key = 'lock-balance:'.$userid;
+
         return apcu_delete($key);
     }
 }

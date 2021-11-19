@@ -1,4 +1,5 @@
 <?php
+
 defined('ShopNC_CLUB') || exit('Access Invalid!');
 
 $lang['stat_newmember'] = '新增会员';
@@ -7,7 +8,6 @@ $lang['stat_scaleanalyze'] = '会员规模分析';
 $lang['stat_memberlist'] = '会员详细';
 $lang['stat_areaanalyze'] = '区域分析';
 $lang['stat_buying'] = '购买分析';
-
 
 $lang['stat_newstore'] = '新增店铺';
 $lang['stat_storesale'] = '店铺销量';
@@ -42,4 +42,4 @@ $lang['stat_setting'] = '统计设置';
 $lang['stat_goodspricerange'] = '商品价格区间';
 $lang['stat_orderpricerange'] = '订单金额区间';
 
-$lang['stat_validorder_explain'] = "符合以下任何一种条件的订单即为有效订单：1、采用在线支付方式支付并且已付款；2、采用货到付款方式支付并且交易已完成";
+$lang['stat_validorder_explain'] = '符合以下任何一种条件的订单即为有效订单：1、采用在线支付方式支付并且已付款；2、采用货到付款方式支付并且交易已完成';

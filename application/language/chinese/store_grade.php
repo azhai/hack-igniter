@@ -1,8 +1,7 @@
 <?php
+
 defined('ShopNC_CLUB') || exit('Access Invalid!');
-/**
- * 店铺等级 语言包
- */
+// 店铺等级 语言包
 $lang['store_grade_name_no_null'] = '等级名称不能为空';
 $lang['charges_standard_no_null'] = '收费标准仅能为大于0数字';
 $lang['allow_pubilsh_product_num_only_lnteger'] = '允许发布商品数仅能为整数';
@@ -51,25 +50,23 @@ $lang['reset'] = '重置';
 $lang['now_store_grade_name_is_there'] = '该等级名称已经存在，请您换一个';
 $lang['only_lnteger'] = '仅能为整数';
 $lang['only_number'] = '仅能为数字';
-$lang['del_remark'] = "注: 店铺等级下如果有店铺信息存在则不能删除";
-$lang['del_gradehavestore'] = "请先删除该店铺等级下的店铺信息";
-$lang['add_gradesortexist'] = "级别已经存在";
-$lang['grade_parameter_error'] = "参数错误";
-$lang['record_error'] = "记录错误";
-$lang['grade_edit_gradeerror'] = "等级信息错误，请查看店铺等级信息";
-$lang['grade_edit_grade_same_error'] = "等级信息级别更改过，请查看店铺等级信息";
-$lang['grade_edit_grade_store_error'] = "店铺信息错误";
-$lang['grade_edit_grade_sort_error'] = "升级级别应高于店铺当前级别,请核实申请信息";
-$lang['grade_del_please_choose_error'] = "请选择操作记录";
-$lang['grade_sortname'] = "级别";
-$lang['grade_sort_tip'] = "数值越大表明级别越高";
-$lang['grade_add_sort_null_error'] = "级别信息不能为空";
+$lang['del_remark'] = '注: 店铺等级下如果有店铺信息存在则不能删除';
+$lang['del_gradehavestore'] = '请先删除该店铺等级下的店铺信息';
+$lang['add_gradesortexist'] = '级别已经存在';
+$lang['grade_parameter_error'] = '参数错误';
+$lang['record_error'] = '记录错误';
+$lang['grade_edit_gradeerror'] = '等级信息错误，请查看店铺等级信息';
+$lang['grade_edit_grade_same_error'] = '等级信息级别更改过，请查看店铺等级信息';
+$lang['grade_edit_grade_store_error'] = '店铺信息错误';
+$lang['grade_edit_grade_sort_error'] = '升级级别应高于店铺当前级别,请核实申请信息';
+$lang['grade_del_please_choose_error'] = '请选择操作记录';
+$lang['grade_sortname'] = '级别';
+$lang['grade_sort_tip'] = '数值越大表明级别越高';
+$lang['grade_add_sort_null_error'] = '级别信息不能为空';
 $lang['store_grade_help1'] = '你可以自己新增或编辑店铺等级';
 $lang['store_grade_help2'] = '会员在进行开店操作时可选择店铺等级';
 $lang['store_grade_help3'] = '拥有店铺的会员可对店铺进行升级操作';
-/**
- * 日志列表
- */
+// 日志列表
 $lang['admin_gradelog_membername'] = '会员名称';
 $lang['admin_gradelog_storename'] = '店铺名称';
 $lang['admin_gradelog_gradename'] = '等级名称';

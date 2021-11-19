@@ -1,4 +1,5 @@
 <?php
+
 defined('ShopNC_CLUB') || exit('Access Invalid!');
 $lang['microshop_not_install'] = '您没有安装微商城模块';
 

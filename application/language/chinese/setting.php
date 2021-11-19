@@ -1,8 +1,7 @@
 <?php
+
 defined('ShopNC_CLUB') || exit('Access Invalid!');
-/**
- * 设置 语言包
- */
+// 设置 语言包
 $lang['test_email'] = '测试邮件';
 $lang['this_is_to'] = '这是一封来自';
 $lang['test_email_set_ok'] = '的测试邮件，证明您所邮件设置正常';
@@ -128,7 +127,6 @@ $lang['setting_store_creditrule'] = '店铺信用';
 $lang['setting_store_creditrule_grade'] = '等级';
 $lang['setting_store_creditrule_gradenum'] = '信用介于';
 
-
 $lang['default_img_wrong'] = '图片限于png,gif,jpeg,jpg格式';
 
 $lang['upload_image_filesize'] = '图片文件大小';
@@ -137,7 +135,7 @@ $lang['image_allow_ext_notice'] = '图片扩展名，用于判断上传图片是
 $lang['image_allow_ext_not_null'] = '图片扩展名不能为空';
 $lang['upload_image_file_size'] = '大小';
 $lang['upload_image_filesize_is_number'] = '图片文件大小仅能为数字';
-$lang['image_max_size_tips'] = '当前服务器环境，最大允许上传' . ini_get('upload_max_filesize') . 'B 的文件，您的设置请勿超过该值。';
+$lang['image_max_size_tips'] = '当前服务器环境，最大允许上传'.ini_get('upload_max_filesize').'B 的文件，您的设置请勿超过该值。';
 $lang['upload_image_size_c_num'] = '图片像素最多四位数';
 $lang['image_max_size_only_num'] = '图片文件大小仅能为数字';
 $lang['image_max_size_c_num'] = '图片文件大小最多四位数';
@@ -218,7 +216,6 @@ $lang['font_info'] = '已经安装字体如下';
 
 $lang['share_allow'] = '是否开启站外分享功能';
 $lang['share_notice'] = '开启站外分享功能并设置站外分享绑定的相应接口后，SNS分享店铺和商品信息功能中将可以使用站外分享信息功能';
-
 
 $lang['seo_set_index'] = '首页';
 $lang['seo_set_group'] = '抢购';

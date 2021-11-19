@@ -1,8 +1,7 @@
 <?php
+
 defined('ShopNC_CLUB') || exit('Access Invalid!');
-/**
- * index
- */
+// index
 $lang['login_index_title_01'] = '运维舫B2B2C电商平台';
 $lang['login_index_title_02'] = '系统管理中心';
 $lang['login_index_title_03'] = '商城&nbsp;&nbsp;|&nbsp;&nbsp;资讯&nbsp;&nbsp;|&nbsp;&nbsp;圈子&nbsp;&nbsp;|&nbsp;&nbsp;微商城&nbsp;&nbsp;|&nbsp;&nbsp;手机端';

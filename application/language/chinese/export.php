@@ -1,8 +1,7 @@
 <?php
+
 defined('ShopNC_CLUB') || exit('Access Invalid!');
-/**
- * 导出语言包，只有在执行导出行为时，才会调用
- */
+// 导出语言包，只有在执行导出行为时，才会调用
 
 //品牌
 $lang['exp_brandid'] = '品牌ID';

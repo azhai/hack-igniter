@@ -1,8 +1,7 @@
 <?php
+
 defined('ShopNC_CLUB') || exit('Access Invalid!');
-/**
- * 预存款功能公用
- */
+// 预存款功能公用
 $lang['admin_predeposit_no_record'] = '没有符合条件的记录';
 $lang['admin_predeposit_unavailable'] = '系统未开启预存款功能，正在跳转到预存款设置 。。。';
 $lang['admin_predeposit_parameter_error'] = '参数错误';
@@ -38,9 +37,7 @@ $lang['admin_predeposit_cash_pay'] = '更改支付状态';
 $lang['admin_predeposit_enuth_error'] = '可用余额不足';
 $lang['admin_predeposit_check_tips'] = '审核后，等额的会员预存款将会被冻结，进入财务支付环节，确认操作吗?';
 $lang['admin_predeposit_pay_tips'] = '提交后，提现单会被置为已经支付状态，同时系统从会员预存款中扣除相应的提现金额，确认操作吗?';
-/**
- * 充值功能公用
- */
+// 充值功能公用
 $lang['admin_predeposit_rechargelist'] = '充值管理';
 $lang['admin_predeposit_rechargewaitpaying'] = '未支付';
 $lang['admin_predeposit_rechargepaysuccess'] = '已支付';
@@ -56,22 +53,16 @@ $lang['admin_predeposit_recharge_memberremark'] = '会员备注';
 $lang['admin_predeposit_recharge_help1'] = '可以点击查看浏览本次充值的详细信息';
 $lang['admin_predeposit_recharge_help2'] = '如果系统平台已确认收到充值款，但系统的充值单还是未支付状态，可以点击查看手动更改成已支付状态';
 $lang['admin_predeposit_recharge_searchtitle'] = '条件筛选';
-/**
- * 充值信息编辑
- */
+// 充值信息编辑
 $lang['admin_predeposit_recharge_edit_logdesc'] = '会员充值支付状态修改减少预存款';
 $lang['admin_predeposit_recharge_edit_success'] = '充值信息修改成功';
 $lang['admin_predeposit_recharge_edit_fail'] = '充值信息修改失败';
 $lang['admin_predeposit_recharge_edit_state'] = '修改充值单状态';
 $lang['admin_predeposit_recharge_notice'] = '仅管理员可见';
-/**
- * 充值信息删除
- */
+// 充值信息删除
 $lang['admin_predeposit_recharge_del_success'] = '充值信息删除成功';
 $lang['admin_predeposit_recharge_del_fail'] = '充值信息删除失败';
-/**
- * 提现功能公用
- */
+// 提现功能公用
 $lang['admin_predeposit_cashmanage'] = '提现管理';
 $lang['admin_predeposit_cashwaitpaying'] = '等待支付';
 $lang['admin_predeposit_cashpaysuccess'] = '支付成功';
@@ -87,23 +78,17 @@ $lang['admin_predeposit_cash_remark_tip2'] = '备注信息将在预存款明细�
 $lang['admin_predeposit_cash_help1'] = '未支付的提现单可以点击查看选项更改提现单的支付状态';
 $lang['admin_predeposit_cash_help2'] = '点击删除可以删除未支付的提现单';
 $lang['admin_predeposit_cash_confirm'] = '您确认已将提现金额支付到买家提现账户吗？';
-/**
- * 提现信息删除
- */
+// 提现信息删除
 $lang['admin_predeposit_cash_del_success'] = '提现信息删除成功';
 $lang['admin_predeposit_cash_del_fail'] = '提现信息删除失败';
 $lang['admin_predeposit_cash_del_reducefreezelogdesc'] = '会员提现记录删除成功减少冻结预存款金额';
 $lang['admin_predeposit_cash_del_adddesc'] = '会员提现记录删除成功增加预存款金额';
-/**
- * 提现信息编辑
- */
+// 提现信息编辑
 $lang['admin_predeposit_cash_edit_reducefreezelogdesc'] = '会员提现记录状态修改为支付成功减少冻结预存款金额';
 $lang['admin_predeposit_cash_edit_success'] = '提现信息修改成功';
 $lang['admin_predeposit_cash_edit_fail'] = '提现信息修改失败';
 $lang['admin_predeposit_cash_edit_state'] = '修改提现单状态';
-/**
- * 手动修改
- */
+// 手动修改
 $lang['admin_predeposit_artificial'] = '手动修改';
 $lang['admin_predeposit_artificial_membername_error'] = '会员信息错误，请重新填写会员名';
 $lang['admin_predeposit_artificial_membernamenull_error'] = '请输入会员名称';
@@ -120,9 +105,7 @@ $lang['admin_predeposit_artificial_member_tip_1'] = '会员';
 $lang['admin_predeposit_artificial_member_tip_2'] = ', 当前可用预存款为';
 $lang['admin_predeposit_artificial_member_tip_3'] = ',  冻结预存款为';
 $lang['admin_predeposit_artificial_notice'] = '你可以选择修改可用金额或冻结金额';
-/**
- * 出入明细
- */
+// 出入明细
 $lang['admin_predeposit_log_help1'] = '此处展示了预存款详细的变更日志信息';
 $lang['admin_predeposit_log_stage'] = '类型';
 $lang['admin_predeposit_log_stage_recharge'] = '充值';

@@ -1,9 +1,9 @@
 <?php
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
-
 /**
- * 角色权限
+ * 角色权限.
  */
 class Role_privilege_model extends MY_Model
 {
@@ -35,6 +35,7 @@ class Role_privilege_model extends MY_Model
     public function get_role_privs($role_id, $is_revoked = 0)
     {
         $where = ['role_id' => $role_id, 'is_revoked' => $is_revoked];
+
         return $this->parse_where($where)->all();
     }
 
@@ -42,6 +43,7 @@ class Role_privilege_model extends MY_Model
     {
         $uniq = 'menu_id:privilege_id';
         $where = ['role_id' => $role_id];
+
         return $this->diff_save_data($rows, $uniq, $where);
     }
 }

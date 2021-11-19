@@ -1,8 +1,7 @@
 <?php
+
 defined('ShopNC_CLUB') || exit('Access Invalid!');
-/**
- * index
- */
+// index
 $lang['member_index_is_admin'] = '该会员是管理员,不能删除';
 $lang['member_index_manage'] = '会员管理';
 $lang['member_index_predeposit'] = '预存款调节';
@@ -35,9 +34,7 @@ $lang['member_index_buy_deny'] = '禁止购买';
 $lang['member_index_talk_deny'] = '禁止发表言论';
 $lang['member_index_login_deny'] = '禁止登录';
 $lang['member_index_login'] = '登录';
-/**
- * 编辑
- */
+// 编辑
 $lang['member_edit_valid_email'] = '请您填写有效的电子邮箱';
 $lang['member_edit_back_to_list'] = '返回会员列表';
 $lang['member_edit_again'] = '重新编辑该会员';
@@ -63,9 +60,7 @@ $lang['member_edit_allowbuy_tip'] = '如果禁止该项则会员不能在前台�
 $lang['member_edit_allowtalk'] = '允许发表言论';
 $lang['member_edit_allowtalk_tip'] = '如果禁止该项则会员不能发表咨询和发送站内信';
 $lang['member_edit_allowlogin'] = '允许登录';
-/**
- * 会员添加
- */
+// 会员添加
 $lang['member_add_back_to_list'] = '返回会员列表';
 $lang['member_add_again'] = '继续新增会员';
 $lang['member_add_succ'] = '新增会员成功';

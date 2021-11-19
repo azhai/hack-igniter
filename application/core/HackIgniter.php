@@ -1,21 +1,21 @@
 <?php
 /**
- * hack-igniter
+ * hack-igniter.
  *
  * A example project extends of CodeIgniter v3.x
  *
- * @package hack-igniter
  * @author  Ryan Liu (azhai)
- * @link    http://azhai.surge.sh/
+ *
+ * @see    http://azhai.surge.sh/
+ *
  * @copyright   Copyright (c) 2013
  * @license http://opensource.org/licenses/MIT  MIT License
  */
 
 /**
- * CodeIgniter Version
+ * CodeIgniter Version.
  *
- * @var    string
- *
+ * @var string
  */
 const CI_VERSION = '3.1.11';
 
@@ -24,12 +24,12 @@ const CI_VERSION = '3.1.11';
  *  Load the framework constants
  * ------------------------------------------------------
  */
-if (file_exists(APPPATH . 'config/' . ENVIRONMENT . '/constants.php')) {
-    require_once(APPPATH . 'config/' . ENVIRONMENT . '/constants.php');
+if (file_exists(APPPATH.'config/'.ENVIRONMENT.'/constants.php')) {
+    require_once APPPATH.'config/'.ENVIRONMENT.'/constants.php';
 }
 
-if (file_exists(APPPATH . 'config/constants.php')) {
-    require_once(APPPATH . 'config/constants.php');
+if (file_exists(APPPATH.'config/constants.php')) {
+    require_once APPPATH.'config/constants.php';
 }
 
 /*
@@ -37,7 +37,7 @@ if (file_exists(APPPATH . 'config/constants.php')) {
  *  Load the global functions
  * ------------------------------------------------------
  */
-require_once(BASEPATH . 'core/Common.php');
+require_once BASEPATH.'core/Common.php';
 
 /*
  * ------------------------------------------------------
@@ -58,7 +58,7 @@ register_shutdown_function('_shutdown_handler');
  * depending on another class that uses it.
  *
  */
-$CFG =& load_class('Config', 'core');
+$CFG = &load_class('Config', 'core');
 
 /*
  * ------------------------------------------------------
@@ -92,17 +92,20 @@ mb_substitute_character('none');
  * ------------------------------------------------------
  */
 
-require_once(BASEPATH . 'core/compat/mbstring.php');
-require_once(BASEPATH . 'core/compat/hash.php');
-require_once(BASEPATH . 'core/compat/password.php');
-require_once(BASEPATH . 'core/compat/standard.php');
+require_once BASEPATH.'core/compat/mbstring.php';
+
+require_once BASEPATH.'core/compat/hash.php';
+
+require_once BASEPATH.'core/compat/password.php';
+
+require_once BASEPATH.'core/compat/standard.php';
 
 /*
  * ------------------------------------------------------
  *  Instantiate the routing class and set the routing
  * ------------------------------------------------------
  */
-$RTR =& load_class('Router', 'core', isset($routing) ? $routing : null);
+$RTR = &load_class('Router', 'core', isset($routing) ? $routing : null);
 
 /*
  * ------------------------------------------------------
@@ -111,7 +114,7 @@ $RTR =& load_class('Router', 'core', isset($routing) ? $routing : null);
  *
  */
 // Load the base controller class
-require_once BASEPATH . 'core/Controller.php';
+require_once BASEPATH.'core/Controller.php';
 
 /**
  * Reference to the CI_Controller method.
@@ -126,27 +129,31 @@ function &get_instance()
 }
 
 /**
- * Create object object of a subclass of CI_Controller
+ * Create object object of a subclass of CI_Controller.
+ *
+ * @param mixed $dir
+ * @param mixed $class
+ * @param mixed $base_class
  */
 function create_instance($dir, $class, $base_class = false)
 {
-    if ($base_class && file_exists(APPPATH . 'core/' . $base_class . '.php')) {
-        require_once APPPATH . 'core/' . $base_class . '.php';
+    if ($base_class && file_exists(APPPATH.'core/'.$base_class.'.php')) {
+        require_once APPPATH.'core/'.$base_class.'.php';
     }
-    $file_path = APPPATH . trim($dir, '/') . '/' . $class . '.php';
+    $file_path = APPPATH.trim($dir, '/').'/'.$class.'.php';
     if (file_exists($file_path)) {
         require_once $file_path;
+
         return new $class();
     }
 }
 
-
 $class = $RTR->class ? ucfirst($RTR->class) : 'Index';
 $prefix = $CFG->config['subclass_prefix'];
-$CI = create_instance('services/' . $RTR->directory, $class, $prefix . 'Service');
+$CI = create_instance('services/'.$RTR->directory, $class, $prefix.'Service');
 if (null === $CI) {
-    $base_class = $prefix . 'Controller';
-    $CI = create_instance('controllers/' . $RTR->directory, $class, $base_class);
+    $base_class = $prefix.'Controller';
+    $CI = create_instance('controllers/'.$RTR->directory, $class, $base_class);
     if (null === $CI) {
         $CI = new $base_class();
     }

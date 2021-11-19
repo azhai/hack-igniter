@@ -1,6 +1,6 @@
 <?php
-defined('BASEPATH') || exit('No direct script access allowed');
 
+defined('BASEPATH') || exit('No direct script access allowed');
 
 /**
  * 学校
@@ -48,7 +48,7 @@ class School_model extends MY_Model
                 'model' => 'test/student_model',
                 'fkey' => 'school_id',
                 'columns' => ['id', 'name', 'gender',
-                    'school_id', 'is_removed'],
+                    'school_id', 'is_removed', ],
             ],
         ];
     }
@@ -71,11 +71,12 @@ class School_model extends MY_Model
     public function cache_key($condition)
     {
         $ids = $condition['id'];
-        if (!is_array($ids)) {
-            return 'school:' . $ids;
+        if (! is_array($ids)) {
+            return 'school:'.$ids;
         }
+
         return array_map(function ($x) {
-            return 'school:' . $x;
+            return 'school:'.$x;
         }, $ids);
     }
 }

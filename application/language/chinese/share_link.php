@@ -1,8 +1,7 @@
 <?php
+
 defined('ShopNC_CLUB') || exit('Access Invalid!');
-/**
- * 分享链接 语言包
- */
+// 分享链接 语言包
 
 $lang['del_share_link_ok'] = '删除分享链接成功。';
 $lang['please_choose_del_share_link'] = '请选择要删除的内容!';

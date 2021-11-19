@@ -1,9 +1,9 @@
 <?php
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
-
 /**
- * 日常执行
+ * 日常执行.
  */
 class Cron_daily_model extends MY_Model
 {

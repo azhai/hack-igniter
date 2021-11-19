@@ -1,6 +1,8 @@
 <?php
+
 defined('BASEPATH') || exit('No direct script access allowed');
-require_once dirname(__DIR__) . '/Admin_page.php';
+
+require_once dirname(__DIR__).'/Admin_page.php';
 
 class User_page extends Admin_page
 {
@@ -64,6 +66,7 @@ class User_page extends Admin_page
             ],
         ];
         $col_names = array_column($col_model, 'title');
+
         return ['col_names' => $col_names, 'col_model' => $col_model];
     }
 
@@ -76,6 +79,7 @@ class User_page extends Admin_page
         unset($columns['password'], $columns['phone']);
         $this->admin_model->parse_select(array_keys($columns));
         $data = $this->admin_model->all(15, $offset);
+
         return $this->render_json($data);
     }
 }

@@ -1,8 +1,7 @@
 <?php
+
 defined('ShopNC_CLUB') || exit('Access Invalid!');
-/**
- * index
- */
+// index
 $lang['type_index_related_fail'] = '部分信息添加失败请重新编辑该类型。';
 $lang['type_index_continue_to_dd'] = '继续添加类型';
 $lang['type_index_return_type_list'] = '返回类型列表';
@@ -14,9 +13,7 @@ $lang['type_index_del_related_type_fail'] = '删除关联规格失败。';
 $lang['type_index_type_name'] = '类型';
 $lang['type_index_no_checked'] = '请选择要操作的数据项。';
 $lang['type_index_prompts_one'] = '当管理员添加商品分类时需选择类型。前台分类下商品列表页通过类型生成商品检索，方便用户搜索需要的商品。';
-/**
- * 新增属性
- */
+// 新增属性
 $lang['type_add_related_brand'] = '选择关联品牌';
 $lang['type_add_related_spec'] = '选择关联规格';
 $lang['type_add_remove'] = '移除';
@@ -45,9 +42,7 @@ $lang['type_common_checked_hide'] = '隐藏未选项';
 $lang['type_common_checked_show'] = '全部显示';
 $lang['type_common_belong_class'] = '快捷定位';
 $lang['type_common_belong_class_tips'] = '选择分类，可关联到任意级分类。（只在后台快捷定位中起作用）';
-/**
- * 编辑属性
- */
+// 编辑属性
 $lang['type_edit_type_value_null'] = '还没有添加类型值信息。';
 $lang['type_edit_type_value_del_fail'] = '类型值信息删除失败。';
 $lang['type_edit_type_attr_edit'] = '编辑属性';

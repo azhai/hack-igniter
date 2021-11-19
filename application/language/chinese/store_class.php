@@ -1,8 +1,7 @@
 <?php
+
 defined('ShopNC_CLUB') || exit('Access Invalid!');
-/**
- * 店铺分类 语言包
- */
+// 店铺分类 语言包
 
 $lang['store_class_name_no_null'] = '分类名称不能为空';
 $lang['store_class_sort_only_number'] = '分类排序仅能为数字!';

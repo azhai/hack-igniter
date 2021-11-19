@@ -13,11 +13,11 @@
     <meta name="description" content="">
 
     <link rel="shortcut icon" href="favicon.ico">
-    <link href="<?= $static_url ?>/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
-    <link href="<?= $static_url ?>/css/font-awesome.css?v=4.4.0" rel="stylesheet">
-    <link href="<?= $static_url ?>/css/plugins/jsTree/style.min.css" rel="stylesheet">
-    <link href="<?= $static_url ?>/css/animate.css" rel="stylesheet">
-    <link href="<?= $static_url ?>/css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="<?php echo $static_url; ?>/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="<?php echo $static_url; ?>/css/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="<?php echo $static_url; ?>/css/plugins/jsTree/style.min.css" rel="stylesheet">
+    <link href="<?php echo $static_url; ?>/css/animate.css" rel="stylesheet">
+    <link href="<?php echo $static_url; ?>/css/style.css?v=4.1.0" rel="stylesheet">
 
 </head>
 
@@ -42,7 +42,7 @@
                             <div class="chat-discussion">
 
                                 <div class="chat-message">
-                                    <img class="message-avatar" src="<?= $static_url ?>/img/a1.jpg" alt="">
+                                    <img class="message-avatar" src="<?php echo $static_url; ?>/img/a1.jpg" alt="">
                                     <div class="message">
                                         <a class="message-author" href="#"> 颜文字君</a>
                                         <span class="message-date"> 2015-02-02 18:39:23 </span>
@@ -52,7 +52,7 @@
                                     </div>
                                 </div>
                                 <div class="chat-message">
-                                    <img class="message-avatar" src="<?= $static_url ?>/img/a4.jpg" alt="">
+                                    <img class="message-avatar" src="<?php echo $static_url; ?>/img/a4.jpg" alt="">
                                     <div class="message">
                                         <a class="message-author" href="#"> 林依晨Ariel </a>
                                         <span class="message-date">  2015-02-02 11:12:36 </span>
@@ -62,7 +62,7 @@
                                     </div>
                                 </div>
                                 <div class="chat-message">
-                                    <img class="message-avatar" src="<?= $static_url ?>/img/a2.jpg" alt="">
+                                    <img class="message-avatar" src="<?php echo $static_url; ?>/img/a2.jpg" alt="">
                                     <div class="message">
                                         <a class="message-author" href="#"> 谨斯里 </a>
                                         <span class="message-date">  2015-02-02 11:12:36 </span>
@@ -72,7 +72,7 @@
                                     </div>
                                 </div>
                                 <div class="chat-message">
-                                    <img class="message-avatar" src="<?= $static_url ?>/img/a5.jpg" alt="">
+                                    <img class="message-avatar" src="<?php echo $static_url; ?>/img/a5.jpg" alt="">
                                     <div class="message">
                                         <a class="message-author" href="#"> 林依晨Ariel </a>
                                         <span class="message-date">  2015-02-02 - 11:12:36 </span>
@@ -82,7 +82,7 @@
                                     </div>
                                 </div>
                                 <div class="chat-message">
-                                    <img class="message-avatar" src="<?= $static_url ?>/img/a6.jpg" alt="">
+                                    <img class="message-avatar" src="<?php echo $static_url; ?>/img/a6.jpg" alt="">
                                     <div class="message">
                                         <a class="message-author" href="#"> 林依晨Ariel </a>
                                         <span class="message-date">  2015-02-02 11:12:36 </span>
@@ -102,52 +102,52 @@
 
                                 <div class="users-list">
                                     <div class="chat-user">
-                                        <img class="chat-avatar" src="<?= $static_url ?>/img/a4.jpg" alt="">
+                                        <img class="chat-avatar" src="<?php echo $static_url; ?>/img/a4.jpg" alt="">
                                         <div class="chat-user-name">
                                             <a href="#">伤城Simple</a>
                                         </div>
                                     </div>
                                     <div class="chat-user">
-                                        <img class="chat-avatar" src="<?= $static_url ?>/img/a1.jpg" alt="">
+                                        <img class="chat-avatar" src="<?php echo $static_url; ?>/img/a1.jpg" alt="">
                                         <div class="chat-user-name">
                                             <a href="#">从未出现过的风景__</a>
                                         </div>
                                     </div>
                                     <div class="chat-user">
                                         <span class="pull-right label label-primary">在线</span>
-                                        <img class="chat-avatar" src="<?= $static_url ?>/img/a2.jpg" alt="">
+                                        <img class="chat-avatar" src="<?php echo $static_url; ?>/img/a2.jpg" alt="">
                                         <div class="chat-user-name">
                                             <a href="#">冬伴花暖</a>
                                         </div>
                                     </div>
                                     <div class="chat-user">
                                         <span class="pull-right label label-primary">在线</span>
-                                        <img class="chat-avatar" src="<?= $static_url ?>/img/a3.jpg" alt="">
+                                        <img class="chat-avatar" src="<?php echo $static_url; ?>/img/a3.jpg" alt="">
                                         <div class="chat-user-name">
                                             <a href="#">ZM敏姑娘 </a>
                                         </div>
                                     </div>
                                     <div class="chat-user">
-                                        <img class="chat-avatar" src="<?= $static_url ?>/img/a5.jpg" alt="">
+                                        <img class="chat-avatar" src="<?php echo $static_url; ?>/img/a5.jpg" alt="">
                                         <div class="chat-user-name">
                                             <a href="#">才越越</a>
                                         </div>
                                     </div>
                                     <div class="chat-user">
-                                        <img class="chat-avatar" src="<?= $static_url ?>/img/a6.jpg" alt="">
+                                        <img class="chat-avatar" src="<?php echo $static_url; ?>/img/a6.jpg" alt="">
                                         <div class="chat-user-name">
                                             <a href="#">时光十年TENSHI</a>
                                         </div>
                                     </div>
                                     <div class="chat-user">
-                                        <img class="chat-avatar" src="<?= $static_url ?>/img/a2.jpg" alt="">
+                                        <img class="chat-avatar" src="<?php echo $static_url; ?>/img/a2.jpg" alt="">
                                         <div class="chat-user-name">
                                             <a href="#">刘顰颖</a>
                                         </div>
                                     </div>
                                     <div class="chat-user">
                                         <span class="pull-right label label-primary">在线</span>
-                                        <img class="chat-avatar" src="<?= $static_url ?>/img/a3.jpg" alt="">
+                                        <img class="chat-avatar" src="<?php echo $static_url; ?>/img/a3.jpg" alt="">
                                         <div class="chat-user-name">
                                             <a href="#">陈泳儿SccBaby</a>
                                         </div>
@@ -187,12 +187,12 @@
 
 
 <!-- 全局js -->
-<script src="<?= $static_url ?>/js/jquery.min.js?v=2.1.4"></script>
-<script src="<?= $static_url ?>/js/bootstrap.min.js?v=3.3.6"></script>
+<script src="<?php echo $static_url; ?>/js/jquery.min.js?v=2.1.4"></script>
+<script src="<?php echo $static_url; ?>/js/bootstrap.min.js?v=3.3.6"></script>
 
 
 <!-- 自定义js -->
-<script src="<?= $static_url ?>/js/content.js?v=1.0.0"></script>
+<script src="<?php echo $static_url; ?>/js/content.js?v=1.0.0"></script>
 
 
 </body>

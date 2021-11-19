@@ -1,8 +1,7 @@
 <?php
+
 defined('ShopNC_CLUB') || exit('Access Invalid!');
-/**
- * 推荐位
- */
+// 推荐位
 $lang['rec_position'] = '推荐位';
 $lang['rec_position_subhead'] = '网站推荐位代码设置管理';
 $lang['rec_ps_type'] = '类型';

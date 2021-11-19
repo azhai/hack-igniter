@@ -1,6 +1,8 @@
 <?php
+
 defined('BASEPATH') || exit('No direct script access allowed');
-require_once dirname(__DIR__) . '/Admin_page.php';
+
+require_once dirname(__DIR__).'/Admin_page.php';
 
 class Entry_page extends Admin_page
 {
@@ -9,38 +11,6 @@ class Entry_page extends Admin_page
         '粤B' => ['color' => '#0569e2', 'name' => '深圳市'],
         '粤A' => ['color' => '#ca2300', 'name' => '广州市'],
     ];
-
-    protected function initialize()
-    {
-        parent::initialize();
-        $this->load->helper('fmt');
-        $this->load->model('test/school_model');
-        //$this->school_model->with_foreign('city');
-    }
-
-    protected function filter_where(&$model)
-    {
-        $conds = [];
-        $keyword = $this->input->post_get('keyword');
-        if ($conds['keyword'] = trim($keyword)) {
-            $model->like('name', $conds['keyword']);
-        }
-        $prefix = $this->input->post_get('prefix');
-        if ($conds['prefix'] = trim($prefix)) {
-            $model->where('prefix', $conds['prefix']);
-        }
-        return $conds;
-    }
-
-    protected function join_foreigns(array $result)
-    {
-        foreach ($result as &$row) {
-            $option = self::$city_options[$row['prefix']];
-            $row['city_name'] = $option['name'];
-            $row['city_color'] = $row['is_removed'] ? '#ddd' : $option['color'];
-        }
-        return $result;
-    }
 
     public function index()
     {
@@ -73,6 +43,7 @@ class Entry_page extends Admin_page
         $result['layout'] = $this->input->is_ajax_request() ? 'bare' : 'base';
         $result['save_url'] = $this->get_page_url('save', [], true);
         $result['next_url'] = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
+
         return $result;
     }
 
@@ -87,6 +58,7 @@ class Entry_page extends Admin_page
         } else {
             $next_url = $this->get_page_url('edit', [], true);
         }
+
         return redirect($next_url);
     }
 
@@ -96,11 +68,46 @@ class Entry_page extends Admin_page
         $recycle = $this->input->post_get('recycle', 0);
         if ($ids = explode(',', trim($id, ', '))) {
             $method = $recycle ? 'undelete' : 'delete';
-            $this->school_model->$method(['id' => $ids], count($ids));
+            $this->school_model->{$method}(['id' => $ids], count($ids));
             $next_url = $this->input->post_get('next_url');
         } else {
             $next_url = $this->get_page_url('index', [], true);
         }
+
         return redirect($next_url);
+    }
+
+    protected function initialize()
+    {
+        parent::initialize();
+        $this->load->helper('fmt');
+        $this->load->model('test/school_model');
+        //$this->school_model->with_foreign('city');
+    }
+
+    protected function filter_where(&$model)
+    {
+        $conds = [];
+        $keyword = $this->input->post_get('keyword');
+        if ($conds['keyword'] = trim($keyword)) {
+            $model->like('name', $conds['keyword']);
+        }
+        $prefix = $this->input->post_get('prefix');
+        if ($conds['prefix'] = trim($prefix)) {
+            $model->where('prefix', $conds['prefix']);
+        }
+
+        return $conds;
+    }
+
+    protected function join_foreigns(array $result)
+    {
+        foreach ($result as &$row) {
+            $option = self::$city_options[$row['prefix']];
+            $row['city_name'] = $option['name'];
+            $row['city_color'] = $row['is_removed'] ? '#ddd' : $option['color'];
+        }
+
+        return $result;
     }
 }

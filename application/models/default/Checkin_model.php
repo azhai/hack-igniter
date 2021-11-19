@@ -1,9 +1,9 @@
 <?php
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
-
 /**
- * 签到
+ * 签到.
  */
 class Checkin_model extends MY_Model
 {

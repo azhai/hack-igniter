@@ -1,5 +1,5 @@
 <?php
-$this->extendTpl($theme_dir . '/layout.php'); ?>
+$this->extendTpl($theme_dir.'/layout.php'); ?>
 
 
 <?php $this->blockStart('content'); ?>
@@ -229,15 +229,15 @@ $this->extendTpl($theme_dir . '/layout.php'); ?>
                                         </td>
                                         <td class="project-people">
                                             <a href="projects.html"><img alt="image" class="img-circle"
-                                                                         src="<?= $static_url ?>/img/a3.jpg"></a>
+                                                                         src="<?php echo $static_url; ?>/img/a3.jpg"></a>
                                             <a href="projects.html"><img alt="image" class="img-circle"
-                                                                         src="<?= $static_url ?>/img/a1.jpg"></a>
+                                                                         src="<?php echo $static_url; ?>/img/a1.jpg"></a>
                                             <a href="projects.html"><img alt="image" class="img-circle"
-                                                                         src="<?= $static_url ?>/img/a2.jpg"></a>
+                                                                         src="<?php echo $static_url; ?>/img/a2.jpg"></a>
                                             <a href="projects.html"><img alt="image" class="img-circle"
-                                                                         src="<?= $static_url ?>/img/a4.jpg"></a>
+                                                                         src="<?php echo $static_url; ?>/img/a4.jpg"></a>
                                             <a href="projects.html"><img alt="image" class="img-circle"
-                                                                         src="<?= $static_url ?>/img/a5.jpg"></a>
+                                                                         src="<?php echo $static_url; ?>/img/a5.jpg"></a>
                                         </td>
                                         <td class="project-actions">
                                             <a href="projects.html#" class="btn btn-white btn-sm"><i
@@ -263,11 +263,11 @@ $this->extendTpl($theme_dir . '/layout.php'); ?>
                                         </td>
                                         <td class="project-people">
                                             <a href="projects.html"><img alt="image" class="img-circle"
-                                                                         src="<?= $static_url ?>/img/a7.jpg"></a>
+                                                                         src="<?php echo $static_url; ?>/img/a7.jpg"></a>
                                             <a href="projects.html"><img alt="image" class="img-circle"
-                                                                         src="<?= $static_url ?>/img/a6.jpg"></a>
+                                                                         src="<?php echo $static_url; ?>/img/a6.jpg"></a>
                                             <a href="projects.html"><img alt="image" class="img-circle"
-                                                                         src="<?= $static_url ?>/img/a3.jpg"></a>
+                                                                         src="<?php echo $static_url; ?>/img/a3.jpg"></a>
                                         </td>
                                         <td class="project-actions">
                                             <a href="projects.html#" class="btn btn-white btn-sm"><i
@@ -293,9 +293,9 @@ $this->extendTpl($theme_dir . '/layout.php'); ?>
                                         </td>
                                         <td class="project-people">
                                             <a href="projects.html"><img alt="image" class="img-circle"
-                                                                         src="<?= $static_url ?>/img/a5.jpg"></a>
+                                                                         src="<?php echo $static_url; ?>/img/a5.jpg"></a>
                                             <a href="projects.html"><img alt="image" class="img-circle"
-                                                                         src="<?= $static_url ?>/img/a3.jpg"></a>
+                                                                         src="<?php echo $static_url; ?>/img/a3.jpg"></a>
                                         </td>
                                         <td class="project-actions">
                                             <a href="projects.html#" class="btn btn-white btn-sm"><i
@@ -321,13 +321,13 @@ $this->extendTpl($theme_dir . '/layout.php'); ?>
                                         </td>
                                         <td class="project-people">
                                             <a href="projects.html"><img alt="image" class="img-circle"
-                                                                         src="<?= $static_url ?>/img/a2.jpg"></a>
+                                                                         src="<?php echo $static_url; ?>/img/a2.jpg"></a>
                                             <a href="projects.html"><img alt="image" class="img-circle"
-                                                                         src="<?= $static_url ?>/img/a3.jpg"></a>
+                                                                         src="<?php echo $static_url; ?>/img/a3.jpg"></a>
                                             <a href="projects.html"><img alt="image" class="img-circle"
-                                                                         src="<?= $static_url ?>/img/a1.jpg"></a>
+                                                                         src="<?php echo $static_url; ?>/img/a1.jpg"></a>
                                             <a href="projects.html"><img alt="image" class="img-circle"
-                                                                         src="<?= $static_url ?>/img/a7.jpg"></a>
+                                                                         src="<?php echo $static_url; ?>/img/a7.jpg"></a>
                                         </td>
                                         <td class="project-actions">
                                             <a href="projects.html#" class="btn btn-white btn-sm"><i
@@ -353,7 +353,7 @@ $this->extendTpl($theme_dir . '/layout.php'); ?>
                                         </td>
                                         <td class="project-people">
                                             <a href="projects.html"><img alt="image" class="img-circle"
-                                                                         src="<?= $static_url ?>/img/a4.jpg"></a>
+                                                                         src="<?php echo $static_url; ?>/img/a4.jpg"></a>
                                         </td>
                                         <td class="project-actions">
                                             <a href="projects.html#" class="btn btn-white btn-sm"><i
@@ -379,13 +379,13 @@ $this->extendTpl($theme_dir . '/layout.php'); ?>
                                         </td>
                                         <td class="project-people">
                                             <a href="projects.html"><img alt="image" class="img-circle"
-                                                                         src="<?= $static_url ?>/img/a1.jpg"></a>
+                                                                         src="<?php echo $static_url; ?>/img/a1.jpg"></a>
                                             <a href="projects.html"><img alt="image" class="img-circle"
-                                                                         src="<?= $static_url ?>/img/a2.jpg"></a>
+                                                                         src="<?php echo $static_url; ?>/img/a2.jpg"></a>
                                             <a href="projects.html"><img alt="image" class="img-circle"
-                                                                         src="<?= $static_url ?>/img/a4.jpg"></a>
+                                                                         src="<?php echo $static_url; ?>/img/a4.jpg"></a>
                                             <a href="projects.html"><img alt="image" class="img-circle"
-                                                                         src="<?= $static_url ?>/img/a5.jpg"></a>
+                                                                         src="<?php echo $static_url; ?>/img/a5.jpg"></a>
                                         </td>
                                         <td class="project-actions">
                                             <a href="projects.html#" class="btn btn-white btn-sm"><i
@@ -411,11 +411,11 @@ $this->extendTpl($theme_dir . '/layout.php'); ?>
                                         </td>
                                         <td class="project-people">
                                             <a href="projects.html"><img alt="image" class="img-circle"
-                                                                         src="<?= $static_url ?>/img/a7.jpg"></a>
+                                                                         src="<?php echo $static_url; ?>/img/a7.jpg"></a>
                                             <a href="projects.html"><img alt="image" class="img-circle"
-                                                                         src="<?= $static_url ?>/img/a6.jpg"></a>
+                                                                         src="<?php echo $static_url; ?>/img/a6.jpg"></a>
                                             <a href="projects.html"><img alt="image" class="img-circle"
-                                                                         src="<?= $static_url ?>/img/a3.jpg"></a>
+                                                                         src="<?php echo $static_url; ?>/img/a3.jpg"></a>
                                         </td>
                                         <td class="project-actions">
                                             <a href="projects.html#" class="btn btn-white btn-sm"><i
@@ -634,16 +634,16 @@ $this->extendTpl($theme_dir . '/layout.php'); ?>
 
     <?php $this->blockStart('scripts'); ?>
     <!-- 全局js -->
-    <script src="<?= $static_url ?>/js/jquery.min.js?v=2.1.4"></script>
-    <script src="<?= $static_url ?>/js/bootstrap.min.js?v=3.3.6"></script>
-    <script src="<?= $static_url ?>/js/plugins/layer/layer.min.js"></script>
+    <script src="<?php echo $static_url; ?>/js/jquery.min.js?v=2.1.4"></script>
+    <script src="<?php echo $static_url; ?>/js/bootstrap.min.js?v=3.3.6"></script>
+    <script src="<?php echo $static_url; ?>/js/plugins/layer/layer.min.js"></script>
     <!-- Flot -->
-    <script src="<?= $static_url ?>/js/plugins/flot/jquery.flot.js"></script>
-    <script src="<?= $static_url ?>/js/plugins/flot/jquery.flot.tooltip.min.js"></script>
-    <script src="<?= $static_url ?>/js/plugins/flot/jquery.flot.resize.js"></script>
-    <script src="<?= $static_url ?>/js/plugins/flot/jquery.flot.pie.js"></script>
+    <script src="<?php echo $static_url; ?>/js/plugins/flot/jquery.flot.js"></script>
+    <script src="<?php echo $static_url; ?>/js/plugins/flot/jquery.flot.tooltip.min.js"></script>
+    <script src="<?php echo $static_url; ?>/js/plugins/flot/jquery.flot.resize.js"></script>
+    <script src="<?php echo $static_url; ?>/js/plugins/flot/jquery.flot.pie.js"></script>
     <!-- 自定义js -->
-    <script src="<?= $static_url ?>/js/content.js"></script>
+    <script src="<?php echo $static_url; ?>/js/content.js"></script>
     <!--flotdemo-->
     <script type="text/javascript">
         $(function () {
