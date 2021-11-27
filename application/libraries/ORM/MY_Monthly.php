@@ -14,6 +14,8 @@
 
 namespace Mylib\ORM;
 
+defined('MAX_READ_ROWS') || define('MAX_READ_ROWS', 5000);
+
 /**
  * 扩展Model，按月分表，表名带_yyyymm的后缀
  *
@@ -49,10 +51,10 @@ trait MY_Monthly
      */
     public static function get_begin_stamp($time = null)
     {
-        if (null === $time) {
+        if (is_null($time)) {
             return mktime(0, 0, 0, date('n'), 1);
         }
-        if (\func_num_args() > 1) {
+        if (func_num_args() > 1) {
             $year = func_get_arg(0);
             $month = func_get_arg(1);
         } else {
@@ -63,7 +65,7 @@ trait MY_Monthly
             $month = date('n', $time);
         }
 
-        return mktime(0, 0, 0, (int) $month, 1, (int) $year);
+        return mktime(0, 0, 0, intval($month), 1, intval($year));
     }
 
     /**
@@ -76,8 +78,8 @@ trait MY_Monthly
         if ($start) {
             return self::get_begin_stamp($start);
         }
-        if (\count($tables) > 0 && $min_table = min($tables)) { // 找出最早的表
-            $min_tail = substr($min_table, \strlen($this->table_name()) + 1);
+        if (count($tables) > 0 && $min_table = min($tables)) { // 找出最早的表
+            $min_tail = substr($min_table, strlen($this->table_name()) + 1);
             $year = substr($min_tail, 0, 4);
             $month = substr($min_tail, 4, 2);
 
@@ -116,7 +118,7 @@ trait MY_Monthly
      */
     public function table_name($another = false)
     {
-        if (null === $this->beginning) {
+        if (is_null($this->beginning)) {
             $this->init_calendar();
         }
         $tail = date('Ym', $this->beginning);
@@ -133,10 +135,10 @@ trait MY_Monthly
      */
     public function backward($offset = 1)
     {
-        if (null === $this->beginning) {
+        if (is_null($this->beginning)) {
             $this->init_calendar();
         }
-        $offset = (int) $offset;
+        $offset = intval($offset);
         if (0 !== $offset) {
             $year = date('Y', $this->beginning);
             $month = date('n', $this->beginning) - $offset;
@@ -171,20 +173,24 @@ trait MY_Monthly
         $tables = $this->list_tables($base_name.'_');
         $start = $this->get_finishing($start);
         $this->init_calendar($stop);
-        $result = 0;
+
+        $count = 0;
         while ($this->beginning >= $start) {
             $table = $this->table_name();
-            if (\in_array($table, $tables, true)) {
-                if ($where) {
-                    $this->parse_where($where);
-                }
-                $count = $this->count();
-                $result += $count;
+            //中间有表不存在，并不连续
+            if (! in_array($table, $tables, true)) {
+                $this->backward();
+                continue;
             }
+            if ($where) {
+                $this->parse_where($where);
+            }
+            $curr_count = $this->count();
+            $count += $curr_count;
             $this->backward();
         }
 
-        return $result;
+        return $count;
     }
 
     /**
@@ -207,14 +213,14 @@ trait MY_Monthly
         $start = $this->get_finishing($start, $tables);
         $this->init_calendar($stop);
         $order = [$this->get_sort_field() => 'DESC'];
+
         $result = [];
         $remain = 0;
         while ($this->beginning >= $start) {
             $table = $this->table_name();
             //中间有表不存在，并不连续
-            if (! \in_array($table, $tables, true)) {
+            if (! in_array($table, $tables, true)) {
                 $this->backward();
-
                 continue;
             }
             //未达到偏移位置，先消耗偏移量
@@ -226,10 +232,10 @@ trait MY_Monthly
                 $offset -= $remain;
                 if ($offset >= 0) {
                     $this->backward();
-
                     continue;
                 }
             }
+
             //查询数据，倒序
             if ($where) {
                 $this->parse_where($where);
@@ -238,13 +244,13 @@ trait MY_Monthly
             $offset = ($offset < 0) ? $offset + $remain : 0;
             $rows = $this->order_by($order)->all($limit, $offset, $fields);
             $offset = 0; //过后偏移量清零
-            $count = \count($rows);
-            if ($count > 0) {
+            $curr_count = count($rows);
+            if ($curr_count > 0) {
                 $result = array_merge($result, $rows);
             }
             //有读取数量限制
             if (is_numeric($limit)) {
-                $limit -= $count; //扣除本次已读
+                $limit -= $curr_count; //扣除本次已读
                 if ($limit <= 0) {
                     break;
                 }
@@ -252,6 +258,78 @@ trait MY_Monthly
             $this->backward();
         }
 
+        return $result;
+    }
+
+    /**
+     * 跨表查询，可以定义时间范围.
+     *
+     * @param mixed      $where
+     * @param null|mixed $start
+     * @param null|mixed $stop
+     * @param null|mixed $limit
+     * @param int        $page
+     * @param mixed      $fields
+     */
+    public function page_more($where, $start = null, $stop = null, $limit = null, $page = 1, $fields = '*')
+    {
+        //准备工作
+        $remain = is_numeric($limit) && $limit > 0 ? (int) $limit : MAX_READ_ROWS;
+        $offset = $remain > 0 && is_numeric($page) && $page > 0 ? ($page - 1) * $remain : 0;
+        $base_name = $this->base_table_name();
+        $tables = $this->list_tables($base_name.'_');
+        $start = $this->get_finishing($start, $tables);
+        $this->init_calendar($stop);
+
+        //开始循环
+        $order = [$this->get_sort_field() => 'DESC'];
+        $result = ['count' => 0, 'maxpage' => 0, 'data' => []];
+        while ($this->beginning >= $start) {
+            $table = $this->table_name();
+            //中间有表不存在，并不连续
+            if (! in_array($table, $tables, true)) {
+                $this->backward();
+                continue;
+            }
+            //计算当前表行数
+            if ($where) {
+                $this->parse_where($where);
+            }
+            $curr_count = $this->count();
+            $result['count'] += $curr_count;
+
+            //数据已读
+            if ($remain <= 0) {
+                $this->backward();
+                continue;
+            }
+            //未达到偏移位置，先消耗偏移量
+            if ($offset > 0) { //偏移量
+                $offset -= $curr_count;
+                if ($offset >= 0) {
+                    $this->backward();
+                    continue;
+                }
+            }
+
+            //第一次查询时需要计算剩余偏移量
+            $offset = ($offset < 0) ? $offset + $curr_count : 0;
+            if ($where) {
+                $this->parse_where($where); //查询数据，倒序
+            }
+            $rows = $this->order_by($order)->all($remain, $offset, $fields);
+            if (! empty($rows)) {
+                $result['data'] = array_merge($result['data'], $rows);
+                $remain -= count($rows); //扣除本次已读
+            }
+            $offset = 0; //过后偏移量清零
+            $this->backward();
+        }
+
+        //计算最大页码
+        if ($result['count'] > 0 && $limit > 0) {
+            $result['maxpage'] = (int) ceil($result['count'] / $limit);
+        }
         return $result;
     }
 
@@ -271,12 +349,12 @@ trait MY_Monthly
         $tables = $this->list_tables($base_name.'_');
         $start = $this->get_finishing($start, $tables);
         $this->init_calendar($stop);
+
         $result = [];
         while ($this->beginning >= $start) {
             $table = $this->table_name();
-            if (! \in_array($table, $tables, true)) {
+            if (! in_array($table, $tables, true)) {
                 $this->backward();
-
                 continue;
             }
             if ($where) {
@@ -289,7 +367,7 @@ trait MY_Monthly
                 $this->order_by($order);
             }
             $rows = $this->all(null, 0, $fields);
-            if (\count($rows) > 0) {
+            if (count($rows) > 0) {
                 $result = array_merge($result, $rows);
             }
             $this->backward();
@@ -314,18 +392,18 @@ trait MY_Monthly
         $tables = $this->list_tables($base_name.'_');
         $start = $this->get_finishing($start, $tables);
         $this->init_calendar();
+
         $total = 0;
         while ($this->beginning >= $start) {
             $table = $this->table_name();
-            if (! \in_array($table, $tables, true)) {
+            if (! in_array($table, $tables, true)) {
                 $this->backward();
-
                 continue;
             }
-            $count = $this->update_unsafe($set, $where, $limit, $escape);
-            $total += $count;
+            $curr_count = $this->update_unsafe($set, $where, $limit, $escape);
+            $total += $curr_count;
             if (is_numeric($limit)) { //数量限制
-                $limit -= $count;
+                $limit -= $curr_count;
                 if ($limit <= 0) {
                     break;
                 }
