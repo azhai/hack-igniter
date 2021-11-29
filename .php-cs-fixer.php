@@ -15,7 +15,7 @@ return $config
     ->setRules([
         '@PSR1' => true,
         '@PSR2' => true,
-        '@PhpCsFixer' => true,
+        '@PHP54Migration' => true,
         // Each line of multi-line DocComments must have an asterisk [PSR-5] and must be aligned with the first one.
         'align_multiline_comment' => true,
         // Each element of an array must be indented exactly once.
@@ -54,7 +54,7 @@ return $config
     "fixerSets": [
         "@PSR1",
         "@PSR2",
-        "@PhpCsFixer"
+        "@PHP54Migration"
     ],
     "fixers": {
         "align_multiline_comment": true,
