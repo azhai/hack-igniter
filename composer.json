@@ -19,7 +19,8 @@
         "psr/log": "*",
         "twig/twig": "*",
         "php-curl-class/php-curl-class": "*",
-        "evenement/evenement": "^3.0"
+        "evenement/evenement": "^3.0",
+        "influxdb/influxdb-php": "^0.15"
     },
     "require-dev": {
         "nikic/php-parser": "3.*",
