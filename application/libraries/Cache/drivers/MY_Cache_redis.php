@@ -48,20 +48,6 @@ class MY_Cache_redis extends CI_Cache_redis
         return 'delete';
     }
 
-    public static function get_zadd_args($cache_key, array $data, array $options = null)
-    {
-        $args = [$cache_key];
-        if (! empty($options)) {
-            $args[] = $options;
-        }
-        foreach ($data as $value => $score) {
-            $args[] = $score;
-            $args[] = $value;
-        }
-
-        return $args;
-    }
-
     /**
      * 其他连接参数.
      */

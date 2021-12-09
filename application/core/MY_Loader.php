@@ -16,11 +16,8 @@ defined('BASEPATH') || exit('No direct script access allowed');
 if (! class_exists('CI_Loader')) {
     require_once BASEPATH.'core/Loader.php';
 }
-if (! function_exists('DB')) {
-    require_once BASEPATH.'database/DB.php';
-}
-
-require_once APPPATH.'core/CI_DB.php';
+require_once APPPATH . 'core/CI_DB.php';
+require_once APPPATH . 'database/MY_DB.php';
 
 class MY_Loader extends CI_Loader
 {
@@ -62,10 +59,10 @@ class MY_Loader extends CI_Loader
                 CI_DB::$last_active_group = $params;
             }
 
-            return DB($params, $query_builder);
+            return MY_DB($params, $query_builder);
+        } else {
+            return parent::database($params, $return, $query_builder);
         }
-
-        return parent::database($params, $return, $query_builder);
     }
 
     public function model($model, $name = '', $db_conn = false)

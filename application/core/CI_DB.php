@@ -14,13 +14,10 @@
 defined('BASEPATH') || exit('No direct script access allowed');
 defined('TABLE_NAME_TIMEOUT') || define('TABLE_NAME_TIMEOUT', 3600); //表名缓存时间
 
-require_once BASEPATH.'database/DB_driver.php';
-
-require_once BASEPATH.'database/DB_query_builder.php';
-
-require_once APPPATH.'helpers/my_helper.php';
-
-require_once APPPATH.'helpers/fmt_helper.php';
+require_once BASEPATH . 'database/DB_driver.php';
+require_once BASEPATH . 'database/DB_query_builder.php';
+require_once APPPATH . 'helpers/my_helper.php';
+require_once APPPATH . 'helpers/fmt_helper.php';
 
 class CI_DB extends CI_DB_query_builder
 {
@@ -36,6 +33,40 @@ class CI_DB extends CI_DB_query_builder
      * @var string
      */
     protected $_like_escape_chr = '\\';
+
+    /**
+     * Load the result drivers
+     *
+     * @return	string	the name of the result class
+     */
+    public function load_rdriver()
+    {
+        $driver = 'CI_DB_'.$this->dbdriver.'_result';
+
+        if (class_exists($driver, FALSE))
+        {
+            return $driver;
+        }
+
+        require_once(BASEPATH.'database/DB_result.php');
+        $filename = $this->dbdriver.'/'.$this->dbdriver.'_result.php';
+        $result_file = BASEPATH.'database/drivers/'.$filename;
+
+        if ( ! file_exists($result_file))
+        {
+            $result_base = APPPATH.'database/DB_result.php';
+            if (file_exists($result_base))
+            {
+                require_once($result_base);
+            }
+            $result_file = APPPATH.'database/drivers/'.$filename;
+        }
+
+        file_exists($result_file) or show_error('Invalid DB result');
+        require_once($result_file);
+
+        return $driver;
+    }
 
     public function is_pdo_driver()
     {
