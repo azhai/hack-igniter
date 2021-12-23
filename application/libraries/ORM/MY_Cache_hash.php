@@ -59,20 +59,20 @@ trait MY_Cache_hash
 
     public function get_in_array($values, $key = '')
     {
-        $result = [];
-        $remains = [];
+        $result = array();
+        $remains = array();
         //找出已缓存的
         foreach ($values as $value) {
             if (empty($key)) {
                 $where = $this->condition($value);
             } else {
-                $where = [$key => $value];
+                $where = array($key => $value);
             }
             $row = $this->cache_subject()->read_cache($where);
             //保持$result和$values相同的次序
             if (empty($row)) {
                 $remains[] = $value;
-                $result[$value] = [];
+                $result[$value] = array();
             } else {
                 $result[$value] = $row;
             }
@@ -89,11 +89,11 @@ trait MY_Cache_hash
             if ($fields = $this->cache_fields()) {
                 $this->select(array_keys($fields));
             }
-            $rows = $this->parse_where([$key => $chunk])->all();
+            $rows = $this->parse_where(array($key => $chunk))->all();
             foreach ($rows as $row) {
                 $value = $row[$key];
                 $result[$value] = $row;
-                $where = [$key => $value];
+                $where = array($key => $value);
                 $data = $this->states($row);
                 $this->cache_subject()->write_cache($where, $data);
             }
@@ -106,7 +106,7 @@ trait MY_Cache_hash
     {
         $row = $row ? to_array($row) : $this->status();
         if (\is_string($key) && isset($row[$key])) {
-            $where = [$key => $row[$key]];
+            $where = array($key => $row[$key]);
         } elseif (\is_array($key)) {
             $where = $key;
         } else {

@@ -13,18 +13,18 @@ class Score_model extends MY_Model
 
     public function table_indexes($another = false)
     {
-        return ['id'];
+        return array('id');
     }
 
     public function table_fields()
     {
-        return [
+        return array(
             'id' => 'int',
             'subject_id' => 'int',
             'student_id' => 'int',
             'term' => 'varchar',
             'score' => 'smallint',
             'is_removed' => 'tinyint',
-        ];
+        );
     }
 }

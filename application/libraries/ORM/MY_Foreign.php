@@ -29,10 +29,10 @@ $loader->helper('inflector');
 trait MY_Foreign
 {
     public $foreign_defs;    //关联定义
-    public $foreign_names = [];     //关联名
-    public $foreign_data = [];      //关联表数据
-    public $result_ids = [];        //当前表ID
-    public $result_data = [];       //当前表数据
+    public $foreign_names = array();     //关联名
+    public $foreign_data = array();      //关联表数据
+    public $result_ids = array();        //当前表ID
+    public $result_data = array();       //当前表数据
     public $except_empty = true;    //不查询为0的外键
 
     public function __clone()
@@ -41,10 +41,10 @@ trait MY_Foreign
         foreach ($fields as $field) {
             unset($this[$field]);
         }
-        $this->foreign_names = [];
-        $this->foreign_data = [];
-        $this->result_ids = [];
-        $this->result_data = [];
+        $this->foreign_names = array();
+        $this->foreign_data = array();
+        $this->result_ids = array();
+        $this->result_data = array();
     }
 
     /**
@@ -70,7 +70,7 @@ trait MY_Foreign
      *
      * @param mixed $model
      */
-    public static function get_foreign_columns($model, array $rel = [])
+    public static function get_foreign_columns($model, array $rel = array())
     {
         if (isset($rel['columns'])) {
             return $rel['columns'];
@@ -113,7 +113,7 @@ trait MY_Foreign
             $names = array_filter(\func_get_args());
         }
         if ($this->foreign_names = $names) {
-            $this->foreign_data = array_fill_keys($names, []);
+            $this->foreign_data = array_fill_keys($names, array());
             $this->_mixin_switches['foreign'] = true;
         }
 
@@ -125,10 +125,10 @@ trait MY_Foreign
      *
      * @param mixed $name
      */
-    public function fetch_foreign($name, array $rel = [])
+    public function fetch_foreign($name, array $rel = array())
     {
         if (! $this->result_data) {
-            return []; //本身没有数据
+            return array(); //本身没有数据
         }
         if (! $rel) {
             $rel = $this->parse_relation($name, $rel);
@@ -145,7 +145,7 @@ trait MY_Foreign
      *
      * @param mixed $name
      */
-    public function parse_relation($name, array $rel = [])
+    public function parse_relation($name, array $rel = array())
     {
         if (null === $this->foreign_defs) {
             //使用ArrayObject而不是array，克隆时保持对原始对象foreign_defs属性的引用
@@ -157,7 +157,7 @@ trait MY_Foreign
         if (! $rel) {
             $relations = $this->get_relations();
             if (! isset($relations[$name])) {
-                return [];
+                return array();
             }
             $rel = $relations[$name];
         }
@@ -209,13 +209,13 @@ trait MY_Foreign
     {
         //已处理过，或查询失败
         if (! $this->result) {
-            return [];
+            return array();
         }
-        $this->result_ids = [];
-        $this->result_data = [];
+        $this->result_ids = array();
+        $this->result_data = array();
         //找出外键，设定好外链所在位置
         $pkey = $this->primary_key();
-        $relations = [];
+        $relations = array();
         while ($row = $this->result->unbuffered_row('array')) {
             $id = $row[$pkey];
             $this->result_ids[] = $id;
@@ -233,7 +233,7 @@ trait MY_Foreign
                 } else {
                     $fval = $row[$pkey];
                 }
-                $this->foreign_data[$name][$fval] = [];
+                $this->foreign_data[$name][$fval] = array();
                 $row[$name] = &$this->foreign_data[$name][$fval];
             }
             //设定好外链位置的一行
@@ -266,7 +266,7 @@ trait MY_Foreign
         $columns = '*'
     ) {
         if (! $model->foreign_data[$name]) {
-            return []; //外键没有数据
+            return array(); //外键没有数据
         }
         $pkey = $another->primary_key();
         if (null === $frows) {
@@ -275,7 +275,7 @@ trait MY_Foreign
             if ($another->is_open_mixin('cacheable')) {
                 $frows = $another->get_in_array($ids);
             } else {
-                $another->parse_where([$pkey => $ids]);
+                $another->parse_where(array($pkey => $ids));
                 $frows = $another->all(null, 0, $columns);
             }
         }
@@ -306,7 +306,7 @@ trait MY_Foreign
         $model,
         $another,
         $name,
-        array $rel = [],
+        array $rel = array(),
         $columns = '*'
     ) {
         $fkey = $rel['fkey'];
@@ -321,15 +321,15 @@ trait MY_Foreign
         }
         //查询关联表数据
         $ids = $model->result_ids;
-        $another->parse_where([$fkey => $ids]);
+        $another->parse_where(array($fkey => $ids));
         $frows = $another->all(null, 0, $columns);
         $foreigns = &$model->foreign_data[$name];
         $an_fkey = isset($rel['another_fkey']) ? $rel['another_fkey'] : null;
         if ($an_fkey) {
             if (! property_exists($another, 'foreign_data')) {
-                $another->foreign_data = [];
+                $another->foreign_data = array();
             }
-            $another->foreign_data[$rev_name] = [];
+            $another->foreign_data[$rev_name] = array();
         }
         $has_one = (FOREIGN_HAS_ONE === $rel['type']);
         foreach ($frows as $row) {
@@ -339,7 +339,7 @@ trait MY_Foreign
                     $foreigns[$fval] = $row;
                 } elseif ($an_fkey && isset($row[$an_fkey])) {
                     $an_fval = $row[$an_fkey];
-                    $another->foreign_data[$rev_name][$an_fval] = ['middle' => $row];
+                    $another->foreign_data[$rev_name][$an_fval] = array('middle' => $row);
                     $foreigns[$fval][] = &$another->foreign_data[$rev_name][$an_fval];
                 } else {
                     $foreigns[$fval][] = $row;
@@ -356,7 +356,7 @@ trait MY_Foreign
      * @param mixed $another
      * @param mixed $name
      */
-    public function fetch_belongs_to($another, $name, array $rel = [])
+    public function fetch_belongs_to($another, $name, array $rel = array())
     {
         $frows = isset($rel['third_param']) ? $rel['third_param'] : null;
         $columns = self::get_foreign_columns($another, $rel);
@@ -370,7 +370,7 @@ trait MY_Foreign
      * @param mixed $another
      * @param mixed $name
      */
-    public function fetch_has_many($another, $name, array $rel = [])
+    public function fetch_has_many($another, $name, array $rel = array())
     {
         $columns = self::get_foreign_columns($another, $rel);
 
@@ -383,7 +383,7 @@ trait MY_Foreign
      * @param mixed $another
      * @param mixed $name
      */
-    public function fetch_last_foreign($another, $name, array $rel = [])
+    public function fetch_last_foreign($another, $name, array $rel = array())
     {
         $fkey = $rel['fkey'];
         $another->group_order_by($fkey, '', 'DESC')->order_by($fkey);
@@ -398,7 +398,7 @@ trait MY_Foreign
      * @param mixed $another
      * @param mixed $name
      */
-    public function fetch_many_to_many($another, $name, array $rel = [])
+    public function fetch_many_to_many($another, $name, array $rel = array())
     {
         $middle_model = $rel['middle_model'];
         if (isset($rel['rev_name'])) {

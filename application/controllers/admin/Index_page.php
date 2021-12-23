@@ -11,12 +11,12 @@ class Index_page extends Admin_page
         if (! $this->is_authed()) {
             return $this->goto_action('login');
         }
-        $logout_url = $this->get_page_url('logout', [], true);
+        $logout_url = $this->get_page_url('logout', array(), true);
 
-        return [
+        return array(
             'default_url' => '/admin/user/index/',
             'logout_url' => $logout_url,
-        ];
+        );
     }
 
     public function login()
@@ -37,7 +37,7 @@ class Index_page extends Admin_page
             }
         }
 
-        return ['layout_class' => 'signin'];
+        return array('layout_class' => 'signin');
     }
 
     public function logout()
@@ -61,6 +61,6 @@ class Index_page extends Admin_page
             }
         }
 
-        return ['layout_class' => 'gray-bg', 'username' => $username];
+        return array('layout_class' => 'gray-bg', 'username' => $username);
     }
 }

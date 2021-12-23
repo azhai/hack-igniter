@@ -13,18 +13,18 @@ class Cron_daily_model extends MY_Model
 
     public function table_indexes($another = false)
     {
-        return ['id'];
+        return array('id');
     }
 
     public function table_fields()
     {
-        return [
+        return array(
             'id' => 'int',
             'task_id' => 'int',
             'is_active' => 'bit',
             'workday' => 'bit',
             'weekday' => 'tinyint',
             'run_clock' => 'char',
-        ];
+        );
     }
 }

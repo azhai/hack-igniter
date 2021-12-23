@@ -17,12 +17,12 @@ class Student_model extends MY_Model
 
     public function table_indexes($another = false)
     {
-        return ['id'];
+        return array('id');
     }
 
     public function table_fields()
     {
-        return [
+        return array(
             'id' => 'int',
             'school_id' => 'int',
             'name' => 'varchar',
@@ -30,17 +30,17 @@ class Student_model extends MY_Model
             'created_at' => 'timestamp',
             'changed_at' => 'timestamp',
             'is_removed' => 'tinyint',
-        ];
+        );
     }
 
     public function get_relations()
     {
-        return [
-            'school' => [
+        return array(
+            'school' => array(
                 'model' => 'test/school_model',
-                'columns' => ['id', 'city', 'name', 'is_removed'],
-            ],
-            'subjects' => [
+                'columns' => array('id', 'city', 'name', 'is_removed'),
+            ),
+            'subjects' => array(
                 'type' => FOREIGN_MANY_TO_MANY,
                 'model' => 'test/subject_model',
                 'rev_name' => 'students',
@@ -48,7 +48,7 @@ class Student_model extends MY_Model
                 'another_fkey' => 'subject_id',
                 'middle_model' => 'test/score_model',
                 'fetch_method' => 'fetch_last_foreign',
-            ],
-        ];
+            ),
+        );
     }
 }

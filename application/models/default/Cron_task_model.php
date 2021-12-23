@@ -13,12 +13,12 @@ class Cron_task_model extends MY_Model
 
     public function table_indexes($another = false)
     {
-        return ['id'];
+        return array('id');
     }
 
     public function table_fields()
     {
-        return [
+        return array(
             'id' => 'int',
             'user_uid' => 'char',
             'refer_id' => 'int',
@@ -30,6 +30,6 @@ class Cron_task_model extends MY_Model
             'last_time' => 'datetime',
             'last_result' => 'text',
             'last_error' => 'text',
-        ];
+        );
     }
 }

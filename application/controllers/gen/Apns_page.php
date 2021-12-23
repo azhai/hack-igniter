@@ -29,7 +29,7 @@ class Apns_page extends MY_Controller
      *
      * @return bool
      */
-    public function pushmsg($userid, $message, array $data = [])
+    public function pushmsg($userid, $message, array $data = array())
     {
         $this->load->model('user/user_token_model');
         $row = $this->user_token_model->get_last_token($userid); //最后一个有效token
@@ -64,7 +64,7 @@ class Apns_page extends MY_Controller
         $apns = $this->{$queue_name};
         $server = $apns->getPushServer();
         $invalid_queue = $apns->getInvalidQueueName();
-        $queues = [$queue_name];
+        $queues = array($queue_name);
 
         $server->start();
         while ($server->run()) { // Main loop...
@@ -96,7 +96,7 @@ class Apns_page extends MY_Controller
         $this->config->load('apns', true, true);
         $all_params = $this->config->item('apns');
         //初始化
-        $apns_pool = [];
+        $apns_pool = array();
         foreach ($all_params as $channel => $params) {
             $queue_name = 'apns_'.$channel;
             $this->load->library('MY_Apns', $params, $queue_name);

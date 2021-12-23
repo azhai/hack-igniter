@@ -25,42 +25,42 @@ class School_model extends MY_Model
 
     public function table_indexes($another = false)
     {
-        return ['id'];
+        return array('id');
     }
 
     public function table_fields()
     {
-        return [
+        return array(
             'id' => 'int',
             'city' => 'varchar',
             'name' => 'varchar',
             'created_at' => 'timestamp',
             'changed_at' => 'timestamp',
             'is_removed' => 'tinyint',
-        ];
+        );
     }
 
     public function get_relations()
     {
-        return [
-            'students' => [
+        return array(
+            'students' => array(
                 'type' => FOREIGN_HAS_MANY,
                 'model' => 'test/student_model',
                 'fkey' => 'school_id',
-                'columns' => ['id', 'name', 'gender',
-                    'school_id', 'is_removed', ],
-            ],
-        ];
+                'columns' => array('id', 'name', 'gender',
+                    'school_id', 'is_removed', ),
+            ),
+        );
     }
 
     public function cache_fields()
     {
-        return [
+        return array(
             'id' => 'int',
             'city' => 'varchar',
             'name' => 'varchar',
             'is_removed' => 'tinyint',
-        ];
+        );
     }
 
     public function cache_type()

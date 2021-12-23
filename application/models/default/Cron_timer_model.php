@@ -13,17 +13,17 @@ class Cron_timer_model extends MY_Model
 
     public function table_indexes($another = false)
     {
-        return ['id'];
+        return array('id');
     }
 
     public function table_fields()
     {
-        return [
+        return array(
             'id' => 'int',
             'task_id' => 'int',
             'is_active' => 'bit',
             'run_date' => 'date',
             'run_clock' => 'char',
-        ];
+        );
     }
 }

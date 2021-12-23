@@ -9,7 +9,7 @@ class Privilege_model extends MY_Model
 {
     use \Mylib\ORM\MY_Nested_set;
     public $root_node;
-    public $priv_nodes = [];
+    public $priv_nodes = array();
 
     protected $_db_key = 'default';
     protected $_db_key_ro = 'default_ro';
@@ -27,12 +27,12 @@ class Privilege_model extends MY_Model
 
     public function table_indexes($another = false)
     {
-        return ['id'];
+        return array('id');
     }
 
     public function table_fields()
     {
-        return [
+        return array(
             'id' => 'int',
             'menu_id' => 'int',
             'operation' => 'varchar',
@@ -43,12 +43,12 @@ class Privilege_model extends MY_Model
             'created_at' => 'timestamp',
             'changed_at' => 'timestamp',
             'is_removed' => 'tinyint',
-        ];
+        );
     }
 
     public function get_root_node()
     {
-        $where = ['operation' => 'all'];
+        $where = array('operation' => 'all');
 
         return $this->get_nested($where);
     }

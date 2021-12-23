@@ -22,8 +22,8 @@ require_once APPPATH . 'core/CI_DB.php';
 class MY_Loader extends CI_Loader
 {
     //根据namespace前缀，自动加载类文件
-    protected $third_parties = [];
-    protected $multi_prefixes = [];
+    protected $third_parties = array();
+    protected $multi_prefixes = array();
 
     public function __construct()
     {
@@ -34,7 +34,7 @@ class MY_Loader extends CI_Loader
     public function initialize()
     {
         parent::initialize();
-        spl_autoload_register([$this, 'auto_load']);
+        spl_autoload_register(array($this, 'auto_load'));
     }
 
     public function set_alias($object, $class, $alias = '')
@@ -325,10 +325,10 @@ class MY_Loader extends CI_Loader
             $adapter = $params['adapter'];
         } else {
             $adapter = $params;
-            $params = ['adapter' => $adapter];
+            $params = array('adapter' => $adapter);
         }
 
-        return [$adapter, $params];
+        return array($adapter, $params);
     }
 
     /**

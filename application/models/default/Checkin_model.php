@@ -15,12 +15,12 @@ class Checkin_model extends MY_Model
 
     public function table_indexes($another = false)
     {
-        return ['id'];
+        return array('id');
     }
 
     public function table_fields()
     {
-        return [
+        return array(
             'id' => 'int',
             'user_id' => 'int',
             'amount' => 'int',
@@ -28,6 +28,6 @@ class Checkin_model extends MY_Model
             'created_at' => 'timestamp',
             'changed_at' => 'timestamp',
             'is_removed' => 'tinyint',
-        ];
+        );
     }
 }

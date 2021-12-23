@@ -21,7 +21,6 @@ use InfluxDB\Client;
 use InfluxDB\Database\RetentionPolicy;
 use InfluxDB\Exception as InfluxException;
 
-
 /**
  * InfluxDB Database Adapter Class
  *
@@ -98,7 +97,7 @@ class CI_DB_influxdb_driver extends CI_DB
     public function initialize()
     {
         $result = parent::initialize();
-        if (!$this->conn_id->exists()) {
+        if (! $this->conn_id->exists()) {
             $policy = $this->newRetentionPolicy($this->default_policy);
             $this->conn_id->create($policy);
         }
@@ -116,7 +115,7 @@ class CI_DB_influxdb_driver extends CI_DB
     public function db_connect($persistent = false)
     {
         // Do we have a socket path?
-        if (!empty($this->dsn) && strpos($this->dsn, 'influxdb://') !== false) {
+        if (! empty($this->dsn) && strpos($this->dsn, 'influxdb://') !== false) {
             try {
                 $this->conn_id = Client::fromDSN($this->dsn);
             } catch (InfluxException $err) {
@@ -164,7 +163,7 @@ class CI_DB_influxdb_driver extends CI_DB
         $client = $this->conn_id->getClient();
         if ($this->conn_id = $client->selectDB($database)) {
             $this->database = $database;
-            $this->data_cache = [];
+            $this->data_cache = array();
             return true;
         }
 
@@ -370,14 +369,14 @@ class CI_DB_influxdb_driver extends CI_DB
      */
     public function error()
     {
-        if (!empty($this->_last_error)) {
-            return [
+        if (! empty($this->_last_error)) {
+            return array(
                 'code' => $this->_last_error->getCode(),
                 'message' => $this->_last_error->getMessage(),
-            ];
+            );
         }
 
-        return ['code' => 0, 'message' => ''];
+        return array('code' => 0, 'message' => '');
     }
 
     // --------------------------------------------------------------------
@@ -400,7 +399,7 @@ class CI_DB_influxdb_driver extends CI_DB
     public function newRetentionPolicy($args = null)
     {
         $args = is_array($args) ? $args : func_get_args();
-        if (count($args) > 0 && !empty($args[0])) {
+        if (count($args) > 0 && ! empty($args[0])) {
             $class = new ReflectionClass('\\InfluxDB\\Database\\RetentionPolicy');
             return $class->newInstanceArgs($args);
         }
@@ -465,13 +464,13 @@ class CI_DB_influxdb_driver extends CI_DB
      */
     public function dropSeries($table_name = '', $is_delete = false, $time = '')
     {
-        if (!empty($time)) {
+        if (! empty($time)) {
             $this->where('time <', $time);
             $sql = 'DELETE';
         } else {
             $sql = $is_delete ? 'DELETE' : 'DROP SERIES';
         }
-        if (!empty($table_name)) {
+        if (! empty($table_name)) {
             $sql .= sprintf(' FROM "%s"', $table_name);
         }
         if ($where = $this->_compile_wh('qb_where')) {

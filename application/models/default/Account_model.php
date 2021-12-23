@@ -15,12 +15,12 @@ class Account_model extends MY_Model
 
     public function table_indexes($another = false)
     {
-        return ['id'];
+        return array('id');
     }
 
     public function table_fields()
     {
-        return [
+        return array(
             'id' => 'int',
             'user_id' => 'int',
             'balance' => 'int',
@@ -28,23 +28,23 @@ class Account_model extends MY_Model
             'created_at' => 'timestamp',
             'changed_at' => 'timestamp',
             'is_removed' => 'tinyint',
-        ];
+        );
     }
 
     public function increase_amount($where, $amount)
     {
         $amount = (int) $amount;
-        $changes = ['balance' => 'balance + '.$amount];
+        $changes = array('balance' => 'balance + '.$amount);
         $this->trans_start();
         $result = $this->update($changes, $where, 1, false);
         if ($result) {
             $account = $this->one($where);
-            $data = [
+            $data = array(
                 'account_id' => $account['id'],
                 'amount' => $amount,
                 'after_balance' => $account['balance'],
                 'currency' => $account['currency'],
-            ];
+            );
             $this->load->model('default/account_history_model');
             $this->account_history_model->insert($data);
         }
@@ -55,14 +55,14 @@ class Account_model extends MY_Model
 
     public function increase_by_id($id, $amount)
     {
-        $where = ['id' => $id];
+        $where = array('id' => $id);
 
         return $this->increase_amount($where, $amount);
     }
 
     public function increase_by_user($user_id, $amount, $currency = 'COIN')
     {
-        $where = ['user_id' => $user_id, 'currency' => $currency];
+        $where = array('user_id' => $user_id, 'currency' => $currency);
 
         return $this->increase_amount($where, $amount);
     }

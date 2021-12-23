@@ -7,7 +7,7 @@ include_once dirname(__DIR__) . "/bootstrap.php";
 $CI->load->model('test/student_model');
 $CI->student_model->with_foreign('school');
 
-$columns = ['id', 'name', 'gender', 'school_id', 'is_removed'];
+$columns = array('id', 'name', 'gender', 'school_id', 'is_removed');
 $rows = $CI->student_model->all(3, 0, $columns);
 echo 'Students:' . "\n";
 foreach ($rows as $row) {

@@ -70,7 +70,7 @@ if (! function_exists('array_flatten')) {
      */
     function array_flatten(array $values, $drop_empty = false)
     {
-        $result = [];
+        $result = array();
         array_walk_recursive($values, function ($value) use (&$result, $drop_empty) {
             if (! $drop_empty || ! empty($value)) {
                 $result[] = $value;

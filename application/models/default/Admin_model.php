@@ -25,12 +25,12 @@ class Admin_model extends MY_Model
 
     public function table_indexes($another = false)
     {
-        return ['id'];
+        return array('id');
     }
 
     public function table_fields()
     {
-        return [
+        return array(
             'id' => 'int',
             'role_id' => 'int',
             'username' => 'varchar',
@@ -44,12 +44,12 @@ class Admin_model extends MY_Model
             'created_at' => 'timestamp',
             'changed_at' => 'timestamp',
             'is_removed' => 'tinyint',
-        ];
+        );
     }
 
     public function cache_fields()
     {
-        return [
+        return array(
             'id' => 'int',
             'role_id' => 'int',
             'username' => 'varchar',
@@ -58,7 +58,7 @@ class Admin_model extends MY_Model
             'email' => 'varchar',
             'phone' => 'varchar',
             'is_removed' => 'tinyint',
-        ];
+        );
     }
 
     public function cache_type()
@@ -73,17 +73,17 @@ class Admin_model extends MY_Model
 
     public function get_relations()
     {
-        return [
-            'role' => [
+        return array(
+            'role' => array(
                 'model' => 'default/role_model',
-                'columns' => ['id', 'title', 'is_super', 'is_removed'],
-            ],
-        ];
+                'columns' => array('id', 'title', 'is_super', 'is_removed'),
+            ),
+        );
     }
 
     public function check_password($username, $password)
     {
-        $row = $this->one(['username' => $username]);
+        $row = $this->one(array('username' => $username));
         if (empty($row) || $row['is_removed']) {
             return; //账号不存在或已禁用
         }
@@ -91,7 +91,7 @@ class Admin_model extends MY_Model
             $this->load->library('MY_Portable_hash', null, 'hasher');
             $ok = $this->hasher->check_password($password, $row['password']);
             if ($ok) {
-                $fields = ['id', 'role_id', 'username', 'nickname', 'gender'];
+                $fields = array('id', 'role_id', 'username', 'nickname', 'gender');
 
                 return array_intersect_key($row, array_fill_keys($fields, null));
             }

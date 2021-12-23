@@ -25,7 +25,8 @@ $this->extendTpl($theme_dir.'/layout.php'); ?>
                         <i class="fa fa-clone"></i>
                     </div>
                 </li>
-                <?php if ($user['is_super']) { ?>
+                <?php if ($user['is_super']) {
+    ?>
                     <li>
                         <a href="#">
                             <i class="fa fa-users"></i>
@@ -47,46 +48,57 @@ $this->extendTpl($theme_dir.'/layout.php'); ?>
                             </li>
                         </ul>
                     </li>
-                <?php } ?>
+                <?php
+} ?>
                 <li class="line dk"></li>
                 <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
                     <span class="ng-scope">分类</span>
                 </li>
-                <?php foreach ($menus as $menu) { ?>
+                <?php foreach ($menus as $menu) {
+        ?>
                     <li>
-                        <?php if ($menu['children']) { ?>
+                        <?php if ($menu['children']) {
+            ?>
                             <a href="#">
                                 <i class="<?php echo $menu['icon']; ?>"></i>
                                 <span class="nav-label"><?php echo $menu['title']; ?></span>
                                 <span class="fa arrow"></span>
                             </a>
                             <ul class="nav nav-second-level">
-                                <?php foreach ($menu['children'] as $submenu) { ?>
+                                <?php foreach ($menu['children'] as $submenu) {
+                ?>
                                     <li>
-                                        <?php if ('#' === $submenu['url']) { ?>
+                                        <?php if ('#' === $submenu['url']) {
+                    ?>
                                             <a href="#"><?php echo $submenu['title']; ?> <span class="fa arrow"></span></a>
                                             <ul class="nav nav-third-level">
                                                 <li>
                                                     <?php echo implode("\n</li>\n<li>\n", $leaves[$submenu['id']]); ?>
                                                 </li>
                                             </ul>
-                                        <?php } else {
-    echo to_menu_link($submenu);
-} ?>
+                                        <?php
+                } else {
+                    echo to_menu_link($submenu);
+                } ?>
                                     </li>
-                                <?php } ?>
+                                <?php
+            } ?>
                             </ul>
-                        <?php } else { ?>
+                        <?php
+        } else {
+            ?>
                             <a class="J_menuItem" href="<?php echo $menu['url']; ?>">
                                 <i class="<?php echo $menu['icon']; ?>"></i>
                                 <span class="nav-label"><?php echo $menu['title']; ?></span>
                                 <?php if ($menu['corner']) {
-    echo to_corner_span($menu['corner']);
-} ?>
+                echo to_corner_span($menu['corner']);
+            } ?>
                             </a>
-                        <?php } ?>
+                        <?php
+        } ?>
                     </li>
-                <?php } ?>
+                <?php
+    } ?>
             </ul>
         </div>
     </nav>

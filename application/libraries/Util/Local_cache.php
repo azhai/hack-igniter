@@ -91,7 +91,7 @@ class Local_cache
             return null;
         }
 
-        return \is_array($result) ? $result : [];
+        return \is_array($result) ? $result : array();
     }
 
     /**

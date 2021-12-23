@@ -76,11 +76,11 @@ if (! function_exists('xhprof_open')) {
      */
     function xhprof_open()
     {
-        static $options = [
+        static $options = array(
             'nob' => 'XHPROF_FLAGS_NO_BUILTINS',
             'cpu' => 'XHPROF_FLAGS_CPU',
             'mem' => 'XHPROF_FLAGS_MEMORY',
-        ];
+        );
         $value = 0;
         $prefix = is_php('7.0') ? 'TIDEWAYS_' : '';
         $opts = func_get_args();

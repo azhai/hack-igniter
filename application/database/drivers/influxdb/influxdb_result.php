@@ -27,10 +27,9 @@ require_once VENDPATH . 'autoload.php';
  */
 class CI_DB_influxdb_result extends CI_DB_result
 {
-
     protected $is_read_series = false;
-    protected $result_series = [];
-    protected $serie_counts = [];
+    protected $result_series = array();
+    protected $serie_counts = array();
     protected $serie_columns = null;
     protected $serie_tags = null;
 
@@ -46,7 +45,7 @@ class CI_DB_influxdb_result extends CI_DB_result
         }
         $this->result_series = $this->result_id->getSeries();
         if (empty($this->result_series)) {
-            $this->result_series = [];
+            $this->result_series = array();
             $this->num_rows = 0;
         }
         $this->is_read_series = true;
@@ -62,7 +61,7 @@ class CI_DB_influxdb_result extends CI_DB_result
         if ($this->result_id) {
             return $this->result_id->getPointsFromSerie($serie);
         }
-        $points = [];
+        $points = array();
         foreach ($serie['values'] as $value) {
             $point = array_combine($serie['columns'], $value);
             if (isset($serie['tags'])) {
@@ -81,7 +80,7 @@ class CI_DB_influxdb_result extends CI_DB_result
     {
         $count = isset($serie['values']) ? count($serie['values']) : 0;
         if ($count === 0 || $offset >= $count || $offset < 0 - $count) {
-            return [];
+            return array();
         }
         $offset = ($offset < 0) ? $offset + $count : (int)$offset;
         $point = array_combine($serie['columns'], $serie['values'][$offset]);
@@ -106,8 +105,8 @@ class CI_DB_influxdb_result extends CI_DB_result
             $count = isset($s['values']) ? count($s['values']) : 0;
             $this->serie_counts[] = $count;
             if (0 === (int)$i) {
-                $this->serie_columns = isset($s['columns']) ? $s['columns'] : [];
-                $this->serie_tags = isset($s['tags']) ? array_keys($s['tags']) : [];
+                $this->serie_columns = isset($s['columns']) ? $s['columns'] : array();
+                $this->serie_tags = isset($s['tags']) ? array_keys($s['tags']) : array();
             }
         }
         $this->num_rows = array_sum($this->serie_counts);
@@ -137,18 +136,18 @@ class CI_DB_influxdb_result extends CI_DB_result
      */
     public function list_fields()
     {
-        if (!is_null($this->serie_columns) && !is_null($this->serie_tags)) {
+        if (! is_null($this->serie_columns) && ! is_null($this->serie_tags)) {
             return array_merge($this->serie_columns, $this->serie_tags);
         }
         if ($series = $this->get_series()) {
             $s = $series[0];
-            $this->serie_columns = isset($s['columns']) ? $s['columns'] : [];
-            $this->serie_tags = isset($s['tags']) ? array_keys($s['tags']) : [];
+            $this->serie_columns = isset($s['columns']) ? $s['columns'] : array();
+            $this->serie_tags = isset($s['tags']) ? array_keys($s['tags']) : array();
             return array_merge($this->serie_columns, $this->serie_tags);
         } else {
-            $this->serie_columns = [];
-            $this->serie_tags = [];
-            return [];
+            $this->serie_columns = array();
+            $this->serie_tags = array();
+            return array();
         }
     }
 
@@ -164,7 +163,7 @@ class CI_DB_influxdb_result extends CI_DB_result
     public function field_data()
     {
         $this->list_fields();
-        $result = [];
+        $result = array();
         foreach ($this->serie_columns as $column) {
             $field = new stdClass();
             $field->name = $column;
@@ -209,7 +208,7 @@ class CI_DB_influxdb_result extends CI_DB_result
      */
     protected function _fetch_assoc()
     {
-        $row = [];
+        $row = array();
         if ($this->current_row >= $this->num_rows()) {
             return $row;
         }
@@ -241,5 +240,4 @@ class CI_DB_influxdb_result extends CI_DB_result
     {
         return new ArrayObject($this->_fetch_assoc());
     }
-
 }

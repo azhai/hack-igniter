@@ -24,7 +24,8 @@
                 </tr>
                 </thead>
                 <tbody>
-                <?php foreach ($page_rows as $row) { ?>
+                <?php foreach ($page_rows as $row) {
+    ?>
                     <tr class="table-row<?php echo $row['is_removed'] ? ' removed' : ''; ?>" data-id="<?php echo $row['id']; ?>">
                         <td><input type="checkbox" class="i-checks" name="id[]" value="<?php echo $row['id']; ?>"></td>
                         <td><span style="color:<?php echo $row['city_color']; ?>"><?php echo $row['city_name']; ?></span></td>
@@ -42,18 +43,23 @@
                             <a class="btn btn-default btn-rounded">
                                 <i class="fa fa-edit" title="编辑"></i>
                             </a>
-                            <?php if ($row['is_removed']) { ?>
+                            <?php if ($row['is_removed']) {
+        ?>
                                 <a class="btn btn-default btn-rounded">
                                     <i class="fa fa-recycle" title="恢复"></i>
                                 </a>
-                            <?php } else { ?>
+                            <?php
+    } else {
+        ?>
                                 <a class="btn btn-default btn-rounded">
                                     <i class="fa fa-remove" title="删除"></i>
                                 </a>
-                            <?php } ?>
+                            <?php
+    } ?>
                         </td>
                     </tr>
-                <?php } ?>
+                <?php
+} ?>
                 </tbody>
                 <tfoot>
                 <tr class="table-row" data-id="CHECKS">

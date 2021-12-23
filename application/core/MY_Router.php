@@ -52,7 +52,7 @@ class MY_Router extends CI_Router
      *
      * @param array $segments URI segments
      */
-    protected function _set_request($segments = [])
+    protected function _set_request($segments = array())
     {
         if (isset($_SERVER['CI_DIR']) && $_SERVER['CI_DIR']) {
             $this->set_directory($_SERVER['CI_DIR']);
@@ -60,7 +60,7 @@ class MY_Router extends CI_Router
             $this->set_directory(array_shift($segments));
         }
         if (empty($segments)) {
-            $segments = ['index'];
+            $segments = array('index');
         }
 
         return parent::_set_request($segments);

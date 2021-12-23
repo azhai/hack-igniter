@@ -20,7 +20,7 @@ class MY_Logger_file extends CI_Driver
 {
     public $time_format = 'Y-m-d H:i:s';
     protected $filename = '';
-    protected $records = [];
+    protected $records = array();
     protected $closed = false;
 
     /**
@@ -76,7 +76,7 @@ class MY_Logger_file extends CI_Driver
             $appends = implode('', $records);
             $bytes = file_put_contents($file, $appends, FILE_APPEND | LOCK_EX);
             if (false !== $bytes) { //写入成功，清除已写记录
-                $records = [];
+                $records = array();
             }
         }
     }
@@ -85,7 +85,7 @@ class MY_Logger_file extends CI_Driver
     {
         $today = date('Ymd', $record['time']);
         if (! isset($this->records[$today])) {
-            $this->records[$today] = [];
+            $this->records[$today] = array();
         }
         $record['time'] = date($this->time_format, $record['time']);
         $line = implode(' ', $record).PHP_EOL;

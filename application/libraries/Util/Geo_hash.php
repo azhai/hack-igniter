@@ -14,9 +14,9 @@ namespace Mylib\Util;
 class Geo_hash
 {
     private static $table = '0123456789bcdefghjkmnpqrstuvwxyz';
-    private static $bits = [
+    private static $bits = array(
         0b10000, 0b01000, 0b00100, 0b00010, 0b00001,
-    ];
+    );
 
     public static function encode($lng, $lat, $prec = 0.00001)
     {
@@ -25,7 +25,7 @@ class Geo_hash
         $minlat = -90;
         $maxlat = 90;
 
-        $hash = [];
+        $hash = array();
         $error = 180;
         $isEven = true;
         $chr = 0b00000;
@@ -70,7 +70,7 @@ class Geo_hash
         $dlng = ($maxlng - $minlng) / 2;
         $dlat = ($maxlat - $minlat) / 2;
 
-        return [
+        return array(
             self::encode($minlng - $dlng, $maxlat + $dlat),
             self::encode($minlng + $dlng, $maxlat + $dlat),
             self::encode($maxlng + $dlng, $maxlat + $dlat),
@@ -79,19 +79,19 @@ class Geo_hash
             self::encode($minlng - $dlng, $minlat - $dlat),
             self::encode($minlng + $dlng, $minlat - $dlat),
             self::encode($maxlng + $dlng, $minlat - $dlat),
-        ];
+        );
     }
 
     public static function get_rect($hash)
     {
         list($minlng, $maxlng, $minlat, $maxlat) = self::decode($hash);
 
-        return [
-            [$minlng, $minlat],
-            [$minlng, $maxlat],
-            [$maxlng, $maxlat],
-            [$maxlng, $minlat],
-        ];
+        return array(
+            array($minlng, $minlat),
+            array($minlng, $maxlat),
+            array($maxlng, $maxlat),
+            array($maxlng, $minlat),
+        );
     }
 
     /**
@@ -167,6 +167,6 @@ class Geo_hash
             }
         }
 
-        return [$minlng, $maxlng, $minlat, $maxlat];
+        return array($minlng, $maxlng, $minlat, $maxlat);
     }
 }

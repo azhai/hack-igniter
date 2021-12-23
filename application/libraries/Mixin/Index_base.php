@@ -73,7 +73,7 @@ abstract class Index_base extends MY_Model
             $suffix = $row['table_suffix'];
             $sql = sprintf($tpl, $suffix, $suffix);
             $first = $db->query($sql." WHERE `{$field}`>={$stamp} AND `{$field}`<{$stamp}+{$interval}")->row_array();
-            $this->update(['start_id' => $first['mid'], 'row_count' => $first['cnt']], ['id' => $row['id']], 1);
+            $this->update(array('start_id' => $first['mid'], 'row_count' => $first['cnt']), array('id' => $row['id']), 1);
             $where = " WHERE `{$field}`>={$stamp}+{$interval} AND `{$field}`<".self::next_month_begin($stamp);
             $full_sql = "INSERT INTO `{$idx_table}` ".$sql.$where.' GROUP BY ts ORDER BY mid';
             $db->query($full_sql);
@@ -105,14 +105,14 @@ abstract class Index_base extends MY_Model
         if ($cache_key = $this->get_cache_key()) {
             $cache_key .= $suffix;
             $stop = $start - $this->get_interval();
-            $options = ['limit' => [0, 1]];
+            $options = array('limit' => array(0, 1));
             $keys = $this->index_cache->zRevRangeByScore($cache_key, $start, $stop, $options);
             if (\count($keys) > 0) {
                 return $keys[0];
             }
         }
         $this->_add_log_index($field, $pkey);
-        $find = ['stamp_number <=' => $start, 'table_suffix' => $suffix];
+        $find = array('stamp_number <=' => $start, 'table_suffix' => $suffix);
         if ($row = $this->order_by('stamp_number', 'DESC')->one($find)) {
             $this->index_cache->zAdd($cache_key, $row['stamp_number'], $row['start_id']);
             $this->index_cache->expire($cache_key, 86400);
@@ -137,7 +137,7 @@ abstract class Index_base extends MY_Model
         }
         $start = 0;
         foreach ($where as $key => $value) {
-            $key = str_replace(['`', ' '], '', strtolower($key));
+            $key = str_replace(array('`', ' '), '', strtolower($key));
             if ($key === $field.'>' || $key === $field.'>=') {
                 $start = $value;
 
@@ -167,7 +167,7 @@ abstract class Index_base extends MY_Model
         if (empty($suffix)) {
             $suffix = date('_Ym', $start);
         }
-        $where = [$field.' >=' => $start];
+        $where = array($field.' >=' => $start);
         $items = $this->_rewrite_where($where, $field, $pkey, $suffix);
         $conds = '1';
         foreach ($items as $key => $value) {

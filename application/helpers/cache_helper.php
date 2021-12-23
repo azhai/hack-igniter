@@ -14,14 +14,14 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 
 
-if (!function_exists('get_zadd_args')) {
+if (! function_exists('get_zadd_args')) {
     /**
      * 转换zAdd参数
      */
     function get_zadd_args($cache_key, array $options, array $data, $scol = '', $vcol='')
     {
-        $args = [$cache_key,];
-        if (!empty($options)) {
+        $args = array($cache_key,);
+        if (! empty($options)) {
             $args[] = $options;
         }
         foreach ($data as $value => $score) {
@@ -32,20 +32,20 @@ if (!function_exists('get_zadd_args')) {
     }
 }
 
-if (!function_exists('zadd_more')) {
+if (! function_exists('zadd_more')) {
     /**
      * zAdd多条数据
      */
     function zadd_more($redis, $cache_key, array $data, $scol = '', $vcol='')
     {
         foreach (array_chunk($data, 10, true) as $chunk) {
-            $args = get_zadd_args($cache_key, [], $chunk, $scol, $vcol);
+            $args = get_zadd_args($cache_key, array(), $chunk, $scol, $vcol);
             exec_method_array($redis, 'zAdd', $args);
         }
     }
 }
 
-if (!function_exists('zincrby_more')) {
+if (! function_exists('zincrby_more')) {
     /**
      * zIncrBy多条数据
      */

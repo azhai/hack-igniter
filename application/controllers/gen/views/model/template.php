@@ -22,17 +22,21 @@ class <?php echo $name; ?> extends MY_Model
     echo "    protected \$_changed_field = 'changed_at';\n";
 } ?>
 
-<?php if (! $mixin || ! in_array('table_indexes', $mixin['methods'], true)) { ?>
+<?php if (! $mixin || ! in_array('table_indexes', $mixin['methods'], true)) {
+    ?>
     public function table_indexes($another = false)
     {
         return ['<?php echo implode("', '", $pkeys); ?>'];
     }
-<?php } ?>
+<?php
+} ?>
 
-<?php if (! $mixin || ! in_array('table_fields', $mixin['methods'], true)) { ?>
+<?php if (! $mixin || ! in_array('table_fields', $mixin['methods'], true)) {
+        ?>
     public function table_fields()
     {
         return <?php echo array_export($fields, 8); ?>;
     }
-<?php } ?>
+<?php
+    } ?>
 }

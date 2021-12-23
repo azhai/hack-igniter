@@ -24,12 +24,12 @@ class Role_model extends MY_Model
 
     public function table_indexes($another = false)
     {
-        return ['id'];
+        return array('id');
     }
 
     public function table_fields()
     {
-        return [
+        return array(
             'id' => 'int',
             'title' => 'varchar',
             'remark' => 'varchar',
@@ -37,17 +37,17 @@ class Role_model extends MY_Model
             'created_at' => 'timestamp',
             'changed_at' => 'timestamp',
             'is_removed' => 'tinyint',
-        ];
+        );
     }
 
     public function cache_fields()
     {
-        return [
+        return array(
             'id' => 'int',
             'title' => 'varchar',
             'is_super' => 'tinyint',
             'is_removed' => 'tinyint',
-        ];
+        );
     }
 
     public function cache_type()

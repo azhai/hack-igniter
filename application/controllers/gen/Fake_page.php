@@ -20,7 +20,7 @@ $loader->name_space('Faker', VENDPATH.'fzaninotto/faker/src/Faker');
  */
 class Fake_page extends MY_Controller
 {
-    public $generators = [];
+    public $generators = array();
     protected static $faker;
 
     public static function get_faker($locale = 'zh_CN')
@@ -44,9 +44,9 @@ class Fake_page extends MY_Controller
 
     public function create($generator, $count = 1)
     {
-        $rows = [];
+        $rows = array();
         for (; $count > 0; --$count) {
-            $row = [];
+            $row = array();
             foreach ($generator as $col => $gen) {
                 $row[$col] = $gen();
             }
@@ -60,7 +60,7 @@ class Fake_page extends MY_Controller
     {
         $model = ucfirst($model);
         if (isset($this->generators[$model])) {
-            return [];
+            return array();
         }
         $generator = $this->generators[$model];
 

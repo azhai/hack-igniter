@@ -22,7 +22,6 @@ use InfluxDB\Database;
 use InfluxDB\Exception as InfluxException;
 use InfluxDB\Point;
 
-
 /**
  * NotSupportedException represents an exception caused by accessing features that are not supported.
  */
@@ -76,7 +75,7 @@ trait CI_DB_influxdb_model
                 $v = strtolower(trim($v));
                 return $v !== '' && $v !== 'null';
             } else {
-                return !is_null($v);
+                return ! is_null($v);
             }
         };
     }
@@ -86,7 +85,7 @@ trait CI_DB_influxdb_model
         if (method_exists($this, 'table_tags') && $tags = $this->table_tags()) {
             return array_intersect_key($row, $tags);
         }
-        return [];
+        return array();
     }
 
     public function set_to_point($table, array $row, $time_field = '')
@@ -114,7 +113,7 @@ trait CI_DB_influxdb_model
     {
         $table = $this->table_name();
         $db = $this->ensure_conn();
-        if (!empty($where)) {
+        if (! empty($where)) {
             $this->parse_where($where, $escape);
         }
         return $db->delete($table, '', $limit);
@@ -122,14 +121,14 @@ trait CI_DB_influxdb_model
 
     public function insert($row, $is_replace = false, $escape = null)
     {
-        if (empty($row) || !is_array($row)) {
+        if (empty($row) || ! is_array($row)) {
             return;
         }
         $table = $this->table_name();
         $db = $this->ensure_conn();
         $time_field = $this->get_time_field();
         if ($point = $this->set_to_point($table, $row, $time_field)) {
-            return $db->writePoints([$point, ], Database::PRECISION_SECONDS);
+            return $db->writePoints(array($point, ), Database::PRECISION_SECONDS);
         }
     }
 
@@ -145,7 +144,7 @@ trait CI_DB_influxdb_model
         // Batch this baby
         $affected_rows = 0;
         foreach (array_chunk($rows, $batch_size) as $chunks) {
-            $points = [];
+            $points = array();
             foreach ($chunks as $row) {
                 if ($point = $this->set_to_point($table, $row, $time_field)) {
                     $points[] = $point;

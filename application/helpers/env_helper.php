@@ -89,11 +89,11 @@ if (! function_exists('get_real_client_ip')) {
      */
     function get_real_client_ip()
     {
-        $keys = [
+        $keys = array(
             'HTTP_X_FORWARDED_FOR', 'HTTP_X_REAL_IP', 'HTTP_CLIENT_IP',
             'HTTP_X_FORWARDED', 'HTTP_X_CLUSTER_CLIENT_IP',
             'HTTP_FORWARDED_FOR', 'HTTP_FORWARDED', 'REMOTE_ADDR',
-        ];
+        );
         foreach ($keys as $key) {
             $ipaddr = isset($_SERVER[$key]) ? $_SERVER[$key] : '';
             if ($ipaddr && strlen($ipaddr) >= 7) {

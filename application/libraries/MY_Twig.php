@@ -20,7 +20,7 @@ require_once VENDPATH.'autoload.php';
  */
 class MY_Twig extends Twig_Environment
 {
-    public function __construct(array $options = [])
+    public function __construct(array $options = array())
     {
         if (isset($option['root'])) {
             $root = $option['root'];

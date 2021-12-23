@@ -22,9 +22,9 @@ class MY_Controller extends CI_Controller
     public $page_url = '';
     public $curr_page = '';
     public $curr_action = '';
-    public $db_conns = [];
-    public $tpl_alias = [];
-    protected $context = [];
+    public $db_conns = array();
+    public $tpl_alias = array();
+    protected $context = array();
     protected $request_method = 'get';
     protected $response_type = 'html';
 
@@ -38,7 +38,7 @@ class MY_Controller extends CI_Controller
         $this->load->helper('env');
     }
 
-    public function _remap($action, $params = [])
+    public function _remap($action, $params = array())
     {
         if (! method_exists($this, $action)) {
             $action = 'index';
@@ -96,7 +96,7 @@ class MY_Controller extends CI_Controller
         }
     }
 
-    protected function get_page_url($action = '', array $args = [], $with_dir = false)
+    protected function get_page_url($action = '', array $args = array(), $with_dir = false)
     {
         if (empty($action)) {
             $action = $this->curr_action;
@@ -118,14 +118,14 @@ class MY_Controller extends CI_Controller
         $theme_name = defined('SITE_THEME_NAME') ? SITE_THEME_NAME : '';
         $static_url = defined('SITE_STATIC_URL') ? SITE_STATIC_URL : '/static/';
 
-        return [
+        return array(
             'static_url' => rtrim($static_url, '/'),
             'base_url' => $this->base_url,
             'page_url' => $this->page_url,
             'theme_dir' => self::get_theme_path($theme_name),
             'curr_page' => $this->curr_page,
             'curr_action' => $this->curr_action,
-        ];
+        );
     }
 
     protected function initialize()
@@ -137,7 +137,7 @@ class MY_Controller extends CI_Controller
         $this->page_url = $this->get_page_url();
         $this->request_method = $this->input->method(false);
 
-        return [];
+        return array();
     }
 
     protected function finalize($action)
@@ -153,16 +153,16 @@ class MY_Controller extends CI_Controller
         return exit($content);
     }
 
-    protected function render_json(array $context = [])
+    protected function render_json(array $context = array())
     {
-        $this->load->library('MY_Templater', [], 'tpl');
+        $this->load->library('MY_Templater', array(), 'tpl');
         $this->tpl->setContentType('json');
         return exit(to_json($context));
     }
 
-    protected function render_html($template, array $context = [], array $globals = [])
+    protected function render_html($template, array $context = array(), array $globals = array())
     {
-        $this->load->library('MY_Templater', [], 'tpl');
+        $this->load->library('MY_Templater', array(), 'tpl');
         $this->tpl->setContentType('html');
         $this->tpl->addGlobal($globals);
         $this->tpl->addFrameFile($template);
@@ -170,9 +170,9 @@ class MY_Controller extends CI_Controller
         return $this->tpl->render($context);
     }
 
-    protected function render_twig($template, array $context = [], array $globals = [])
+    protected function render_twig($template, array $context = array(), array $globals = array())
     {
-        $this->load->library('MY_Twig', [], 'twig');
+        $this->load->library('MY_Twig', array(), 'twig');
         foreach ($globals as $name => $value) {
             $this->twig->addGlobal($name, $value);
         }

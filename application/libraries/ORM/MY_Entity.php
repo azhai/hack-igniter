@@ -46,7 +46,7 @@ trait MY_Entity
         return $this->{$prop};
     }
 
-    public function hs_all($limit = null, $offset = 0, array $orders = [])
+    public function hs_all($limit = null, $offset = 0, array $orders = array())
     {
         $key = null;
         $op = '>=';
@@ -112,6 +112,6 @@ trait MY_Entity
             return $configs['handlersocket'][$this->_db_key];
         }
 
-        return ['host' => '127.0.0.1', 'port' => 0, 'port_ro' => 0];
+        return array('host' => '127.0.0.1', 'port' => 0, 'port_ro' => 0);
     }
 }

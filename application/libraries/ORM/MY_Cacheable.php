@@ -99,7 +99,7 @@ trait MY_Cacheable
         if (null === $value) {
 //            require_once APPPATH . 'helpers/fmt_helper';
 //            $result = array_part($this, $indexes);
-            $result = [];
+            $result = array();
             foreach ($indexes as $index) {
                 $result[$index] = $this[$index];
             }
@@ -107,6 +107,6 @@ trait MY_Cacheable
             $result = array_combine($indexes, to_array($value));
         }
 
-        return $result ? $result : [];
+        return $result ? $result : array();
     }
 }

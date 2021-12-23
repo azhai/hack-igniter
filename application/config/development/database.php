@@ -14,7 +14,7 @@ if (defined('DB_DEFAULT_GROUP')) {
 }
 $query_builder = true;
 
-$db['default'] = [
+$db['default'] = array(
     'dbdriver' => 'pdo',
     'subdriver' => 'mysql',
     'hostname' => '127.0.0.1',
@@ -26,9 +26,9 @@ $db['default'] = [
     'db_debug' => (ENVIRONMENT !== 'production'),
     'char_set' => 'utf8mb4',
     'dbcollat' => 'utf8mb4_general_ci',
-];
+);
 
-$db['default_ro'] = [
+$db['default_ro'] = array(
     'dbdriver' => 'pdo',
     'subdriver' => 'mysql',
     'hostname' => '127.0.0.1',
@@ -40,4 +40,4 @@ $db['default_ro'] = [
     'db_debug' => (ENVIRONMENT !== 'production'),
     'char_set' => 'utf8mb4',
     'dbcollat' => 'utf8mb4_general_ci',
-];
+);

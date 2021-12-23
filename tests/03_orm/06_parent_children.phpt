@@ -7,7 +7,7 @@ include_once dirname(__DIR__) . "/bootstrap.php";
 $CI->load->model('test/subject_model');
 $CI->subject_model->with_foreign('children');
 
-$columns = ['id', 'parent_id', 'name', 'max_score', 'pass_score', 'is_removed'];
+$columns = array('id', 'parent_id', 'name', 'max_score', 'pass_score', 'is_removed');
 $CI->subject_model->where('parent_id', 0);
 $rows = $CI->subject_model->all(false, 0, $columns);
 echo 'Subjects:' . "\n";

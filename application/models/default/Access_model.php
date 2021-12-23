@@ -13,12 +13,12 @@ class Access_model extends MY_Model
 
     public function table_indexes($another = false)
     {
-        return ['id'];
+        return array('id');
     }
 
     public function table_fields()
     {
-        return [
+        return array(
             'id' => 'int',
             'role_name' => 'varchar',
             'resource_type' => 'varchar',
@@ -27,6 +27,6 @@ class Access_model extends MY_Model
             'actions' => 'varchar',
             'granted_at' => 'timestamp',
             'revoked_at' => 'timestamp',
-        ];
+        );
     }
 }

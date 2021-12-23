@@ -28,11 +28,11 @@
  */
 class MY_Portable_hash
 {
-    public static $crypt_names = [
+    public static $crypt_names = array(
         '$P$' => 'WordPress', '$1$' => 'MD5',
         '$2a$' => 'Blowfish', '$2y$' => 'Laravel',
         '$5$' => 'SHA-256', '$6$' => 'SHA-512',
-    ];
+    );
     protected $id = '$P$';
     protected $subid = 'B';
     protected $enc_times = 16;

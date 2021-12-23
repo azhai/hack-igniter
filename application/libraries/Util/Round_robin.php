@@ -19,9 +19,9 @@ namespace Mylib\Util;
  */
 class Round_robin
 {
-    protected $data = [];      // 原始权重键值对
-    protected $currents = [];  // 当前累积权重
-    protected $ladders = [];   // 权重阶梯
+    protected $data = array();      // 原始权重键值对
+    protected $currents = array();  // 当前累积权重
+    protected $ladders = array();   // 权重阶梯
     protected $total = 0;      // 权重总和
 
     public function __construct(array $data = null)
@@ -86,7 +86,7 @@ class Round_robin
      *
      * @param mixed $eggs
      */
-    public function allocate($eggs, array $stocks = [])
+    public function allocate($eggs, array $stocks = array())
     {
         reset($this->data);
         if ($this->total <= 0) {

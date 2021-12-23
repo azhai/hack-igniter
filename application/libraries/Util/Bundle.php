@@ -37,7 +37,7 @@ namespace Mylib\Util;
 trait Bundle
 {
     protected $_timer; //定时器
-    protected $_queue = [];   //待处理队列
+    protected $_queue = array();   //待处理队列
 
     public function __destruct()
     {

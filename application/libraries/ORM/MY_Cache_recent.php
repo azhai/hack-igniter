@@ -63,7 +63,7 @@ trait MY_Cache_recent
      */
     public function get_recent_extra_where()
     {
-        return [];
+        return array();
     }
 
     /**
@@ -78,27 +78,27 @@ trait MY_Cache_recent
     {
         if ($save_key && $redis) { //先检查缓存
             if ($redis->sIsMember(self::$empty_set_keys, $save_key)) {
-                return [];
+                return array();
             }
-            $options = ['withscores' => true];
+            $options = array('withscores' => true);
             if ($user_data = $redis->zRevRangeByScore($save_key, '+inf', 0, $options)) {
                 return $user_data;
             }
         }
         $time_field = $this->get_recent_time_field();
         $stop = empty($stop) ? time() : (int) $stop;
-        $where = [$time_field.' >=' => $start, $time_field.' <=' => $stop];
+        $where = array($time_field.' >=' => $start, $time_field.' <=' => $stop);
         $where = array_replace($this->get_recent_extra_where(), $where); //次序不可颠倒
         $user_data = $this->get_users_where($where, $start, $stop);
         if ($save_key && $redis) { //保存到缓存
             if (empty($user_data)) {
                 $redis->sAdd(self::$empty_set_keys, $save_key);
 
-                return [];
+                return array();
             }
             $chunk_data = array_chunk($user_data, 10, true);
             foreach ($chunk_data as $chunk) {
-                $args = get_zadd_args($save_key, [], $chunk);
+                $args = get_zadd_args($save_key, array(), $chunk);
                 exec_method_array($redis, 'zAdd', $args);
             }
             if (ends_with($save_key, '_day')) {
@@ -126,7 +126,7 @@ trait MY_Cache_recent
         $start = isset($where[$time_field.' >=']) ? $where[$time_field.' >='] : $today;
         $stop = isset($where[$time_field.' <=']) ? $where[$time_field.' <='] : $stop;
         $stop = (empty($stop) || $stop > time()) ? time() : (int) $stop;
-        $where_keys = ['id', $time_field.' >=', $time_field.' <='];
+        $where_keys = array('id', $time_field.' >=', $time_field.' <=');
         if ($extra_where = $this->get_recent_extra_where()) {
             $where_keys = array_merge($where_keys, array_keys($extra_where));
         }
@@ -146,7 +146,7 @@ trait MY_Cache_recent
         if ($extra_where && $extra_where = array_intersect_key($extra_where, $where)) {
             $prefix .= $this->get_recent_extra_hash($extra_where);
         }
-        $all_data = [];
+        $all_data = array();
         //分段循环，尽量使用缓存
         while ($start <= $stop) {
             $save_key = '';

@@ -142,7 +142,7 @@ if (! function_exists('replace_with')) {
      *
      * @return string 当前内容
      */
-    function replace_with($content, array $context = [], $prefix = '', $subfix = '')
+    function replace_with($content, array $context = array(), $prefix = '', $subfix = '')
     {
         if (empty($context)) {
             return $content;
@@ -150,7 +150,7 @@ if (! function_exists('replace_with')) {
         if (empty($prefix) && empty($subfix)) {
             $replacers = $context;
         } else {
-            $replacers = [];
+            $replacers = array();
             foreach ($context as $key => $value) {
                 $replacers[$prefix.$key.$subfix] = $value;
             }

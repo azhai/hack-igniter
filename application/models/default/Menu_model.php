@@ -25,12 +25,12 @@ class Menu_model extends MY_Model
 
     public function table_indexes($another = false)
     {
-        return ['id'];
+        return array('id');
     }
 
     public function table_fields()
     {
-        return [
+        return array(
             'id' => 'int',
             'parent_id' => 'int',
             'title' => 'varchar',
@@ -41,31 +41,31 @@ class Menu_model extends MY_Model
             'created_at' => 'timestamp',
             'changed_at' => 'timestamp',
             'is_removed' => 'tinyint',
-        ];
+        );
     }
 
     public function get_relations()
     {
-        return [
-            'parent' => [
+        return array(
+            'parent' => array(
                 'model' => FOREIGN_SELF_MODEL,
-                'columns' => ['id', 'parent_id', 'title',
-                    'url', 'icon', 'corner', 'is_removed', ],
-            ],
-            'children' => [
+                'columns' => array('id', 'parent_id', 'title',
+                    'url', 'icon', 'corner', 'is_removed', ),
+            ),
+            'children' => array(
                 'type' => FOREIGN_HAS_MANY,
                 'model' => FOREIGN_SELF_MODEL,
                 'rev_name' => 'parent',
                 'fkey' => 'parent_id',
-                'columns' => ['id', 'parent_id', 'title',
-                    'url', 'icon', 'corner', 'is_removed', ],
-            ],
-        ];
+                'columns' => array('id', 'parent_id', 'title',
+                    'url', 'icon', 'corner', 'is_removed', ),
+            ),
+        );
     }
 
     public function cache_fields()
     {
-        return [
+        return array(
             'id' => 'int',
             'parent_id' => 'int',
             'title' => 'varchar',
@@ -73,7 +73,7 @@ class Menu_model extends MY_Model
             'icon' => 'varchar',
             'corner' => 'varchar',
             'is_removed' => 'tinyint',
-        ];
+        );
     }
 
     public function cache_type()
@@ -93,13 +93,13 @@ class Menu_model extends MY_Model
      */
     public function auto_set_seqno()
     {
-        $this->parse_select(['pid' => 'parent_id', 'ids' => 'GROUP_CONCAT(id)']);
+        $this->parse_select(array('pid' => 'parent_id', 'ids' => 'GROUP_CONCAT(id)'));
         $rows = $this->group_by('parent_id')->all();
         foreach ($rows as $row) {
             $ids = explode(',', $row['ids']);
             sort($ids, SORT_NUMERIC);
             foreach ($ids as $i => $id) {
-                $this->update(['seqno' => $i * 10 + 10], ['id' => $id]);
+                $this->update(array('seqno' => $i * 10 + 10), array('id' => $id));
             }
         }
     }
@@ -109,7 +109,7 @@ class Menu_model extends MY_Model
      */
     public function get_menu_rows(array $menu_ids)
     {
-        $menu_ids = $menu_ids ?: [-1];
+        $menu_ids = $menu_ids ?: array(-1);
         $this->with_foreign('parent');
         $this->order_by('parent_id', 'ASC')->order_by('seqno', 'ASC');
         $this->where_in('id', $menu_ids)->where('is_removed', 0);
@@ -123,9 +123,9 @@ class Menu_model extends MY_Model
      */
     public function get_all_menus()
     {
-        $menus = $branch_ids = [];
+        $menus = $branch_ids = array();
         $this->with_foreign('children');
-        $where = ['parent_id' => 0, 'is_removed' => 0];
+        $where = array('parent_id' => 0, 'is_removed' => 0);
         $rows = $this->parse_where($where)->all();
         foreach ($rows as $row) {
             if ($row['children']) {
@@ -136,7 +136,7 @@ class Menu_model extends MY_Model
         }
         ksort($menus);
 
-        return [$menus, $branch_ids];
+        return array($menus, $branch_ids);
     }
 
     /**
@@ -144,12 +144,12 @@ class Menu_model extends MY_Model
      */
     public function get_grant_menus(array $menu_ids)
     {
-        $menus = $branch_ids = [];
+        $menus = $branch_ids = array();
         $rows = $this->get_menu_rows($menu_ids);
         foreach ($rows as $row) {
             if ($pid = $row['parent_id']) {
                 if (! isset($menus[$pid])) {
-                    $row['parent']['children'] = [];
+                    $row['parent']['children'] = array();
                     $menus[$pid] = $row['parent'];
                 }
                 $menus[$pid]['children'][] = $row;
@@ -157,13 +157,13 @@ class Menu_model extends MY_Model
                     $branch_ids[] = $row['id'];
                 }
             } else {
-                $row['children'] = [];
+                $row['children'] = array();
                 $menus[$row['id']] = $row;
             }
         }
         ksort($menus);
 
-        return [$menus, $branch_ids];
+        return array($menus, $branch_ids);
     }
 
     /**
@@ -171,7 +171,7 @@ class Menu_model extends MY_Model
      */
     public function get_remain_menus(array $menu_ids)
     {
-        $unbranch_ids = [];
+        $unbranch_ids = array();
         list($menus, $branch_ids) = $this->get_all_menus();
         $rows = $this->get_menu_rows($menu_ids);
         foreach ($rows as $row) {
@@ -188,6 +188,6 @@ class Menu_model extends MY_Model
         }
         $branch_ids = array_diff($branch_ids, $unbranch_ids);
 
-        return [$menus, $branch_ids];
+        return array($menus, $branch_ids);
     }
 }

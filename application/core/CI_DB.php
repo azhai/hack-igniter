@@ -23,7 +23,7 @@ require_once APPPATH . 'helpers/fmt_helper.php';
 class CI_DB extends CI_DB_query_builder
 {
     public static $last_active_group = false;    //当前连接名
-    public static $conn_registry = [];      //数据库连接注册表
+    public static $conn_registry = array();      //数据库连接注册表
     public $expired_timestamp = -1;         //连接失效重连时间
     public $conn_writer;
     public $conn_reader;
@@ -156,13 +156,13 @@ class CI_DB extends CI_DB_query_builder
 
     public function reset_count()
     {
-        $this->_reset_run([
-            'qb_select' => [],
-            'qb_from' => [],
-            'qb_join' => [],
-            'qb_aliased_tables' => [],
-            'qb_no_escape' => [],
-        ]);
+        $this->_reset_run(array(
+            'qb_select' => array(),
+            'qb_from' => array(),
+            'qb_join' => array(),
+            'qb_aliased_tables' => array(),
+            'qb_no_escape' => array(),
+        ));
     }
 
     /**

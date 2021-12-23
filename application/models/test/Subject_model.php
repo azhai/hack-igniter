@@ -25,12 +25,12 @@ class Subject_model extends MY_Model
 
     public function table_indexes($another = false)
     {
-        return ['id'];
+        return array('id');
     }
 
     public function table_fields()
     {
-        return [
+        return array(
             'id' => 'int',
             'parent_id' => 'int',
             'name' => 'varchar',
@@ -39,46 +39,46 @@ class Subject_model extends MY_Model
             'created_at' => 'timestamp',
             'changed_at' => 'timestamp',
             'is_removed' => 'tinyint',
-        ];
+        );
     }
 
     public function get_relations()
     {
-        return [
-            'parent' => [
+        return array(
+            'parent' => array(
                 'model' => FOREIGN_SELF_MODEL,
-                'columns' => ['id', 'parent_id', 'name',
-                    'max_score', 'pass_score', 'is_removed', ],
-            ],
-            'children' => [
+                'columns' => array('id', 'parent_id', 'name',
+                    'max_score', 'pass_score', 'is_removed', ),
+            ),
+            'children' => array(
                 'type' => FOREIGN_HAS_MANY,
                 'model' => FOREIGN_SELF_MODEL,
                 'rev_name' => 'parent',
                 'fkey' => 'parent_id',
-                'columns' => ['id', 'parent_id', 'name',
-                    'max_score', 'pass_score', 'is_removed', ],
-            ],
-            'students' => [
+                'columns' => array('id', 'parent_id', 'name',
+                    'max_score', 'pass_score', 'is_removed', ),
+            ),
+            'students' => array(
                 'type' => FOREIGN_MANY_TO_MANY,
                 'model' => 'test/student_model',
                 'rev_name' => 'subjects',
                 'fkey' => 'subject_id',
                 'another_fkey' => 'student_id',
                 'middle_model' => 'test/score_model',
-            ],
-        ];
+            ),
+        );
     }
 
     public function cache_fields()
     {
-        return [
+        return array(
             'id' => 'int',
             'parent_id' => 'int',
             'name' => 'varchar',
             'max_score' => 'smallint',
             'pass_score' => 'smallint',
             'is_removed' => 'tinyint',
-        ];
+        );
     }
 
     public function cache_type()

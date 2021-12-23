@@ -13,12 +13,12 @@ class Cron_notice_model extends MY_Model
 
     public function table_indexes($another = false)
     {
-        return ['id'];
+        return array('id');
     }
 
     public function table_fields()
     {
-        return [
+        return array(
             'id' => 'int',
             'user_uid' => 'char',
             'task_id' => 'int',
@@ -31,6 +31,6 @@ class Cron_notice_model extends MY_Model
             'stop_time' => 'datetime',
             'start_clock' => 'char',
             'stop_clock' => 'char',
-        ];
+        );
     }
 }

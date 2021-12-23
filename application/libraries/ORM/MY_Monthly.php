@@ -73,7 +73,7 @@ trait MY_Monthly
      *
      * @param null|mixed $start
      */
-    public function get_finishing($start = null, array &$tables = [])
+    public function get_finishing($start = null, array &$tables = array())
     {
         if ($start) {
             return self::get_begin_stamp($start);
@@ -178,7 +178,7 @@ trait MY_Monthly
      * @param null|mixed $start
      * @param null|mixed $stop
      */
-    public function count_more($where = [], $start = null, $stop = null)
+    public function count_more($where = array(), $start = null, $stop = null)
     {
         $base_name = $this->base_table_name();
         $tables = $this->list_tables($base_name.'_');
@@ -223,9 +223,9 @@ trait MY_Monthly
         $tables = $this->list_tables($base_name.'_');
         $start = $this->get_finishing($start, $tables);
         $this->init_calendar($stop);
-        $order = [$this->get_sort_field() => 'DESC'];
+        $order = array($this->get_sort_field() => 'DESC');
 
-        $result = [];
+        $result = array();
         $remain = 0;
         while ($this->beginning >= $start) {
             $table = $this->table_name();
@@ -293,8 +293,8 @@ trait MY_Monthly
         $this->init_calendar($stop);
 
         //开始循环
-        $order = [$this->get_sort_field() => 'DESC'];
-        $result = ['count' => 0, 'maxpage' => 0, 'data' => []];
+        $order = array($this->get_sort_field() => 'DESC');
+        $result = array('count' => 0, 'maxpage' => 0, 'data' => array());
         while ($this->beginning >= $start) {
             $table = $this->table_name();
             //中间有表不存在，并不连续
@@ -361,7 +361,7 @@ trait MY_Monthly
         $start = $this->get_finishing($start, $tables);
         $this->init_calendar($stop);
 
-        $result = [];
+        $result = array();
         while ($this->beginning >= $start) {
             $table = $this->table_name();
             if (! in_array($table, $tables, true)) {

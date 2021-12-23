@@ -26,13 +26,13 @@ class MY_Logger extends CI_Driver_Library implements LoggerInterface
 {
     use \Psr\Log\LoggerTrait;
 
-    protected $valid_drivers = ['file'];
+    protected $valid_drivers = array('file');
     protected $lib_name = 'Logger';
     protected $adapter = 'file';
     protected $name = 'access';
-    protected $allow_levels = []; //允许的级别
+    protected $allow_levels = array(); //允许的级别
 
-    public function __construct(array $options = [])
+    public function __construct(array $options = array())
     {
         if (isset($options['name']) && $options['name']) {
             $this->setLogName($options['name']);
@@ -70,7 +70,7 @@ class MY_Logger extends CI_Driver_Library implements LoggerInterface
 
     public function replace_with($message, array $context)
     {
-        $replace = [];
+        $replace = array();
         foreach ($context as $key => $val) {
             if (! is_array($val) && (! is_object($val) || method_exists($val, '__toString'))) {
                 $replace['{'.$key.'}'] = $val;
@@ -80,21 +80,21 @@ class MY_Logger extends CI_Driver_Library implements LoggerInterface
         return strtr($message, $replace);
     }
 
-    public function log($level, $message, array $context = [])
+    public function log($level, $message, array $context = array())
     {
         $level = strtolower($level);
         if (in_array($level, $this->allow_levels, true)) {
             if ($message && $context) {
                 $message = $this->replace_with($message, $context);
             }
-            $record = [
+            $record = array(
                 'time' => time(),
                 'ipaddr' => get_real_client_ip(),
                 'name' => $this->getLogName(),
                 'level' => strtoupper($level),
                 'sep' => '-->',
                 'content' => $message,
-            ];
+            );
             $this->{$this->adapter}->writeLine($record);
         }
     }

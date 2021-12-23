@@ -92,7 +92,7 @@ if ('RPC' === $app_mode) { //yar过程调用
     }
     $service = new Yar_Server($CI->service);
     $service->handle();
-} elseif (PHP_SAPI === 'cli' && in_array($app_mode, ['REPL', 'TEST'], true)) { //psysh交互或phpt测试
+} elseif (PHP_SAPI === 'cli' && in_array($app_mode, array('REPL', 'TEST'), true)) { //psysh交互或phpt测试
     require_once APPPATH.'core/HackIgniter.php';
     $CI = get_instance();
 } else {

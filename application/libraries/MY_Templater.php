@@ -18,7 +18,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
  */
 class MY_Templater
 {
-    public static $mime_types = [
+    public static $mime_types = array(
         'htm' => 'text/html',
         'html' => 'text/html',
         'css' => 'text/css',
@@ -31,17 +31,17 @@ class MY_Templater
         'js' => 'application/javascript',
         'json' => 'application/json',
         'bin' => 'application/octet-stream',
-    ];
-    public $globals = [];
+    );
+    public $globals = array();
     public $charset = '';
-    protected $frame_files = [];
-    protected $stack = [];
-    protected $blocks = [];
+    protected $frame_files = array();
+    protected $stack = array();
+    protected $blocks = array();
 
     /**
      * 构造函数.
      */
-    public function __construct(array $config = [])
+    public function __construct(array $config = array())
     {
         if (isset($config['globals']) && is_array($config['globals'])) {
             $this->addGlobal($config['globals']);
@@ -220,7 +220,7 @@ class MY_Templater
      *
      * @return string
      */
-    public function render(array $context = [])
+    public function render(array $context = array())
     {
         extract($this->globals);
         extract($context);

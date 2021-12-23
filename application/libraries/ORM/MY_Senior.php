@@ -23,13 +23,13 @@ namespace Mylib\ORM;
  */
 trait MY_Senior
 {
-    protected $_group_order = [];
+    protected $_group_order = array();
     protected $_created_field = '';
     protected $_changed_field = '';
 
     public static function column_by_key(array $rows, $col = null, $key = 'id')
     {
-        $result = [];
+        $result = array();
         if ($row = reset($rows)) {
             if (isset($row[$key])) {
                 return array_column($rows, $col, $key);
@@ -58,11 +58,11 @@ trait MY_Senior
         if (empty($order)) {
             $order = $this->primary_key();
         }
-        $this->_group_order = [
+        $this->_group_order = array(
             $this->protect_identifiers($group),
             $this->protect_identifiers($order),
             $direction,
-        ];
+        );
 
         return $this;
     }
@@ -130,7 +130,7 @@ trait MY_Senior
 
     public function before_delete($recycle = false, $escape = null)
     {
-        return ['is_removed' => $recycle ? 0 : 1];
+        return array('is_removed' => $recycle ? 0 : 1);
     }
 
     public function undelete($where = '', $limit = null, $escape = null)

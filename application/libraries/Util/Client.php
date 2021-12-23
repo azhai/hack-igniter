@@ -39,13 +39,13 @@ class Client
     use LoggerAwareTrait;
 
     public $is_multi = false;
-    public $batch_data = [];
+    public $batch_data = array();
     public $timer;
     protected $curl;
-    protected static $methods = [
+    protected static $methods = array(
         'delete', 'download', 'get', 'head',
         'options', 'patch', 'post', 'put', 'search',
-    ];
+    );
 
     /**
      * 构造函数，创建cURL的HTTP客户端
@@ -126,7 +126,7 @@ class Client
         return $this->send($url, $data, 'get');
     }
 
-    public function getJson($url, array $data = [])
+    public function getJson($url, array $data = array())
     {
         $this->setContentType('json');
 
@@ -140,7 +140,7 @@ class Client
         return $this->send($url, $data, 'post');
     }
 
-    public function postJson($url, array $data = [])
+    public function postJson($url, array $data = array())
     {
         $this->setContentType('json');
 
@@ -269,11 +269,11 @@ class Client
  */
 function isErrorUnreachable($code)
 {
-    static $failures = [
+    static $failures = array(
         ERRNO_RESOLVE_FAIL,
         ERRNO_DNS_FAIL,
         ERRNO_CONN_FAIL,
-    ];
+    );
 
     return \in_array($code, $failures, true);
 }
@@ -320,7 +320,7 @@ function readTempFile($temp)
  * @param mixed $always
  * @param mixed $resolve_port
  */
-function replaceHostCallback($always = false, $resolve_port = 0, array $hosts = [])
+function replaceHostCallback($always = false, $resolve_port = 0, array $hosts = array())
 {
     return function ($client) use ($always, $resolve_port, $hosts) {
         if (! $always && ! isErrorUnreachable($client->getCurlErrorCode())) {
@@ -337,7 +337,7 @@ function replaceHostCallback($always = false, $resolve_port = 0, array $hosts = 
         }
         if ($resolve_port > 0 && is_php('5.5')) {
             $record = sprintf('%s:%d:%s', $hostname, $resolve_port, $ipaddr);
-            $client->setOpt(CURLOPT_RESOLVE, [$record]); // need php5.5+
+            $client->setOpt(CURLOPT_RESOLVE, array($record)); // need php5.5+
         } else {
             $url = str_ireplace($hostname, $ipaddr, $url);
             $client->setUrl($url);

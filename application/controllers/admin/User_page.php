@@ -9,8 +9,8 @@ class User_page extends Admin_page
     public function index()
     {
         //http://www.trirand.com/jqgridwiki/doku.php?id=wiki:jqgriddocs
-        $col_model = [
-            [
+        $col_model = array(
+            array(
                 'title' => '序号',
                 'name' => 'id',
                 'index' => 'id',
@@ -18,44 +18,44 @@ class User_page extends Admin_page
                 'width' => 30,
                 'sorttype' => 'int',
                 'search' => true,
-            ],
-            [
+            ),
+            array(
                 'title' => '用户名',
                 'name' => 'username',
                 'index' => 'username',
                 'editable' => false,
                 'width' => 50,
                 'sorttype' => 'string',
-            ],
-            [
+            ),
+            array(
                 'title' => '姓名',
                 'name' => 'nickname',
                 'index' => 'nickname',
                 'editable' => true,
                 'width' => 80,
-            ],
-            [
+            ),
+            array(
                 'title' => '性别',
                 'name' => 'gender',
                 'editable' => true,
                 'width' => 30,
                 'align' => 'center',
-            ],
-            [
+            ),
+            array(
                 'title' => '角色',
                 'name' => 'role.title',
                 'index' => 'role_id',
                 'editable' => true,
                 'width' => 50,
-            ],
-            [
+            ),
+            array(
                 'title' => '邮箱',
                 'name' => 'email',
                 'index' => 'email',
                 'editable' => true,
                 'width' => 150,
-            ],
-            [
+            ),
+            array(
                 'title' => '注册时间',
                 'name' => 'created_at',
                 'index' => 'created_at',
@@ -63,11 +63,11 @@ class User_page extends Admin_page
                 'width' => 100,
                 'sorttype' => 'date',
                 'sortable' => 'date',
-            ],
-        ];
+            ),
+        );
         $col_names = array_column($col_model, 'title');
 
-        return ['col_names' => $col_names, 'col_model' => $col_model];
+        return array('col_names' => $col_names, 'col_model' => $col_model);
     }
 
     public function user_data()

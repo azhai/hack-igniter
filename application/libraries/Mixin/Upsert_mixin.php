@@ -15,7 +15,7 @@ namespace Mylib\Mixin;
 
 /**
  * 更新或插入
- * 
+ *
  * 请确保 set 中有修改时间等值一定会改变的字段，
  * 否则 affected_rows 判断不准确而导致重复插入数据。
  */
@@ -29,7 +29,7 @@ trait Upsert_mixin
         $table = $this->table_name();
         $db = $this->ensure_conn();
         $db->set($set, '', $escape);
-        if (!empty($where)) {
+        if (! empty($where)) {
             $db->where($where, '', $escape);
         }
         $db->update($table, null, null, 1); //最多更新1行
@@ -58,7 +58,7 @@ trait Upsert_mixin
                 $db->set($key, $value, null);
             }
         }
-        if (!empty($where)) {
+        if (! empty($where)) {
             $db->where($where, '', null);
         }
         $db->update($table, null, null, 1); //最多更新1行

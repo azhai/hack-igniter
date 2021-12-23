@@ -35,7 +35,7 @@ class MY_Cache_redis extends CI_Cache_redis
 
     public static function get_delete_name()
     {
-        if (in_array(static::$_delete_name, ['del', 'unlink'], true)) {
+        if (in_array(static::$_delete_name, array('del', 'unlink'), true)) {
             return static::$_delete_name; //phpredis or redis >= v5.0
         }
         $version = phpversion('redis');
@@ -223,7 +223,7 @@ class MY_Cache_redis extends CI_Cache_redis
             $id,
             '-inf',
             '+inf',
-            ['withscores' => true]
+            array('withscores' => true)
         );
     }
 
