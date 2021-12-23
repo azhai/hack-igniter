@@ -13,6 +13,7 @@
  */
 defined('BASEPATH') || exit('No direct script access allowed');
 defined('TABLE_NAME_TIMEOUT') || define('TABLE_NAME_TIMEOUT', 3600); //表名缓存时间
+defined('DB_RECONNECT_TIMEOUT') || define('DB_RECONNECT_TIMEOUT', -1); //连接保持时间
 
 require_once BASEPATH . 'database/DB_driver.php';
 require_once BASEPATH . 'database/DB_query_builder.php';
@@ -41,31 +42,8 @@ class CI_DB extends CI_DB_query_builder
      */
     public function load_rdriver()
     {
-        $driver = 'CI_DB_'.$this->dbdriver.'_result';
-
-        if (class_exists($driver, FALSE))
-        {
-            return $driver;
-        }
-
         require_once(BASEPATH.'database/DB_result.php');
-        $filename = $this->dbdriver.'/'.$this->dbdriver.'_result.php';
-        $result_file = BASEPATH.'database/drivers/'.$filename;
-
-        if ( ! file_exists($result_file))
-        {
-            $result_base = APPPATH.'database/DB_result.php';
-            if (file_exists($result_base))
-            {
-                require_once($result_base);
-            }
-            $result_file = APPPATH.'database/drivers/'.$filename;
-        }
-
-        file_exists($result_file) or show_error('Invalid DB result');
-        require_once($result_file);
-
-        return $driver;
+        return MY_DB_load_class($this->dbdriver, '_result');
     }
 
     public function is_pdo_driver()
@@ -82,7 +60,14 @@ class CI_DB extends CI_DB_query_builder
 
     public function set_timeout($seconds)
     {
-        return $this->expired_timestamp = time() + $seconds;
+        if ($seconds >= 0) {
+            return $this->expired_timestamp = time() + $seconds;
+        }
+    }
+
+    public function is_timeout()
+    {
+        return $this->expired_timestamp > 0 && $this->expired_timestamp < time();
     }
 
     public function initialize()
@@ -90,7 +75,7 @@ class CI_DB extends CI_DB_query_builder
         if ($this->is_pdo_driver()) {
             $this->options[PDO::ATTR_ERRMODE] = PDO::ERRMODE_EXCEPTION;
         }
-        if ($this->expired_timestamp > 0 && $this->expired_timestamp < time()) {
+        if ($this->is_timeout()) {
             $this->close(); //连接过期
             $this->reconnect();
         }

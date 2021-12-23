@@ -60,7 +60,8 @@ if (! function_exists('sleep_second_until')) {
             $sleep_secs -= 0.5;
         }
         if ($sleep_secs > 0) {
-            usleep($sleep_secs * 10 ** 6);
+            $sleep_usec = $sleep_secs * pow(10, 6);
+            usleep($sleep_usec); //放入表达式有时会报语法错误，猜测和PHP5的empty()一样是命令不是函数
         }
     }
 }

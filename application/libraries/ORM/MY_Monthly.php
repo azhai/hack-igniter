@@ -123,7 +123,18 @@ trait MY_Monthly
         }
         $tail = date('Ym', $this->beginning);
 
-        return $this->base_table_name().'_'.$tail;
+        return $this->base_table_name() . '_' . $tail;
+    }
+
+    /**
+     * 重置时间为今天
+     *
+     * @return $this
+     */
+    public function reset()
+    {
+        $this->init_calendar();
+        return $this;
     }
 
     /**

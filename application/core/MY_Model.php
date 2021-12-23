@@ -174,7 +174,7 @@ class MY_Model extends CI_Model implements ArrayAccess
      */
     public function reconnect($force = false, $use_writer = false)
     {
-        if ($force) {
+        if ($force || $this->_db_conn && $this->_db_conn->is_timeout()) {
             $this->_db_conn->close();
             $this->_db_conn->reconnect();
         }
@@ -209,7 +209,7 @@ class MY_Model extends CI_Model implements ArrayAccess
 
     public function db_name($another = false)
     {
-        $db = $this->reconnect();
+        $db = $this->ensure_conn();
         if (false !== $another) {
             $db->db_select($another);
 
@@ -282,7 +282,7 @@ class MY_Model extends CI_Model implements ArrayAccess
         $tpl = 'ALTER TABLE `%s` AUTO_INCREMENT = %d';
         $sql = sprintf($tpl, $this->table_name(), $value);
 
-        return $this->reconnect()->simple_query($sql);
+        return $this->ensure_conn()->simple_query($sql);
     }
 
     public function table_fields()
@@ -290,7 +290,7 @@ class MY_Model extends CI_Model implements ArrayAccess
         if (empty($this->_table_fields)) {
             $table_indexes = [];
             $table = $this->table_name();
-            $db = $this->reconnect();
+            $db = $this->ensure_conn();
             $columns = $db->field_data($table);
             foreach ($columns as $c) {
                 $this->_table_fields[$c->name] = $c->type;
@@ -326,7 +326,7 @@ class MY_Model extends CI_Model implements ArrayAccess
                 }
                 $columns = array_values($columns);
             }
-            $db = $this->reconnect();
+            $db = $this->ensure_conn();
             $db->select($columns, $escape);
         }
 
@@ -335,7 +335,7 @@ class MY_Model extends CI_Model implements ArrayAccess
 
     public function parse_where($where = null, $escape = null)
     {
-        $db = $this->reconnect();
+        $db = $this->ensure_conn();
         if (is_array($where)) {
             foreach ($where as $key => $value) {
                 if (! is_array($value)) {
@@ -355,7 +355,7 @@ class MY_Model extends CI_Model implements ArrayAccess
 
     public function order_by($orderby, $direction = '', $escape = null)
     {
-        $db = $this->reconnect();
+        $db = $this->ensure_conn();
         if (is_array($orderby)) {
             foreach ($orderby as $field => $direct) {
                 $db->order_by($field, $direct, $escape);
@@ -369,7 +369,7 @@ class MY_Model extends CI_Model implements ArrayAccess
 
     public function order_by_rand($pkey = '')
     {
-        $db = $this->reconnect();
+        $db = $this->ensure_conn();
         if (empty($pkey)) {
             $orderby = 'RAND()';
         } else {
@@ -383,7 +383,7 @@ class MY_Model extends CI_Model implements ArrayAccess
 
     public function get_compiled_select($table = '', $reset = true)
     {
-        $db = $this->reconnect();
+        $db = $this->ensure_conn();
         if ($this->is_open_mixin('senior') && $this->_group_order) {
             $sql = $this->get_group_order_sql($db, $table, $reset);
         } else {
@@ -408,7 +408,7 @@ class MY_Model extends CI_Model implements ArrayAccess
     public function count($column = '*', $reset = true)
     {
         $table = $this->table_name();
-        $db = $this->reconnect();
+        $db = $this->ensure_conn();
         if ($reset && '*' === $column) {
             return $db->count_all_results($table, true);
         }
@@ -429,7 +429,7 @@ class MY_Model extends CI_Model implements ArrayAccess
     public function all($limit = null, $offset = 0, $columns = '*')
     {
         $table = $this->table_name();
-        $db = $this->reconnect();
+        $db = $this->ensure_conn();
         if (! empty($limit)) {
             $db->limit($limit, $offset);
         }
@@ -443,7 +443,7 @@ class MY_Model extends CI_Model implements ArrayAccess
     public function one($where = null, $type = 'array', $columns = '*')
     {
         $table = $this->table_name();
-        $db = $this->reconnect();
+        $db = $this->ensure_conn();
         $db->limit(1);
         $this->parse_where($where);
         $this->parse_select($columns);
@@ -455,7 +455,8 @@ class MY_Model extends CI_Model implements ArrayAccess
                 return $rows ? $rows[0] : [];
             }
         } else {
-            $type = static::class;
+            //$type = static::class; //PHP7
+            $type = get_class($this);
         }
 
         return $this->result->row(0, $type);
@@ -474,7 +475,7 @@ class MY_Model extends CI_Model implements ArrayAccess
     {
         $row = to_array($row);
         $table = $this->table_name();
-        $db = $this->reconnect();
+        $db = $this->ensure_conn();
         $method = $is_replace ? 'replace' : 'insert';
         if ($db->{$method}($table, $row, $escape)) {
             return $db->insert_id();
@@ -499,7 +500,7 @@ class MY_Model extends CI_Model implements ArrayAccess
     public function insert_batch(array $rows = null, $escape = null, $batch_size = 100)
     {
         $table = $this->table_name();
-        $db = $this->reconnect();
+        $db = $this->ensure_conn();
 
         return $db->insert_batch($table, $rows, $escape, $batch_size);
     }
@@ -512,7 +513,7 @@ class MY_Model extends CI_Model implements ArrayAccess
     public function insert_duplicate($indexes, array $set)
     {
         $table = $this->table_name();
-        $db = $this->reconnect();
+        $db = $this->ensure_conn();
         $sql = $db->insert_string($table, $set);
         if ($indexes) {
             // 去掉唯一索引的相关值
@@ -549,7 +550,7 @@ class MY_Model extends CI_Model implements ArrayAccess
     public function delete_unsafe($where = '', $limit = null, $escape = null)
     {
         $table = $this->table_name();
-        $db = $this->reconnect();
+        $db = $this->ensure_conn();
         if (! empty($where)) {
             $this->parse_where($where, $escape);
         }
@@ -587,7 +588,7 @@ class MY_Model extends CI_Model implements ArrayAccess
     public function update_unsafe(array $set, $where = null, $limit = null, $escape = null)
     {
         $table = $this->table_name();
-        $db = $this->reconnect();
+        $db = $this->ensure_conn();
         $db->set($set, '', $escape);
         if (! empty($where)) {
             $this->parse_where($where, $escape);
@@ -618,7 +619,7 @@ class MY_Model extends CI_Model implements ArrayAccess
     public function upsert(array $set, array $where, $field = 'changed_at', $escape = null)
     {
         $table = $this->table_name();
-        $db = $this->reconnect();
+        $db = $this->ensure_conn();
         if ($field) { //更新时间、确保affected_rows在没有其他更新值时也返回1
             $set[$field] = date('Y-m-d H:i:s');
         }
@@ -645,7 +646,7 @@ class MY_Model extends CI_Model implements ArrayAccess
      */
     public function trans_start($test_mode = false)
     {
-        $db = $this->reconnect(false, true); //强制使用主库
+        $db = $this->ensure_conn(false, true); //强制使用主库
         $hash = $db->get_conn_hash('conn_id', 8);
         log_message('DEBUG', sprintf('conn[%s] trans_start', $hash));
 
@@ -659,7 +660,7 @@ class MY_Model extends CI_Model implements ArrayAccess
      */
     public function trans_complete($errmsg = 'Transaction is failure.')
     {
-        $db = $this->reconnect(false, true); //强制使用主库
+        $db = $this->ensure_conn(false, true); //强制使用主库
         $hash = $db->get_conn_hash('conn_id', 8);
         log_message('DEBUG', sprintf('conn[%s] trans_complete', $hash));
         $result = $db->trans_complete();
@@ -670,6 +671,11 @@ class MY_Model extends CI_Model implements ArrayAccess
         }
 
         return $result;
+    }
+
+    protected function is_protected($offset)
+    {
+        return starts_with($offset, '_');
     }
 
     /**

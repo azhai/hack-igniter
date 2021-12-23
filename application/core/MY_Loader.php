@@ -16,8 +16,8 @@ defined('BASEPATH') || exit('No direct script access allowed');
 if (! class_exists('CI_Loader')) {
     require_once BASEPATH.'core/Loader.php';
 }
-require_once APPPATH . 'core/CI_DB.php';
 require_once APPPATH . 'database/MY_DB.php';
+require_once APPPATH . 'core/CI_DB.php';
 
 class MY_Loader extends CI_Loader
 {

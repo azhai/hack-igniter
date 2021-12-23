@@ -13,57 +13,87 @@
  */
 defined('BASEPATH') || exit('No direct script access allowed');
 
-if (! function_exists('debug_output')) {
+defined('BASEPATH') or exit('No direct script access allowed');
+
+
+if (!function_exists('exec_log_args')) {
     /**
-     * 记录信息到日志或屏幕.
+     * 将参数格式化，并与前缀信息拼接为字符串
      *
-     * @param string $log     日志内容
+     * @param array/string $args 日志格式和参数
+     * @return string
+     */
+    function exec_log_args($args, $with_head = false)
+    {
+        if (is_null($args) || $args === '') {
+            return '';
+        } elseif (is_scalar($args)) {
+            return strval($args);
+        }
+        if ($with_head) {
+            $head = sprintf('%s [#%d] ', date('Y-m-d H:i:s'), posix_getpid());
+            $args[0] = $head . $args[0];
+        }
+        return exec_function_array('sprintf', $args);
+    }
+}
+
+
+if (!function_exists('log_debug')) {
+    /**
+     * 记录信息到日志或屏幕
+     *
+     * @param string $log 日志内容
      * @param string ...$args 其他参数
-     *
      * @return bool
      */
-    function debug_output($log)
+    function log_debug($log)
     {
-        $args = func_get_args();
-        if (count($args) > 1) {
-            $log = exec_function_array('sprintf', $args);
-        }
+        $log = exec_log_args(func_get_args(), true);
+        log_debug_direct($log);
+    }
+
+    function log_debug_direct($log)
+    {
         if (PHP_SAPI === 'cli') {
-            echo $log."\n";
+            echo $log . "\n";
         } else {
             log_message('DEBUG', $log);
         }
     }
 }
 
-if (! function_exists('debug_error')) {
+
+if (!function_exists('log_error')) {
     /**
-     * 记录错误到日志或屏幕.
+     * 记录错误到日志或屏幕
      *
-     * @param string $log     日志内容
+     * @param string $log 日志内容
      * @param string ...$args 其他参数
-     *
      * @return bool
      */
-    function debug_error($log)
+    function log_error($log)
     {
-        $args = func_get_args();
-        if (count($args) > 1) {
-            $log = exec_function_array('sprintf', $args);
-        }
+        $log = exec_log_args(func_get_args(), true);
+        log_error_direct($log);
+    }
+
+    function log_error_direct($log)
+    {
         if (PHP_SAPI === 'cli') {
-            file_put_contents('php://stderr', $log."\n", FILE_APPEND);
+            file_put_contents('php://stderr', $log . "\n", FILE_APPEND);
         } else {
             log_message('ERROR', $log);
         }
     }
 }
 
-if (! function_exists('debug_trace')) {
+
+if (!function_exists('log_trace')) {
     /**
-     * 输出PHP调用栈.
+     * 输出PHP调用栈
      */
-    function debug_trace()
+    function log_trace()
     {
         $e = new Exception();
         $trace = explode("\n", $e->getTraceAsString());
@@ -72,12 +102,12 @@ if (! function_exists('debug_trace')) {
         array_shift($trace); // remove {main}
         array_pop($trace); // remove call to this method
         $length = count($trace);
-        $result = [];
-        for ($i = 0; $i < $length; ++$i) {
-            $result[] = ($i + 1).')'.substr($trace[$i], strpos($trace[$i], ' ')); // replace '#someNum' with '$i)', set the right ordering
+        $result = array();
+        for ($i = 0; $i < $length; $i++) {
+            // replace '#someNum' with '$i)', set the right ordering
+            $result[] = ($i + 1) . ')' . substr($trace[$i], strpos($trace[$i], ' '));
         }
-
-        return debug_error("\t".implode("\n\t", $result));
+        return log_error("\t" . implode("\n\t", $result));
     }
 }
 

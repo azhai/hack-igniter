@@ -149,7 +149,7 @@ function &MY_DB($params = '', $query_builder_override = NULL)
 /**
  * Create and load the class CI_DB
  */
-function MY_DB_load_class()
+function MY_DB_load_builder()
 {
     require_once(BASEPATH.'database/DB_driver.php');
 
@@ -180,6 +180,77 @@ function MY_DB_load_class()
 
 
 /**
+ * Load the CI_DB_xxxxx class in drivers
+ *
+ * @param string $dbdriver  the name of the driver folder
+ * @param string $classext  the name of the class extension
+ * @param bool $is_silent   if not show error
+ * @return string  the name of the class
+ */
+function MY_DB_load_class($dbdriver, $classext = '_driver', $is_silent = false)
+{
+    $class = 'CI_DB_'.$dbdriver.$classext;
+    if (class_exists($class, FALSE))
+    {
+        return $class;
+    }
+
+    $filename = $dbdriver.'/'.$dbdriver.$classext.'.php';
+    $class_file = BASEPATH.'database/drivers/'.$filename;
+    if ( ! file_exists($class_file))
+    {
+        $class_file = APPPATH.'database/drivers/'.$filename;
+    }
+
+    if (file_exists($class_file))
+    {
+        require_once($class_file);
+        return $class;
+    }
+    elseif (empty($is_silent))
+    {
+        show_error('Invalid DB class');
+    }
+}
+
+
+/**
+ * Load the CI_DB_xxxxx class in subdrivers
+ *
+ * @param string $dbdriver  the name of the driver folder
+ * @param string $subdriver  the name of the subdriver folder
+ * @param string $classext  the name of the class extension
+ * @param bool $is_silent   if not show error
+ * @return string/null  the name of the class
+ */
+function MY_DB_load_subclass($dbdriver, $subdriver, $classext = '_driver', $is_silent = false)
+{
+    $class = 'CI_DB_'.$dbdriver.'_'.$subdriver.$classext;
+    if (class_exists($class, FALSE))
+    {
+        return $class;
+    }
+
+    $filename = $dbdriver.'/subdrivers/'.$dbdriver.'_'.$subdriver.$classext.'.php';
+    $class_file = BASEPATH.'database/drivers/'.$filename;
+    if ( ! file_exists($class_file))
+    {
+        $class_file = APPPATH.'database/drivers/'.$filename;
+    }
+
+    if (file_exists($class_file))
+    {
+        require_once($class_file);
+        return $class;
+    }
+    elseif (empty($is_silent))
+    {
+        show_error('Invalid DB class');
+    }
+}
+
+
+/**
  * Load the db driver
  *
  * @param array $params
@@ -193,35 +264,16 @@ function MY_DB_load_driver(array $params, $dbdriver = '')
     {
         $dbdriver = $params['dbdriver'];
     }
-
-    $filename = $dbdriver.'/'.$dbdriver.'_driver.php';
-    $driver_file = BASEPATH.'database/drivers/'.$filename;
-    if ( ! file_exists($driver_file))
-    {
-        $driver_file = APPPATH.'database/drivers/'.$filename;
-    }
-
-    file_exists($driver_file) or show_error('Invalid DB driver');
-    require_once($driver_file);
+    $driver = MY_DB_load_class($dbdriver, '_driver');
 
     // Instantiate the DB adapter
-    $driver = 'CI_DB_'.$dbdriver.'_driver';
     $DB = new $driver($params);
-
     // Check for a subdriver
     if ( ! empty($DB->subdriver))
     {
-        $filename = $DB->dbdriver.'/subdrivers/'.$DB->dbdriver.'_'.$DB->subdriver.'_driver.php';
-        $driver_file = BASEPATH.'database/drivers/'.$filename;
-        if ( ! file_exists($driver_file))
+        $driver = MY_DB_load_subclass($DB->dbdriver, $DB->subdriver, '_driver');
+        if ($driver)
         {
-            $driver_file = APPPATH.'database/drivers/'.$filename;
-        }
-
-        if (file_exists($driver_file))
-        {
-            require_once($driver_file);
-            $driver = 'CI_DB_'.$DB->dbdriver.'_'.$DB->subdriver.'_driver';
             $DB = new $driver($params);
         }
     }
