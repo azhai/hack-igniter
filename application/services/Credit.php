@@ -28,15 +28,20 @@ class Credit extends MY_Service
      * @param int $retries  重试次数
      * @param int $sleep_ms = 0 休眠时间，单位：毫秒
      */
-    public static function count_down($retries, $sleep_ms = 0)
+    public static function count_down($retries, $sleep_ms = 0, $offset_ms = 0)
     {
-        if ($retries <= 0) {
+        if ($retries <= 0) { //不需要重试
             return false;
         }
-        if ($sleep_ms > 0) {
-            usleep($sleep_ms * 1000);
+        if ($sleep_ms <= 0) { //不需要休眠
+            return true;
         }
-
+        if ($offset_ms > 0) { //随机浮动以错峰运行
+            $minial_ms = max($sleep_ms - $offset_ms, 1);
+            $sleep_ms = rand($minial_ms, $sleep_ms + $offset_ms);
+        }
+        $sleep_usec = $sleep_ms * 1000;
+        usleep($sleep_usec);
         return true;
     }
 
@@ -121,7 +126,10 @@ class Credit extends MY_Service
             if ($is_failure = empty($row)) {
                 $tpl = "INSERT IGNORE `%s` (userid, dateline) VALUES ('%s', %d)";
                 $db = $this->user_credit_model->reconnect();
-                $db->query(sprintf($tpl, $table, $userid, time()));
+                $sql = sprintf($tpl, $table, $userid, time());
+                log_debug("%s => SQL insert: %s", __FUNCTION__, $sql);
+                $insert_id = $db->query($sql) ? $db->insert_id() : 0;
+                log_debug("%s => SQL insert result: %d", __FUNCTION__, $insert_id);
             }
         } while ($is_failure && self::count_down(--$retry_times, 150));
 
@@ -145,7 +153,8 @@ class Credit extends MY_Service
         $result = [1, 0, 0];
         $retry_times = self::MAX_RETRY_TIMES;
         do {
-            debug_output('user %s change %.2f %s discount %.2f retry x%d', $userid, $number, $coin_type, $discount, $retry_times);
+            log_debug("%s => user %s change %.2f %s discount %.2f retry x%d",
+                __FUNCTION__, $userid, $number, $coin_type, $discount, $retry_times);
             if (self::USING_TRANSCATION && ! $this->user_credit_model->trans_start()) {
                 usleep(0.01 * self::SECOND_HAVE_MICRO * $retry_times);
 
@@ -167,9 +176,9 @@ class Credit extends MY_Service
                 $this->_release_spinlock($userid);
             }
             if ($number >= 0 || 0 === (int) ($result[0]) || $result[2] <= 0) {
-                break; //成功
+                break; //成功或无钱可扣
             }
-        } while (self::count_down(--$retry_times, 200));
+        } while (self::count_down(--$retry_times, 200, 50));
 
         return $result;
     }
@@ -374,7 +383,10 @@ class Credit extends MY_Service
         if (empty($success)) { //不存在记录，新写入一行
             $count = (float) $number;
             $tpl = "INSERT IGNORE `%s` (userid, dateline, %s) VALUES ('%s', %d, %.2f)";
-            $db->query(sprintf($tpl, $table, $coin_type, $userid, time(), $count));
+            $sql = sprintf($tpl, $table, $coin_type, $userid, time(), $count);
+            log_debug("%s => SQL insert: %s", __FUNCTION__, $sql);
+            $insert_id = $db->query($sql) ? $db->insert_id() : 0;
+            log_debug("%s => SQL insert result: %d", __FUNCTION__, $insert_id);
         }
         $balances = $this->get_or_create_balance($userid, true);
         $count = (float) ($balances[$coin_type]);
@@ -416,13 +428,12 @@ class Credit extends MY_Service
         $sql = sprintf($tpl, $table, time(), $coin_type, $amount, $userid, $coin_type, $count);
         $success = ($db->query($sql) && $db->affected_rows() > 0); //操作成功，包括强制扣费为负数
         if ($success) {
-            debug_output('user %s result ok, spent %.2f remain %.2f', $userid, $actually_paid, $amount);
-
+            log_debug("%s => user %s result ok, spent %.2f remain %.2f", __FUNCTION__, $userid, $actually_paid, $amount);
             return [0, $actually_paid, $amount];
+        } else {
+            log_debug("%s => user %s result fail, spent 0.0 remain %.2f", __FUNCTION__, $userid, $count);
+            return [1, 0, $count];
         }
-        debug_output('user %s result fail, spent 0.0 remain %.2f', $userid, $count);
-
-        return [1, 0, $count];
     }
 
     /**

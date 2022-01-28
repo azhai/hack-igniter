@@ -349,7 +349,43 @@ class MY_Model extends CI_Model implements ArrayAccess
         } elseif (! empty($where)) {
             $db->where($where, null, $escape);
         }
+        return $this;
+    }
 
+    public function filter($where = null, $escape = null)
+    {
+        $db = $this->ensure_conn();
+        if (! is_array($where)) {
+            if (! empty($where)) {
+                $db->where($where, null, $escape);
+            }
+            return $this;
+        }
+        foreach ($where as $key => $value) {
+            if (! is_array($value)) {
+                if (is_numeric($key)) {
+                    $db->where($value, null, $escape);
+                } else {
+                    $db->where($key, $value, $escape);
+                }
+                continue;
+            }
+            $count = count($value);
+            if ($count === 0) {
+                $db->where($key . ' IS NULL', null, $escape);
+            } elseif ($count === 1) {
+                $db->where($key, reset($value), $escape);
+            } elseif ($count <= 100) {
+                $db->where_in($key, $value, $escape);
+            } else {
+                $db->group_start();
+                $val_chunks = array_chunk($value, 100);
+                foreach($val_chunks as $chunk) {
+                    $db->or_where_in($key, $chunk, $escape);
+                }
+                $db->group_end();
+            }
+        }
         return $this;
     }
 
